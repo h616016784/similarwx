@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.orhanobut.logger.Logger;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView imageView;
@@ -31,8 +32,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         imageView=findViewById(R.id.imageView);
-        Button button=findViewById(R.id.button);
-        button.setOnClickListener(this);
+        try {
+            Button button=null;
+            button.setOnClickListener(this);
+        }catch (Exception e){
+            Logger.d("MainActivity onCreate",e);
+        }
+
 
     }
 
