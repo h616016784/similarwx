@@ -3,6 +3,9 @@ package com.android.outbaselibrary;
 import android.app.Application;
 
 import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.CsvFormatStrategy;
+import com.orhanobut.logger.DiskLogAdapter;
+import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 
 
@@ -18,8 +21,22 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         this.mInstance = this;
-        Logger.addLogAdapter(new AndroidLogAdapter());
+        //初始化日志
+        initLog();
+        //初始化位捕获异常
+        CrashHandler.getInstance().init(this);
     }
+    private void initLog() {
+        if(BuildConfig.DEBUG){
+            Logger.addLogAdapter(new AndroidLogAdapter());
+        }else{
+            FormatStrategy formatStrategy = CsvFormatStrategy.newBuilder()
+                    .tag("ErrorLogFile")
+                .build();
+            Logger.addLogAdapter(new DiskLogAdapter(formatStrategy));
+        }
+    }
+
     /**
      * 当终止应用程序对象时调用，不保证一定被调用，当程序被内核终止以便为其他应用程序释放资源，那么将不会提醒，
      * 并且不调用应用程序的对象的onTerminate方法而直接终止进程

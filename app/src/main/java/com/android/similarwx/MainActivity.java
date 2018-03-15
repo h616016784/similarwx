@@ -5,21 +5,33 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.orhanobut.logger.Logger;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.textView)
+    TextView textView;
+    @BindView(R.id.imageView)
     ImageView imageView;
+    @BindView(R.id.button)
+    Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -31,14 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setAction("Action", null).show();
             }
         });
-        imageView=findViewById(R.id.imageView);
-        try {
-            Button button=null;
-            button.setOnClickListener(this);
-        }catch (Exception e){
-            Logger.d("MainActivity onCreate",e);
-        }
-
 
     }
 
@@ -66,14 +70,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.button:
-                Glide.with(this)
-                        .load("http://goo.gl/gEgYUd")
-                        .into(imageView);
-                break;
-        }
+
+    @OnClick(R.id.button)
+    public void onViewClicked() {
+//        Glide.with(this)
+//                        .load("http://goo.gl/gEgYUd")
+//                        .into(imageView);
+//                Gson gson=new Gson();
+//                String a =gson.toJson(obj);
+//                String[] strings = {"abc", "def", "ghi"};
+//                String arrs=gson.toJson(strings);
+//                int[] ints2 = gson.fromJson("[1,2,3,4,5]", int[].class);
+//                Logger.d(ints2);
     }
 }
