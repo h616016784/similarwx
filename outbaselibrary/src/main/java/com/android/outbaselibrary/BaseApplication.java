@@ -14,18 +14,21 @@ import com.orhanobut.logger.Logger;
  */
 
 public class BaseApplication extends Application {
-    private static BaseApplication mInstance;
+
     //API 14以上有效
     private boolean isAppBackground = false;//标记app是否后台或者是否熄屏了
+
     @Override
     public void onCreate() {
         super.onCreate();
-        this.mInstance = this;
         //初始化日志
         initLog();
         //初始化位捕获异常
         CrashHandler.getInstance().init(this);
+
     }
+
+
     private void initLog() {
         if(BuildConfig.DEBUG){
             Logger.addLogAdapter(new AndroidLogAdapter());

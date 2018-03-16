@@ -13,9 +13,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.outbaselibrary.utils.LogUtil;
+import com.android.similarwx.base.AppApplication;
+import com.android.similarwx.beans.DbUser;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.greendaodemo.gen.DaoSession;
+import com.android.similarwx.utils.netmodle.HttpUtil;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -73,6 +85,21 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.button)
     public void onViewClicked() {
+//        User user=new User();
+//        user.setName("username");
+//        user.setToken("token");
+//        user.setPhone(123456);
+//        HttpUtil.getInstance().getServiceHandler().login(user).enqueue(new Callback<User>() {
+//            @Override
+//            public void onResponse(Call<User> call, Response<User> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<User> call, Throwable t) {
+//
+//            }
+//        });
 //        Glide.with(this)
 //                        .load("http://goo.gl/gEgYUd")
 //                        .into(imageView);
@@ -82,5 +109,15 @@ public class MainActivity extends AppCompatActivity {
 //                String arrs=gson.toJson(strings);
 //                int[] ints2 = gson.fromJson("[1,2,3,4,5]", int[].class);
 //                Logger.d(ints2);
+//        DbUser dbUser=new DbUser();
+//        dbUser.setName("test3");
+//       DaoSession userDao=AppApplication.getInstance().getDaoSession();
+//
+//       userDao.insert(dbUser);
+//       List<DbUser> list =userDao.queryBuilder(DbUser.class).list();
+//       for (DbUser dbUser1:list){
+//           LogUtil.d(dbUser1);
+//       }
+//        userDao.clear();
     }
 }
