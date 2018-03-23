@@ -11,6 +11,7 @@
     <!-- 12%分割线 -->
     <color name="divider_black">#1E000000</color>
 
+
     <!-- common white -->
     <!-- 100%普通文字 -->
     <color name="text_normal_white">#FFFFFFFF</color>

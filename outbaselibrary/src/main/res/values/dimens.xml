@@ -44,6 +44,7 @@
     <dimen name="distance_top_bottom_of_divider">8dp</dimen>
     <!-- 屏幕邹游对齐基线 -->
     <dimen name="distance_right_left_of_screen">16dp</dimen>
+
     <!-- 大多数留白 -->
     <dimen name="distance_bigger">32dp</dimen>
     <dimen name="distance_big">24dp</dimen>
