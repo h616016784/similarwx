@@ -17,19 +17,35 @@ import com.android.outbaselibrary.utils.LogUtil;
 import com.android.similarwx.base.AppApplication;
 import com.android.similarwx.beans.DbUser;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.dagger2test.DaggerMainActivityComponent;
+import com.android.similarwx.beans.dagger2test.Factory;
+import com.android.similarwx.beans.dagger2test.OkHttpModule;
+import com.android.similarwx.beans.dagger2test.Product;
 import com.android.similarwx.greendaodemo.gen.DaoSession;
+import com.android.similarwx.utils.DBUtil;
 import com.android.similarwx.utils.netmodle.HttpUtil;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+    @Inject
+    Product product;
+    @Inject
+    Product product1;
+    @Inject
+    Factory factory;
+    @Inject
+    OkHttpClient okHttpClient;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.textView)
@@ -55,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
+        DaggerMainActivityComponent.builder().okHttpModule(new OkHttpModule(100)).build().inject(this);
+//        LogUtil.d(okHttpClient.hashCode()+";"+okHttpClient.cache().maxSize());
+        LogUtil.d(product.hashCode()+";"+product1.hashCode());
     }
 
     @Override
@@ -111,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 //                Logger.d(ints2);
 //        DbUser dbUser=new DbUser();
 //        dbUser.setName("test3");
-//       DaoSession userDao=AppApplication.getInstance().getDaoSession();
+//       DaoSession userDao= DBUtil.getInstance(this).getDaoSession();
 //
 //       userDao.insert(dbUser);
 //       List<DbUser> list =userDao.queryBuilder(DbUser.class).list();
