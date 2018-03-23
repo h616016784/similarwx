@@ -1,0 +1,71 @@
+<resources>
+    <!-- ******************************************** material design ********************************************** -->
+    <!-- textSize -->
+    <dimen name="text_mini">8sp</dimen>
+    <!-- 小字提示 -->
+    <dimen name="text_tip">12sp</dimen>
+    <!-- 正文/按钮文字 -->
+    <dimen name="text_content_or_button">14sp</dimen>
+    <!-- 小标题 -->
+    <dimen name="text_sub_title">16sp</dimen>
+    <!-- appbar文字 -->
+    <dimen name="text_appbar">20sp</dimen>
+    <!-- 大标题 -->
+    <dimen name="text_big_title">24sp</dimen>
+    <!-- 超大号文字 -->
+    <dimen name="text_super_big_34">34sp</dimen>
+    <dimen name="text_super_big_45">45sp</dimen>
+    <dimen name="text_super_big_56">56sp</dimen>
+    <dimen name="text_super_big_112">112sp</dimen>
+
+    <!-- 布局 -->
+    <!-- hight高度，size 大小，space留白 ，distance距离，radius圆角半径 -->
+    <!-- 状态栏高度 -->
+    <dimen name="height_state_bar">24dp</dimen>
+    <!-- Appbar最小高度 -->
+    <dimen name="height_app_bar">56dp</dimen>
+    <!-- 底部导航栏高度 -->
+    <dimen name="height_tab_navigation">48dp</dimen>
+    <!-- 悬浮按钮（大） -->
+    <dimen name="size_floating_button_big">56dp</dimen>
+    <!-- 悬浮按钮（小） -->
+    <dimen name="size_floating_button_small">40dp</dimen>
+    <!-- 用户头像（大） -->
+    <dimen name="size_head_portrait_big">64dp</dimen>
+    <!-- 用户头像（小） -->
+    <dimen name="size_head_portrait_small">40dp</dimen>
+    <!-- 最小点击区域，即item最小高度市48dp，grid的item最小size市48dp，图标的size卫48dp，宽高小于48不适合点击 -->
+    <dimen name="size_small_hot_space">48dp</dimen>
+    <!-- 侧边栏到屏幕右边的距离 -->
+    <dimen name="distance_right_sidebar">56dp</dimen>
+    <!-- 卡片间距 -->
+    <dimen name="distance_between_card">8dp</dimen>
+    <!-- 分割线上下留白 -->
+    <dimen name="distance_top_bottom_of_divider">8dp</dimen>
+    <!-- 屏幕邹游对齐基线 -->
+    <dimen name="distance_right_left_of_screen">16dp</dimen>
+    <!-- 大多数留白 -->
+    <dimen name="distance_bigger">32dp</dimen>
+    <dimen name="distance_big">24dp</dimen>
+    <dimen name="distance_normal">16dp</dimen>
+    <dimen name="distance_middle">12dp</dimen>
+    <dimen name="distance_small">8dp</dimen>
+    <dimen name="distance_smaller">4dp</dimen>
+    <dimen name="distance_smallest">2dp</dimen>
+    <!-- 文字距左屏幕距离 -->
+    <dimen name="distance_left_of_text">72dp</dimen>
+    <!-- 卡片圆角 -->
+    <dimen name="radius_card">2dp</dimen>
+    <!-- 小图标 -->
+    <dimen name="size_icon_small">24dp</dimen>
+    <dimen name="size_icon_mini">16dp</dimen>
+    <!-- grid中item的间距 -->
+    <dimen name="distance_between_grid_item_small">2dp</dimen>
+    <dimen name="distance_between_grid_item">8dp</dimen>
+
+    <dimen name="size_unit_160">160dp</dimen>
+    <!-- *********************************************************************************************************** -->
+
+
+
+</resources>
