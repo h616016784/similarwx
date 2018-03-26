@@ -3,4 +3,51 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="actionbar_green">#26ca82</color>
+    <color name="white_gray">#f0f0f0</color>
+
+    <color name="trans_blue">#4403A9F4</color>
+    <color name="light_blue">#8003A9F4</color>
+    <color name="progress_blue">#9903A9F4</color>
+    <color name="sky_blue">#FF03A9F4</color>
+    <color name="primary_blue">#FF0288D1</color>
+    <color name="dark_green">#218868</color>
+    <color name="light_green">#80218868</color>
+    <color name="trans_green">#44218868</color>
+    <color name="light_orange">#ff8942</color>
+    <color name="trans_orange">#99ff8942</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="fade_white">#f5f5f5</color>
+    <color name="input_white">#fafafa</color>
+    <color name="light_white">#44FFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="fade_black">#352828</color>
+    <color name="black_gray">#999999</color>
+    <color name="new_black">#333333</color>
+    <color name="half_black">#55000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="half_transparent">#80000000</color>
+    <color name="dark_gray">#99000000</color>
+    <color name="light_gray">#cccccc</color>
+    <color name="pressed_gray">#bbbbbb</color>
+    <color name="gray">#a2a2a2</color>
+    <color name="font_gray">#77000000</color>
+    <color name="pure_red">#FFFF0000</color>
+    <color name="light_light_gray">#eeeeee</color>
+
+    <!-- text color -->
+    <color name="text_deep">#333333</color>
+    <color name="text_deep_press">#80333333</color>
+    <color name="text_normal">#666666</color>
+    <color name="text_light">#999999</color>
+    <color name="text_light_enable">#cccccc</color>
+
+    <!-- 导航分割线 -->
+    <color name="divider">#dddddd</color>
+    <!-- 除导航以外分割线 -->
+    <color name="divider_other">#e1e1e1</color>
+
+    <!-- 背景色 -->
+    <color name="gray_f5">#f5f5f5</color>
 </resources>

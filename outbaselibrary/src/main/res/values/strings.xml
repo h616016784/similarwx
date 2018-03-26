@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">OutBaseLibrary</string>
+
+    <string name="copy_success">复制到粘贴板中！</string>
+    <string name="no_sdcard_error">你的设备没有安装SD卡</string>
+    <string name="sdcard_busy_message">"你的SD卡正在用于其他用途，请在通知中选择“关闭USB存储设备”"</string>
 </resources>

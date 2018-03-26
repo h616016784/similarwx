@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/page_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="@dimen/normal_button_width"
+            android:layout_height="@dimen/normal_button_height"
+            android:textSize="14sp"
+            android:textColor="@color/fade_black"
+            android:text="@string/cancel"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/confirm"
+            android:layout_width="@dimen/normal_button_width"
+            android:layout_height="@dimen/normal_button_height"
+            android:textSize="14sp"
+            android:textColor="@color/fade_black"
+            android:text="@string/confirm"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" />
+    </RelativeLayout>
+
+    <com.android.similarwx.widget.wheel.WheelView
+        android:id="@+id/wheel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/normal_large_margin"
+        android:layout_marginTop="@dimen/normal_large_margin" />
+
+</LinearLayout>

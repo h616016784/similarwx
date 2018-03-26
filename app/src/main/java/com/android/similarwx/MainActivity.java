@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
     Factory factory;
     @Inject
     OkHttpClient okHttpClient;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.textView)
     TextView textView;
     @BindView(R.id.imageView)
@@ -60,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

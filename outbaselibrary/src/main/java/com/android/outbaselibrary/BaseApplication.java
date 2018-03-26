@@ -2,6 +2,8 @@ package com.android.outbaselibrary;
 
 import android.app.Application;
 
+import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.utils.ViewUtil;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.CsvFormatStrategy;
 import com.orhanobut.logger.DiskLogAdapter;
@@ -21,11 +23,15 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         //初始化日志
         initLog();
         //初始化位捕获异常
         CrashHandler.getInstance().init(this);
-
+        //初始化Appcontext
+        AppContext.setContext(this);
+        AppContext.setScreenWidth(ViewUtil.getScreenWidthPixels());
+        AppContext.setScreenHeight(ViewUtil.getScreenHeightPixels());
     }
 
 

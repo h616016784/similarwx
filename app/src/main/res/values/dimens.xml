@@ -1,3 +1,47 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="actionbar_dimen">55dip</dimen>
+    <dimen name="actionbar_margin">18dip</dimen>
+    <dimen name="bottombar_dimen">56dip</dimen>
+    <dimen name="navigate_height">55dip</dimen>
+    <dimen name="avatar_super_l">160dip</dimen>
+    <dimen name="avatar_l">80dip</dimen>
+    <dimen name="avatar_l_m">70dip</dimen>
+    <dimen name="avatar_m">40dip</dimen>
+    <dimen name="avatar_m_b">-40dip</dimen>
+    <dimen name="avatar_s">34dip</dimen>
+    <dimen name="avatar_t">31dip</dimen>
+    <dimen name="icon_t">17dip</dimen>
+    <dimen name="circle_avatar">48dip</dimen>
+    <dimen name="normal_hell_margin">70dip</dimen>
+    <dimen name="normal_bloody_margin">58dip</dimen>
+    <dimen name="normal_extreme_margin">39dip</dimen>
+    <dimen name="normal_super_margin">24dip</dimen>
+    <dimen name="normal_large_margin">18dip</dimen>
+    <dimen name="normal_line_margin">16dip</dimen>
+    <dimen name="normal_margin">14dip</dimen>
+    <dimen name="normal_label_margin">12dip</dimen>
+    <dimen name="normal_middle_margin">10dip</dimen>
+    <dimen name="normal_widget_margin">8dip</dimen>
+    <dimen name="normal_small_margin">6dip</dimen>
+    <dimen name="normal_tiny_margin">4dip</dimen>
+    <dimen name="normal_little_margin">4dip</dimen>
+    <dimen name="landing_button_width">300dip</dimen>
+    <dimen name="small_button_height">40dip</dimen>
+    <dimen name="large_button_width">160dip</dimen>
+    <dimen name="normal_button_width">80dip</dimen>
+    <dimen name="normal_button_height">46dip</dimen>
+    <dimen name="normal_label_width">45dip</dimen>
+    <dimen name="small_line_height">40dip</dimen>
+    <dimen name="small_text_height">30dip</dimen>
+    <dimen name="normal_text_height">45dip</dimen>
+    <dimen name="normal_line_height">52dip</dimen>
+    <dimen name="separator_small">12dip</dimen>
+    <dimen name="sign_vertical_margin">32dip</dimen>
+    <dimen name="home_bottom_icon_size">30dip</dimen>
+    <dimen name="normal_header_height">54dip</dimen>
+    <dimen name="cropper_bottom_height">54dip</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+
+
 </resources>
