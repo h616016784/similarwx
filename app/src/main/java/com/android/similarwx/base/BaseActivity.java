@@ -28,23 +28,23 @@ import java.util.List;
 
 public class BaseActivity extends AppCompatActivity  implements View.OnClickListener{
 
-    public static final String ARGUMENT_EXTRA_FRAGMENT_NAME = "com.uschool.activity.ARGUMENT_EXTRA_FRAGMENT_NAME";
+    public static final String ARGUMENT_EXTRA_FRAGMENT_NAME = "com.similarwx.activity.ARGUMENT_EXTRA_FRAGMENT_NAME";
 
-    public static final String ARGUMENT_EXTRA_NO_ANIMATION = "com.uschool.activity.ARGUMENT_EXTRA_NO_ANIMATION";
+    public static final String ARGUMENT_EXTRA_NO_ANIMATION = "com.similarwx.activity.ARGUMENT_EXTRA_NO_ANIMATION";
 
-    public static final String ARGUMENT_EXTRA_ANIMATION_UP = "com.uschool.activity.ARGUMENT_EXTRA_ANIMATION_UP";
+    public static final String ARGUMENT_EXTRA_ANIMATION_UP = "com.similarwx.activity.ARGUMENT_EXTRA_ANIMATION_UP";
 
-    public static final String ARGUMENT_EXTRA_ANIMATION_SPLASH = "com.uschool.activity.ARGUMENT_EXTRA_ANIMATION_SPLASH";
+    public static final String ARGUMENT_EXTRA_ANIMATION_SPLASH = "com.similarwx.activity.ARGUMENT_EXTRA_ANIMATION_SPLASH";
 
-    public static final String ARGUMENTS_ENTER_ANIMATION = "com.uschool.activity.ARGUMENTS_ENTER_ANIMATION";
+    public static final String ARGUMENTS_ENTER_ANIMATION = "com.similarwx.activity.ARGUMENTS_ENTER_ANIMATION";
 
-    public static final String ARGUMENTS_EXIT_ANIMATION = "com.uschool.activity.ARGUMENTS_EXIT_ANIMATION";
+    public static final String ARGUMENTS_EXIT_ANIMATION = "com.similarwx.activity.ARGUMENTS_EXIT_ANIMATION";
 
-    public static final String ARGUMENTS_FULL_SCREEN = "com.uschool.activity.ARGUMENTS_FULL_SCREEN";
+    public static final String ARGUMENTS_FULL_SCREEN = "com.similarwx.activity.ARGUMENTS_FULL_SCREEN";
 
-    public static final String ACTION_SIGN_IN = "com.uschool.action.sign.in";
+    public static final String ACTION_SIGN_IN = "com.similarwx.action.sign.in";
 
-    public static final String ACTION_FINISH = "com.uschool.action.finish";
+    public static final String ACTION_FINISH = "com.similarwx.action.finish";
 
     protected boolean mNoAnimation;
 
