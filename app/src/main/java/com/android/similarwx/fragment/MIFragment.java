@@ -32,6 +32,8 @@ public class MIFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.mi_button)
     Button miButton;
+    @BindView(R.id.mi_remove)
+    Button miRemove;
 
     private NormalAdapter adapter;
 
@@ -70,11 +72,18 @@ public class MIFragment extends BaseFragment {
         return list;
     }
 
-    @OnClick(R.id.mi_button)
-    public void onViewClicked() {
-        adapter.addData("abc");
-    }
 
+    @OnClick({R.id.mi_button, R.id.mi_remove})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.mi_button:
+                adapter.addData("abc");
+                break;
+            case R.id.mi_remove:
+
+                break;
+        }
+    }
     @Override
     protected void fetchData() {
         super.fetchData();
@@ -95,13 +104,6 @@ public class MIFragment extends BaseFragment {
         super.onDestroy();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
     @Override
     public void onDestroyView() {

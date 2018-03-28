@@ -48,6 +48,7 @@ public class NormalAdapter extends RecyclerView.Adapter<NormalAdapter.VH> {
         mDatas.add(s);
         notifyItemInserted(mDatas.size()-1);
     }
+
     public class VH extends RecyclerView.ViewHolder{
         public TextView title;
         public VH(View itemView) {
