@@ -21,6 +21,8 @@ import com.android.outbaselibrary.utils.ViewUtil;
 import com.android.similarwx.inteface.OnInterceptKeyListener;
 import com.android.similarwx.widget.Actionbar;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by hanhuailong on 2018/3/26.
  */
@@ -117,6 +119,7 @@ public class BaseFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResource(), container, false);
+
         initActivityView();
         onInitView(view);
         if (isNeedFetch()) {

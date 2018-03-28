@@ -27,7 +27,7 @@ public class BaseApplication extends Application {
         //初始化日志
         initLog();
         //初始化位捕获异常
-        CrashHandler.getInstance().init(this);
+//        CrashHandler.getInstance().init(this);
         //初始化Appcontext
         AppContext.setContext(this);
         AppContext.setScreenWidth(ViewUtil.getScreenWidthPixels());

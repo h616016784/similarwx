@@ -22,6 +22,8 @@ import com.android.similarwx.widget.Actionbar;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by hanhuailong on 2018/3/26.
  */
