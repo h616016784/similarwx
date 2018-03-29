@@ -45,4 +45,8 @@ dependencies {
     compile 'org.greenrobot:greendao-generator:3.0.0'
     implementation project(':outbaselibrary')
 
+    /*baserecyclerview*/
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+
+    compile project(path: ':uikit')
 }
