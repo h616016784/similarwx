@@ -1,23 +1,19 @@
 package com.android.similarwx.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
-import com.android.similarwx.adapter.BaseAdapter;
+import com.android.similarwx.adapter.BaseDecoration;
 import com.android.similarwx.adapter.MIMultiItemQuickAdapter;
-import com.android.similarwx.adapter.NormalAdapter;
-import com.android.similarwx.base.BaseActivity;
+import com.android.similarwx.adapter.MultipleItemQuickAdapter;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.MIMultiItem;
+import com.android.similarwx.beans.MultipleItem;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -52,30 +48,40 @@ public class MIFragment extends BaseFragment {
     @Override
     protected void onInitView(View contentView) {
         ButterKnife.bind(this, contentView);
-        List<MIMultiItem> data = initData();
+        final List<MultipleItem> data = initData();
 //        adapter = new BaseAdapter(R.layout.item_test,data);
-        adapter=new MIMultiItemQuickAdapter(data);
-        miRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+//        adapter=new MIMultiItemQuickAdapter(data);
+//        miRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+//        miRecyclerView.setLayoutManager(new GridLayoutManager(activity,4));
 //        miRecyclerView.addItemDecoration(new BaseDecoration());
 //        miRecyclerView.setLayoutManager(new GridLayoutManager(activity,3));
 //        miRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        miRecyclerView.setAdapter(adapter);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                Toaster.toastShort("点击了"+position+"..."+((TextView)view).getText().toString());
-            }
-        });
-        adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        adapter.setUpFetchEnable(true);
-        adapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
-            @Override
-            public void onUpFetch() {
-                adapter.setUpFetching(true);
-                Toaster.toastShort("下拉加载了！");
-                adapter.setUpFetching(false);
-            }
-        });
+        final MultipleItemQuickAdapter multipleItemAdapter = new MultipleItemQuickAdapter(data);
+        final GridLayoutManager manager = new GridLayoutManager(activity, 4);
+        miRecyclerView.setLayoutManager(manager);
+//        multipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+//                return 3;
+//            }
+//        });
+        miRecyclerView.setAdapter(multipleItemAdapter);
+//        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+//            @Override
+//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//                Toaster.toastShort("点击了"+position+"..."+((TextView)view).getText().toString());
+//            }
+//        });
+//        adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+//        adapter.setUpFetchEnable(true);
+//        adapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
+//            @Override
+//            public void onUpFetch() {
+//                adapter.setUpFetching(true);
+//                Toaster.toastShort("下拉加载了！");
+//                adapter.setUpFetching(false);
+//            }
+//        });
     }
 
 //    private List<String> initData() {
@@ -95,20 +101,27 @@ public class MIFragment extends BaseFragment {
 //        list.add("n");
 //        return list;
 //    }
-    private List<MIMultiItem> initData() {
-        list = new ArrayList<>();
-        list.add(new MIMultiItem(1));
-        list.add(new MIMultiItem(0));
-        list.add(new MIMultiItem(0));
-        list.add(new MIMultiItem(1));
-        list.add(new MIMultiItem(1));
-        list.add(new MIMultiItem(1));
-        list.add(new MIMultiItem(0));
-        list.add(new MIMultiItem(1));
-        list.add(new MIMultiItem(0));
-        list.add(new MIMultiItem(1));
-        list.add(new MIMultiItem(1));
-
+    private List<MultipleItem> initData() {
+//        list = new ArrayList<>();
+//        list.add(new MIMultiItem(1));
+//        list.add(new MIMultiItem(0));
+//        list.add(new MIMultiItem(0));
+//        list.add(new MIMultiItem(1));
+//        list.add(new MIMultiItem(1));
+//        list.add(new MIMultiItem(1));
+//        list.add(new MIMultiItem(0));
+//        list.add(new MIMultiItem(1));
+//        list.add(new MIMultiItem(0));
+//        list.add(new MIMultiItem(1));
+//        list.add(new MIMultiItem(1));
+        List<MultipleItem> list = new ArrayList<>();
+        for (int i = 0; i <= 4; i++) {
+            list.add(new MultipleItem(MultipleItem.IMG, MultipleItem.IMG_SPAN_SIZE));
+            list.add(new MultipleItem(MultipleItem.TEXT, MultipleItem.TEXT_SPAN_SIZE, "CymChad"));
+            list.add(new MultipleItem(MultipleItem.IMG_TEXT, MultipleItem.IMG_TEXT_SPAN_SIZE));
+            list.add(new MultipleItem(MultipleItem.IMG_TEXT, MultipleItem.IMG_TEXT_SPAN_SIZE_MIN));
+            list.add(new MultipleItem(MultipleItem.IMG_TEXT, MultipleItem.IMG_TEXT_SPAN_SIZE_MIN));
+        }
         return list;
     }
 
