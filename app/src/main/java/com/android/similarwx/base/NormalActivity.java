@@ -72,7 +72,7 @@ public class NormalActivity extends BaseActivity {
         }
 
         super.setContentView(layoutResID);
-    }
+}
 
     @Override
     public void finish() {

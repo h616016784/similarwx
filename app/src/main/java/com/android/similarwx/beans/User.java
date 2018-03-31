@@ -4,7 +4,7 @@ package com.android.similarwx.beans;
  * Created by hanhuailong on 2018/3/15.
  */
 
-public class User {
+public class User extends BaseBean{
     private String token;
     private String name;
     private int phone;
