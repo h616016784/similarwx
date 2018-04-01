@@ -33,6 +33,12 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean,BaseViewHolde
     protected void convert(BaseViewHolder helper, GroupMessageBean item, int position, boolean isScrolling) {
         helper.setText(R.id.item_group_tv,item.getName());
         helper.setText(R.id.item_group_count_tv,item.getMsgCount());
-        Glide.with(context).load(item.getImageUrl()).apply(options).into((ImageView) helper.getView(R.id.item_group_iv));
+        if(position==0){
+            helper.setImageResource(R.id.item_group_iv,R.drawable.online_notice);
+        }else if(position==1){
+            helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
+        }else{
+            Glide.with(context).load(item.getImageUrl()).apply(options).into((ImageView) helper.getView(R.id.item_group_iv));
+        }
     }
 }

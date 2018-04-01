@@ -12,6 +12,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.present.GroupPresent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,25 +43,21 @@ public class MainChartrActivity extends BaseActivity {
 
     private HomeAdapter adapter;
     private List<GroupMessageBean> mListData;
+    GroupPresent groupPresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
+        groupPresent=new GroupPresent();
         initData();
         adapter=new HomeAdapter(this,recyclerView,R.layout.item_group,mListData);
         recyclerView.setAdapter(adapter);
     }
 
     private void initData() {
-        List<GroupMessageBean> mListData=new ArrayList<>();
-        GroupMessageBean bean=new GroupMessageBean();
-        bean.setName(AppContext.getString(R.string.main_notice));
-        mListData.add(bean);
-        GroupMessageBean bean1=new GroupMessageBean();
-        bean1.setName(AppContext.getString(R.string.main_online_answer));
-        mListData.add(bean1);
+        mListData=groupPresent.getInitData();
     }
 
     @Override
