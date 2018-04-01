@@ -105,9 +105,9 @@
             />
     </RelativeLayout>
     <include android:layout_marginLeft="@dimen/distance_normal"
-        android:layout_marginRight="@dimen/distance_normal"
-        layout="@layout/include_divider"
-        tools:ignore="IncludeLayoutParam"/>
+    android:layout_marginRight="@dimen/distance_normal"
+    layout="@layout/include_divider"
+    tools:ignore="IncludeLayoutParam"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

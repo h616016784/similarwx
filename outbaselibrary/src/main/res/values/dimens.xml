@@ -26,6 +26,7 @@
     <dimen name="height_app_bar">56dp</dimen>
     <!-- 底部导航栏高度 -->
     <dimen name="height_tab_navigation">48dp</dimen>
+    <dimen name="height_tab_navigation_big">60dp</dimen>
     <!-- 悬浮按钮（大） -->
     <dimen name="size_floating_button_big">56dp</dimen>
     <!-- 悬浮按钮（小） -->
@@ -64,6 +65,7 @@
     <dimen name="distance_between_grid_item_small">2dp</dimen>
     <dimen name="distance_between_grid_item">8dp</dimen>
 
+    <dimen name="distance_recycle_item">60dp</dimen>
     <dimen name="size_unit_160">160dp</dimen>
     <!-- *********************************************************************************************************** -->
 

@@ -1,5 +1,6 @@
 package com.android.similarwx.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -77,6 +78,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
         loginPresent.saveUser(user);
         //之后跳转界面
+        startActivity(new Intent(this,MainChartrActivity.class));
     }
     @Override
     public void showErrorMessage(String err) {
