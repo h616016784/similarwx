@@ -8,8 +8,8 @@ import com.android.similarwx.R;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseQuickAdapter;
-import com.netease.nim.uikit.common.ui.recyclerview.holder.BaseViewHolder;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
@@ -17,26 +17,27 @@ import java.util.List;
  * Created by Administrator on 2018/4/1.
  */
 
-public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean,BaseViewHolder> {
+public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean,BaseViewHolder>{
     private Context context;
     RequestOptions options;
-    public HomeAdapter(Context context,RecyclerView recyclerView, int layoutResId, List<GroupMessageBean> data) {
-        super(recyclerView, layoutResId, data);
+    public HomeAdapter(int layoutResId,Context context,List<GroupMessageBean> mListData){
+        super(layoutResId,mListData);
         this.context=context;
         options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher);
+
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, GroupMessageBean item, int position, boolean isScrolling) {
+    protected void convert(BaseViewHolder helper, GroupMessageBean item) {
         helper.setText(R.id.item_group_tv,item.getName());
         helper.setText(R.id.item_group_count_tv,item.getMsgCount());
-        if(position==0){
+        if(helper.getLayoutPosition()==0){
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_notice);
             helper.setVisible(R.id.item_group_count_tv,false);
-        }else if(position==1){
+        }else if(helper.getLayoutPosition()==1){
             helper.setVisible(R.id.item_group_count_tv,false);
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
         }else{

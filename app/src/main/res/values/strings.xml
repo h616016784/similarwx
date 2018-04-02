@@ -55,5 +55,8 @@
     <string name="main_my">我</string>
     <string name="main_notice">官方通知</string>
     <string name="main_online_answer">在线客服</string>
-
+    <!--通知界面-->
+    <string name="notice_title">通知</string>
+    <!--在线客服界面-->
+    <string name="service_title">在线客服</string>
 </resources>
