@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_app_bar"
-        android:background="@color/color_green_01d9ae">
+        android:background="@color/actionbar_green">
         <TextView
             android:id="@+id/login"
             android:layout_width="wrap_content"

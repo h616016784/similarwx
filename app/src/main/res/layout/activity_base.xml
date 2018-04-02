@@ -7,7 +7,7 @@
     <com.android.similarwx.widget.Actionbar
         android:id="@+id/actionbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbar_dimen_big" />
+        android:layout_height="@dimen/actionbar_dimen" />
 
     <FrameLayout
         android:id="@+id/layout_container_main"

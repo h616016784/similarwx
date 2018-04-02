@@ -23,22 +23,25 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean,BaseViewHolde
     public HomeAdapter(Context context,RecyclerView recyclerView, int layoutResId, List<GroupMessageBean> data) {
         super(recyclerView, layoutResId, data);
         this.context=context;
-//        options = new RequestOptions()
-//                .centerCrop()
-//                .placeholder(R.mipmap.ic_launcher)
-//                .error(R.mipmap.ic_launcher);
+        options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, GroupMessageBean item, int position, boolean isScrolling) {
         helper.setText(R.id.item_group_tv,item.getName());
         helper.setText(R.id.item_group_count_tv,item.getMsgCount());
-//        if(position==0){
-//            helper.setImageResource(R.id.item_group_iv,R.drawable.online_notice);
-//        }else if(position==1){
-//            helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
-//        }else{
-//            Glide.with(context).load(item.getImageUrl()).apply(options).into((ImageView) helper.getView(R.id.item_group_iv));
-//        }
+        if(position==0){
+            helper.setImageResource(R.id.item_group_iv,R.drawable.online_notice);
+            helper.setVisible(R.id.item_group_count_tv,false);
+        }else if(position==1){
+            helper.setVisible(R.id.item_group_count_tv,false);
+            helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
+        }else{
+            helper.setVisible(R.id.item_group_count_tv,true);
+            Glide.with(context).load(item.getImageUrl()).apply(options).into((ImageView) helper.getView(R.id.item_group_iv));
+        }
     }
 }

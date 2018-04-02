@@ -1,7 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="actionbar_dimen">55dip</dimen>
-    <dimen name="actionbar_dimen_big">74dip</dimen>
+    <dimen name="actionbar_dimen_small">45dip</dimen>
+    <dimen name="actionbar_dimen_big">64dip</dimen>
     <dimen name="actionbar_margin">18dip</dimen>
     <dimen name="bottombar_dimen">56dip</dimen>
     <dimen name="navigate_height">55dip</dimen>
@@ -54,4 +55,5 @@
     <dimen name="hight_tab_navigation">48dp</dimen>
 
 
+    <dimen name="distance_recycle_item">50dp</dimen>
 </resources>

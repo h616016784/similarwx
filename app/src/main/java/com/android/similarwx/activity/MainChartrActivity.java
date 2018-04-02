@@ -1,6 +1,7 @@
 package com.android.similarwx.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
@@ -53,6 +54,8 @@ public class MainChartrActivity extends BaseActivity {
         groupPresent=new GroupPresent();
         initData();
         adapter=new HomeAdapter(this,recyclerView,R.layout.item_group,mListData);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
 

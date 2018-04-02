@@ -66,7 +66,6 @@
     <dimen name="distance_between_grid_item_small">2dp</dimen>
     <dimen name="distance_between_grid_item">8dp</dimen>
 
-    <dimen name="distance_recycle_item">60dp</dimen>
     <dimen name="size_unit_160">160dp</dimen>
     <!-- *********************************************************************************************************** -->
 
