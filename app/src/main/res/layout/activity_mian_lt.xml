@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_app_bar"
-        android:background="@color/action_bar_black_title_1f1f1f">
+        android:background="@color/actionbar_green">
         <TextView
             android:id="@+id/login"
             android:layout_width="wrap_content"
@@ -40,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/distance_middle"
                 android:layout_marginTop="@dimen/distance_small"
-                android:layout_toRightOf="@id/set_pay_password_confirm"
+                android:layout_toRightOf="@id/main_search_iv"
                 android:background="@null"
                 android:textSize="@dimen/text_content_or_button"
                 android:hint="@string/main_search"

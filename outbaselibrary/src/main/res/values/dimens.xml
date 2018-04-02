@@ -4,6 +4,7 @@
     <dimen name="text_mini">8sp</dimen>
     <!-- 小字提示 -->
     <dimen name="text_tip">12sp</dimen>
+    <dimen name="text_smallest">2sp</dimen>
     <!-- 正文/按钮文字 -->
     <dimen name="text_content_or_button">14sp</dimen>
     <!-- 小标题 -->

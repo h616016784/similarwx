@@ -1,6 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="actionbar_dimen">55dip</dimen>
+    <dimen name="actionbar_dimen_big">74dip</dimen>
     <dimen name="actionbar_margin">18dip</dimen>
     <dimen name="bottombar_dimen">56dip</dimen>
     <dimen name="navigate_height">55dip</dimen>

@@ -96,7 +96,7 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
 
         mOnInterceptKeyListener = initContentFragment();
 
-        StatusBarUtil.statusBarLightMode(this);
+//        StatusBarUtil.statusBarLightMode(this);
         registerReceiver(mFinishReceiver, new IntentFilter(ACTION_FINISH));
     }
 
