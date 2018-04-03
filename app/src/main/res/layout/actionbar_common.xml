@@ -25,7 +25,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/normal_margin"
-            android:src="@drawable/selector_back" />
+            android:src="@drawable/em_mm_title_back" />
 
         <TextView
             android:id="@+id/left_btn"

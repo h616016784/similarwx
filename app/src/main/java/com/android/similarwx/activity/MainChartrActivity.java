@@ -13,6 +13,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.fragment.ExplainFragment;
 import com.android.similarwx.fragment.NoticeFragment;
 import com.android.similarwx.fragment.ServiceFragment;
 import com.android.similarwx.present.GroupPresent;
@@ -78,8 +79,10 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.main_search_iv:
+
                 break;
             case R.id.main_rl_explain:
+                FragmentUtils.navigateToNormalActivity(this,new ExplainFragment(),null);
                 break;
             case R.id.main_rl_chart:
                 break;
