@@ -246,37 +246,37 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 this.start = start;
                 this.count = count;
-                if (aitTextWatcher != null) {
-                    aitTextWatcher.onTextChanged(s, start, before, count);
-                }
+//                if (aitTextWatcher != null) {
+//                    aitTextWatcher.onTextChanged(s, start, before, count);
+//                }
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (aitTextWatcher != null) {
-                    aitTextWatcher.beforeTextChanged(s, start, count, after);
-                }
+//                if (aitTextWatcher != null) {
+//                    aitTextWatcher.beforeTextChanged(s, start, count, after);
+//                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 checkSendButtonEnable(messageEditText);
-                MoonUtil.replaceEmoticons(container.activity, s, start, count);
+//                MoonUtil.replaceEmoticons(container.activity, s, start, count);
 
-                int editEnd = messageEditText.getSelectionEnd();
-                messageEditText.removeTextChangedListener(this);
-                while (StringUtil.counterChars(s.toString()) > NimUIKitImpl.getOptions().maxInputTextLength && editEnd > 0) {
-                    s.delete(editEnd - 1, editEnd);
-                    editEnd--;
-                }
-                messageEditText.setSelection(editEnd);
-                messageEditText.addTextChangedListener(this);
+//                int editEnd = messageEditText.getSelectionEnd();
+//                messageEditText.removeTextChangedListener(this);
+//                while (StringUtil.counterChars(s.toString()) > NimUIKitImpl.getOptions().maxInputTextLength && editEnd > 0) {
+//                    s.delete(editEnd - 1, editEnd);
+//                    editEnd--;
+//                }
+//                messageEditText.setSelection(editEnd);
+//                messageEditText.addTextChangedListener(this);
+//
+//                if (aitTextWatcher != null) {
+//                    aitTextWatcher.afterTextChanged(s);
+//                }
 
-                if (aitTextWatcher != null) {
-                    aitTextWatcher.afterTextChanged(s);
-                }
-
-                sendTypingCommand();
+//                sendTypingCommand();
             }
         });
     }
