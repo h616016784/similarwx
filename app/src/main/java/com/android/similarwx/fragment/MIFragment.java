@@ -14,7 +14,19 @@ import com.android.similarwx.adapter.MultipleItemQuickAdapter;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
+import com.android.similarwx.widget.input.InputPanel;
+import com.android.similarwx.widget.input.actions.BaseAction;
+import com.android.similarwx.widget.input.actions.ImageAction;
+import com.android.similarwx.widget.input.actions.LocationAction;
+import com.android.similarwx.widget.input.actions.VideoAction;
+import com.android.similarwx.widget.input.module.Container;
+import com.android.similarwx.widget.input.module.ModuleProxy;
+import com.android.similarwx.widget.input.sessions.Extras;
+import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.netease.nim.uikit.business.robot.parser.elements.group.LinearLayout;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +40,7 @@ import butterknife.Unbinder;
  * Created by hanhuailong on 2018/3/28.
  */
 
-public class MIFragment extends BaseFragment {
+public class MIFragment extends BaseFragment implements ModuleProxy {
     List<MIMultiItem> list;
     @BindView(R.id.mi_recyclerView)
     RecyclerView miRecyclerView;
@@ -40,6 +52,12 @@ public class MIFragment extends BaseFragment {
 
     private MIMultiItemQuickAdapter adapter;
 
+    protected InputPanel inputPanel;
+    private SessionCustomization customization;
+    // 聊天对象
+    protected String sessionId; // p2p对方Account或者群id
+
+    protected SessionTypeEnum sessionType;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mi_layout;
@@ -49,6 +67,18 @@ public class MIFragment extends BaseFragment {
     protected void onInitView(View contentView) {
         ButterKnife.bind(this, contentView);
         final List<MultipleItem> data = initData();
+
+        customization = (SessionCustomization) getArguments().getSerializable(Extras.EXTRA_CUSTOMIZATION);
+        sessionId = getArguments().getString(Extras.EXTRA_ACCOUNT);
+        sessionType = (SessionTypeEnum) getArguments().getSerializable(Extras.EXTRA_TYPE);
+        View rootView=contentView.findViewById(R.id.messageActivityBottomLayout);
+        Container container = new Container(activity, sessionId, sessionType, this);
+        if (inputPanel == null) {
+            inputPanel = new InputPanel(container, rootView, getActionList());
+//            inputPanel.setCustomization(customization);
+        } else {
+            inputPanel.reload(container, customization);
+        }
 //        adapter = new BaseAdapter(R.layout.item_test,data);
 //        adapter=new MIMultiItemQuickAdapter(data);
 //        miRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
@@ -152,16 +182,57 @@ public class MIFragment extends BaseFragment {
         return true;
     }
 
+    // 操作面板集合
+    protected List<BaseAction> getActionList() {
+        List<BaseAction> actions = new ArrayList<>();
+        actions.add(new ImageAction());
+        actions.add(new VideoAction());
+        actions.add(new LocationAction());
+
+        if (customization != null && customization.actions != null) {
+            actions.addAll(customization.actions);
+        }
+        return actions;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
-
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
+/*   ==========================================================*/
+    /**
+     * 以下是实现了ModuleProxy接口的方法
+     * @param msg
+     * @return
+     */
+    @Override
+    public boolean sendMessage(IMMessage msg) {
+        return false;
+    }
 
+    @Override
+    public void onInputPanelExpand() {
+
+    }
+
+    @Override
+    public void shouldCollapseInputPanel() {
+
+    }
+
+    @Override
+    public boolean isLongClickEnabled() {
+        return false;
+    }
+
+    @Override
+    public void onItemFooterClick(IMMessage message) {
+
+    }
 }

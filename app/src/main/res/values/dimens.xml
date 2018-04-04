@@ -56,4 +56,9 @@
 
 
     <dimen name="distance_recycle_item">50dp</dimen>
+    <!--第三方 消息输入框-->
+    <dimen name="bottom_component_margin_vertical">8dip</dimen>
+    <dimen name="bottom_component_margin_horizontal">6dip</dimen>
+    <dimen name="input_panel_image_margin_bottom">3dip</dimen>
+    <dimen name="input_panel_image_margin_top">20dip</dimen>
 </resources>
