@@ -44,6 +44,7 @@ public class NoticeFragment extends BaseFragment {
         noticeRecycler.setLayoutManager(linearLayoutManager);
         noticeAdapter=new NoticeAdapter(R.layout.item_notice);
         noticeRecycler.setAdapter(noticeAdapter);
+
     }
 
 
