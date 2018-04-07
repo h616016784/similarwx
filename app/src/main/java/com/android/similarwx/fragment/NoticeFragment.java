@@ -47,14 +47,6 @@ public class NoticeFragment extends BaseFragment {
 
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-
-    }
-
     @Override
     protected void fetchData() {
         List<NoticeItemBean> data=new ArrayList<>();
@@ -77,4 +69,12 @@ public class NoticeFragment extends BaseFragment {
     protected boolean isNeedFetch() {
         return true;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+
+    }
+
 }

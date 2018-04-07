@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 /**
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
-public class MultipleItem implements MultiItemEntity {
+public class MultipleItem extends  BaseBean implements MultiItemEntity {
     public static final int TEXT = 1;
     public static final int IMG = 2;
     public static final int IMG_TEXT = 3;

@@ -1,7 +1,10 @@
 package com.android.similarwx.adapter;
 
+import android.content.Context;
+
 import com.android.similarwx.R;
 import com.android.similarwx.beans.MultipleItem;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -12,9 +15,15 @@ import java.util.List;
  * modify by AllenCoder
  */
 public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<MultipleItem, BaseViewHolder> {
-
-    public MultipleItemQuickAdapter( List data) {
+    private Context context;
+    RequestOptions options;
+    public MultipleItemQuickAdapter(Context context,List<MultipleItem> data) {
         super(data);
+        this.context=context;
+        options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher);
         addItemType(MultipleItem.TEXT, R.layout.item_text_view);
         addItemType(MultipleItem.IMG, R.layout.item_image_view);
         addItemType(MultipleItem.IMG_TEXT, R.layout.item_img_text_view);

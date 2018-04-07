@@ -36,14 +36,14 @@ public class BaseApplication extends Application {
 
 
     private void initLog() {
-        if(BuildConfig.DEBUG){
-            Logger.addLogAdapter(new AndroidLogAdapter());
-        }else{
-            FormatStrategy formatStrategy = CsvFormatStrategy.newBuilder()
-                    .tag("ErrorLogFile")
-                .build();
-            Logger.addLogAdapter(new DiskLogAdapter(formatStrategy));
-        }
+//        if(BuildConfig.DEBUG){
+//            Logger.addLogAdapter(new AndroidLogAdapter());
+//        }else{
+//            FormatStrategy formatStrategy = CsvFormatStrategy.newBuilder()
+//                    .tag("ErrorLogFile")
+//                .build();
+//            Logger.addLogAdapter(new DiskLogAdapter(formatStrategy));
+//        }
     }
 
     /**

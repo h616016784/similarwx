@@ -64,6 +64,8 @@
 
     <!--在线客服界面-->
     <string name="service_title">在线客服</string>
+    <string name="service_item_role">群主</string>
+    <string name="service_item_content">管家（离线、晚上10点下分）</string>
     <!--说明-->
     <string name="explain_title_top">说明</string>
     <string name="explain_title">关于我们</string>

@@ -27,7 +27,6 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean,BaseViewHolde
                 .centerCrop()
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher);
-
     }
 
     @Override
@@ -42,7 +41,8 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean,BaseViewHolde
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
         }else{
             helper.setVisible(R.id.item_group_count_tv,true);
-            Glide.with(context).load(item.getImageUrl()).apply(options).into((ImageView) helper.getView(R.id.item_group_iv));
+            Glide.with(context).load(item.getImageUrl()).
+            into((ImageView) helper.getView(R.id.item_group_iv));
         }
     }
 }

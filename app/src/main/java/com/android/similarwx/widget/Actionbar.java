@@ -33,6 +33,7 @@ public class Actionbar extends FrameLayout {
     private ImageView mLeftImage;
 
     private ImageView mRightImage;
+    private ImageView rightImagePeople;
 
     private ViewGroup mLeftLayout;
 
@@ -69,6 +70,7 @@ public class Actionbar extends FrameLayout {
         mRightBtn = (TextView) layout.findViewById(R.id.right_btn);
         mLeftImage = (ImageView) layout.findViewById(R.id.left_image);
         mRightImage = (ImageView) layout.findViewById(R.id.right_image);
+        rightImagePeople = (ImageView) layout.findViewById(R.id.right_image_people);
         mLeftLayout = (ViewGroup) layout.findViewById(R.id.left_layout);
         mRightLayout = (ViewGroup) layout.findViewById(R.id.right_layout);
 
@@ -163,6 +165,20 @@ public class Actionbar extends FrameLayout {
     public void setRightImage(int image) {
         mRightImage.setImageResource(image);
         mRightImage.setVisibility(image > 0 ? VISIBLE : GONE);
+    }
+    /**
+     * 设置people
+     * @param image
+     */
+    public void setRightImagePeople(int image) {
+        rightImagePeople.setImageResource(image);
+        rightImagePeople.setVisibility(image > 0 ? VISIBLE : GONE);
+    }
+    public void setRightImageOnClickListener(OnClickListener listener){
+        mRightImage.setOnClickListener(listener);
+    }
+    public void setRightImagePeopleOnClickListener(OnClickListener listener){
+        rightImagePeople.setOnClickListener(listener);
     }
 
     public void setLeftOnClickListener(OnClickListener listener) {

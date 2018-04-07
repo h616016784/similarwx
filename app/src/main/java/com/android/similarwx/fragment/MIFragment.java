@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.adapter.BaseDecoration;
 import com.android.similarwx.adapter.MIMultiItemQuickAdapter;
@@ -50,13 +51,12 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     @BindView(R.id.mi_remove)
     Button miRemove;
 
-    private MIMultiItemQuickAdapter adapter;
-
+    private MultipleItemQuickAdapter multipleItemAdapter;
+    private List<MultipleItem> data;
     protected InputPanel inputPanel;
     private SessionCustomization customization;
     // 聊天对象
     protected String sessionId; // p2p对方Account或者群id
-
     protected SessionTypeEnum sessionType;
     @Override
     protected int getLayoutResource() {
@@ -65,9 +65,15 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
 
     @Override
     protected void onInitView(View contentView) {
-        ButterKnife.bind(this, contentView);
-        final List<MultipleItem> data = initData();
+        unbinder=ButterKnife.bind(this, contentView);
+        mActionbar.setRightImage(R.drawable.action_right_delete);
+        mActionbar.setRightImagePeople(R.drawable.action_right_people);
+        mActionbar.setRightImagePeopleOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
         customization = (SessionCustomization) getArguments().getSerializable(Extras.EXTRA_CUSTOMIZATION);
         sessionId = getArguments().getString(Extras.EXTRA_ACCOUNT);
         sessionType = (SessionTypeEnum) getArguments().getSerializable(Extras.EXTRA_TYPE);
@@ -79,71 +85,29 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         } else {
             inputPanel.reload(container, customization);
         }
-//        adapter = new BaseAdapter(R.layout.item_test,data);
-//        adapter=new MIMultiItemQuickAdapter(data);
-//        miRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-//        miRecyclerView.setLayoutManager(new GridLayoutManager(activity,4));
-//        miRecyclerView.addItemDecoration(new BaseDecoration());
-//        miRecyclerView.setLayoutManager(new GridLayoutManager(activity,3));
-//        miRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        final MultipleItemQuickAdapter multipleItemAdapter = new MultipleItemQuickAdapter(data);
-        final GridLayoutManager manager = new GridLayoutManager(activity, 4);
-        miRecyclerView.setLayoutManager(manager);
-//        multipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-//                return 3;
-//            }
-//        });
+        multipleItemAdapter = new MultipleItemQuickAdapter(activity,null);
+        multipleItemAdapter.setUpFetchEnable(true);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(activity);
+        miRecyclerView.setLayoutManager(linearLayoutManager);
         miRecyclerView.setAdapter(multipleItemAdapter);
-//        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-//            @Override
-//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//                Toaster.toastShort("点击了"+position+"..."+((TextView)view).getText().toString());
-//            }
-//        });
-//        adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-//        adapter.setUpFetchEnable(true);
-//        adapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
-//            @Override
-//            public void onUpFetch() {
-//                adapter.setUpFetching(true);
-//                Toaster.toastShort("下拉加载了！");
-//                adapter.setUpFetching(false);
-//            }
-//        });
+        multipleItemAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Toaster.toastShort("点击了"+position+"...");
+            }
+        });
+
+        multipleItemAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
+            @Override
+            public void onUpFetch() {
+                multipleItemAdapter.setUpFetching(true);
+                Toaster.toastShort("下拉加载了！");
+                multipleItemAdapter.setUpFetching(false);
+            }
+        });
     }
 
-//    private List<String> initData() {
-//        list = new ArrayList<>();
-//        list.add("a");
-//        list.add("b");
-//        list.add("c");
-//        list.add("d");
-//        list.add("e");
-//        list.add("f");
-//        list.add("h");
-//        list.add("i");
-//        list.add("g");
-//        list.add("k");
-//        list.add("l");
-//        list.add("m");
-//        list.add("n");
-//        return list;
-//    }
     private List<MultipleItem> initData() {
-//        list = new ArrayList<>();
-//        list.add(new MIMultiItem(1));
-//        list.add(new MIMultiItem(0));
-//        list.add(new MIMultiItem(0));
-//        list.add(new MIMultiItem(1));
-//        list.add(new MIMultiItem(1));
-//        list.add(new MIMultiItem(1));
-//        list.add(new MIMultiItem(0));
-//        list.add(new MIMultiItem(1));
-//        list.add(new MIMultiItem(0));
-//        list.add(new MIMultiItem(1));
-//        list.add(new MIMultiItem(1));
         List<MultipleItem> list = new ArrayList<>();
         for (int i = 0; i <= 4; i++) {
             list.add(new MultipleItem(MultipleItem.IMG, MultipleItem.IMG_SPAN_SIZE));
@@ -169,7 +133,8 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     }
     @Override
     protected void fetchData() {
-        super.fetchData();
+        data= initData();
+        multipleItemAdapter.addData(data);
     }
 
     /**
