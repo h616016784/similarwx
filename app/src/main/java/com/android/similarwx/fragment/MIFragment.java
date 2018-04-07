@@ -25,7 +25,6 @@ import com.android.similarwx.widget.input.module.ModuleProxy;
 import com.android.similarwx.widget.input.sessions.Extras;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.netease.nim.uikit.business.robot.parser.elements.group.LinearLayout;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -46,10 +45,6 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     @BindView(R.id.mi_recyclerView)
     RecyclerView miRecyclerView;
     Unbinder unbinder;
-    @BindView(R.id.mi_button)
-    Button miButton;
-    @BindView(R.id.mi_remove)
-    Button miRemove;
 
     private MultipleItemQuickAdapter multipleItemAdapter;
     private List<MultipleItem> data;
@@ -119,18 +114,6 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         return list;
     }
 
-    @OnClick({R.id.mi_button, R.id.mi_remove})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.mi_button:
-//                adapter.addData("abc");
-
-                break;
-            case R.id.mi_remove:
-
-                break;
-        }
-    }
     @Override
     protected void fetchData() {
         data= initData();

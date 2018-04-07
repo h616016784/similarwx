@@ -13,7 +13,7 @@ public class MultipleItem extends  BaseBean implements MultiItemEntity {
     public static final int IMG_SPAN_SIZE = 1;
     public static final int IMG_TEXT_SPAN_SIZE = 4;
     public static final int IMG_TEXT_SPAN_SIZE_MIN = 2;
-    private int itemType;
+    private int itemType;//0是文本消息/语音消息/图片，1是系统消息（谁进了谁退出群了等），2是红包，3视频
     private int spanSize;
 
     public MultipleItem(int itemType, int spanSize, String content) {
@@ -48,5 +48,9 @@ public class MultipleItem extends  BaseBean implements MultiItemEntity {
     @Override
     public int getItemType() {
         return itemType;
+    }
+
+    public void setItemType(int itemType) {
+        this.itemType = itemType;
     }
 }
