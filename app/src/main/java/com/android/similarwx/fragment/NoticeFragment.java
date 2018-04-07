@@ -51,6 +51,7 @@ public class NoticeFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+
     }
 
     @Override
