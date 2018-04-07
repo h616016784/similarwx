@@ -3,6 +3,9 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
     compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
     defaultConfig {
         applicationId "com.android.similarwx"
         minSdkVersion 15
@@ -12,8 +15,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 
-        aaptOptions.cruncherEnabled = false
-        aaptOptions.useNewCruncher = false
     }
     buildTypes {
         release {
