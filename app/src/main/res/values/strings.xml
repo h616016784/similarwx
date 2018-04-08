@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">similarwx</string>
+    <string name="app_name">paopao</string>
     <string name="action_settings">Settings</string>
 
     <string name="account_qr_refreshtip">二维码每30秒会刷新一次（%s）</string>
@@ -74,6 +74,12 @@
             \n      \t\t四六级的咖啡机阿拉斯加的罚款圣诞节。
             </string>
 
+   <!-- MI界面-->
+    <string name="chart_red_explain">扫雷红包游戏</string>
+    <string name="chart_red_count">25-5</string>
+    <string name="chart_red_take">领取红包</string>
+    <string name="chart_sys">某某加入了该群</string>
+    <string name="chart_delete_dialog_message">是否清空所有聊天记录？</string>
     <!--第三方-->
     <string name="empty"></string>
 </resources>

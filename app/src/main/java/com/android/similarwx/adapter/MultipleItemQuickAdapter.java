@@ -24,28 +24,22 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                 .centerCrop()
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher);
-        addItemType(MultipleItem.TEXT, R.layout.item_text_view);
-        addItemType(MultipleItem.IMG, R.layout.item_image_view);
-        addItemType(MultipleItem.IMG_TEXT, R.layout.item_img_text_view);
+        addItemType(MultipleItem.ITEM_VIEW_TYPE_MSG, R.layout.item_mitext_type);
+        addItemType(MultipleItem.ITEM_VIEW_TYPE_MSG_RED,R.layout.item_red_type);
+        addItemType(MultipleItem.ITEM_VIEW_TYPE_MSG_SYS,R.layout.item_sys_type);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
         switch (helper.getItemViewType()) {
-            case MultipleItem.TEXT:
-                helper.setText(R.id.tv, item.getContent());
+            case MultipleItem.ITEM_VIEW_TYPE_MSG:
+                helper.setText(R.id.item_mitext_left_content, item.getContent());
                 break;
-            case MultipleItem.IMG_TEXT:
-                switch (helper.getLayoutPosition() %
-                        2) {
-                    case 0:
-                        helper.setImageResource(R.id.iv, R.mipmap.animation_img1);
-                        break;
-                    case 1:
-                        helper.setImageResource(R.id.iv, R.mipmap.animation_img2);
-                        break;
-
-                }
+            case MultipleItem.ITEM_VIEW_TYPE_MSG_RED:
+                helper.setText(R.id.item_red_packet_count_tv, item.getContent());
+                break;
+            case MultipleItem.ITEM_VIEW_TYPE_MSG_SYS:
+                helper.setText(R.id.item_sys_tv, item.getContent());
                 break;
         }
     }

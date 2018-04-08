@@ -15,6 +15,7 @@ import com.android.similarwx.adapter.MultipleItemQuickAdapter;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
+import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.android.similarwx.widget.input.InputPanel;
 import com.android.similarwx.widget.input.actions.BaseAction;
 import com.android.similarwx.widget.input.actions.ImageAction;
@@ -63,12 +64,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         unbinder=ButterKnife.bind(this, contentView);
         mActionbar.setRightImage(R.drawable.action_right_delete);
         mActionbar.setRightImagePeople(R.drawable.action_right_people);
-        mActionbar.setRightImagePeopleOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        mActionbar.setRightImageOnClickListener(this);
         customization = (SessionCustomization) getArguments().getSerializable(Extras.EXTRA_CUSTOMIZATION);
         sessionId = getArguments().getString(Extras.EXTRA_ACCOUNT);
         sessionType = (SessionTypeEnum) getArguments().getSerializable(Extras.EXTRA_TYPE);
@@ -104,13 +100,15 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
 
     private List<MultipleItem> initData() {
         List<MultipleItem> list = new ArrayList<>();
-        for (int i = 0; i <= 4; i++) {
-            list.add(new MultipleItem(MultipleItem.IMG, MultipleItem.IMG_SPAN_SIZE));
-            list.add(new MultipleItem(MultipleItem.TEXT, MultipleItem.TEXT_SPAN_SIZE, "CymChad"));
-            list.add(new MultipleItem(MultipleItem.IMG_TEXT, MultipleItem.IMG_TEXT_SPAN_SIZE));
-            list.add(new MultipleItem(MultipleItem.IMG_TEXT, MultipleItem.IMG_TEXT_SPAN_SIZE_MIN));
-            list.add(new MultipleItem(MultipleItem.IMG_TEXT, MultipleItem.IMG_TEXT_SPAN_SIZE_MIN));
-        }
+        MultipleItem multipleItem=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG, MultipleItem.IMG_SPAN_SIZE);
+        multipleItem.setContent("这是我的第一次谈话记录，啊哈哈哈哈哈哈哈哈哈哈哈");
+        list.add(multipleItem);
+        MultipleItem multipleItem1=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG_RED, MultipleItem.IMG_SPAN_SIZE);
+        multipleItem1.setContent("16-2");
+        list.add(multipleItem1);
+        MultipleItem multipleItem2=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG_SYS, MultipleItem.IMG_SPAN_SIZE);
+        multipleItem2.setContent("啊格加入了该群！");
+        list.add(multipleItem2);
         return list;
     }
 
@@ -141,6 +139,28 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             actions.addAll(customization.actions);
         }
         return actions;
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.right_image:
+                showDeleteDialog();
+                break;
+        }
+    }
+
+    private void showDeleteDialog() {
+        TwoButtonDialogBuilder twoButtonDialogBuilder=new TwoButtonDialogBuilder(activity);
+        twoButtonDialogBuilder.setMessage(R.string.chart_delete_dialog_message);
+        twoButtonDialogBuilder.setConfirmButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        twoButtonDialogBuilder.create().show();
     }
 
     @Override
