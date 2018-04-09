@@ -1,6 +1,6 @@
 package com.android.similarwx.widget.input.actions;
 
-import com.netease.nim.uikit.R;
+import com.android.similarwx.R;
 import com.netease.nimlib.sdk.chatroom.ChatRoomMessageBuilder;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -14,7 +14,7 @@ import java.io.File;
 public class ImageAction extends PickImageAction {
 
     public ImageAction() {
-        super(R.drawable.nim_message_plus_photo_selector, R.string.input_panel_photo, true);
+        super(R.drawable.demo_reply_bar_album, R.string.chart_pic, true);
     }
 
     @Override

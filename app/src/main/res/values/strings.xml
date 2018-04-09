@@ -80,6 +80,14 @@
     <string name="chart_red_take">领取红包</string>
     <string name="chart_sys">某某加入了该群</string>
     <string name="chart_delete_dialog_message">是否清空所有聊天记录？</string>
+    <string name="chart_photo">选择拍照</string>
+    <string name="chart_pic">选择图片</string>
+    <string name="chart_red">红包</string>
+    <string name="chart_contact_admin">联系群主</string>
+    <string name="chart_bill">账单</string>
+    <string name="chart_recharge">充值</string>
+    <string name="chart_cash">提现</string>
+    <string name="chart_service">在线客服</string>
     <!--第三方-->
     <string name="empty"></string>
 </resources>

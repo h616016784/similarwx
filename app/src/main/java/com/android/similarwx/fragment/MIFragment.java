@@ -18,8 +18,14 @@ import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.android.similarwx.widget.input.InputPanel;
 import com.android.similarwx.widget.input.actions.BaseAction;
+import com.android.similarwx.widget.input.actions.BillAciton;
+import com.android.similarwx.widget.input.actions.CashAction;
+import com.android.similarwx.widget.input.actions.ContactAdminAction;
 import com.android.similarwx.widget.input.actions.ImageAction;
 import com.android.similarwx.widget.input.actions.LocationAction;
+import com.android.similarwx.widget.input.actions.RechargeAciton;
+import com.android.similarwx.widget.input.actions.RedAction;
+import com.android.similarwx.widget.input.actions.ServiceAction;
 import com.android.similarwx.widget.input.actions.VideoAction;
 import com.android.similarwx.widget.input.module.Container;
 import com.android.similarwx.widget.input.module.ModuleProxy;
@@ -132,8 +138,14 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     protected List<BaseAction> getActionList() {
         List<BaseAction> actions = new ArrayList<>();
         actions.add(new ImageAction());
-        actions.add(new VideoAction());
-        actions.add(new LocationAction());
+        actions.add(new RedAction());
+        actions.add(new ContactAdminAction());
+        actions.add(new BillAciton());
+        actions.add(new RechargeAciton());
+        actions.add(new CashAction());
+        actions.add(new ServiceAction());
+//        actions.add(new VideoAction());
+//        actions.add(new LocationAction());
 
         if (customization != null && customization.actions != null) {
             actions.addAll(customization.actions);
