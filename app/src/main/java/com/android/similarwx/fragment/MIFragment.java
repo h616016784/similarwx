@@ -1,5 +1,6 @@
 package com.android.similarwx.fragment;
 
+import android.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import com.android.similarwx.adapter.MultipleItemQuickAdapter;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
+import com.android.similarwx.widget.dialog.RedDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.android.similarwx.widget.input.InputPanel;
 import com.android.similarwx.widget.input.actions.BaseAction;
@@ -90,7 +92,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         multipleItemAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                Toaster.toastShort("点击了"+position+"...");
+                showRedDialog(position);
             }
         });
 
@@ -102,6 +104,15 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
                 multipleItemAdapter.setUpFetching(false);
             }
         });
+    }
+
+    private void showRedDialog(int position) {
+       RedDialogFragment redDialogFragment= RedDialogFragment.newInstance("");
+        FragmentTransaction transaction=getFragmentManager().beginTransaction();
+        transaction.add(redDialogFragment,"redDialog");
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 
     private List<MultipleItem> initData() {

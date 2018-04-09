@@ -88,6 +88,11 @@
     <string name="chart_recharge">充值</string>
     <string name="chart_cash">提现</string>
     <string name="chart_service">在线客服</string>
+
+    <!-- 红包详情界面-->
+    <string name="red_detail_title">红包详情</string>
+    <string name="red_detail_name">白富美的红包</string>
+    <string name="red_detail_count">36.99-9</string>
     <!--第三方-->
     <string name="empty"></string>
 </resources>

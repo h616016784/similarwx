@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/actionbar_green"
     android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/layout_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <RelativeLayout
         android:layout_marginTop="@dimen/distance_middle"
         android:layout_width="match_parent"
@@ -100,4 +105,5 @@
         android:background="@color/divider" />
 
     </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

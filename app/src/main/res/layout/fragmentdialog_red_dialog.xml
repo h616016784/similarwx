@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pop_red_bg">
+        <ImageView
+            android:id="@+id/dialog_red_head_iv"
+            android:layout_marginTop="@dimen/distance_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_sex_male"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:layout_marginTop="@dimen/distance_smaller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="title"
+            android:layout_below="@id/dialog_red_head_iv"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+</LinearLayout>

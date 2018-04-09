@@ -37,11 +37,14 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                 break;
             case MultipleItem.ITEM_VIEW_TYPE_MSG_RED:
                 helper.setText(R.id.item_red_packet_count_tv, item.getContent());
+                helper.addOnClickListener(R.id.item_red_packet_rl);
                 break;
             case MultipleItem.ITEM_VIEW_TYPE_MSG_SYS:
                 helper.setText(R.id.item_sys_tv, item.getContent());
                 break;
         }
+
+
     }
 
 }

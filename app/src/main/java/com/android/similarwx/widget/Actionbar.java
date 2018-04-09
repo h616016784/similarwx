@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseActivity;
+import com.netease.nim.uikit.business.robot.parser.elements.group.LinearLayout;
 
 /**
  * Created by Albert
@@ -40,6 +41,8 @@ public class Actionbar extends FrameLayout {
     private ViewGroup mRightLayout;
 
     private View mCustomTitleView;
+    private LinearLayout layout_ll;
+    View layout;
 
     public Actionbar(Context context) {
         super(context);
@@ -62,8 +65,9 @@ public class Actionbar extends FrameLayout {
             mActivity = (BaseActivity) context;
         }
 
-        View layout = LayoutInflater.from(context).inflate(R.layout.actionbar_common, this);
+        layout= LayoutInflater.from(context).inflate(R.layout.actionbar_common, this);
         setBackgroundColor(AppContext.getColor(R.color.white));
+
         mTitleLayout = (ViewGroup) layout.findViewById(R.id.title_layout);
         mTitleView = (TextView) layout.findViewById(R.id.title);
         mLeftBtn = (TextView) layout.findViewById(R.id.left_btn);
@@ -73,7 +77,6 @@ public class Actionbar extends FrameLayout {
         rightImagePeople = (ImageView) layout.findViewById(R.id.right_image_people);
         mLeftLayout = (ViewGroup) layout.findViewById(R.id.left_layout);
         mRightLayout = (ViewGroup) layout.findViewById(R.id.right_layout);
-
         initActions();
     }
 
@@ -165,6 +168,10 @@ public class Actionbar extends FrameLayout {
     public void setRightImage(int image) {
         mRightImage.setImageResource(image);
         mRightImage.setVisibility(image > 0 ? VISIBLE : GONE);
+    }
+
+    public void setWholeBackground(int res){
+        layout.setBackgroundResource(res);
     }
     /**
      * 设置people
