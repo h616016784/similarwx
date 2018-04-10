@@ -93,6 +93,7 @@
     <string name="red_detail_title">红包详情</string>
     <string name="red_detail_name">白富美的红包</string>
     <string name="red_detail_count">36.99-9</string>
+    <string name="red_detail_hit">未领取的红包，将于3分钟后发起退款</string>
     <!--第三方-->
     <string name="empty"></string>
 </resources>

@@ -171,7 +171,7 @@ public class Actionbar extends FrameLayout {
     }
 
     public void setWholeBackground(int res){
-        layout.setBackgroundResource(res);
+        layout.setBackgroundColor(res);
     }
     /**
      * 设置people
