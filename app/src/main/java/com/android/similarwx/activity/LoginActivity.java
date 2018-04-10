@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements LoginViewInterface {
+public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
     @BindView(R.id.login)
     TextView login;
