@@ -94,6 +94,17 @@
     <string name="red_detail_name">白富美的红包</string>
     <string name="red_detail_count">36.99-9</string>
     <string name="red_detail_hit">未领取的红包，将于3分钟后发起退款</string>
+
+    <!-- 我的界面-->
+    <string name="my_title">我</string>
+    <string name="my_fen">总积分</string>
+    <string name="my_account">账号</string>
+    <string name="my_code">推荐码</string>
+    <string name="my_money">我要赚钱</string>
+    <string name="my_player">我的玩家</string>
+    <string name="my_set">设置</string>
+    <string name="my_version">版本</string>
+    <string name="my_quit">退出</string>
     <!--第三方-->
     <string name="empty"></string>
 </resources>

@@ -228,7 +228,7 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        hideKeyboard();
         unregister();
     }
 }
