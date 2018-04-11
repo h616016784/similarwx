@@ -50,6 +50,8 @@ public class RedDetailFragment extends BaseFragment {
         redDetailRv.setLayoutManager(new LinearLayoutManager(activity));
         redDetailAdapter=new RedDetailAdapter(R.layout.item_red_detial);
         redDetailRv.setAdapter(redDetailAdapter);
+
+
     }
 
     @Override
