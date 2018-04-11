@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.ItemView;
 
 import butterknife.BindView;
@@ -44,7 +46,8 @@ public class MyFragment extends BaseFragment {
     ItemView myVersionItem;
     @BindView(R.id.my_quit_item)
     ItemView myQuitItem;
-    Unbinder unbinder1;
+    @BindView(R.id.my_base_ll)
+    LinearLayout myBaseLl;
 
     @Override
     protected int getLayoutResource() {
@@ -60,12 +63,24 @@ public class MyFragment extends BaseFragment {
     }
 
     private void init() {
-        myCodeItem.setNameText(R.string.my_code);myCodeItem.setImageView(R.drawable.icon_wo_shoucang);myCodeItem.setRightText("0");
-        myMoneyItem.setNameText(R.string.my_money);myMoneyItem.setImageView(R.drawable.icon_wo_btn3);myMoneyItem.setRightText("");
-        myPlayItem.setNameText(R.string.my_player);myPlayItem.setImageView(R.drawable.icon_wo_btn2);myPlayItem.setRightText("推荐:");
-        mySetItem.setNameText(R.string.my_set);mySetItem.setImageView(R.drawable.icon_wo_shezhi);mySetItem.setRightText("");
-        myVersionItem.setNameText(R.string.my_version);myVersionItem.setImageView(R.drawable.icon_wo_qianbao);myVersionItem.setRightText(getVersionName());
-        myQuitItem.setNameText(R.string.my_quit);myQuitItem.setImageView(R.drawable.icon_wo_logout);myQuitItem.setRightText("");
+        myCodeItem.setNameText(R.string.my_code);
+        myCodeItem.setImageView(R.drawable.icon_wo_shoucang);
+        myCodeItem.setRightText("0");
+        myMoneyItem.setNameText(R.string.my_money);
+        myMoneyItem.setImageView(R.drawable.icon_wo_btn3);
+        myMoneyItem.setRightText("");
+        myPlayItem.setNameText(R.string.my_player);
+        myPlayItem.setImageView(R.drawable.icon_wo_btn2);
+        myPlayItem.setRightText("推荐:");
+        mySetItem.setNameText(R.string.my_set);
+        mySetItem.setImageView(R.drawable.icon_wo_shezhi);
+        mySetItem.setRightText("");
+        myVersionItem.setNameText(R.string.my_version);
+        myVersionItem.setImageView(R.drawable.icon_wo_qianbao);
+        myVersionItem.setRightText(getVersionName());
+        myQuitItem.setNameText(R.string.my_quit);
+        myQuitItem.setImageView(R.drawable.icon_wo_logout);
+        myQuitItem.setRightText("");
     }
 
 
@@ -75,7 +90,7 @@ public class MyFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.my_code_item,R.id.my_money_item, R.id.my_play_item, R.id.my_set_item, R.id.my_version_item, R.id.my_quit_item})
+    @OnClick({R.id.my_code_item, R.id.my_money_item, R.id.my_play_item, R.id.my_set_item, R.id.my_version_item, R.id.my_quit_item, R.id.my_base_ll})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_code_item:
@@ -90,15 +105,18 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.my_quit_item:
                 break;
+            case R.id.my_base_ll://基本信息
+                FragmentUtils.navigateToNormalActivity(activity, new MyBaseFragment(), null);
+                break;
         }
     }
-    private String getVersionName()
-    {
+
+    private String getVersionName() {
         try {
             // 获取packagemanager的实例
             PackageManager packageManager = activity.getPackageManager();
             // getPackageName()是你当前类的包名，0代表是获取版本信息
-            PackageInfo packInfo = packageManager.getPackageInfo(activity.getPackageName(),0);
+            PackageInfo packInfo = packageManager.getPackageInfo(activity.getPackageName(), 0);
             String version = packInfo.versionName;
             return version;
         } catch (PackageManager.NameNotFoundException e) {
@@ -106,4 +124,5 @@ public class MyFragment extends BaseFragment {
             return null;
         }
     }
+
 }

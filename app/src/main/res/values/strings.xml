@@ -105,6 +105,23 @@
     <string name="my_set">设置</string>
     <string name="my_version">版本</string>
     <string name="my_quit">退出</string>
+
+    <!-- 我的基本界面-->
+    <string name="my_base_title">个人资料</string>
+    <string name="my_base_head">头像</string>
+    <string name="my_base_nick">昵称</string>
+    <string name="my_base_account">账号</string>
+    <string name="my_base_sex">性别</string>
+    <string name="my_base_sign">个人签名</string>
+    <string name="my_base_photo">拍照</string>
+    <string name="my_base_pic">图片</string>
+    <string name="my_base_man">男</string>
+    <string name="my_base_women">女</string>
+
+    <!-- 编辑界面-->
+    <string name="edit_title">保存</string>
+    <string name="edit_title_in_sign">请输入个人签名</string>
+    <string name="edit_title_in_nick">请输入昵称</string>
     <!--第三方-->
     <string name="empty"></string>
 </resources>

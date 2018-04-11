@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/distance_smaller"
+        android:orientation="vertical">
+        <com.android.similarwx.widget.BaseItemView
+            android:id="@+id/my_base_head_bv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.android.similarwx.widget.BaseItemView
+            android:id="@+id/my_base_nikename_bv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.android.similarwx.widget.BaseItemView
+            android:id="@+id/my_base_account_bv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_big"
+        android:background="@color/white"
+        android:padding="@dimen/distance_smaller"
+        android:orientation="vertical">
+        <com.android.similarwx.widget.BaseItemView
+            android:id="@+id/my_base_sex_bv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.android.similarwx.widget.BaseItemView
+            android:id="@+id/my_base_sign_bv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

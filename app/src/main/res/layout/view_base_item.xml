@@ -7,25 +7,19 @@
         android:id="@+id/view_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/distance_smaller">
-        <ImageView
-            android:id="@+id/view_iv"
-            android:layout_width="@dimen/avatar_m"
-            android:layout_height="@dimen/avatar_m"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_wo_shoucang"/>
+        android:layout_margin="@dimen/distance_small">
+
         <TextView
-            android:id="@+id/view_name_tv"
+            android:id="@+id/view_base_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/view_iv"
             android:textSize="@dimen/text_sub_title"
             android:layout_marginLeft="@dimen/distance_small"
             android:text="推荐码"/>
 
         <TextView
-            android:id="@+id/view_right_tv"
+            android:id="@+id/view_base_right_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -33,6 +27,14 @@
             android:textSize="@dimen/text_sub_title"
             android:layout_marginRight="@dimen/distance_normal"
             android:text=""/>
+        <ImageView
+            android:id="@+id/view_base_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/rp_avatar"
+            android:visibility="gone"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -40,3 +42,4 @@
         android:background="@color/divider"
         />
 </LinearLayout>
+

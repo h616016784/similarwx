@@ -90,6 +90,21 @@ public class TwoButtonDialogBuilder {
         });
         return this;
     }
+    public TwoButtonDialogBuilder setCancelButton(final View.OnClickListener onClickListener) {
+        mCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onClick(v);
+                dismiss();
+            }
+        });
+        return this;
+    }
+
+    public TwoButtonDialogBuilder  setCancleBackground(int res){
+        mCancle.setBackgroundResource(res);
+        return this;
+    }
 
     public BaseDialog create() {
         return mDialog;
