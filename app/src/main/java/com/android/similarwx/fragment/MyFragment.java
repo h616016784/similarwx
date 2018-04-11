@@ -94,12 +94,16 @@ public class MyFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_code_item:
+
                 break;
             case R.id.my_money_item:
+                FragmentUtils.navigateToNormalActivity(activity, new MoneyFragment(), null);
                 break;
             case R.id.my_play_item:
+                FragmentUtils.navigateToNormalActivity(activity, new PlayerFragment(), null);
                 break;
             case R.id.my_set_item:
+                FragmentUtils.navigateToNormalActivity(activity, new SetFragment(), null);
                 break;
             case R.id.my_version_item:
                 break;

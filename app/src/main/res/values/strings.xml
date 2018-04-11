@@ -122,6 +122,27 @@
     <string name="edit_title">保存</string>
     <string name="edit_title_in_sign">请输入个人签名</string>
     <string name="edit_title_in_nick">请输入昵称</string>
+
+    <!-- 我的赚钱-->
+    <string name="money_title">我的赚钱</string>
+    <string name="money_share_to">分享到：</string>
+    <string name="money_share_friend">微信好友</string>
+    <string name="money_save_phone">保存到手机</string>
+    <string name="money_share_circle">朋友圈</string>
+    <!-- 我的玩家-->
+    <string name="player_title">我的玩家</string>
+
+    <!-- 设置-->
+    <string name="set_title">设置</string>
+    <string name="set_account">账号</string>
+    <string name="set_phone">手机号</string>
+    <string name="set_password">密码设置</string>
+    <!-- 设置密码-->
+    <string name="set_password_title">设置密码</string>
+    <string name="set_password_login">登录密码</string>
+    <string name="set_password_pay">支付密码</string>
+    <string name="set_password_find">找回密码</string>
+    <string name="set_password_message">为保障您的数据安全，修改密\n码前请填写前密码</string>
     <!--第三方-->
     <string name="empty"></string>
 </resources>
