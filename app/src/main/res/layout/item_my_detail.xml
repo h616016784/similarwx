@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/distance_middle"
+        android:layout_marginRight="@dimen/distance_middle"
+        android:layout_marginTop="@dimen/distance_middle"
+        android:background="@color/white"
+        >
+        <TextView
+            android:id="@+id/item_my_detail_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="红包领取"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_sub_title"
+            />
+        <TextView
+            android:id="@+id/item_my_detail_money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/text_sub_title"
+            android:textColor="@color/colorPrimary"
+            android:text="+10.2"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_smaller"
+        android:layout_marginLeft="@dimen/distance_middle"
+        android:layout_marginRight="@dimen/distance_middle"
+        android:layout_marginBottom="@dimen/distance_middle"
+        android:background="@color/white"
+        >
+        <TextView
+            android:id="@+id/item_my_detail_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-08-18 13:09:28"
+            android:textSize="@dimen/text_sub_title"
+            />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/text_sub_title"
+            android:textColor="@color/green_4DC0A4"
+            android:text="点击查看"/>
+    </RelativeLayout>
+</LinearLayout>

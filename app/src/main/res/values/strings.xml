@@ -150,6 +150,28 @@
     <!--第三方-->
     <string name="empty"></string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pay_detail_title">微信支付</string>
+    <string name="pay_detail_money">应付金额</string>
+    <string name="trans_detail_title">交易详情</string>
+    <string name="trans_detail_money">付款金额</string>
+    <string name="trans_detail_turn">转账说明</string>
+    <string name="trans_detail_state">当前状态</string>
+    <string name="trans_detail_time">交易时间</string>
+
+    <string name="group_info_member">全部群成员</string>
+    <string name="group_info_name">群聊名称</string>
+    <string name="group_info_code">群二维码</string>
+    <string name="group_info_notice">群公告</string>
+    <string name="group_info_know">须知</string>
+    <string name="group_info_rule">奖励规则</string>
+
+    <string name="my_detail_zong">总资产</string>
+    <string name="my_detail_freeze">冻结积分</string>
+    <string name="my_detail_start">开始时间</string>
+    <string name="my_detail_end">结束时间</string>
+    <string name="my_detail_sum">累计</string>
+    <string name="my_detail_class">选择分类</string>
+    <string name="my_detail_bill">账单记录</string>
+
 </resources>
