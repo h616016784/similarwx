@@ -6,12 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.BaseItemView;
 import com.android.similarwx.widget.ItemView;
+import com.android.similarwx.widget.dialog.AlertDialogFragment;
 import com.android.similarwx.widget.dialog.EditDialogBuilder;
+import com.android.similarwx.widget.dialog.EditDialogFragment;
+import com.android.similarwx.widget.dialog.EditDialogSimple;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +36,7 @@ public class SetPasswordFragment extends BaseFragment {
     BaseItemView mySetPasswordFindIv;
     Unbinder unbinder;
 
+    EditDialogSimple editDialogSimple;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_set_password;
@@ -55,30 +61,47 @@ public class SetPasswordFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        if (editDialogSimple!=null){
+            editDialogSimple.dimiss();
+            editDialogSimple=null;
+        }
     }
 
     @OnClick({R.id.my_set_password_login_iv, R.id.my_set_password_pay_iv, R.id.my_set_password_find_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_set_password_login_iv:
-                showEditDialog();
+                showEditDialog(0);
                 break;
             case R.id.my_set_password_pay_iv:
+                showEditDialog(1);
                 break;
             case R.id.my_set_password_find_iv:
                 break;
         }
     }
 
-    private void showEditDialog() {
-        BaseDialog dialog=new EditDialogBuilder(activity).setButtonText(R.string.confirm,R.string.cancel)
-                .setMessage(R.string.set_password_message)
-                .setConfirmButton(new EditDialogBuilder.ButtonClicker() {
-                    @Override
-                    public void onButtonClick(String str) {
+    private void showEditDialog(int flag) {
+        if(editDialogSimple==null)
+            editDialogSimple=new EditDialogSimple(activity,"");
+        if(flag==0){
+            editDialogSimple.setTitle("请输入新的登录密码");
+            editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                @Override
+                public void onClickListener(String text) {
 
-                    }
-                }).create();
-        dialog.show();
+                }
+            });
+        } else{
+            editDialogSimple.setTitle(AppContext.getResources().getString(R.string.set_password_message));
+            editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                @Override
+                public void onClickListener(String text) {
+                    FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),null);
+                }
+            });
+        }
+
+        editDialogSimple.show();
     }
 }

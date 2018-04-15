@@ -20,12 +20,13 @@
         android:textSize="12sp" />
     <EditText
         android:id="@+id/dialog_et"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/normal_extreme_margin"
         android:layout_marginLeft="@dimen/normal_large_margin"
         android:layout_marginRight="@dimen/normal_large_margin"
         android:layout_marginTop="@dimen/distance_small"
+        android:background="@null"
         android:gravity="center"
         android:textColor="@color/fade_black"
         android:textSize="12sp" />

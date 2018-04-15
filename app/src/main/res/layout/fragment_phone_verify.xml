@@ -79,4 +79,16 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider"/>
+
+    <Button
+        android:id="@+id/verify_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/distance_normal"
+        android:layout_marginTop="@dimen/distance_normal"
+        android:textSize="@dimen/text_content_or_button"
+        android:text="@string/login_bar_next"
+        android:background="@drawable/selector_normal_bg"
+        android:textColor="@color/white"
+        />
 </LinearLayout>

@@ -39,7 +39,7 @@ public class RedDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragmentdialog_red_dialog,container);
+        View view=inflater.inflate(R.layout.dialog_fragment_edit,container);
         initView(view);
         return view;
     }

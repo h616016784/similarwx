@@ -17,6 +17,7 @@
 
     <string name="login_bar_login">登录</string>
     <string name="login_bar_registe">注册</string>
+    <string name="login_bar_next">下一步</string>
     <string name="login_account">账号: </string>
     <string name="login_account_hin">请输入手机号/账号</string>
     <string name="login_password">密码: </string>

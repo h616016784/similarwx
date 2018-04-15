@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.fragment.PhoneVerifyFragment;
 import com.android.similarwx.fragment.RegistFragment;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.present.LoginPresent;
@@ -60,7 +61,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                 FragmentUtils.navigateToNormalActivity(this,new RegistFragment(),null);
                 break;
             case R.id.login_forget_password://忘记密码
-
+                FragmentUtils.navigateToNormalActivity(this,new PhoneVerifyFragment(),null);
                 break;
             case R.id.login_wx_iv://微信登录
 
