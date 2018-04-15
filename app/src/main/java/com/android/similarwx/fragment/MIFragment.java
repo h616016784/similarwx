@@ -1,6 +1,7 @@
 package com.android.similarwx.fragment;
 
 import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +51,9 @@ import butterknife.Unbinder;
  */
 
 public class MIFragment extends BaseFragment implements ModuleProxy {
+    public static final int DELETE_THREE=0;
+    public static final int DELETE_GROUP_EIGHT=1;
+    public static final String MIFLAG="miFlag";
     List<MIMultiItem> list;
     @BindView(R.id.mi_recyclerView)
     RecyclerView miRecyclerView;
@@ -62,6 +66,8 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     // 聊天对象
     protected String sessionId; // p2p对方Account或者群id
     protected SessionTypeEnum sessionType;
+
+    private int flag=0;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mi_layout;
@@ -69,13 +75,18 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
 
     @Override
     protected void onInitView(View contentView) {
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            flag=bundle.getInt(MIFLAG);
+            customization = (SessionCustomization) bundle.getSerializable(Extras.EXTRA_CUSTOMIZATION);
+            sessionId = bundle.getString(Extras.EXTRA_ACCOUNT);
+            sessionType = (SessionTypeEnum) bundle.getSerializable(Extras.EXTRA_TYPE);
+        }
         unbinder=ButterKnife.bind(this, contentView);
         mActionbar.setRightImage(R.drawable.action_right_delete);
         mActionbar.setRightImagePeople(R.drawable.action_right_people);
         mActionbar.setRightImageOnClickListener(this);
-        customization = (SessionCustomization) getArguments().getSerializable(Extras.EXTRA_CUSTOMIZATION);
-        sessionId = getArguments().getString(Extras.EXTRA_ACCOUNT);
-        sessionType = (SessionTypeEnum) getArguments().getSerializable(Extras.EXTRA_TYPE);
+
         View rootView=contentView.findViewById(R.id.messageActivityBottomLayout);
         Container container = new Container(activity, sessionId, sessionType, this);
         if (inputPanel == null) {

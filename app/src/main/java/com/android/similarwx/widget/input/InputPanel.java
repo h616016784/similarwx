@@ -36,7 +36,7 @@ import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.UIKitOptions;
 import com.netease.nim.uikit.business.ait.AitTextChangeListener;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
-import com.netease.nim.uikit.common.util.log.LogUtil;
+//import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nimlib.sdk.NIMClient;
@@ -803,7 +803,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         if (index != 0) {
             index--;
             if (index < 0 | index >= actions.size()) {
-                LogUtil.d(TAG, "request code out of actions' range");
+//                LogUtil.d(TAG, "request code out of actions' range");
                 return;
             }
             BaseAction action = actions.get(index);

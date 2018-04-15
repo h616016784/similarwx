@@ -20,6 +20,7 @@ import com.android.similarwx.fragment.NoticeFragment;
 import com.android.similarwx.fragment.ServiceFragment;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ import butterknife.Unbinder;
  */
 
 public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
+
+
     Unbinder unbinder;
     @BindView(R.id.main_search_iv)
     ImageView mainSearchIv;
@@ -52,6 +55,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private HomeAdapter adapter;
     private List<GroupMessageBean> mListData;
     GroupPresent groupPresent;
+    private EditDialogSimple editDialogSimple;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
         groupPresent=new GroupPresent();
+        editDialogSimple=new EditDialogSimple(this,null);
         initData();
         adapter=new HomeAdapter(R.layout.item_group,this,mListData);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
@@ -108,6 +113,15 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             FragmentUtils.navigateToNormalActivity(this,new NoticeFragment(),null);
         }else  if (position==1){//在线客服
             FragmentUtils.navigateToNormalActivity(this,new ServiceFragment(),null);
+        }else {
+            editDialogSimple.setTitle(mListData.get(position).getName());
+            editDialogSimple.show();
+            editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                @Override
+                public void onClickListener(String text) {
+                    FragmentUtils.navigateToNormalActivity(MainChartrActivity.this,new MIFragment(),null);
+                }
+            });
         }
     }
 }

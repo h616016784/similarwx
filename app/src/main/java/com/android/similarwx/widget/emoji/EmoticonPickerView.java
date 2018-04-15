@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 
 import com.android.similarwx.R;
 import com.netease.nim.uikit.common.ui.imageview.CheckedImageButton;
-import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.common.util.media.BitmapDecoder;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
@@ -105,7 +104,7 @@ public class EmoticonPickerView extends LinearLayout implements IEmoticonCategor
         if (listener != null) {
             this.listener = listener;
         } else {
-            LogUtil.i("sticker", "listener is null");
+//            LogUtil.i("sticker", "listener is null");
         }
     }
 
@@ -234,7 +233,7 @@ public class EmoticonPickerView extends LinearLayout implements IEmoticonCategor
 
     private void show() {
         if (listener == null) {
-            LogUtil.i("sticker", "show picker view when listener is null");
+//            LogUtil.i("sticker", "show picker view when listener is null");
         }
         if (!withSticker) {
             showEmojiView();

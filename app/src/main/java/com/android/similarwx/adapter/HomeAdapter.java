@@ -40,9 +40,9 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean,BaseViewHolde
             helper.setVisible(R.id.item_group_count_tv,false);
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
         }else{
-            helper.setVisible(R.id.item_group_count_tv,true);
-            Glide.with(context).load(item.getImageUrl()).
-            into((ImageView) helper.getView(R.id.item_group_iv));
+//            helper.setVisible(R.id.item_group_count_tv,true);
+//            Glide.with(context).load(item.getImageUrl()).
+//            into((ImageView) helper.getView(R.id.item_group_iv));
         }
     }
 }
