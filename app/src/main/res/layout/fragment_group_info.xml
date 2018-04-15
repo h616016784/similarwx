@@ -16,6 +16,7 @@
         android:layout_height="1dp"
         android:background="@color/divider"/>
     <LinearLayout
+        android:id="@+id/group_info_member_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -161,7 +162,6 @@
         android:id="@+id/group_info_rule_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

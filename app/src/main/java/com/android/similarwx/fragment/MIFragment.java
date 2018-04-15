@@ -17,6 +17,7 @@ import com.android.similarwx.adapter.MultipleItemQuickAdapter;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.dialog.RedDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.android.similarwx.widget.input.InputPanel;
@@ -29,6 +30,7 @@ import com.android.similarwx.widget.input.actions.LocationAction;
 import com.android.similarwx.widget.input.actions.RechargeAciton;
 import com.android.similarwx.widget.input.actions.RedAction;
 import com.android.similarwx.widget.input.actions.ServiceAction;
+import com.android.similarwx.widget.input.actions.TransferAciton;
 import com.android.similarwx.widget.input.actions.VideoAction;
 import com.android.similarwx.widget.input.module.Container;
 import com.android.similarwx.widget.input.module.ModuleProxy;
@@ -67,7 +69,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     protected String sessionId; // p2p对方Account或者群id
     protected SessionTypeEnum sessionType;
 
-    private int flag=0;
+    private int flag=1;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mi_layout;
@@ -83,9 +85,15 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             sessionType = (SessionTypeEnum) bundle.getSerializable(Extras.EXTRA_TYPE);
         }
         unbinder=ButterKnife.bind(this, contentView);
-        mActionbar.setRightImage(R.drawable.action_right_delete);
-        mActionbar.setRightImagePeople(R.drawable.action_right_people);
-        mActionbar.setRightImageOnClickListener(this);
+        if (flag==DELETE_THREE){
+            mActionbar.setRightImage(R.drawable.action_right_delete);
+            mActionbar.setRightImageOnClickListener(this);
+        }else if(flag==DELETE_GROUP_EIGHT){
+            mActionbar.setRightImage(R.drawable.action_right_delete);
+            mActionbar.setRightImagePeople(R.drawable.action_right_people);
+            mActionbar.setRightImageOnClickListener(this);
+            mActionbar.setRightImagePeopleOnClickListener(this);
+        }
 
         View rootView=contentView.findViewById(R.id.messageActivityBottomLayout);
         Container container = new Container(activity, sessionId, sessionType, this);
@@ -159,13 +167,21 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     // 操作面板集合
     protected List<BaseAction> getActionList() {
         List<BaseAction> actions = new ArrayList<>();
-        actions.add(new ImageAction());
-        actions.add(new RedAction());
-        actions.add(new ContactAdminAction());
-        actions.add(new BillAciton());
-        actions.add(new RechargeAciton());
-        actions.add(new CashAction());
-        actions.add(new ServiceAction());
+        if(flag==DELETE_GROUP_EIGHT){
+            actions.add(new ImageAction());
+            actions.add(new RedAction());
+            actions.add(new ContactAdminAction());
+            actions.add(new BillAciton());
+            actions.add(new RechargeAciton());
+            actions.add(new CashAction());
+            actions.add(new ServiceAction());
+        }else if (flag==DELETE_THREE){
+            actions.add(new ImageAction());
+            actions.add(new RedAction());
+            actions.add(new TransferAciton());
+        }
+
+
 //        actions.add(new VideoAction());
 //        actions.add(new LocationAction());
 
@@ -181,6 +197,9 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         switch (v.getId()){
             case R.id.right_image:
                 showDeleteDialog();
+                break;
+            case R.id.right_image_people:
+                FragmentUtils.navigateToNormalActivity(activity,new GroupInfoFragment(),null);
                 break;
         }
     }

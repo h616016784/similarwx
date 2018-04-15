@@ -12,7 +12,9 @@ import com.android.similarwx.R;
 import com.android.similarwx.adapter.ServiceAdapter;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.ServiceItemBean;
+import com.android.similarwx.utils.FragmentUtils;
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,14 @@ public class ServiceFragment extends BaseFragment {
         serviceRecycler.setLayoutManager(linearLayoutManager);
         serviceAdapter=new ServiceAdapter(R.layout.item_service,activity);
         serviceRecycler.setAdapter(serviceAdapter);
-
+        serviceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Bundle bundle=new Bundle();
+                bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
+                FragmentUtils.navigateToNormalActivity(activity,new MIFragment(),bundle);
+            }
+        });
         ImageView imageView=contentView.findViewById(R.id.imageView);
 //        Glide.with(this).load("http://p1.pstatp.com/large/166200019850062839d3").into(imageView);
     }

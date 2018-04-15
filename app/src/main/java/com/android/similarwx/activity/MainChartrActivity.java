@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -37,7 +38,6 @@ import butterknife.Unbinder;
 
 public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
 
-
     Unbinder unbinder;
     @BindView(R.id.main_search_iv)
     ImageView mainSearchIv;
@@ -70,6 +70,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+        hideKeyboard();
     }
 
     private void initData() {
@@ -92,7 +93,9 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 FragmentUtils.navigateToNormalActivity(this,new ExplainFragment(),null);
                 break;
             case R.id.main_rl_chart:
-                FragmentUtils.navigateToNormalActivity(this,new MIFragment(),null);
+                Bundle bundle=new Bundle();
+                bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
+                FragmentUtils.navigateToNormalActivity(this,new MIFragment(),bundle);
                 break;
             case R.id.main_my_chart:
                 FragmentUtils.navigateToNormalActivity(this,new MyFragment(),null);
@@ -119,9 +122,19 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                 @Override
                 public void onClickListener(String text) {
-                    FragmentUtils.navigateToNormalActivity(MainChartrActivity.this,new MIFragment(),null);
+                    Bundle bundle=new Bundle();
+                    bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_GROUP_EIGHT);
+                    FragmentUtils.navigateToNormalActivity(MainChartrActivity.this,new MIFragment(),bundle);
                 }
             });
+        }
+    }
+
+    @Override
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE); //得到InputMethodManager的实例
+        if (imm.isActive()) {//如果开启
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,InputMethodManager.HIDE_NOT_ALWAYS);//关闭软键盘，开启方法相同，这个方法是切换开启与关闭状态的
         }
     }
 }

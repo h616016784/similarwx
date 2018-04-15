@@ -87,6 +87,7 @@
     <string name="chart_contact_admin">联系群主</string>
     <string name="chart_bill">账单</string>
     <string name="chart_recharge">充值</string>
+    <string name="chart_transfer">转账</string>
     <string name="chart_cash">提现</string>
     <string name="chart_service">在线客服</string>
 
