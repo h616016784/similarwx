@@ -27,3 +27,15 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+// 保证dex_files文件中指定的文件都加载到Main Dex中
+afterEvaluate {
+    tasks.matching {
+        it.name.startsWith('dex')
+    }.each { dx ->
+        if (dx.additionalParameters == null) {
+            dx.additionalParameters = []
+        }
+        dx.additionalParameters += '--multi-dex'
+        dx.additionalParameters += "--main-dex-list=$projectDir/dex_files".toString()
+    }
+}

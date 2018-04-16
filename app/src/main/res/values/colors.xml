@@ -52,4 +52,12 @@
     <!-- 背景色 -->
     <color name="gray_f5">#f5f5f5</color>
     <color name="item_bg">#FFFFFF</color>
+
+    <color name="input_panel_text_color_757572">#757572</color>
+    <color name="color_gray_d9d9d9">#d9d9d9</color>
+    <color name="green_4DC0A4">#4DC0A4</color>
+    <color name="color_black_333333">#333333</color>
+    <!-- image picker -->
+    <color name="color_split_line_d9d9d9">#d9d9d9</color>
+    <color name="color_split_line_cccccc">#cccccc</color>
 </resources>

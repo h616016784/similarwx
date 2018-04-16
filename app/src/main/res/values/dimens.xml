@@ -59,6 +59,15 @@
     <!--第三方 消息输入框-->
     <dimen name="bottom_component_margin_vertical">8dip</dimen>
     <dimen name="bottom_component_margin_horizontal">6dip</dimen>
+    <!-- message -->
+    <dimen name="message_bottom_function_viewpager_height">220dp</dimen>
     <dimen name="input_panel_image_margin_bottom">3dip</dimen>
     <dimen name="input_panel_image_margin_top">20dip</dimen>
+    <dimen name="message_list_panel_jump_offset_y">30dip</dimen>
+
+    <dimen name="robot_message_text_max_width">200dp</dimen>
+    <dimen name="robot_message_image_width">200dp</dimen>
+    <dimen name="robot_message_link_width">200dp</dimen>
+    <dimen name="split_one_dip">1dip</dimen>
+    <dimen name="split_one_pixels">1px</dimen>
 </resources>
