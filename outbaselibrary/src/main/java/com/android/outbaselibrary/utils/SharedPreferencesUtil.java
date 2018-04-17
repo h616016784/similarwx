@@ -13,15 +13,17 @@ import java.util.Map;
  */
 
 public class SharedPreferencesUtil {
+    public static final String FILENAME="logininfo";
+    public static final String TEMP="temp";
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      *
      * @param key
      * @param object
      */
-    public static void put(Context context, String fileName, String key, Object object) {
+    public static void put(Context context,String key, Object object) {
 
-        SharedPreferences sp = context.getSharedPreferences(fileName,
+        SharedPreferences sp = context.getSharedPreferences(FILENAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
@@ -50,8 +52,8 @@ public class SharedPreferencesUtil {
      * @param defaultObject
      * @return
      */
-    public static Object get(Context context, String fileName, String key, Object defaultObject) {
-        SharedPreferences sp = context.getSharedPreferences(fileName,
+    public static Object get(Context context, String key, Object defaultObject) {
+        SharedPreferences sp = context.getSharedPreferences(FILENAME,
                 Context.MODE_PRIVATE);
 
         if (defaultObject instanceof String) {

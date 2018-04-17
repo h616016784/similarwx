@@ -3,6 +3,7 @@ package com.android.similarwx.present;
 import android.text.TextUtils;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.utils.SharedPreferencesUtil;
 import com.android.outbaselibrary.utils.StringUtil;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.User;
@@ -38,7 +39,9 @@ public class LoginPresent extends BasePresent {
      * @param user
      */
     public void saveUser(User user){
-
+        SharedPreferencesUtil.put(AppContext.getContext(),"account","");
+        SharedPreferencesUtil.put(AppContext.getContext(),"token","");
+        SharedPreferencesUtil.put(AppContext.getContext(),"appKey","");
     }
     private boolean isEmpty(String name, String password) {
         if (TextUtils.isEmpty(name)){
