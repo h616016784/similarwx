@@ -3,8 +3,8 @@ package com.android.similarwx.widget.emoji;
 import android.content.res.AssetManager;
 import android.util.Log;
 
-import com.netease.nim.uikit.api.NimUIKit;
-import com.netease.nim.uikit.common.util.file.FileUtil;
+import com.android.outbaselibrary.primary.AppContext;
+import com.android.similarwx.misdk.FileUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class StickerManager {
     }
 
     private void loadStickerCategory() {
-        AssetManager assetManager = NimUIKit.getContext().getResources().getAssets();
+        AssetManager assetManager = AppContext.getContext().getResources().getAssets();
         try {
             String[] files = assetManager.list("sticker");
             StickerCategory category;

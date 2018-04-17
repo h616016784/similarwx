@@ -14,7 +14,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.netease.nim.uikit.business.recent.TeamMemberAitHelper;
+
+import com.android.similarwx.misdk.TeamMemberAitHelper;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

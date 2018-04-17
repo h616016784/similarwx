@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.android.similarwx.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 
 /**
  * 每屏显示的贴图
@@ -68,10 +67,6 @@ public class StickerAdapter extends BaseAdapter {
 
         Glide.with(context)
                 .load(StickerManager.getInstance().getStickerUri(sticker.getCategory(), sticker.getName()))
-                .apply(new RequestOptions()
-                        .error(R.drawable.nim_default_img_failed)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .dontAnimate())
                 .into(viewHolder.imageView);
 
         viewHolder.descLabel.setVisibility(View.GONE);

@@ -16,9 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.similarwx.R;
-import com.netease.nim.uikit.common.ui.imageview.CheckedImageButton;
-import com.netease.nim.uikit.common.util.media.BitmapDecoder;
-import com.netease.nim.uikit.common.util.sys.ScreenUtil;
+import com.android.similarwx.misdk.BitmapDecoder;
+import com.android.similarwx.misdk.ScreenUtil;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -26,19 +26,15 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.android.similarwx.R;
+import com.android.similarwx.misdk.AitTextChangeListener;
+import com.android.similarwx.utils.Strings.StringUtil;
 import com.android.similarwx.widget.emoji.EmoticonPickerView;
 import com.android.similarwx.widget.emoji.IEmoticonSelectedListener;
 import com.android.similarwx.widget.emoji.MoonUtil;
 import com.android.similarwx.widget.input.actions.BaseAction;
 import com.android.similarwx.widget.input.module.Container;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
-import com.netease.nim.uikit.api.NimUIKit;
-import com.netease.nim.uikit.api.UIKitOptions;
-import com.netease.nim.uikit.business.ait.AitTextChangeListener;
-import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
 //import com.netease.nim.uikit.common.util.log.LogUtil;
-import com.netease.nim.uikit.common.util.string.StringUtil;
-import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.media.record.AudioRecorder;
 import com.netease.nimlib.sdk.media.record.IAudioRecordCallback;
@@ -286,9 +282,9 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
      * 发送“正在输入”通知
      */
     private void sendTypingCommand() {
-        if (container.account.equals(NimUIKit.getAccount())) {
-            return;
-        }
+//        if (container.account.equals(NimUIKit.getAccount())) {
+//            return;
+//        }
 
         if (container.sessionType == SessionTypeEnum.Team || container.sessionType == SessionTypeEnum.ChatRoom) {
             return;
@@ -656,8 +652,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
      */
     private void initAudioRecord() {
         if (audioMessageHelper == null) {
-            UIKitOptions options = NimUIKitImpl.getOptions();
-            audioMessageHelper = new AudioRecorder(container.activity, options.audioRecordType, options.audioRecordMaxTime, this);
         }
     }
 
@@ -665,10 +659,10 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
      * 开始语音录制
      */
     private void onStartAudioRecord() {
-        container.activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        audioMessageHelper.startRecord();
-        cancelled = false;
+//        container.activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+//                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        audioMessageHelper.startRecord();
+//        cancelled = false;
     }
 
     /**
@@ -711,13 +705,13 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
      * @param cancel
      */
     private void updateTimerTip(boolean cancel) {
-        if (cancel) {
-            timerTip.setText(R.string.recording_cancel_tip);
-            timerTipContainer.setBackgroundResource(R.drawable.nim_cancel_record_red_bg);
-        } else {
-            timerTip.setText(R.string.recording_cancel);
-            timerTipContainer.setBackgroundResource(0);
-        }
+//        if (cancel) {
+//            timerTip.setText(R.string.recording_cancel_tip);
+//            timerTipContainer.setBackgroundResource(R.drawable.nim_cancel_record_red_bg);
+//        } else {
+//            timerTip.setText(R.string.recording_cancel);
+//            timerTipContainer.setBackgroundResource(0);
+//        }
     }
 
     /**
@@ -779,16 +773,16 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     @Override
     public void onRecordReachedMaxTime(final int maxTime) {
         stopAudioRecordAnim();
-        EasyAlertDialogHelper.createOkCancelDiolag(container.activity, "", container.activity.getString(R.string.recording_max_time), false, new EasyAlertDialogHelper.OnDialogActionListener() {
-            @Override
-            public void doCancelAction() {
-            }
-
-            @Override
-            public void doOkAction() {
-                audioMessageHelper.handleEndRecord(true, maxTime);
-            }
-        }).show();
+//        EasyAlertDialogHelper.createOkCancelDiolag(container.activity, "", container.activity.getString(R.string.recording_max_time), false, new EasyAlertDialogHelper.OnDialogActionListener() {
+//            @Override
+//            public void doCancelAction() {
+//            }
+//
+//            @Override
+//            public void doOkAction() {
+//                audioMessageHelper.handleEndRecord(true, maxTime);
+//            }
+//        }).show();
     }
 
     public boolean isRecording() {

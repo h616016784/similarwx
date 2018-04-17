@@ -25,13 +25,10 @@ import com.android.similarwx.widget.input.actions.BaseAction;
 import com.android.similarwx.widget.input.actions.BillAciton;
 import com.android.similarwx.widget.input.actions.CashAction;
 import com.android.similarwx.widget.input.actions.ContactAdminAction;
-import com.android.similarwx.widget.input.actions.ImageAction;
-import com.android.similarwx.widget.input.actions.LocationAction;
 import com.android.similarwx.widget.input.actions.RechargeAciton;
 import com.android.similarwx.widget.input.actions.RedAction;
 import com.android.similarwx.widget.input.actions.ServiceAction;
 import com.android.similarwx.widget.input.actions.TransferAciton;
-import com.android.similarwx.widget.input.actions.VideoAction;
 import com.android.similarwx.widget.input.module.Container;
 import com.android.similarwx.widget.input.module.ModuleProxy;
 import com.android.similarwx.widget.input.sessions.Extras;
@@ -168,7 +165,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     protected List<BaseAction> getActionList() {
         List<BaseAction> actions = new ArrayList<>();
         if(flag==DELETE_GROUP_EIGHT){
-            actions.add(new ImageAction());
+//            actions.add(new ImageAction());
             actions.add(new RedAction());
             actions.add(new ContactAdminAction());
             actions.add(new BillAciton());
@@ -176,7 +173,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             actions.add(new CashAction());
             actions.add(new ServiceAction());
         }else if (flag==DELETE_THREE){
-            actions.add(new ImageAction());
+//            actions.add(new ImageAction());
             actions.add(new RedAction());
             actions.add(new TransferAciton());
         }

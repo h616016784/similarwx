@@ -3,7 +3,7 @@ package com.android.similarwx.widget.emoji;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.netease.nim.uikit.api.NimUIKit;
+import com.android.outbaselibrary.primary.AppContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,7 +102,7 @@ public class StickerCategory implements Serializable {
 
     public List<StickerItem> loadStickerData() {
         List<StickerItem> stickers = new ArrayList<>();
-        AssetManager assetManager = NimUIKit.getContext().getResources().getAssets();
+        AssetManager assetManager = AppContext.getResources().getAssets();
         try {
             String[] files = assetManager.list("sticker/" + name);
             for (String file : files) {

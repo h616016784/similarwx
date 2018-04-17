@@ -60,6 +60,8 @@ dependencies {
     compile 'com.netease.nimlib:avchat:4.4.0'
     // 全文检索服务需要
     compile 'com.netease.nimlib:lucene:4.4.0'
+    // 聊天室需要
+    compile 'com.netease.nimlib:chatroom:4.4.0'
     /*依赖注入*/
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -71,6 +73,8 @@ dependencies {
     // add library
     compile 'org.greenrobot:greendao-generator:3.0.0'
     implementation project(':outbaselibrary')
+
     /*baserecyclerview*/
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    compile 'com.alibaba:fastjson:1.2.46'
 }

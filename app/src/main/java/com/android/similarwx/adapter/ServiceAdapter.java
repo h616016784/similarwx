@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.ServiceItemBean;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -17,14 +16,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 public class ServiceAdapter extends BaseQuickAdapter<ServiceItemBean,BaseViewHolder> {
     private Context context;
-    RequestOptions options;
     public ServiceAdapter(int layoutResId,Context context) {
         super(layoutResId);
         this.context=context;
-        options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.pic_1_cs)
-                .error(R.drawable.pic_1_cs);
     }
 
     @Override
