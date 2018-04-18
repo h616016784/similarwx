@@ -2,9 +2,11 @@ package com.android.similarwx.base;
 
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 
 import com.android.outbaselibrary.BaseApplication;
 import com.android.outbaselibrary.utils.LogUtil;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
@@ -48,6 +50,17 @@ public class AppApplication extends BaseApplication {
     }
     // 如果已经存在用户登录信息，返回LoginInfo，否则返回null即可
     private LoginInfo loginInfo() {
+        String accid;
+        String token;
+        try {
+            accid=(String) SharePreferenceUtil.getObject(this,"accid","无");
+            token=(String) SharePreferenceUtil.getObject(this,"token","无");
+        }catch (Exception e){
+            return null;
+        }
+
+        if (!TextUtils.isEmpty(accid)&&!TextUtils.isEmpty(token))
+            return  new LoginInfo(accid,token);
         return null;
     }
     // 如果返回值为 null，则全部使用默认参数。

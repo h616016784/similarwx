@@ -3,12 +3,17 @@ package com.android.similarwx.present;
 import android.text.TextUtils;
 
 import com.android.outbaselibrary.primary.AppContext;
-import com.android.outbaselibrary.utils.SharedPreferencesUtil;
+import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.StringUtil;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.RegisterViewInterface;
+import com.android.similarwx.utils.SharePreferenceUtil;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 
 /**
  * Created by Administrator on 2018/3/31.
@@ -31,6 +36,7 @@ public class LoginPresent extends BasePresent {
             return;
         }
         User user=new User();
+        user.setName(name);
         loginViewInterface.loginScucces(user);
     }
 
@@ -39,10 +45,35 @@ public class LoginPresent extends BasePresent {
      * @param user
      */
     public void saveUser(User user){
-        SharedPreferencesUtil.put(AppContext.getContext(),"account","");
-        SharedPreferencesUtil.put(AppContext.getContext(),"token","");
-        SharedPreferencesUtil.put(AppContext.getContext(),"appKey","");
+        SharePreferenceUtil.putObject(AppContext.getContext(),"accid",user.getName());
+        SharePreferenceUtil.putObject(AppContext.getContext(),"token","dad1a5e70865e9c508dca84712a81d29");
+        //云信登录
+        LoginInfo loginInfo=new LoginInfo(user.getName(),"dad1a5e70865e9c508dca84712a81d29");
+        doYunXinLogin(loginInfo);
     }
+
+    private void doYunXinLogin(LoginInfo loginInfo) {
+        RequestCallback<LoginInfo> callback=new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo param) {
+                Log.e("onSuccess",param.getAccount()+","+param.getAppKey()+","+param.getToken());
+            }
+
+            @Override
+            public void onFailed(int code) {
+                Log.e("onFailed","错误码："+code);
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                Log.e("onException",exception.toString());
+            }
+        };
+
+        NIMClient.getService(AuthService.class).login(loginInfo).setCallback(callback);
+    }
+
+
     private boolean isEmpty(String name, String password) {
         if (TextUtils.isEmpty(name)){
             loginViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_acc_notnull));
