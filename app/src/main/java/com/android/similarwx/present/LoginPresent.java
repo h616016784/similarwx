@@ -6,6 +6,7 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.StringUtil;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.RegisterViewInterface;
@@ -45,8 +46,8 @@ public class LoginPresent extends BasePresent {
      * @param user
      */
     public void saveUser(User user){
-        SharePreferenceUtil.putObject(AppContext.getContext(),"accid",user.getName());
-        SharePreferenceUtil.putObject(AppContext.getContext(),"token","dad1a5e70865e9c508dca84712a81d29");
+        SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getName());
+        SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"dad1a5e70865e9c508dca84712a81d29");
         //云信登录
         LoginInfo loginInfo=new LoginInfo(user.getName(),"dad1a5e70865e9c508dca84712a81d29");
         doYunXinLogin(loginInfo);
@@ -57,6 +58,9 @@ public class LoginPresent extends BasePresent {
             @Override
             public void onSuccess(LoginInfo param) {
                 Log.e("onSuccess",param.getAccount()+","+param.getAppKey()+","+param.getToken());
+
+                String accid= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ACCID,"paopaotest1");
+                NIMClient.getService(AuthService.class).openLocalCache(accid);
             }
 
             @Override

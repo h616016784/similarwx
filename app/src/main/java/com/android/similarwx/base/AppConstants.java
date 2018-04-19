@@ -22,4 +22,20 @@ public class AppConstants extends BaseConstants {
     public static final int REQUEST_CODE_CHOOSE_IMAGE = 104;
 
     public static final int REQUEST_CODE_CROP_IMAGE = 105;
+
+    /**
+     *servicefragemnt 标签
+     */
+
+    /**
+     * 聊天通用标签
+     */
+    public static final String CHAT_CUSTOMIZATION = "customization";
+    public static final String CHAT_ACCOUNT_ID = "accountId";
+    public static final String CHAT_TYPE = "messageType";
+    /**
+     * 用户标签
+     */
+    public static final String USER_ACCID = "accId";
+    public static final String USER_TOKEN = "token";
 }

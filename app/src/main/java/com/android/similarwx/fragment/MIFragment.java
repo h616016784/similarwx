@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,10 +15,12 @@ import com.android.similarwx.R;
 import com.android.similarwx.adapter.BaseDecoration;
 import com.android.similarwx.adapter.MIMultiItemQuickAdapter;
 import com.android.similarwx.adapter.MultipleItemQuickAdapter;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.RedDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.android.similarwx.widget.input.InputPanel;
@@ -34,6 +37,10 @@ import com.android.similarwx.widget.input.module.ModuleProxy;
 import com.android.similarwx.widget.input.sessions.Extras;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -66,7 +73,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     protected String sessionId; // p2p对方Account或者群id
     protected SessionTypeEnum sessionType;
 
-    private int flag=1;
+    private int flag=DELETE_GROUP_EIGHT;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mi_layout;
@@ -78,8 +85,9 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         if (bundle!=null){
             flag=bundle.getInt(MIFLAG);
             customization = (SessionCustomization) bundle.getSerializable(Extras.EXTRA_CUSTOMIZATION);
-            sessionId = bundle.getString(Extras.EXTRA_ACCOUNT);
-            sessionType = (SessionTypeEnum) bundle.getSerializable(Extras.EXTRA_TYPE);
+            sessionId = bundle.getString(AppConstants.CHAT_ACCOUNT_ID);
+//            sessionType = (SessionTypeEnum) bundle.getSerializable(Extras.EXTRA_TYPE);
+            sessionType = (SessionTypeEnum) bundle.getSerializable(AppConstants.CHAT_TYPE);
         }
         unbinder=ButterKnife.bind(this, contentView);
         if (flag==DELETE_THREE){
@@ -142,6 +150,23 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         MultipleItem multipleItem2=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG_SYS, MultipleItem.IMG_SPAN_SIZE);
         multipleItem2.setContent("啊格加入了该群！");
         list.add(multipleItem2);
+
+        NIMClient.getService(MsgService.class).queryMessageList(sessionId,sessionType,0,20).setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> param) {
+                Log.e("onSuccess",param.toString());
+            }
+
+            @Override
+            public void onFailed(int code) {
+
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+
+            }
+        });
         return list;
     }
 
@@ -231,7 +256,8 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
      */
     @Override
     public boolean sendMessage(IMMessage msg) {
-        return false;
+        NIMClient.getService(MsgService.class).sendMessage(msg,false);
+        return true;
     }
 
     @Override

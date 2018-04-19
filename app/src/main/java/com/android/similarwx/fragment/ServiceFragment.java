@@ -10,11 +10,13 @@ import android.widget.ImageView;
 
 import com.android.similarwx.R;
 import com.android.similarwx.adapter.ServiceAdapter;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.ServiceItemBean;
 import com.android.similarwx.utils.FragmentUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +52,11 @@ public class ServiceFragment extends BaseFragment {
         serviceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ServiceItemBean bean=serviceAdapter.getData().get(position);
                 Bundle bundle=new Bundle();
                 bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
+                bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
+                bundle.putString(AppConstants.CHAT_ACCOUNT_ID,"paopaotest2");
                 FragmentUtils.navigateToNormalActivity(activity,new MIFragment(),bundle);
             }
         });
