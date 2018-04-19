@@ -2,25 +2,18 @@ package com.android.similarwx.fragment;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
-import com.android.similarwx.adapter.BaseDecoration;
-import com.android.similarwx.adapter.MIMultiItemQuickAdapter;
 import com.android.similarwx.adapter.MultipleItemQuickAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.utils.FragmentUtils;
-import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.RedDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.android.similarwx.widget.input.InputPanel;
@@ -39,7 +32,6 @@ import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -49,7 +41,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -139,22 +130,26 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
 
     }
 
-    private List<MultipleItem> initData() {
-        List<MultipleItem> list = new ArrayList<>();
-        MultipleItem multipleItem=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG, MultipleItem.IMG_SPAN_SIZE);
-        multipleItem.setContent("这是我的第一次谈话记录，啊哈哈哈哈哈哈哈哈哈哈哈");
-        list.add(multipleItem);
-        MultipleItem multipleItem1=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG_RED, MultipleItem.IMG_SPAN_SIZE);
-        multipleItem1.setContent("16-2");
-        list.add(multipleItem1);
-        MultipleItem multipleItem2=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG_SYS, MultipleItem.IMG_SPAN_SIZE);
-        multipleItem2.setContent("啊格加入了该群！");
-        list.add(multipleItem2);
+    private void fetchLocalData() {
+
+//        MultipleItem multipleItem=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG, MultipleItem.IMG_SPAN_SIZE);
+//        multipleItem.setContent("这是我的第一次谈话记录，啊哈哈哈哈哈哈哈哈哈哈哈");
+//        list.add(multipleItem);
+//        MultipleItem multipleItem1=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG_RED, MultipleItem.IMG_SPAN_SIZE);
+//        multipleItem1.setContent("16-2");
+//        list.add(multipleItem1);
+//        MultipleItem multipleItem2=new MultipleItem(MultipleItem.ITEM_VIEW_TYPE_MSG_SYS, MultipleItem.IMG_SPAN_SIZE);
+//        multipleItem2.setContent("啊格加入了该群！");
+//        list.add(multipleItem2);
 
         NIMClient.getService(MsgService.class).queryMessageList(sessionId,sessionType,0,20).setCallback(new RequestCallback<List<IMMessage>>() {
             @Override
             public void onSuccess(List<IMMessage> param) {
-                Log.e("onSuccess",param.toString());
+                List<MultipleItem> list = new ArrayList<>();
+                for (IMMessage imMessage:param){
+                    list.add(new MultipleItem(imMessage));
+                    multipleItemAdapter.addData(list);
+                }
             }
 
             @Override
@@ -167,13 +162,11 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
 
             }
         });
-        return list;
     }
 
     @Override
     protected void fetchData() {
-        data= initData();
-        multipleItemAdapter.addData(data);
+        fetchLocalData();
     }
 
     /**
@@ -256,7 +249,11 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
      */
     @Override
     public boolean sendMessage(IMMessage msg) {
-        NIMClient.getService(MsgService.class).sendMessage(msg,false);
+        if(msg!=null){
+            NIMClient.getService(MsgService.class).sendMessage(msg,false);
+            multipleItemAdapter.addData(new MultipleItem(msg));
+        }
+
         return true;
     }
 
