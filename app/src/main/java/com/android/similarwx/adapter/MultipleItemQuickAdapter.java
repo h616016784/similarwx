@@ -6,6 +6,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.beans.MultipleItem;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 
 import java.util.List;
 
@@ -18,27 +19,23 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
     public MultipleItemQuickAdapter(Context context,List<MultipleItem> data) {
         super(data);
         this.context=context;
-        addItemType(MultipleItem.ITEM_VIEW_TYPE_MSG, R.layout.item_mitext_type);
-        addItemType(MultipleItem.ITEM_VIEW_TYPE_MSG_RED,R.layout.item_red_type);
-        addItemType(MultipleItem.ITEM_VIEW_TYPE_MSG_SYS,R.layout.item_sys_type);
+        addItemType(MultipleItem.ITEM_TEXT, R.layout.item_mitext_type);
+        addItemType(MultipleItem.ITEM_IMAGE, R.layout.item_mitext_type);
+        addItemType(MultipleItem.ITEM_AUDIO,R.layout.item_red_type);
+        addItemType(MultipleItem.ITEM_NOTIFICATION,R.layout.item_sys_type);
+        addItemType(MultipleItem.ITEM_TIP,R.layout.item_sys_type);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
         switch (helper.getItemViewType()) {
-            case MultipleItem.ITEM_VIEW_TYPE_MSG:
+            case MultipleItem.ITEM_TEXT:
                 helper.setText(R.id.item_mitext_left_content, item.getContent());
                 break;
-            case MultipleItem.ITEM_VIEW_TYPE_MSG_RED:
-                helper.setText(R.id.item_red_packet_count_tv, item.getContent());
-                helper.addOnClickListener(R.id.item_red_packet_rl);
-                break;
-            case MultipleItem.ITEM_VIEW_TYPE_MSG_SYS:
-                helper.setText(R.id.item_sys_tv, item.getContent());
+            case MultipleItem.ITEM_IMAGE:
+                helper.setText(R.id.item_mitext_left_content, item.getContent());
                 break;
         }
-
-
     }
 
 }

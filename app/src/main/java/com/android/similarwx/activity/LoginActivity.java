@@ -3,6 +3,7 @@ package com.android.similarwx.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.android.similarwx.fragment.RegistFragment;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,6 +70,9 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
                 break;
             case R.id.login_login://登录
+//                Log.e("消息信息","文本："+MsgTypeEnum.text.getValue()+"图片："+MsgTypeEnum.image.getValue()+"视频："+MsgTypeEnum.audio.getValue()
+//                        +"通知："+MsgTypeEnum.notification.getValue()+"tip:"+MsgTypeEnum.tip.getValue());
+
                 loginError.setVisibility(View.GONE);
                 String name = loginAccount.getText().toString();
                 String password = loginPassword.getText().toString();
