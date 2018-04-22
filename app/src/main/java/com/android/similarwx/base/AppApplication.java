@@ -53,8 +53,8 @@ public class AppApplication extends BaseApplication {
         String accid;
         String token;
         try {
-            accid=(String) SharePreferenceUtil.getObject(this,"accid","无");
-            token=(String) SharePreferenceUtil.getObject(this,"token","无");
+            accid=(String) SharePreferenceUtil.getObject(this,AppConstants.USER_ACCID,"无");
+            token=(String) SharePreferenceUtil.getObject(this,AppConstants.USER_TOKEN,"无");
         }catch (Exception e){
             return null;
         }

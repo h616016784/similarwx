@@ -8,7 +8,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/item_mi_image_left_iv"
+            android:id="@+id/item_mitext_left_iv"
             android:layout_marginTop="@dimen/distance_small"
             android:layout_marginLeft="@dimen/distance_small"
             android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
             android:src="@drawable/icon_sex_male"/>
 
         <ImageView
-            android:id="@+id/item_mi_image_right_iv"
+            android:id="@+id/item_mitext_right_iv"
             android:layout_marginTop="@dimen/distance_small"
             android:layout_marginLeft="@dimen/distance_small"
             android:layout_width="wrap_content"
@@ -26,15 +26,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/item_mi_image_left_iv"
-            android:layout_toLeftOf="@id/item_mi_image_right_iv"
+            android:layout_toRightOf="@id/item_mitext_left_iv"
+            android:layout_toLeftOf="@id/item_mitext_right_iv"
             android:layout_marginTop="@dimen/distance_small"
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/item_mi_image_left_title"
+                    android:id="@+id/item_mitext_left_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/distance_small"
@@ -42,7 +42,7 @@
                     android:text="啊好"
                     />
                 <TextView
-                    android:id="@+id/item_mi_image_right_title"
+                    android:id="@+id/item_mitext_right_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/distance_small"
@@ -54,19 +54,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/item_mi_image_left_pic"
+                <TextView
+                    android:id="@+id/item_mitext_left_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/distance_small"
-                    android:src="@drawable/login_test_logo"
+                    android:background="@drawable/mi_chatfrom_bg_normal"
+                    android:textColor="@color/black"
                     />
-                <ImageView
-                    android:id="@+id/item_mi_image_right_pic"
+                <TextView
+                    android:id="@+id/item_mitext_right_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/distance_small"
-                    android:src="@drawable/login_test_logo"
+                    android:background="@drawable/ease_chatfrom_bg_normal_right"
+                    android:text=""
+                    android:textColor="@color/black"
                     android:layout_alignParentRight="true"
                     />
             </RelativeLayout>
@@ -81,11 +84,8 @@
                 android:id="@+id/item_mitext_left_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/distance_small"
                 android:src="@drawable/login_test_logo"
                 android:layout_marginLeft="@dimen/distance_small"/>-->
         </LinearLayout>
-
-
     </RelativeLayout>
 </LinearLayout>

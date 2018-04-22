@@ -63,11 +63,12 @@
                     android:textColor="@color/black"
                     />
                 <TextView
-                    android:id="@+id/item_mitext_ight_content"
+                    android:id="@+id/item_mitext_right_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/distance_small"
                     android:background="@drawable/ease_chatfrom_bg_normal_right"
+                    android:text=""
                     android:textColor="@color/black"
                     android:layout_alignParentRight="true"
                     />
@@ -86,7 +87,5 @@
                 android:src="@drawable/login_test_logo"
                 android:layout_marginLeft="@dimen/distance_small"/>-->
         </LinearLayout>
-
-
     </RelativeLayout>
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.android.similarwx.beans;
 
+import android.text.TextUtils;
+
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -16,6 +18,18 @@ public class MultipleItem extends  BaseBean implements MultiItemEntity {
 
     private int itemType;
     private int spanSize;
+
+    public String getName() {
+        if (TextUtils.isEmpty(name))
+            return "测试11";
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String name;
 
     public IMMessage getImMessage() {
         return imMessage;
