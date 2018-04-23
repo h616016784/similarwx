@@ -69,6 +69,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.requestFocus();
         adapter.setOnItemClickListener(this);
         hideKeyboard();
     }

@@ -211,5 +211,8 @@ public class Actionbar extends FrameLayout {
         setRightText(null);
         mRightLayout.setOnClickListener(null);
     }
+    public TextView getTitleView(){
+        return mTitleView;
+    }
 
 }

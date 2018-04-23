@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
@@ -73,6 +75,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     private int flag=DELETE_GROUP_EIGHT;
 
     Observer<List<IMMessage>> incomingMessageObserver;
+    IMMessage author;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mi_layout;
@@ -88,6 +91,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             sessionType = (SessionTypeEnum) bundle.getSerializable(AppConstants.CHAT_TYPE);
         }
         unbinder=ButterKnife.bind(this, contentView);
+
         if (flag==DELETE_THREE){
             mActionbar.setRightImage(R.drawable.action_right_delete);
             mActionbar.setRightImageOnClickListener(this);
@@ -97,7 +101,6 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             mActionbar.setRightImageOnClickListener(this);
             mActionbar.setRightImagePeopleOnClickListener(this);
         }
-
         View rootView=contentView.findViewById(R.id.messageActivityBottomLayout);
         Container container = new Container(activity, sessionId, sessionType, this);
         if (inputPanel == null) {
@@ -111,7 +114,6 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(activity);
         miRecyclerView.setLayoutManager(linearLayoutManager);
         miRecyclerView.setAdapter(multipleItemAdapter);
-        miRecyclerView.requestFocus();
         multipleItemAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -119,6 +121,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             }
         });
         multipleItemAdapter.setUpFetchEnable(true);
+        multipleItemAdapter.setStartUpFetchPosition(1);
         multipleItemAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
             @Override
             public void onUpFetch() {
@@ -127,6 +130,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
                 multipleItemAdapter.setUpFetching(false);
             }
         });
+        miRecyclerView.requestFocus();
         //注册云信消息接受者
         incomingMessageObserver =new Observer<List<IMMessage>>() {
             @Override
@@ -140,6 +144,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
                 }
             }
         };
+        mActionbar.getTitleView().requestFocus();
         NIMClient.getService(MsgServiceObserve.class).observeReceiveMessage(incomingMessageObserver,true);
     }
 
@@ -153,19 +158,21 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     }
 
     private void fetchLocalData() {
-        IMMessage author=MessageBuilder.createTextMessage(sessionId,sessionType,"");
+        author=MessageBuilder.createTextMessage(sessionId,sessionType,"");
         NIMClient.getService(MsgService.class).queryMessageListEx(author, QueryDirectionEnum.QUERY_OLD,
                 20, true).setCallback(new RequestCallback<List<IMMessage>>() {
             @Override
             public void onSuccess(List<IMMessage> param) {
-                List<MultipleItem> list=new ArrayList<>();
-                for (IMMessage imMessage:param){
-                    MultipleItem multipleItem=new MultipleItem(imMessage);
-                    multipleItem.setName("测试11");
-                    list.add(multipleItem);
+                if (param!=null && param.size()>0){
+                    author=param.get(0);
+                    List<MultipleItem> list=new ArrayList<>();
+                    for (IMMessage imMessage:param){
+                        MultipleItem multipleItem=new MultipleItem(imMessage);
+                        multipleItem.setName("测试11");
+                        list.add(multipleItem);
+                    }
+                    multipleItemAdapter.addData(list);
                 }
-                multipleItemAdapter.addData(list);
-
             }
 
             @Override
