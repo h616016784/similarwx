@@ -122,7 +122,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             }
         });
         multipleItemAdapter.setUpFetchEnable(true);
-        multipleItemAdapter.setStartUpFetchPosition(1);
+        multipleItemAdapter.setStartUpFetchPosition(2);
         multipleItemAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
             @Override
             public void onUpFetch() {
@@ -172,7 +172,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
                         multipleItem.setName("测试11");
                         list.add(multipleItem);
                     }
-                    multipleItemAdapter.addData(list);
+                    multipleItemAdapter.addData(0,list);
                 }
             }
 
