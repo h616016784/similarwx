@@ -66,6 +66,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
 
     private MultipleItemQuickAdapter multipleItemAdapter;
     private List<MultipleItem> data;
+
     protected InputPanel inputPanel;
     private SessionCustomization customization;
     // 聊天对象
