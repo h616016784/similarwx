@@ -30,9 +30,9 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
 
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
+        IMMessage imMessage=item.getImMessage();
         switch (helper.getItemViewType()) {
             case MultipleItem.ITEM_TEXT:
-                IMMessage imMessage=item.getImMessage();
                 if (imMessage.getDirect()== MsgDirectionEnum.Out){
                     helper.setVisible(R.id.item_mitext_right_iv,false);helper.setVisible(R.id.item_mitext_left_iv,true);
                     helper.setVisible(R.id.item_mitext_right_title,false);helper.setVisible(R.id.item_mitext_left_title,true);
@@ -48,7 +48,19 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                 }
                 break;
             case MultipleItem.ITEM_IMAGE:
-                helper.setText(R.id.item_mitext_left_content, item.getContent());
+                if (imMessage.getDirect()== MsgDirectionEnum.Out){
+                    helper.setVisible(R.id.item_mitext_right_iv,false);helper.setVisible(R.id.item_mitext_left_iv,true);
+                    helper.setVisible(R.id.item_mitext_right_title,false);helper.setVisible(R.id.item_mitext_left_title,true);
+                    helper.setVisible(R.id.item_mitext_right_content,false);helper.setVisible(R.id.item_mitext_left_content,true);
+                    helper.setText(R.id.item_mitext_left_title,item.getName());
+                    helper.setText(R.id.item_mitext_left_content,item.getImMessage().getContent());
+                }else {
+                    helper.setVisible(R.id.item_mi_image_right_iv,true);helper.setVisible(R.id.item_mi_image_left_iv,false);
+                    helper.setVisible(R.id.item_mi_image_right_title,true);helper.setVisible(R.id.item_mi_image_left_title,false);
+                    helper.setVisible(R.id.item_mi_image_right_content,true);helper.setVisible(R.id.item_mi_image_left_content,false);
+                    helper.setText(R.id.item_mi_image_right_title,item.getName());
+//                    helper.setText(R.id.item_mi_image_right_content,item.getImMessage().);
+                }
                 break;
         }
     }

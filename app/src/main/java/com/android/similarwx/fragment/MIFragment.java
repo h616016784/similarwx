@@ -1,6 +1,7 @@
 package com.android.similarwx.fragment;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -208,7 +209,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     protected List<BaseAction> getActionList() {
         List<BaseAction> actions = new ArrayList<>();
         if(flag==DELETE_GROUP_EIGHT){
-//            actions.add(new ImageAction());
+            actions.add(new ImageAction());
             actions.add(new RedAction());
             actions.add(new ContactAdminAction());
             actions.add(new BillAciton());
@@ -217,13 +218,9 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             actions.add(new ServiceAction());
         }else if (flag==DELETE_THREE){
             actions.add(new ImageAction());
-            actions.add(new RedAction());
+//            actions.add(new RedAction());
             actions.add(new TransferAciton());
         }
-
-
-//        actions.add(new VideoAction());
-//        actions.add(new LocationAction());
 
         if (customization != null && customization.actions != null) {
             actions.addAll(customization.actions);
@@ -256,6 +253,11 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         twoButtonDialogBuilder.create().show();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        inputPanel.onActivityResult(requestCode, resultCode, data);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
