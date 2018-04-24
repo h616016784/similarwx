@@ -25,6 +25,7 @@ import com.android.similarwx.widget.input.actions.BaseAction;
 import com.android.similarwx.widget.input.actions.BillAciton;
 import com.android.similarwx.widget.input.actions.CashAction;
 import com.android.similarwx.widget.input.actions.ContactAdminAction;
+import com.android.similarwx.widget.input.actions.ImageAction;
 import com.android.similarwx.widget.input.actions.RechargeAciton;
 import com.android.similarwx.widget.input.actions.RedAction;
 import com.android.similarwx.widget.input.actions.ServiceAction;
@@ -215,7 +216,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             actions.add(new CashAction());
             actions.add(new ServiceAction());
         }else if (flag==DELETE_THREE){
-//            actions.add(new ImageAction());
+            actions.add(new ImageAction());
             actions.add(new RedAction());
             actions.add(new TransferAciton());
         }
