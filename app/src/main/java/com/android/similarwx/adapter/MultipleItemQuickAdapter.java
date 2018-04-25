@@ -1,15 +1,20 @@
 package com.android.similarwx.adapter;
 
 import android.content.Context;
+import android.widget.ImageView;
 
 import com.android.similarwx.R;
+import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.MultipleItem;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.Gson;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -49,17 +54,30 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                 break;
             case MultipleItem.ITEM_IMAGE:
                 if (imMessage.getDirect()== MsgDirectionEnum.Out){
-                    helper.setVisible(R.id.item_mitext_right_iv,false);helper.setVisible(R.id.item_mitext_left_iv,true);
-                    helper.setVisible(R.id.item_mitext_right_title,false);helper.setVisible(R.id.item_mitext_left_title,true);
-                    helper.setVisible(R.id.item_mitext_right_content,false);helper.setVisible(R.id.item_mitext_left_content,true);
-                    helper.setText(R.id.item_mitext_left_title,item.getName());
-                    helper.setText(R.id.item_mitext_left_content,item.getImMessage().getContent());
+
+                    helper.setVisible(R.id.item_mi_image_right_iv,false);helper.setVisible(R.id.item_mi_image_left_iv,true);
+                    helper.setVisible(R.id.item_mi_image_right_title,false);helper.setVisible(R.id.item_mi_image_left_title,true);
+                    helper.setVisible(R.id.item_mi_image_right_content,false);helper.setVisible(R.id.item_mi_image_left_content,true);
+                    helper.setText(R.id.item_mi_image_left_title,item.getName());
+                    String s=imMessage.getAttachment().toJson(false);
+                    Gson gson=new Gson();
+                    CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
+                    String imagePath=charImageBean.getPath();
+                    Glide.with(context)
+                            .load(new File(imagePath))
+                            .error(R.drawable.nim_default_img_failed)
+                            .into((ImageView) helper.getView(R.id.item_mi_image_left_content));
                 }else {
                     helper.setVisible(R.id.item_mi_image_right_iv,true);helper.setVisible(R.id.item_mi_image_left_iv,false);
                     helper.setVisible(R.id.item_mi_image_right_title,true);helper.setVisible(R.id.item_mi_image_left_title,false);
                     helper.setVisible(R.id.item_mi_image_right_content,true);helper.setVisible(R.id.item_mi_image_left_content,false);
                     helper.setText(R.id.item_mi_image_right_title,item.getName());
-//                    helper.setText(R.id.item_mi_image_right_content,item.getImMessage().);
+
+                    String s=imMessage.getAttachment().toJson(false);
+                    Gson gson=new Gson();
+                    CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
+                    String imagePath=charImageBean.getPath();
+                    Glide.with(context).load(new File(imagePath)).into((ImageView) helper.getView(R.id.item_mi_image_right_content));
                 }
                 break;
         }

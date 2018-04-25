@@ -6,7 +6,10 @@ import android.text.TextUtils;
 
 import com.android.outbaselibrary.BaseApplication;
 import com.android.outbaselibrary.utils.LogUtil;
+import com.android.similarwx.misdk.ScreenUtil;
+import com.android.similarwx.misdk.StorageUtil;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.widget.emoji.StickerManager;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
@@ -23,7 +26,7 @@ public class AppApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         mInstance=this;
-        initYunXinSDK();
+        initYunXinSDK(this);
     }
 
     @Override
@@ -33,10 +36,18 @@ public class AppApplication extends BaseApplication {
         MultiDex.install(this);
     }
 
-    private void initYunXinSDK() {
+    private void initYunXinSDK(Context context) {
         NIMClient.init(this,loginInfo(),options());
+        // init tools
+        StorageUtil.init(context, options().sdkStorageRootPath);
+        ScreenUtil.init(context);
+
+//        if (options()) {
+//            StickerManager.getInstance().init();
+//        }
         // ... your codes
         if (NIMUtil.isMainProcess(this)) {
+
             // 注意：以下操作必须在主进程中进行
             // 1、UI相关初始化操作
             // 2、相关Service调用
@@ -65,6 +76,6 @@ public class AppApplication extends BaseApplication {
     }
     // 如果返回值为 null，则全部使用默认参数。
     private SDKOptions options() {
-        return null;
+        return SDKOptions.DEFAULT;
     }
 }

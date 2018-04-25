@@ -58,6 +58,7 @@
                     android:id="@+id/item_mi_image_left_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:src="@drawable/nim_default_img_failed"
                     android:layout_marginLeft="@dimen/distance_small"
                     />
                 <ImageView
@@ -65,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/distance_small"
-                    android:text=""
+                    android:src="@drawable/nim_default_img_failed"
                     android:layout_alignParentRight="true"
                     />
             </RelativeLayout>
