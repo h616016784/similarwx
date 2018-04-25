@@ -60,6 +60,8 @@ dependencies {
     compile 'com.netease.nimlib:avchat:4.4.0'
     // 全文检索服务需要
     compile 'com.netease.nimlib:lucene:4.4.0'
+    // 互动白板服务需要
+    compile 'com.netease.nimlib:rts:4.4.0'
     // 聊天室需要
     compile 'com.netease.nimlib:chatroom:4.4.0'
     /*依赖注入*/

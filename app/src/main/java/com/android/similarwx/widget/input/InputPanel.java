@@ -28,6 +28,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.android.similarwx.R;
 import com.android.similarwx.misdk.AitTextChangeListener;
 import com.android.similarwx.utils.Strings.StringUtil;
+import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.emoji.EmoticonPickerView;
 import com.android.similarwx.widget.emoji.IEmoticonSelectedListener;
 import com.android.similarwx.widget.emoji.MoonUtil;
@@ -652,6 +653,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
      */
     private void initAudioRecord() {
         if (audioMessageHelper == null) {
+            audioMessageHelper = new AudioRecorder(container.activity, RecordType.AAC,  AudioRecorder.DEFAULT_MAX_AUDIO_RECORD_TIME_SECOND, this);
         }
     }
 
@@ -659,10 +661,10 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
      * 开始语音录制
      */
     private void onStartAudioRecord() {
-//        container.activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-//                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//        audioMessageHelper.startRecord();
-//        cancelled = false;
+        container.activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        audioMessageHelper.startRecord();
+        cancelled = false;
     }
 
     /**
@@ -705,13 +707,13 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
      * @param cancel
      */
     private void updateTimerTip(boolean cancel) {
-//        if (cancel) {
-//            timerTip.setText(R.string.recording_cancel_tip);
-//            timerTipContainer.setBackgroundResource(R.drawable.nim_cancel_record_red_bg);
-//        } else {
-//            timerTip.setText(R.string.recording_cancel);
-//            timerTipContainer.setBackgroundResource(0);
-//        }
+        if (cancel) {
+            timerTip.setText(R.string.recording_cancel_tip);
+            timerTipContainer.setBackgroundResource(R.drawable.nim_cancel_record_red_bg);
+        } else {
+            timerTip.setText(R.string.recording_cancel);
+            timerTipContainer.setBackgroundResource(0);
+        }
     }
 
     /**
@@ -744,7 +746,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         if (!touched) {
             return;
         }
-
         audioRecordBtn.setText(R.string.record_audio_end);
         audioRecordBtn.setBackgroundResource(R.drawable.nim_message_input_edittext_box_pressed);
 
@@ -773,16 +774,16 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     @Override
     public void onRecordReachedMaxTime(final int maxTime) {
         stopAudioRecordAnim();
-//        EasyAlertDialogHelper.createOkCancelDiolag(container.activity, "", container.activity.getString(R.string.recording_max_time), false, new EasyAlertDialogHelper.OnDialogActionListener() {
-//            @Override
-//            public void doCancelAction() {
-//            }
-//
-//            @Override
-//            public void doOkAction() {
-//                audioMessageHelper.handleEndRecord(true, maxTime);
-//            }
-//        }).show();
+        EasyAlertDialogHelper.createOkCancelDiolag(container.activity, "", container.activity.getString(R.string.recording_max_time), false, new EasyAlertDialogHelper.OnDialogActionListener() {
+            @Override
+            public void doCancelAction() {
+            }
+
+            @Override
+            public void doOkAction() {
+                audioMessageHelper.handleEndRecord(true, maxTime);
+            }
+        }).show();
     }
 
     public boolean isRecording() {
