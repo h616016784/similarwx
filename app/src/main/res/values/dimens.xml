@@ -82,4 +82,17 @@
     <dimen name="custom_dialog_padding_vertical">15dip</dimen>
     <dimen name="dark_line_size">3px</dimen>
     <dimen name="action_bar_height">48dip</dimen>
+
+    <dimen name="dimen52dp">52dp</dimen>
+    <dimen name="dimen24dp">24dp</dimen>
+    <dimen name="dimen1dp">1dp</dimen>
+    <dimen name="dimen15dp">15dp</dimen>
+    <dimen name="dimen3dp">3dp</dimen>
+    <dimen name="dimen16dp">16dp</dimen>
+    <dimen name="dimen37dp">37dp</dimen>
+    <dimen name="dimen10dp">10dp</dimen>
+    <dimen name="dimen42dp">42dp</dimen>
+    <dimen name="dimen9dp">9dp</dimen>
+    <dimen name="dimen245dp">245dp</dimen>
+    <dimen name="dimen4dp">4dp</dimen>
 </resources>

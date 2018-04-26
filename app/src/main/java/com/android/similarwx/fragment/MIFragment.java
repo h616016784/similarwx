@@ -2,6 +2,7 @@ package com.android.similarwx.fragment;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.adapter.MultipleItemQuickAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.utils.FragmentUtils;
@@ -36,9 +38,12 @@ import com.android.similarwx.widget.input.module.ModuleProxy;
 import com.android.similarwx.widget.input.sessions.Extras;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.media.player.AudioPlayer;
+import com.netease.nimlib.sdk.media.player.OnPlayListener;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
@@ -79,6 +84,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
 
     Observer<List<IMMessage>> incomingMessageObserver;
     IMMessage author;
+    AudioPlayer player;//播放器
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mi_layout;
@@ -104,25 +110,22 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
             mActionbar.setRightImageOnClickListener(this);
             mActionbar.setRightImagePeopleOnClickListener(this);
         }
-        View rootView=contentView.findViewById(R.id.messageActivityBottomLayout);
+//        View rootView=contentView.findViewById(R.id.messageActivityBottomLayout);
         Container container = new Container(activity, sessionId, sessionType, this);
         if (inputPanel == null) {
-            inputPanel = new InputPanel(container, rootView, getActionList());
+            inputPanel = new InputPanel(container, contentView, getActionList());
 //            inputPanel.setCustomization(customization);
         } else {
             inputPanel.reload(container, customization);
         }
+
         multipleItemAdapter = new MultipleItemQuickAdapter(activity,null);
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(activity);
         miRecyclerView.setLayoutManager(linearLayoutManager);
         miRecyclerView.setAdapter(multipleItemAdapter);
-        multipleItemAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                showRedDialog(position);
-            }
-        });
+        addListener();
+
         multipleItemAdapter.setUpFetchEnable(true);
         multipleItemAdapter.setStartUpFetchPosition(2);
         multipleItemAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
@@ -149,6 +152,31 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         };
         mActionbar.getTitleView().requestFocus();
         NIMClient.getService(MsgServiceObserve.class).observeReceiveMessage(incomingMessageObserver,true);
+    }
+
+    private void addListener() {
+        multipleItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                MultipleItem bean=multipleItemAdapter.getData().get(position);
+                IMMessage imMessage=bean.getImMessage();
+                switch (imMessage.getMsgType().getValue()){
+                    case MultipleItem.ITEM_IMAGE://图片
+
+                        break;
+                    case MultipleItem.ITEM_AUDIO://音频
+                        String s=imMessage.getAttachment().toJson(false);
+                        Gson gson=new Gson();
+                        CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
+                        String imagePath=charImageBean.getPath();
+                        // 构造播放器对象
+                        player = new AudioPlayer(activity,imagePath, listener);
+                        player.start( AudioManager.STREAM_VOICE_CALL);
+                        break;
+                }
+
+            }
+        });
     }
 
     private void showRedDialog(int position) {
@@ -268,6 +296,8 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (player!=null)
+            player.stop();
         unbinder.unbind();
 
     }
@@ -308,4 +338,26 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     public void onItemFooterClick(IMMessage message) {
 
     }
+
+    /**
+     * 以下是音频播放的监听
+     */
+    // 定义一个播放进程回调类
+    OnPlayListener listener = new OnPlayListener() {
+
+        // 音频转码解码完成，会马上开始播放了
+        public void onPrepared() {}
+
+        // 播放结束
+        public void onCompletion() {}
+
+        // 播放被中断了
+        public void onInterrupt() {}
+
+        // 播放过程中出错。参数为出错原因描述
+        public void onError(String error){}
+
+        // 播放进度报告，每隔 500ms 会回调一次，告诉当前进度。 参数为当前进度，单位为毫秒，可用于更新 UI
+        public void onPlaying(long curPosition) {}
+    };
 }

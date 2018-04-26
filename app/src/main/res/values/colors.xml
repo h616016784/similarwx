@@ -73,4 +73,13 @@
     <color name="color_b3b3b3">#b3b3b3</color>
     <!-- main bg color -->
     <color name="main_bg_color">#FFFFFF</color>
+
+    <!--淡灰色 -->
+    <color name="gainsboro">#DCDCDC</color>
+    <!--银色 -->
+    <color name="silver">#C0C0C0</color>
+    <color name="dark_white">#808080</color>
+    <color name="dark_silver">#606060</color>
+    <!--菊兰色 -->
+    <color name="cornflowerblue">#6495ED</color>
 </resources>

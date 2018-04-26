@@ -40,6 +40,10 @@ public class AppConstants extends BaseConstants {
     public static final String USER_TOKEN = "token";
 
     /**
+     * 转账时传递的标示
+     */
+    public static final String TRANSFER_ACCOUNT = "account";
+    /**
      * 更多中选择标示
      */
     public final static int CAPTURE_VIDEO = 1;// 拍摄视频

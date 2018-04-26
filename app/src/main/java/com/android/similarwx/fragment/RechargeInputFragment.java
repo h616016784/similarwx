@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.widget.InputPasswordDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +42,7 @@ public class RechargeInputFragment extends BaseFragment {
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
+        String account = getArguments().getString(AppConstants.TRANSFER_ACCOUNT);
         mActionbar.setTitle("转账");
         unbinder = ButterKnife.bind(this, contentView);
     }
@@ -52,5 +55,12 @@ public class RechargeInputFragment extends BaseFragment {
 
     @OnClick(R.id.transfer)
     public void onViewClicked() {
+        InputPasswordDialog dialog=InputPasswordDialog.newInstance("支付", "100", new InputPasswordDialog.OnInputFinishListener() {
+            @Override
+            public void onInputFinish(String password) {
+
+            }
+        });
+        activity.getFragmentManager().beginTransaction().add(dialog,"inputpassword").commit();
     }
 }

@@ -28,7 +28,8 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
         this.context=context;
         addItemType(MultipleItem.ITEM_TEXT, R.layout.item_mitext_type);
         addItemType(MultipleItem.ITEM_IMAGE, R.layout.item_mi_image_type);
-        addItemType(MultipleItem.ITEM_AUDIO,R.layout.item_red_type);
+        addItemType(MultipleItem.ITEM_AUDIO, R.layout.item_mi_auto_type);
+        addItemType(MultipleItem.ITEM_RED,R.layout.item_red_type);
         addItemType(MultipleItem.ITEM_NOTIFICATION,R.layout.item_sys_type);
         addItemType(MultipleItem.ITEM_TIP,R.layout.item_sys_type);
     }
@@ -37,7 +38,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
     protected void convert(BaseViewHolder helper, MultipleItem item) {
         IMMessage imMessage=item.getImMessage();
         switch (helper.getItemViewType()) {
-            case MultipleItem.ITEM_TEXT:
+            case MultipleItem.ITEM_TEXT://文本
                 if (imMessage.getDirect()== MsgDirectionEnum.Out){
                     helper.setVisible(R.id.item_mitext_right_iv,false);helper.setVisible(R.id.item_mitext_left_iv,true);
                     helper.setVisible(R.id.item_mitext_right_title,false);helper.setVisible(R.id.item_mitext_left_title,true);
@@ -52,7 +53,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setText(R.id.item_mitext_right_content,item.getImMessage().getContent());
                 }
                 break;
-            case MultipleItem.ITEM_IMAGE:
+            case MultipleItem.ITEM_IMAGE://图片
                 if (imMessage.getDirect()== MsgDirectionEnum.Out){
 
                     helper.setVisible(R.id.item_mi_image_right_iv,false);helper.setVisible(R.id.item_mi_image_left_iv,true);
@@ -79,6 +80,23 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     String imagePath=charImageBean.getPath();
                     Glide.with(context).load(new File(imagePath)).into((ImageView) helper.getView(R.id.item_mi_image_right_content));
                 }
+                break;
+            case MultipleItem.ITEM_AUDIO://音频
+                if (imMessage.getDirect()== MsgDirectionEnum.Out){
+
+                    helper.setVisible(R.id.item_mi_auto_right_iv,false);helper.setVisible(R.id.item_mi_auto_left_iv,true);
+                    helper.setVisible(R.id.item_mi_auto_right_title,false);helper.setVisible(R.id.item_mi_auto_left_title,true);
+                    helper.setVisible(R.id.item_mi_auto_right_content,false);helper.setVisible(R.id.item_mi_auto_left_content,true);
+                    helper.setBackgroundRes(R.id.item_mi_auto_content_rl,R.drawable.mi_chatfrom_bg_normal);
+                    helper.setText(R.id.item_mi_auto_left_title,item.getName());
+                }else {
+                    helper.setVisible(R.id.item_mi_auto_right_iv,true);helper.setVisible(R.id.item_mi_auto_left_iv,false);
+                    helper.setVisible(R.id.item_mi_auto_right_title,true);helper.setVisible(R.id.item_mi_auto_left_title,false);
+                    helper.setVisible(R.id.item_mi_auto_right_content,true);helper.setVisible(R.id.item_mi_auto_left_content,false);
+                    helper.setBackgroundRes(R.id.item_mi_auto_content_rl,R.drawable.ease_chatfrom_bg_normal_right);
+                    helper.setText(R.id.item_mi_auto_right_title,item.getName());
+                }
+
                 break;
         }
     }
