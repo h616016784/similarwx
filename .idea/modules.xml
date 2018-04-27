@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/outbaselibrary/outbaselibrary.iml" filepath="$PROJECT_DIR$/outbaselibrary/outbaselibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/similarwx.iml" filepath="$PROJECT_DIR$/similarwx.iml" />
-      <module fileurl="file://D:\ASProgram\similarwx\.idea\modules\similarwx.iml" filepath="D:\ASProgram\similarwx\.idea\modules\similarwx.iml" />
       <module fileurl="file://$PROJECT_DIR$/uikit/uikit.iml" filepath="$PROJECT_DIR$/uikit/uikit.iml" />
     </modules>
   </component>

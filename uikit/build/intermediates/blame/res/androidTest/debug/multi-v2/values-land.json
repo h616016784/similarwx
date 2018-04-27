@@ -1,20 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ASProgram\\similarwx\\uikit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-land\\values-land.xml",
+            "outputFile": "D:\\AndroidStudioProjects\\similarwx\\uikit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-land\\values-land.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hanhuailong\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\0bef4cd297ef74585c0e28fe3ce43c4c\\res\\values-land\\values-land.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,125,189,260",
-                        "endColumns": "69,63,70,67",
-                        "endOffsets": "120,184,255,323"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\hanhuailong\\.gradle\\caches\\transforms-1\\files-1.1\\design-26.1.0.aar\\f7f771e001a3a733f154bc934a4e34d5\\res\\values-land\\values-land.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\design-26.1.0.aar\\48ab91abb4d4b3b36f177fa2365b4679\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -30,25 +20,25 @@
                         "endLines": "9",
                         "endColumns": "12",
                         "endOffsets": "505"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\a7761a51cd6fd006a44e1c7eeabd6d74\\res\\values-land\\values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,125,189,260",
+                        "endColumns": "69,63,70,67",
+                        "endOffsets": "120,184,255,323"
                     }
                 }
             ]
         },
         {
-            "outputFile": "D:\\ASProgram\\similarwx\\uikit\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-land\\values-land.xml",
+            "outputFile": "D:\\AndroidStudioProjects\\similarwx\\uikit\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-land\\values-land.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hanhuailong\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\0bef4cd297ef74585c0e28fe3ce43c4c\\res\\values-land\\values-land.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,125,189,260",
-                        "endColumns": "69,63,70,67",
-                        "endOffsets": "120,184,255,323"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\hanhuailong\\.gradle\\caches\\transforms-1\\files-1.1\\design-26.1.0.aar\\f7f771e001a3a733f154bc934a4e34d5\\res\\values-land\\values-land.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\design-26.1.0.aar\\48ab91abb4d4b3b36f177fa2365b4679\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -64,6 +54,16 @@
                         "endLines": "9",
                         "endColumns": "12",
                         "endOffsets": "505"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\a7761a51cd6fd006a44e1c7eeabd6d74\\res\\values-land\\values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,125,189,260",
+                        "endColumns": "69,63,70,67",
+                        "endOffsets": "120,184,255,323"
                     }
                 }
             ]

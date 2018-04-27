@@ -1,41 +1,32 @@
 package com.android.similarwx.model;
 
+import com.android.outbaselibrary.primary.AppContext;
+import com.android.similarwx.beans.User;
 
-import com.android.similarwx.model.convertor.JsonConverterFactory;
-import com.android.similarwx.model.interceptor.LogInterceptor;
-import com.android.similarwx.model.interceptor.NetCacheInterceptor;
-import com.android.similarwx.model.interceptor.ParameterInterceptor;
-
-import java.io.File;
-
-import javax.inject.Inject;
-
-import cn.fframe.f;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by puyafeng on 2017/9/12.
  */
 public class API implements APIConstants {
     private static API sInstance;
-
-    @Inject
-    APIDesc apiDesc;
-
+    private static APIService apiService;
     private API() {
         OkHttpClient client = new OkHttpClient.Builder().
-                addNetworkInterceptor(new NetCacheInterceptor()).
-                addInterceptor(new ParameterInterceptor(new RequestParams())).
-                addInterceptor(new LogInterceptor()).
-                cache(new Cache(new File(f.getContext().getCacheDir(), f.getContext().getPackageName()), 10 * 1024 * 1024)).
                 build();
-        Retrofit retrofit = new Retrofit.Builder().client(client).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(JsonConverterFactory.create()).baseUrl(DOMAIN).build();
-        apiDesc = retrofit.create(APIDesc.class);
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(DOMAIN)
+                .build();
+        apiService = retrofit.create(APIService.class);
     }
-
 
     public static API getInstance() {
         if (sInstance == null) {
@@ -47,9 +38,17 @@ public class API implements APIConstants {
         }
         return sInstance;
     }
+    public void login(){
+        Call<User> user=apiService.login("name");
+        user.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
 
-    public APIDesc getApiDesc() {
-        return apiDesc;
+            }
+        });
     }
-
 }

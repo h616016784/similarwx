@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ASProgram\\similarwx\\uikit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-ldltr-v21\\values-ldltr-v21.xml",
+            "outputFile": "D:\\AndroidStudioProjects\\similarwx\\uikit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-ldltr-v21\\values-ldltr-v21.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hanhuailong\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\0bef4cd297ef74585c0e28fe3ce43c4c\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\a7761a51cd6fd006a44e1c7eeabd6d74\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -16,10 +16,10 @@
             ]
         },
         {
-            "outputFile": "D:\\ASProgram\\similarwx\\uikit\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-ldltr-v21\\values-ldltr-v21.xml",
+            "outputFile": "D:\\AndroidStudioProjects\\similarwx\\uikit\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-ldltr-v21\\values-ldltr-v21.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hanhuailong\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\0bef4cd297ef74585c0e28fe3ce43c4c\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\a7761a51cd6fd006a44e1c7eeabd6d74\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

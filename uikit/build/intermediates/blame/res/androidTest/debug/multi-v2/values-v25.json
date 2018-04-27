@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ASProgram\\similarwx\\uikit\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v25\\values-v25.xml",
+            "outputFile": "D:\\AndroidStudioProjects\\similarwx\\uikit\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v25\\values-v25.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hanhuailong\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\0bef4cd297ef74585c0e28fe3ce43c4c\\res\\values-v25\\values-v25.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\a7761a51cd6fd006a44e1c7eeabd6d74\\res\\values-v25\\values-v25.xml",
                     "from": {
                         "startLines": "2,3,4,6",
                         "startColumns": "4,4,4,4",
@@ -17,10 +17,10 @@
             ]
         },
         {
-            "outputFile": "D:\\ASProgram\\similarwx\\uikit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-v25\\values-v25.xml",
+            "outputFile": "D:\\AndroidStudioProjects\\similarwx\\uikit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-v25\\values-v25.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hanhuailong\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\0bef4cd297ef74585c0e28fe3ce43c4c\\res\\values-v25\\values-v25.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\a7761a51cd6fd006a44e1c7eeabd6d74\\res\\values-v25\\values-v25.xml",
                     "from": {
                         "startLines": "2,3,4,6",
                         "startColumns": "4,4,4,4",
