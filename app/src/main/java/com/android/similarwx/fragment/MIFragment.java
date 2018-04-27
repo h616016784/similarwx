@@ -47,9 +47,11 @@ import com.netease.nimlib.sdk.media.player.OnPlayListener;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
+import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +85,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     private int flag=DELETE_GROUP_EIGHT;
 
     Observer<List<IMMessage>> incomingMessageObserver;
+    Observer<SystemMessage> systemMessageObserver;
     IMMessage author;
     AudioPlayer player;//播放器
     @Override
@@ -150,8 +153,17 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
                 }
             }
         };
+        systemMessageObserver=new Observer<SystemMessage>() {
+            @Override
+            public void onEvent(SystemMessage systemMessage) {
+                MultipleItem multipleItem=new MultipleItem();
+                multipleItem.setSystemCotent(systemMessage.getContent());
+                multipleItemAdapter.addData(multipleItem);
+            }
+        };
         mActionbar.getTitleView().requestFocus();
         NIMClient.getService(MsgServiceObserve.class).observeReceiveMessage(incomingMessageObserver,true);
+        NIMClient.getService(SystemMessageObserver.class).observeReceiveSystemMsg(systemMessageObserver,true);
     }
 
     private void addListener() {
@@ -162,7 +174,6 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
                 IMMessage imMessage=bean.getImMessage();
                 switch (imMessage.getMsgType().getValue()){
                     case MultipleItem.ITEM_IMAGE://图片
-
                         break;
                     case MultipleItem.ITEM_AUDIO://音频
                         String s=imMessage.getAttachment().toJson(false);
@@ -185,7 +196,6 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         transaction.add(redDialogFragment,"redDialog");
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     private void fetchLocalData() {
@@ -290,6 +300,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     public void onDestroy() {
         super.onDestroy();
         NIMClient.getService(MsgServiceObserve.class).observeReceiveMessage(incomingMessageObserver,false);
+        NIMClient.getService(SystemMessageObserver.class).observeReceiveSystemMsg(systemMessageObserver,false);
         multipleItemAdapter.getData().clear();
     }
 

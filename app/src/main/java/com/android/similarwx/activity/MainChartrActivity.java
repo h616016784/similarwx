@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
 import com.android.similarwx.adapter.HomeAdapter;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.fragment.ExplainFragment;
@@ -23,6 +24,7 @@ import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +127,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 public void onClickListener(String text) {
                     Bundle bundle=new Bundle();
                     bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_GROUP_EIGHT);
+                    bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
+                    bundle.putString(AppConstants.CHAT_ACCOUNT_ID,"450185785");//群id号
                     FragmentUtils.navigateToNormalActivity(MainChartrActivity.this,new MIFragment(),bundle);
                 }
             });

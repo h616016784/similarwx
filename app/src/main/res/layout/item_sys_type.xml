@@ -3,15 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <RelativeLayout
+    <TextView
+        android:id="@+id/item_sys_tv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_state_bar">
-        <TextView
-            android:id="@+id/item_sys_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chart_sys"
-            android:layout_centerInParent="true"
-            />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text=""
+        android:layout_centerHorizontal="true"
+        />
 </LinearLayout>

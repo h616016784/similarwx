@@ -20,27 +20,15 @@ public class MultipleItem extends  BaseBean implements MultiItemEntity {
     private int itemType;
     private int spanSize;
 
-    public String getName() {
-        if (TextUtils.isEmpty(name))
-            return "测试11";
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    private String content;
     private String name;
 
-    public IMMessage getImMessage() {
-        return imMessage;
-    }
-
-    public void setImMessage(IMMessage imMessage) {
-        this.imMessage = imMessage;
-    }
-
+    private String systemCotent;
     private IMMessage imMessage;
+
+    public MultipleItem() {
+
+    }
     public MultipleItem(int itemType, int spanSize, String content) {
         this.itemType = itemType;
         this.spanSize = spanSize;
@@ -53,6 +41,33 @@ public class MultipleItem extends  BaseBean implements MultiItemEntity {
         this.itemType = itemType;
         this.spanSize = spanSize;
     }
+    public String getName() {
+        if (TextUtils.isEmpty(name))
+            return "测试11";
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public String getSystemCotent() {
+        return systemCotent;
+    }
+
+    public void setSystemCotent(String systemCotent) {
+        this.systemCotent = systemCotent;
+    }
+
+    public IMMessage getImMessage() {
+        return imMessage;
+    }
+
+    public void setImMessage(IMMessage imMessage) {
+        this.imMessage = imMessage;
+    }
+
 
     public int getSpanSize() {
         return spanSize;
@@ -62,7 +77,6 @@ public class MultipleItem extends  BaseBean implements MultiItemEntity {
         this.spanSize = spanSize;
     }
 
-    private String content;
 
     public String getContent() {
         return content;
@@ -74,6 +88,9 @@ public class MultipleItem extends  BaseBean implements MultiItemEntity {
 
     @Override
     public int getItemType() {
+        if(imMessage==null){
+            return ITEM_NOTIFICATION;
+        }
         return imMessage.getMsgType().getValue();//云信msg的消息类型
     }
 

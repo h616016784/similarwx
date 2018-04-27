@@ -1,6 +1,7 @@
 package com.android.similarwx.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.android.similarwx.R;
@@ -13,6 +14,7 @@ import com.google.gson.Gson;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
 import java.io.File;
 import java.util.List;
@@ -97,6 +99,11 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setText(R.id.item_mi_auto_right_title,item.getName());
                 }
 
+                break;
+            case MultipleItem.ITEM_NOTIFICATION://通知类信息
+                String content= item.getSystemCotent();
+                if (!TextUtils.isEmpty(content))
+                     helper.setText(R.id.item_sys_tv,item.getImMessage().getContent());
                 break;
         }
     }
