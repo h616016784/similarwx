@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_tab_navigation"
+        android:background="@color/dark_gray">
+        <TextView
+            android:id="@+id/item_pop_client_more_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_middle"
+            android:layout_marginRight="@dimen/distance_middle"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_sub_title"
+            android:textColor="@color/white"
+            android:text="新建支付"/>
+
+    </RelativeLayout>
+</LinearLayout>

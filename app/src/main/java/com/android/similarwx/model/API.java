@@ -2,6 +2,7 @@ package com.android.similarwx.model;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.model.interceptor.LogInterceptor;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -18,8 +19,9 @@ public class API implements APIConstants {
     private static API sInstance;
     private static APIService apiService;
     private API() {
-        OkHttpClient client = new OkHttpClient.Builder().
-                build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new LogInterceptor())
+                .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())

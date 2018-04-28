@@ -79,4 +79,7 @@ dependencies {
     /*baserecyclerview*/
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     compile 'com.alibaba:fastjson:1.2.46'
+
+    /*时间选择器*/
+    compile 'com.contrarywind:Android-PickerView:4.1.3'
 }

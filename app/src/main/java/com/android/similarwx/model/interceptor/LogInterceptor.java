@@ -1,5 +1,6 @@
 package com.android.similarwx.model.interceptor;
 
+import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -56,6 +57,7 @@ public class LogInterceptor implements Interceptor {
         Buffer buffer = source.buffer();
         //使用前clone()下，避免直接消耗
         Logger.e("response:" + buffer.clone().readString(Charset.forName("UTF-8")));
+
         return response;
     }
 }
