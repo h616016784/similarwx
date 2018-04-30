@@ -87,6 +87,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         loginPresent.saveUser(user);
         //之后跳转界面
         startActivity(new Intent(this,MainChartrActivity.class));
+        finish();
     }
     @Override
     public void showErrorMessage(String err) {

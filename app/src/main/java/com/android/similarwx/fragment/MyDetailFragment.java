@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.RedTakeBean;
 import com.android.similarwx.widget.ListPopWindow;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
@@ -62,6 +63,7 @@ public class MyDetailFragment extends BaseFragment {
     private List<RedTakeBean> list;
     private TimePickerView pvTime;
     private ListPopWindow listPopWindow;
+    private List<PopMoreBean> moreList;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_detail;
@@ -89,22 +91,13 @@ public class MyDetailFragment extends BaseFragment {
 
             }
         });
-        listPopWindow=new ListPopWindow(activity,null);
+        listPopWindow=new ListPopWindow(activity,moreList);
         pvTime=new TimePickerBuilder(activity, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 Toast.makeText(activity, date.toString(), Toast.LENGTH_SHORT).show();
             }
         }).build();
-    }
-
-    private void iniData() {
-        list=new ArrayList<>();
-        RedTakeBean redTakeBean=new RedTakeBean();
-        redTakeBean.setRedType("红包领取");
-        redTakeBean.setTime("2017-02-12");
-        redTakeBean.setMoney("+10");
-        list.add(redTakeBean);
     }
 
 
@@ -123,6 +116,81 @@ public class MyDetailFragment extends BaseFragment {
         }
     }
 
+
+    private void iniData() {
+        list=new ArrayList<>();
+        RedTakeBean redTakeBean=new RedTakeBean();
+        redTakeBean.setRedType("红包领取");
+        redTakeBean.setTime("2017-02-12");
+        redTakeBean.setMoney("+10");
+        list.add(redTakeBean);
+
+        moreList=new ArrayList<>();
+        PopMoreBean bean=new PopMoreBean();
+        bean.setId("-1");
+        bean.setName("全部");
+        moreList.add(bean);
+        PopMoreBean bean2=new PopMoreBean();
+        bean2.setId("0");
+        bean2.setName("充值");
+        moreList.add(bean2);
+        PopMoreBean bean3=new PopMoreBean();
+        bean3.setId("1");
+        bean3.setName("转账");
+        moreList.add(bean3);
+        PopMoreBean bean4=new PopMoreBean();
+        bean4.setId("2");
+        bean4.setName("扣除");
+        moreList.add(bean4);
+        PopMoreBean bean5=new PopMoreBean();
+        bean5.setId("3");
+        bean5.setName("红包发布");
+        moreList.add(bean5);
+        PopMoreBean bean6=new PopMoreBean();
+        bean6.setId("4");
+        bean6.setName("红包领取");
+        moreList.add(bean6);
+        PopMoreBean bean7=new PopMoreBean();
+        bean7.setId("5");
+        bean7.setName("收到雷包");
+        moreList.add(bean7);
+        PopMoreBean bean8=new PopMoreBean();
+        bean8.setId("6");
+        bean8.setName("中了雷包");
+        moreList.add(bean8);
+        PopMoreBean bean9=new PopMoreBean();
+        bean9.setId("7");
+        bean9.setName("中了雷包");
+        moreList.add(bean9);
+        PopMoreBean bean10=new PopMoreBean();
+        bean10.setId("8");
+        bean10.setName("红包奖励");
+        moreList.add(bean10);
+        PopMoreBean bean11=new PopMoreBean();
+        bean11.setId("9");
+        bean11.setName("红包积分结算");
+        moreList.add(bean11);
+        PopMoreBean bean12=new PopMoreBean();
+        bean12.setId("10");
+        bean12.setName("红包冻结");
+        moreList.add(bean12);
+        PopMoreBean bean13=new PopMoreBean();
+        bean13.setId("11");
+        bean13.setName("红包解冻");
+        moreList.add(bean13);
+        PopMoreBean bean14=new PopMoreBean();
+        bean14.setId("12");
+        bean14.setName("本局输赢");
+        moreList.add(bean14);
+        PopMoreBean bean15=new PopMoreBean();
+        bean15.setId("13");
+        bean15.setName("发包返点");
+        moreList.add(bean15);
+        PopMoreBean bean16=new PopMoreBean();
+        bean16.setId("14");
+        bean16.setName("推荐返点");
+        moreList.add(bean16);
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -133,4 +201,5 @@ public class MyDetailFragment extends BaseFragment {
 
         unbinder.unbind();
     }
+
 }
