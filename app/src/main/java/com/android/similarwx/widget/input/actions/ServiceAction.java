@@ -1,6 +1,11 @@
 package com.android.similarwx.widget.input.actions;
 
+import android.os.Bundle;
+
 import com.android.similarwx.R;
+import com.android.similarwx.fragment.RechargeFragment;
+import com.android.similarwx.fragment.ServiceFragment;
+import com.android.similarwx.utils.FragmentUtils;
 
 /**
  * Created by hanhuailong on 2018/4/9.
@@ -19,6 +24,7 @@ public class ServiceAction extends BaseAction {
 
     @Override
     public void onClick() {
-
+        Bundle bundle=new Bundle();
+        FragmentUtils.navigateToNormalActivity(getActivity(),new ServiceFragment(),bundle);
     }
 }

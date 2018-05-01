@@ -1,5 +1,6 @@
 package com.android.similarwx.fragment;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.utils.FragmentUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +31,7 @@ public class RechargeFragment extends BaseFragment {
     Button sendRedBt;
     Unbinder unbinder;
 
+    private boolean isWeixin=true;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_recharge;
@@ -51,10 +54,23 @@ public class RechargeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.recharge_pay_weixin_ll:
+                isWeixin=true;
+                rechargePayWeixinIv.setVisibility(View.VISIBLE);
+                rechargePayAlipayIv.setVisibility(View.INVISIBLE);
                 break;
             case R.id.recharge_pay_alipay_ll:
+                isWeixin=false;
+                rechargePayWeixinIv.setVisibility(View.INVISIBLE);
+                rechargePayAlipayIv.setVisibility(View.VISIBLE);
                 break;
             case R.id.send_red_bt:
+                Bundle bundle=new Bundle();
+                if (isWeixin){
+
+                }else {
+
+                }
+                FragmentUtils.navigateToNormalActivity(getActivity(),new PayDetailFragment(),bundle);
                 break;
         }
     }

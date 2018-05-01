@@ -15,6 +15,7 @@ import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.fragment.ChartFragment;
 import com.android.similarwx.fragment.ExplainFragment;
 import com.android.similarwx.fragment.MIFragment;
 import com.android.similarwx.fragment.MyFragment;
@@ -98,7 +99,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             case R.id.main_rl_chart:
                 Bundle bundle=new Bundle();
                 bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
-                FragmentUtils.navigateToNormalActivity(this,new MIFragment(),bundle);
+                FragmentUtils.navigateToNormalActivity(this,new ChartFragment(),bundle);
+//                FragmentUtils.navigateToNormalActivity(this,new MIFragment(),bundle);
                 break;
             case R.id.main_my_chart:
                 FragmentUtils.navigateToNormalActivity(this,new MyFragment(),null);
