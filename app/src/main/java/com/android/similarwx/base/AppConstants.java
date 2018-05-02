@@ -43,6 +43,7 @@ public class AppConstants extends BaseConstants {
      * 转账时传递的标示
      */
     public static final String TRANSFER_ACCOUNT = "account";
+    public static final String TRANSFER_CHAT_REDENTITY= "redDetail";
     /**
      * 更多中选择标示
      */

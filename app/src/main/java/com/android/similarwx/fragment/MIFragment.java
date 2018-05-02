@@ -325,6 +325,11 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     @Override
     public boolean sendMessage(IMMessage msg) {
         if(msg!=null){
+            switch (msg.getMsgType()){
+                case custom://自定义
+                    Log.e("sendMessg","custom");
+                    break;
+            }
             NIMClient.getService(MsgService.class).sendMessage(msg,false);
             MultipleItem multipleItem=new MultipleItem(msg);
             multipleItem.setName("测试11");

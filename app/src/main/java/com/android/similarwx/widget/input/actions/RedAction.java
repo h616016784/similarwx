@@ -7,7 +7,10 @@ import android.util.Log;
 
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.beans.MultipleItem;
+import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.fragment.SendRedFragment;
+import com.android.similarwx.misdk.model.CustomAttachment;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.input.module.Container;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
@@ -42,18 +45,22 @@ public class RedAction extends BaseAction {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (makeRequestCode(requestCode)==AppConstants.SEND_RED_REQUEST){//发红包回调请求
             Log.e(""+AppConstants.SEND_RED_REQUEST,"发红包的结果数据");
-            createCustomMessage("");
+            if(data!=null){
+                RedDetailBean redDetailBean= (RedDetailBean) data.getSerializableExtra(AppConstants.TRANSFER_CHAT_REDENTITY);
+                if (redDetailBean!=null){
+                    IMMessage imMessage=createCustomMessage(redDetailBean);
+                    if (imMessage!=null)
+                        getContainer().proxy.sendMessage(imMessage);
+                }
+            }
+
         }
     }
-    protected IMMessage createCustomMessage(final String text) {
+    protected IMMessage createCustomMessage(RedDetailBean  redDetailBean) {
         Container container=getContainer();
         String account=container.account;
         SessionTypeEnum sessionType=container.sessionType;
-        return MessageBuilder.createCustomMessage(account, sessionType, "红包", new MsgAttachment() {
-            @Override
-            public String toJson(boolean send) {
-                return text;
-            }
-        });
+        return MessageBuilder.createCustomMessage(account, sessionType, "红包",
+                new CustomAttachment<RedDetailBean>(MultipleItem.ITEM_RED,redDetailBean));
     }
 }

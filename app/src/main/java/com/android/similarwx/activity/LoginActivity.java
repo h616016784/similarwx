@@ -70,9 +70,9 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
                 break;
             case R.id.login_login://登录
-//                Log.e("消息信息","文本："+MsgTypeEnum.text.getValue()+"图片："+MsgTypeEnum.image.getValue()+"视频："+MsgTypeEnum.audio.getValue()
-//                        +"通知："+MsgTypeEnum.notification.getValue()+"tip:"+MsgTypeEnum.tip.getValue());
 
+//                Log.e("消息信息","文本："+MsgTypeEnum.text.getValue()+"图片："+MsgTypeEnum.image.getValue()+"视频："+MsgTypeEnum.audio.getValue()
+//                        +"通知："+MsgTypeEnum.notification.getValue()+"tip:"+MsgTypeEnum.tip.getValue()+"自定义"+MsgTypeEnum.custom.getValue());
                 loginError.setVisibility(View.GONE);
                 String name = loginAccount.getText().toString();
                 String password = loginPassword.getText().toString();

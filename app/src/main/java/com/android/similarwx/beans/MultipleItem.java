@@ -13,7 +13,7 @@ public class MultipleItem extends  BaseBean implements MultiItemEntity {
     public static final int ITEM_TEXT = 0;
     public static final int ITEM_IMAGE= 1;
     public static final int ITEM_AUDIO= 2;
-    public static final int ITEM_RED= 3;
+    public static final int ITEM_RED= 100;//自定义消息类型
     public static final int ITEM_NOTIFICATION= 5;
     public static final int ITEM_TIP= 10;
 
