@@ -1,5 +1,7 @@
 package com.android.similarwx.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +42,6 @@ public class SendRedFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle("发红包");
         unbinder = ButterKnife.bind(this, contentView);
-
     }
 
     @Override
@@ -51,5 +52,8 @@ public class SendRedFragment extends BaseFragment {
 
     @OnClick(R.id.send_red_bt)
     public void onViewClicked() {
+        Intent intent=new Intent();
+        activity.setResult(Activity.RESULT_OK,intent);
+        activity.finish();
     }
 }

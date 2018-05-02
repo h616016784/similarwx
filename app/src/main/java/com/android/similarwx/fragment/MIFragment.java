@@ -56,6 +56,7 @@ import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -250,7 +251,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         List<BaseAction> actions = new ArrayList<>();
         if(flag==DELETE_GROUP_EIGHT){
             actions.add(new ImageAction());
-            actions.add(new RedAction());
+            actions.add(new RedAction(this));
             actions.add(new ContactAdminAction());
             actions.add(new BillAciton());
             actions.add(new RechargeAciton());
@@ -297,6 +298,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         inputPanel.onActivityResult(requestCode, resultCode, data);
+
     }
     @Override
     public void onDestroy() {
