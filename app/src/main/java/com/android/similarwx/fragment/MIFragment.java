@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.adapter.MultipleItemQuickAdapter;
+import com.android.similarwx.base.AndroidBug5497Workaround;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.CharImageBean;
@@ -95,6 +96,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
 
     @Override
     protected void onInitView(View contentView) {
+        AndroidBug5497Workaround.assistActivity(activity);
         Bundle bundle=getArguments();
         if (bundle!=null){
             flag=bundle.getInt(MIFLAG);

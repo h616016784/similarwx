@@ -43,7 +43,6 @@ public class NormalActivity extends BaseActivity {
         }
 
         super.onCreate(savedInstanceState);
-
         overrideEnterAnimation(bundle);
     }
 

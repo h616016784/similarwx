@@ -85,7 +85,6 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
         setContentView(getLayoutResource());
         mActionbar = (Actionbar) findViewById(R.id.actionbar);
         mLoadingView = findViewById(R.id.loading_view);
-
     }
 
     @Override
