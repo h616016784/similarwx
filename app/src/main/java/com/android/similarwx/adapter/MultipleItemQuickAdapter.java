@@ -105,6 +105,17 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                 if (!TextUtils.isEmpty(content))
                      helper.setText(R.id.item_sys_tv,item.getImMessage().getContent());
                 break;
+            case MultipleItem.ITEM_RED://红包类信息
+                if (imMessage.getDirect()== MsgDirectionEnum.Out){
+                    helper.setVisible(R.id.item_red_right_iv,false);helper.setVisible(R.id.item_red_left_iv,true);
+                    helper.setVisible(R.id.item_red_right_content,false);helper.setVisible(R.id.item_red_left_content,true);
+                    helper.setVisible(R.id.item_red_packet_right_rl,false);helper.setVisible(R.id.item_red_packet_rl,true);
+                }else {
+                    helper.setVisible(R.id.item_red_left_iv,false);helper.setVisible(R.id.item_red_right_iv,true);
+                    helper.setVisible(R.id.item_red_left_content,false);helper.setVisible(R.id.item_red_right_content,true);
+                    helper.setVisible(R.id.item_red_packet_rl,false);helper.setVisible(R.id.item_red_packet_right_rl,true);
+                }
+                break;
         }
     }
 

@@ -39,11 +39,11 @@ public class RedAction extends BaseAction {
     @Override
     public void onClick() {
         Bundle bundle=new Bundle();
-        FragmentUtils.navigateToNormalActivityForResult(fromFragment,new SendRedFragment(),bundle, AppConstants.SEND_RED_REQUEST);
+        FragmentUtils.navigateToNormalActivityForResult(fromFragment,new SendRedFragment(),bundle, makeRequestCode(AppConstants.SEND_RED_REQUEST));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (makeRequestCode(requestCode)==AppConstants.SEND_RED_REQUEST){//发红包回调请求
+        if (requestCode==AppConstants.SEND_RED_REQUEST){//发红包回调请求
             Log.e(""+AppConstants.SEND_RED_REQUEST,"发红包的结果数据");
             if(data!=null){
                 RedDetailBean redDetailBean= (RedDetailBean) data.getSerializableExtra(AppConstants.TRANSFER_CHAT_REDENTITY);

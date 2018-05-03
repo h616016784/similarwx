@@ -23,6 +23,7 @@ import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.RedDialogFragment;
+import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.android.similarwx.widget.input.InputPanel;
 import com.android.similarwx.widget.input.actions.BaseAction;
@@ -186,6 +187,9 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
                         // 构造播放器对象
                         player = new AudioPlayer(activity,imagePath, listener);
                         player.start( AudioManager.STREAM_VOICE_CALL);
+                        break;
+                    case MultipleItem.ITEM_RED://红包
+                        RedResultDialogFragment.show(activity);
                         break;
                 }
 

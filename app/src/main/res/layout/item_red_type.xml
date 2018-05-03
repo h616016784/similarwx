@@ -7,74 +7,159 @@
     <ImageView
         android:layout_marginTop="@dimen/distance_small"
         android:id="@+id/item_red_left_iv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/pic_1_20" />
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="6"
         android:layout_marginTop="@dimen/distance_small"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/item_red_left_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_small"
-            android:text="阿飞"
-            android:textColor="@color/black"
-            />
         <RelativeLayout
-            android:id="@+id/item_red_packet_rl"
-            android:layout_width="wrap_content"
-            android:layout_height="90dp"
-            android:paddingRight="@dimen/distance_big"
-            android:background="@drawable/em_red_packet_chatfrom_bg_focused">
-            <LinearLayout
-                android:id="@+id/item_red_packet_ll"
-                android:layout_marginTop="@dimen/distance_small"
-                android:layout_marginLeft="@dimen/distance_normal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageView
-                    android:id="@+id/item_red_packet_inner_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/red_packet_inner"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/distance_smaller"
-                    android:layout_toRightOf="@id/item_red_packet_inner_iv"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/item_red_packet_count_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_sub_title"
-                        android:text="@string/chart_red_count"/>
-                    <TextView
-                        android:id="@+id/item_red_packet_take_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_tip"
-                        android:text="@string/chart_red_take"/>
-                </LinearLayout>
-            </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/item_red_packet_explain_tv"
+                android:id="@+id/item_red_left_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/chart_red_explain"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/distance_big"
+                android:layout_marginLeft="@dimen/distance_small"
+                android:text="阿飞"
+                android:textColor="@color/black"
                 />
-
+            <TextView
+                android:id="@+id/item_red_right_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/distance_small"
+                android:text="阿飞"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/black"
+                />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--左边红包-->
+            <RelativeLayout
+                android:id="@+id/item_red_packet_rl"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:paddingRight="@dimen/distance_big"
+                android:background="@drawable/em_red_packet_chatfrom_bg_focused">
+                <LinearLayout
+                    android:id="@+id/item_red_packet_ll"
+                    android:layout_marginTop="@dimen/distance_small"
+                    android:layout_marginLeft="@dimen/distance_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/item_red_packet_inner_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/red_packet_inner"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/distance_smaller"
+                        android:layout_toRightOf="@id/item_red_packet_inner_iv"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/item_red_packet_count_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_sub_title"
+                            android:text="@string/chart_red_count"/>
+                        <TextView
+                            android:id="@+id/item_red_packet_take_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_tip"
+                            android:text="@string/chart_red_take"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/item_red_packet_explain_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/distance_normal"
+                    android:text="@string/chart_red_explain"
+                    android:textSize="@dimen/text_tip"
+                    />
+            </RelativeLayout>
+            <!--右边红包-->
+            <RelativeLayout
+                android:id="@+id/item_red_packet_right_rl"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:paddingLeft="@dimen/distance_normal"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/em_red_packet_chatto_bg_right_focused">
+                <!--右边红包详情-->
+                <LinearLayout
+                    android:id="@+id/item_red_packet_right_ll"
+                    android:layout_marginTop="@dimen/distance_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/distance_smaller"
+                        android:layout_toRightOf="@id/item_red_packet_inner_iv"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/item_red_packet_count_right_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_sub_title"
+                            android:text="@string/chart_red_count"/>
+                        <TextView
+                            android:id="@+id/item_red_packet_take_right_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_tip"
+                            android:text="@string/chart_red_take"/>
+                    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/item_red_packet_inner_right_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/red_packet_inner"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/item_red_packet_explain_right_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="@dimen/distance_normal"
+                    android:text="@string/chart_red_explain"
+                    android:textSize="@dimen/text_tip"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/item_red_right_iv"
+        android:layout_marginTop="@dimen/distance_small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/pic_1_20" />
 </LinearLayout>
