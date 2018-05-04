@@ -1,12 +1,16 @@
 package com.android.similarwx.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 
 import butterknife.BindView;
@@ -36,11 +40,11 @@ public class EditFragment extends BaseFragment {
         mActionbar.setTitle(R.string.my_base_title);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            tag = bundle.getString("tag");
-            if ("sign".equals(tag)){
+            tag = bundle.getString(AppConstants.TRANSFER_BASE);
+            if (AppConstants.USER_SIGN.equals(tag)){
                 title = R.string.my_base_sign;
                 myBaseEditEt.setHint(R.string.edit_title_in_sign);
-            } else if ("nick".equals(tag)){
+            } else if (AppConstants.USER_NICK.equals(tag)){
                 title = R.string.my_base_nick;
                 myBaseEditEt.setHint(R.string.edit_title_in_nick);
             }
@@ -51,7 +55,15 @@ public class EditFragment extends BaseFragment {
         mActionbar.setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String str=myBaseEditEt.getText().toString();
+                if (TextUtils.isEmpty(str)){
+                    Toaster.toastShort("不能为空！");
+                    return;
+                }
+                Intent intent=new Intent();
+                intent.putExtra(AppConstants.USER_CONTENT,str);
+                activity.setResult(activity.RESULT_OK,intent);
+                activity.finish();
             }
         });
     }

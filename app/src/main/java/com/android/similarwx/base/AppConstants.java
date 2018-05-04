@@ -43,6 +43,7 @@ public class AppConstants extends BaseConstants {
      * 转账时传递的标示
      */
     public static final String TRANSFER_ACCOUNT = "account";
+    public static final String TRANSFER_BASE = "tag";
     public static final String TRANSFER_CHAT_REDENTITY= "redDetail";
     /**
      * 更多中选择标示
@@ -55,4 +56,13 @@ public class AppConstants extends BaseConstants {
     public final static int PREVIEW_IMAGE_FROM_CAMERA = 6;
     public final static int GET_LOCAL_IMAGE = 7;// 相册
     public final static int SEND_RED_REQUEST = 8;// 相册
+
+    /**
+     * 用户基本信息
+     */
+    public final static String USER_NICK = "nick";//
+    public final static String USER_SIGN = "sign";//
+    public final static String USER_CONTENT = "content";//
+    public final static int RESULT_USER_NICK = 9;//
+    public final static int RESULT_USER_SIGN = 10;//
 }

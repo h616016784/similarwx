@@ -1,5 +1,6 @@
 package com.android.similarwx.fragment;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,9 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
+import com.android.similarwx.activity.LoginActivity;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.ItemView;
+import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,11 +111,37 @@ public class MyFragment extends BaseFragment {
             case R.id.my_version_item:
                 break;
             case R.id.my_quit_item:
+                showQuitDialog();
                 break;
             case R.id.my_base_ll://基本信息
                 FragmentUtils.navigateToNormalActivity(activity, new MyBaseFragment(), null);
                 break;
         }
+    }
+
+    private void showQuitDialog() {
+        final CancelDialogBuilder cancel_dialogBuilder = CancelDialogBuilder
+                .getInstance(getActivity());
+
+        cancel_dialogBuilder.setTitleText("确定要退出？");
+        cancel_dialogBuilder.setDetermineText("确定");
+
+        cancel_dialogBuilder.isCancelableOnTouchOutside(true)
+                .setButton1Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancel_dialogBuilder.dismiss();
+                    }
+                }).setButton2Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancel_dialogBuilder.dismiss();
+
+                        startActivity(new Intent(getActivity(),
+                                LoginActivity.class));
+                        getActivity().finish();
+                    }
+        }).show();
     }
 
     private String getVersionName() {

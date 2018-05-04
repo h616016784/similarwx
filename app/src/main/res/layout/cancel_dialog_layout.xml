@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cancle_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent" >
+
+    <LinearLayout
+        android:id="@+id/cancle_parentPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:clickable="false"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:id="@+id/cancle_topPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/dialog_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/cancle_top"
+                    android:gravity="center"
+                    android:textColor="#000000" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/transparent" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="44dp"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/cancle_btncancle"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/cancle_bottom_left"
+                        android:gravity="center"
+                        android:text="取消"
+                        android:textColor="#007aff" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="fill_parent"
+                        android:background="@android:color/transparent" />
+
+                    <Button
+                        android:id="@+id/cancle_determine"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/cancle_bottom_right"
+                        android:gravity="center"
+                        android:text="确定"
+                       android:textColor="#007aff" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
