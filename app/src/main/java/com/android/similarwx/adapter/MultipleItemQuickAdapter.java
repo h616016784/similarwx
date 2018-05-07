@@ -41,6 +41,11 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
         IMMessage imMessage=item.getImMessage();
         switch (helper.getItemViewType()) {
             case MultipleItem.ITEM_TEXT://文本
+                String textContent=item.getImMessage().getContent();
+                if (!TextUtils.isEmpty(textContent)){
+                    filterTextContext(textContent);
+                }
+
                 if (imMessage.getDirect()== MsgDirectionEnum.Out){
                     helper.setVisible(R.id.item_mitext_right_iv,false);helper.setVisible(R.id.item_mitext_left_iv,true);
                     helper.setVisible(R.id.item_mitext_right_title,false);helper.setVisible(R.id.item_mitext_left_title,true);
@@ -117,6 +122,50 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                 }
                 break;
         }
+    }
+
+    private String filterTextContext(String textContent) {
+        boolean isFin=true;
+        char[] chars=textContent.toCharArray();
+        char[] tempChars=new char[]{};
+        char[] tempEmojiChars=new char[]{};
+        String[] tempEmojiStrings=null;
+
+        String finalString=null;
+        if (chars!=null && chars.length>0){
+            int j=0;
+            int k=0;
+            int f=0;
+            for (int i=0;i<chars.length;i++){
+                if (chars[i]=='[')
+                    isFin=false;
+                if (isFin){
+                    tempChars[j]=chars[i];
+                    j++;
+                }else {
+                    tempEmojiChars[k]=chars[i];
+                    k++;
+                }
+                if (chars[i]==']')
+                    isFin=true;
+
+                if(isFin){
+                    if (tempEmojiChars.length>0){
+                        tempEmojiStrings[f]=tempEmojiChars.toString();
+                        f++;
+                        tempEmojiChars=new char[]{};
+                    }
+                }
+            }
+
+            if (!isFin){//最后判断如果没有[没有结束
+                finalString=tempChars.toString()+tempEmojiChars.toString();
+            }else {
+                finalString=tempChars.toString();
+            }
+
+        }
+        return finalString;
     }
 
 }
