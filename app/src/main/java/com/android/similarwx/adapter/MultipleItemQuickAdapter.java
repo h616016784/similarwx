@@ -1,12 +1,18 @@
 package com.android.similarwx.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.similarwx.R;
 import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.MultipleItem;
+import com.android.similarwx.widget.emoji.EmojiManager;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -17,6 +23,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,23 +48,28 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
         IMMessage imMessage=item.getImMessage();
         switch (helper.getItemViewType()) {
             case MultipleItem.ITEM_TEXT://文本
-                String textContent=item.getImMessage().getContent();
-                if (!TextUtils.isEmpty(textContent)){
-                    filterTextContext(textContent);
-                }
 
                 if (imMessage.getDirect()== MsgDirectionEnum.Out){
                     helper.setVisible(R.id.item_mitext_right_iv,false);helper.setVisible(R.id.item_mitext_left_iv,true);
                     helper.setVisible(R.id.item_mitext_right_title,false);helper.setVisible(R.id.item_mitext_left_title,true);
                     helper.setVisible(R.id.item_mitext_right_content,false);helper.setVisible(R.id.item_mitext_left_content,true);
                     helper.setText(R.id.item_mitext_left_title,item.getName());
-                    helper.setText(R.id.item_mitext_left_content,item.getImMessage().getContent());
+//                    helper.setText(R.id.item_mitext_left_content,item.getImMessage().getContent());
+                    String textContent=item.getImMessage().getContent();
+                    if (!TextUtils.isEmpty(textContent)){
+                        filterTextContext(textContent , (TextView) helper.getView(R.id.item_mitext_left_content));
+                    }
+
                 }else {
                     helper.setVisible(R.id.item_mitext_right_iv,true);helper.setVisible(R.id.item_mitext_left_iv,false);
                     helper.setVisible(R.id.item_mitext_right_title,true);helper.setVisible(R.id.item_mitext_left_title,false);
                     helper.setVisible(R.id.item_mitext_right_content,true);helper.setVisible(R.id.item_mitext_left_content,false);
                     helper.setText(R.id.item_mitext_right_title,item.getName());
-                    helper.setText(R.id.item_mitext_right_content,item.getImMessage().getContent());
+//                    helper.setText(R.id.item_mitext_right_content,item.getImMessage().getContent());
+                    String textContent=item.getImMessage().getContent();
+                    if (!TextUtils.isEmpty(textContent)){
+                        filterTextContext(textContent , (TextView) helper.getView(R.id.item_mitext_right_content));
+                    }
                 }
                 break;
             case MultipleItem.ITEM_IMAGE://图片
@@ -124,48 +136,74 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
         }
     }
 
-    private String filterTextContext(String textContent) {
+    private void filterTextContext(String textContent, TextView textView) {
         boolean isFin=true;
         char[] chars=textContent.toCharArray();
-        char[] tempChars=new char[]{};
-        char[] tempEmojiChars=new char[]{};
-        String[] tempEmojiStrings=null;
+        List<Character> tempCharList=new ArrayList<>();
+        List<Character> tempEmojiCharList=new ArrayList<>();
+        int length=chars.length;
 
-        String finalString=null;
-        if (chars!=null && chars.length>0){
-            int j=0;
-            int k=0;
-            int f=0;
-            for (int i=0;i<chars.length;i++){
+        if (chars!=null && length>0){
+            for (int i=0;i<length;i++){
                 if (chars[i]=='[')
                     isFin=false;
                 if (isFin){
-                    tempChars[j]=chars[i];
-                    j++;
+                    tempCharList.add(chars[i]);
                 }else {
-                    tempEmojiChars[k]=chars[i];
-                    k++;
+                    //添加字符串串到textview
+                    if (tempCharList.size()>0){
+                        String temp="";
+                        for (Character c:tempCharList){
+                            temp+=String.valueOf(c);
+                        }
+                        textView.append(temp);
+                        tempCharList.clear();
+                    }
+                    //开始添加emoji表情字符串
+                    tempEmojiCharList.add(chars[i]);
                 }
-                if (chars[i]==']')
+                if (chars[i]==']'){
                     isFin=true;
+                    if (tempEmojiCharList.size()>0){
+                        //获得emoji表情
+                        String temp="";
+                        for (Character c:tempEmojiCharList){
+                            temp+=String.valueOf(c);
+                        }
+//                        String emoji=tempEmojiCharList.toString();
+                        Drawable d=EmojiManager.getDrawable(context,temp);
+                        SpannableString ss = new SpannableString("emoji");
+                        //得到drawable对象，即所要插入的图片
+                        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+                        //用这个drawable对象代替字符串easy
+                        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
+                        //包括0但是不包括"easy".length()即：4。[0,4)。值得注意的是当我们复制这个图片的时候，实际是复制了"easy"这个字符串。
+                        ss.setSpan(span, 0, "emoji".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                        textView.append(ss);
 
-                if(isFin){
-                    if (tempEmojiChars.length>0){
-                        tempEmojiStrings[f]=tempEmojiChars.toString();
-                        f++;
-                        tempEmojiChars=new char[]{};
+                        //最后清空
+                        tempEmojiCharList.clear();
                     }
                 }
             }
-
-            if (!isFin){//最后判断如果没有[没有结束
-                finalString=tempChars.toString()+tempEmojiChars.toString();
-            }else {
-                finalString=tempChars.toString();
+            //
+            if (tempCharList.size()>0){
+                String temp="";
+                for (Character c:tempCharList){
+                    temp+=String.valueOf(c);
+                }
+                textView.append(temp);
+                tempCharList.clear();
             }
-
+            if (tempEmojiCharList.size()>0){
+                String temp="";
+                for (Character c:tempEmojiCharList){
+                    temp+=String.valueOf(c);
+                }
+                textView.append(temp);
+                tempEmojiCharList.clear();
+            }
         }
-        return finalString;
     }
 
 }
