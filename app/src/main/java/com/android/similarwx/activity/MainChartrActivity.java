@@ -18,6 +18,7 @@ import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.fragment.ChartFragment;
 import com.android.similarwx.fragment.ExplainFragment;
 import com.android.similarwx.fragment.MIFragment;
+import com.android.similarwx.fragment.MIFragmentNew;
 import com.android.similarwx.fragment.MyFragment;
 import com.android.similarwx.fragment.NoticeFragment;
 import com.android.similarwx.fragment.ServiceFragment;
@@ -131,7 +132,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_GROUP_EIGHT);
                     bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
                     bundle.putString(AppConstants.CHAT_ACCOUNT_ID,"450185785");//群id号
-                    FragmentUtils.navigateToNormalActivity(MainChartrActivity.this,new MIFragment(),bundle);
+                    FragmentUtils.navigateToNormalActivity(MainChartrActivity.this,new MIFragmentNew(),bundle);
                 }
             });
         }

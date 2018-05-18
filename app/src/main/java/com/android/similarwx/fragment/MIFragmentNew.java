@@ -4,12 +4,11 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
@@ -21,7 +20,6 @@ import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.utils.FragmentUtils;
-import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.RedDialogFragment;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
@@ -54,10 +52,12 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,13 +67,15 @@ import butterknife.Unbinder;
  * Created by hanhuailong on 2018/3/28.
  */
 
-public class MIFragment extends BaseFragment implements ModuleProxy {
+public class MIFragmentNew extends BaseFragment implements ModuleProxy {
     public static final int DELETE_THREE=0;
     public static final int DELETE_GROUP_EIGHT=1;
     public static final String MIFLAG="miFlag";
     List<MIMultiItem> list;
     @BindView(R.id.mi_recyclerView)
     RecyclerView miRecyclerView;
+    @BindView(R.id.mi_smartRefreshLayout)
+    SmartRefreshLayout mi_smartRefreshLayout;
     Unbinder unbinder;
 
     private MultipleItemQuickAdapter multipleItemAdapter;
@@ -93,7 +95,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     AudioPlayer player;//播放器
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_mi_layout;
+        return R.layout.fragment_mi_layout_new;
     }
 
     @Override
@@ -132,20 +134,23 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         miRecyclerView.setLayoutManager(linearLayoutManager);
         miRecyclerView.setAdapter(multipleItemAdapter);
         addListener();
-
-        multipleItemAdapter.setUpFetchEnable(true);
-        multipleItemAdapter.setStartUpFetchPosition(0);
-        multipleItemAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
+        mi_smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onUpFetch() {
-                multipleItemAdapter.setUpFetching(true);
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 Toaster.toastShort("Fetching");
-                multipleItemAdapter.setUpFetching(false);
-//                multipleItemAdapter.loadMoreComplete();
-//                multipleItemAdapter.loadMoreEnd();
-//                multipleItemAdapter.loadMoreEnd(true);
+                mi_smartRefreshLayout.finishRefresh(true);
             }
         });
+//        multipleItemAdapter.setUpFetchEnable(true);
+//        multipleItemAdapter.setStartUpFetchPosition(0);
+//        multipleItemAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
+//            @Override
+//            public void onUpFetch() {
+//                multipleItemAdapter.setUpFetching(true);
+//                Toaster.toastShort("Fetching");
+//                multipleItemAdapter.setUpFetching(false);
+//            }
+//        });
 
         miRecyclerView.requestFocus();
         //注册云信消息接受者
