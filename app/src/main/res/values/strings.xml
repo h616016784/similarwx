@@ -26,13 +26,25 @@
     <string name="login_wx_login">点击微信直接登录</string>
     <string name="login_error_acc_notnull">账号不能为空！</string>
     <string name="login_error_psd_notnull">密码不能为空！</string>
+    <string name="login_error_nick_notnull">昵称不能为空！</string>
+    <string name="login_error_weixin_notnull">微信号不能为空！</string>
+    <string name="login_error_email_notnull">邮箱不能为空！</string>
+    <string name="login_error_phone_notnull">手机号不能为空！</string>
     <string name="login_error_code_notnull">验证码不能为空！</string>
     <string name="login_error_confirm_notnull">确认密码不能为空！</string>
     <string name="login_error_psd_confirm">登录密码和确认密码不相同</string>
 
     <!--注册界面-->
     <string name="register_phone">手机号</string>
+    <string name="register_account">账号</string>
+    <string name="register_nick">昵称</string>
+    <string name="register_weixin_account">微信账号</string>
+    <string name="register_email">邮箱</string>
     <string name="register_phone_hint">请输入手机号</string>
+    <string name="register_nick_hint">请输入昵称</string>
+    <string name="register_account_hint">请输入账号</string>
+    <string name="register_weixin_account_hint">请输入微信账号</string>
+    <string name="register_email_hint">请输入邮箱</string>
     <string name="register_code">验证码</string>
     <string name="register_code_hint">请输入验证码</string>
     <string name="register_get_code">获取验证码</string>

@@ -6,6 +6,7 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.RegisterViewInterface;
+import com.android.similarwx.model.API;
 
 /**
  * Created by Administrator on 2018/3/31.
@@ -18,10 +19,11 @@ public class RegisterPresent extends BasePresent {
         this.registerViewInterface=registerViewInterface;
 
     }
-    public void register(String name,String password,String code,String confim){
-        if(isEmpty(name,password,code,confim)){
+    public void register(String account,String weixinAccount,String email,String name,String password,String code,String confim,String nick){
+        if(isEmpty(account,weixinAccount,email,name,password,confim,nick)){
             return;
         }
+        API.getInstance().register(account,weixinAccount,email,name,confim,nick);
         User user=new User();
         registerViewInterface.loginScucces(user);
     }
@@ -33,15 +35,24 @@ public class RegisterPresent extends BasePresent {
         }
         return false;
     }
-    private boolean isEmpty(String name, String password, String code,String confirm) {
+    private boolean isEmpty(String account,String weixinAccount,String email,String name, String password,String confirm,String nick) {
         if (TextUtils.isEmpty(name)){
-            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_acc_notnull));
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_phone_notnull));
+            return true;
+        }else if (TextUtils.isEmpty(nick)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_nick_notnull));
+            return true;
+        }else if (TextUtils.isEmpty(account)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_notnull));
+            return true;
+        }else if (TextUtils.isEmpty(weixinAccount)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_weixin_notnull));
+            return true;
+        }else if (TextUtils.isEmpty(email)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_email_notnull));
             return true;
         }else if (TextUtils.isEmpty(password)){
             registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_notnull));
-            return true;
-        }else if(TextUtils.isEmpty(code)){
-            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_code_notnull));
             return true;
         }else if (TextUtils.isEmpty(confirm)){
             registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_confirm_notnull));

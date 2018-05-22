@@ -1,10 +1,15 @@
 package com.android.similarwx.model.interceptor;
 
+import com.android.outbaselibrary.primary.AppContext;
+import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.utils.DigestUtil;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Headers;
@@ -30,6 +35,17 @@ public class LogInterceptor implements Interceptor {
         Logger.e("url:" + request.url());
         Logger.e("method:" + request.method());
         Logger.e("request-body:" + request.body());
+        //为请求添加header信息
+        String useKey=SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_KEY,"userKey");
+        String nonce=UUID.randomUUID().toString();
+        String curTime=System.currentTimeMillis()+"";
+        String checkSum= DigestUtil.sha1(useKey+nonce+curTime);
+        request=request.newBuilder().addHeader("useKey",useKey )
+                .addHeader("nonce",nonce )
+                .addHeader("curTime", curTime)
+                .addHeader("checkSum", checkSum)
+                .build();
+        Logger.e("headers:" + request.headers());
 
         //记录请求耗时
         long startNs = System.nanoTime();

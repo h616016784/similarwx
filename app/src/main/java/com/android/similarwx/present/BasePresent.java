@@ -5,4 +5,5 @@ package com.android.similarwx.present;
  */
 
 public class BasePresent {
+
 }

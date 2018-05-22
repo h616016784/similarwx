@@ -47,7 +47,7 @@ public class LoginPresent extends BasePresent {
      */
     public void saveUser(User user){
         SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getName());
-        SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"d2cc461e543720889cd64f329dfe4852");
+        SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"1");
         //云信登录
         LoginInfo loginInfo=new LoginInfo(user.getName(),"d2cc461e543720889cd64f329dfe4852");
         doYunXinLogin(loginInfo);

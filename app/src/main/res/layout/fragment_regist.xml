@@ -11,6 +11,87 @@
         android:layout_marginTop="@dimen/distance_bigger"
         android:padding="@dimen/distance_normal">
         <TextView
+            android:id="@+id/login_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:text="@string/register_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_content_or_button"/>
+        <EditText
+            android:id="@+id/login_account_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_middle"
+            android:layout_toRightOf="@id/login_account"
+            android:background="@null"
+            android:textSize="@dimen/text_content_or_button"
+            android:hint="@string/register_account_hint"
+            android:inputType="text"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:lines="1"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/distance_normal">
+        <TextView
+            android:id="@+id/login_weixn_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:text="@string/register_weixin_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_content_or_button"/>
+        <EditText
+            android:id="@+id/login_weixn_account_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_middle"
+            android:layout_toRightOf="@id/login_weixn_account"
+            android:background="@null"
+            android:textSize="@dimen/text_content_or_button"
+            android:hint="@string/register_weixin_account_hint"
+            android:inputType="text"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:lines="1"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/distance_normal">
+        <TextView
+            android:id="@+id/login_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:text="@string/register_email"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_content_or_button"/>
+        <EditText
+            android:id="@+id/login_email_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_middle"
+            android:layout_toRightOf="@id/login_email"
+            android:background="@null"
+            android:textSize="@dimen/text_content_or_button"
+            android:hint="@string/register_email_hint"
+            android:inputType="text"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:lines="1"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/distance_normal">
+        <TextView
             android:id="@+id/login_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,6 +113,33 @@
             android:lines="1"
             />
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/distance_normal">
+        <TextView
+            android:id="@+id/login_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:text="@string/register_nick"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_content_or_button"/>
+        <EditText
+            android:id="@+id/login_nick_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_middle"
+            android:layout_toRightOf="@id/login_nick"
+            android:background="@null"
+            android:textSize="@dimen/text_content_or_button"
+            android:hint="@string/register_nick_hint"
+            android:inputType="text"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:lines="1"
+            />
+    </RelativeLayout>
     <include android:layout_marginLeft="@dimen/distance_normal"
         android:layout_marginRight="@dimen/distance_normal"
         layout="@layout/include_divider"
@@ -40,6 +148,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:visibility="gone"
         android:padding="@dimen/distance_normal">
         <TextView
             android:id="@+id/register_code"

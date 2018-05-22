@@ -48,6 +48,10 @@ public class SharePreferenceUtil {
         }
         return null;
     }
+    public static String getString(Context context, String key, String defaultObject) {
+        SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        return sp.getString(key, defaultObject);
+    }
 
     /**
      * 保存序列化对象到本地

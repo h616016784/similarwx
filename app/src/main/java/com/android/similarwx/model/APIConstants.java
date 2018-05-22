@@ -18,10 +18,10 @@ public interface APIConstants {
     int BIZ_SUCCESS = 1;
     int BIZ_FAILUR = 0;
     String VERSION = "";
-    String DOMAIN_DEBUG = "http://ucano2otest.staff.xdf.cn/ucano2o/learn" + File.separator + VERSION;
-    String DOMAIN_RELEASE = "http://woxue121.xdf.cn/ucano2o/learn" + File.separator + VERSION;
+//    String DOMAIN_DEBUG = "http://39.105.107.104/api/learn" + File.separator + VERSION;
+//    String DOMAIN_RELEASE = "http://39.105.107.104/api/learn" + File.separator + VERSION;
+    String DOMAIN_DEBUG = "http://39.105.107.104/api";
+    String DOMAIN_RELEASE = "http://39.105.107.104/api";
     String DOMAIN = BuildConfig.DEBUG ? DOMAIN_DEBUG : DOMAIN_RELEASE;
-
-
 
 }
