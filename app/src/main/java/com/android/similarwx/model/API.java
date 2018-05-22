@@ -2,7 +2,9 @@ package com.android.similarwx.model;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
+import com.android.similarwx.present.RegisterPresent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +45,7 @@ public class API implements APIConstants {
         }
         return sInstance;
     }
-    public void register(String account,String weixinAccount,String email,String name,String password,String nick){
+    public void register(String account, String weixinAccount, String email, String name, String password, String nick, final RegisterPresent present){
         Map<String,String> map=new HashMap<>();
         map.put("accId",account);
         map.put("passwdStr",password);
@@ -51,14 +53,15 @@ public class API implements APIConstants {
         map.put("mobile",name);
         map.put("wechatAccount",weixinAccount);
         map.put("name",nick);
-        Call<User> user=apiService.login(map);
-        user.enqueue(new Callback<User>() {
+        Call<RspUser> user=apiService.login(map);
+        user.enqueue(new Callback<RspUser>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                RspUser rspUser=response.body();
+                present.analyzeRes(rspUser);
             }
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<RspUser> call, Throwable t) {
 
             }
         });

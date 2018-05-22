@@ -1,5 +1,7 @@
 package com.android.similarwx.model.interceptor;
 
+import android.util.Log;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.utils.DigestUtil;
@@ -32,36 +34,36 @@ public class LogInterceptor implements Interceptor {
         //获得请求信息，此处如有需要可以添加headers信息
         Request request = chain.request();
         //打印请求信息
-        Logger.e("url:" + request.url());
-        Logger.e("method:" + request.method());
-        Logger.e("request-body:" + request.body());
+        Log.e("request","url:" + request.url());
+        Log.e("request","method:" + request.method());
+        Log.e("request","request-body:" + request.body());
         //为请求添加header信息
         String useKey=SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_KEY,"userKey");
         String nonce=UUID.randomUUID().toString();
         String curTime=System.currentTimeMillis()+"";
         String checkSum= DigestUtil.sha1(useKey+nonce+curTime);
-        request=request.newBuilder().addHeader("useKey",useKey )
+        Request requestNew=request.newBuilder().addHeader("useKey",useKey )
                 .addHeader("nonce",nonce )
                 .addHeader("curTime", curTime)
                 .addHeader("checkSum", checkSum)
                 .build();
-        Logger.e("headers:" + request.headers());
+        Log.e("request","headers:" + requestNew.headers());
 
         //记录请求耗时
         long startNs = System.nanoTime();
         Response response;
         try {
             //发送请求，获得相应，
-            response = chain.proceed(request);
+            response = chain.proceed(requestNew);
         } catch (Exception e) {
             throw e;
         }
         long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
         //打印请求耗时
-        Logger.e("耗时:" + tookMs + "ms");
+        Log.e("response","耗时:" + tookMs + "ms");
         //使用response获得headers(),可以更新本地Cookie。
         Headers headers = response.headers();
-        Logger.e(headers.toString());
+        Log.e("response",headers.toString());
 
         //获得返回的body，注意此处不要使用responseBody.string()获取返回数据，原因在于这个方法会消耗返回结果的数据(buffer)
         ResponseBody responseBody = response.body();
@@ -72,8 +74,7 @@ public class LogInterceptor implements Interceptor {
         //获得返回的数据
         Buffer buffer = source.buffer();
         //使用前clone()下，避免直接消耗
-        Logger.e("response:" + buffer.clone().readString(Charset.forName("UTF-8")));
-
+        Log.e("response","response:" + buffer.clone().readString(Charset.forName("UTF-8")));
         return response;
     }
 }

@@ -1,6 +1,7 @@
 package com.android.similarwx.model;
 
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspUser;
 
 import java.util.Map;
 
@@ -18,5 +19,5 @@ import retrofit2.http.QueryMap;
 public interface APIService {
 
     @POST("resUsers/register")
-    Call<User> login(@QueryMap Map<String,String> map);
+    Call<RspUser> login(@QueryMap Map<String,String> map);
 }

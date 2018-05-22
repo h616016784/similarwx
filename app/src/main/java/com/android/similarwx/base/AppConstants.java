@@ -38,6 +38,7 @@ public class AppConstants extends BaseConstants {
      */
     public static final String USER_ACCID = "accId";
     public static final String USER_TOKEN = "token";
+    public static final String USER_ID = "id";
     public static final String USER_KEY = "useKey";
     public static final String USER_NONCE = "nonce";
     public static final String USER_TIME = "curTime";

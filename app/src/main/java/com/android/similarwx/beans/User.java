@@ -8,6 +8,24 @@ public class User extends BaseBean{
     private String token;
     private String name;
     private int phone;
+    private String id;
+    private String accid;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAccid() {
+        return accid;
+    }
+
+    public void setAccid(String accid) {
+        this.accid = accid;
+    }
 
     public String getToken() {
         return token;

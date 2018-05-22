@@ -20,8 +20,8 @@ public interface APIConstants {
     String VERSION = "";
 //    String DOMAIN_DEBUG = "http://39.105.107.104/api/learn" + File.separator + VERSION;
 //    String DOMAIN_RELEASE = "http://39.105.107.104/api/learn" + File.separator + VERSION;
-    String DOMAIN_DEBUG = "http://39.105.107.104/api";
-    String DOMAIN_RELEASE = "http://39.105.107.104/api";
+    String DOMAIN_DEBUG = "http://39.105.107.104/api"+File.separator;
+    String DOMAIN_RELEASE = "http://39.105.107.104/api"+File.separator;
     String DOMAIN = BuildConfig.DEBUG ? DOMAIN_DEBUG : DOMAIN_RELEASE;
 
 }
