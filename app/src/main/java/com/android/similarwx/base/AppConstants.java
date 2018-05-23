@@ -36,8 +36,7 @@ public class AppConstants extends BaseConstants {
     /**
      * 用户标签
      */
-    public static final String USER_ACCID = "accId";
-    public static final String USER_TOKEN = "token";
+
     public static final String USER_ID = "id";
     public static final String USER_KEY = "useKey";
     public static final String USER_NONCE = "nonce";
@@ -65,7 +64,12 @@ public class AppConstants extends BaseConstants {
     /**
      * 用户基本信息
      */
+    public static final String USER_ACCID = "accId";
+    public static final String USER_TOKEN = "token";
+    public static final String USER_EMAIL= "email";
+    public static final String USER_PHONE= "phone";
     public final static String USER_NICK = "nick";//
+    public final static String USER_WEIXIN= "weixin";//
     public final static String USER_SIGN = "sign";//
     public final static String USER_CONTENT = "content";//
     public final static int RESULT_USER_NICK = 9;//

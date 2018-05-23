@@ -1,5 +1,8 @@
 package com.android.similarwx.activity;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,6 +63,11 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private List<GroupMessageBean> mListData;
     GroupPresent groupPresent;
     private EditDialogSimple editDialogSimple;
+
+    public static void start(Activity context){
+        Intent intent=new Intent(context,MainChartrActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -44,6 +44,18 @@ public class RegisterPresent extends BasePresent {
         if(isEmpty(account,weixinAccount,email,name,password,confim,nick)){
             return;
         }
+//        User user=new User();
+//        user.setPasswd("7c4a8d09ca3762af61e59520943dc26494f8941b");
+//        user.setLoginFlg(0);
+//        user.setPasswdStr("123456");
+//        user.setInvitationCode("981c2e1b7692c2180557a03ce7a30064436b6da6");
+//        user.setEmail("wangyihanhuailong@163.com");
+//        user.setToken("a170417844a19c6bfebb4ab1a137fc31");
+//        user.setWechatAccount("15701332721");
+//        user.setName("joke1");
+//        user.setMobile("15701332721");
+//        user.setAccId("hhltest1");
+//        saveUser(user);
         API.getInstance().register(account,weixinAccount,email,name,confim,nick,this);
     }
     //解析相应体
@@ -64,11 +76,20 @@ public class RegisterPresent extends BasePresent {
      * @param user
      */
     public void saveUser(User user){
-        SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccid());
-        SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,user.getToken());
-        SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
+        if (user.getAccId()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccId());
+        if (user.getToken()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,user.getToken());
+        if (user.getName()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_NICK,user.getName());
+        if (user.getEmail()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_EMAIL,user.getEmail());
+        if (user.getMobile()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PHONE,user.getMobile());
+        if (user.getWechatAccount()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_WEIXIN,user.getWechatAccount());
         //云信登录
-        LoginInfo loginInfo=new LoginInfo(user.getAccid(),user.getToken());
+        LoginInfo loginInfo=new LoginInfo(user.getAccId(),user.getToken());
         doYunXinLogin(loginInfo,user);
     }
     private void doYunXinLogin(LoginInfo loginInfo, final User user) {
@@ -128,7 +149,7 @@ public class RegisterPresent extends BasePresent {
         }else if (TextUtils.isEmpty(confirm)){
             registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_confirm_notnull));
             return true;
-        }else if(password!=confirm){
+        }else if(!password.equals(confirm)){
             registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_confirm));
             return true;
         }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
+import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.RegisterViewInterface;
@@ -148,7 +149,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
     @Override
     public void loginScucces(User user) {
         registerErrror.setVisibility(View.GONE);
-
+        MainChartrActivity.start(activity);
     }
 
     @Override
