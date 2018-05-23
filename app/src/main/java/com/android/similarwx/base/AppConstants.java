@@ -70,6 +70,7 @@ public class AppConstants extends BaseConstants {
     public static final String USER_PHONE= "phone";
     public final static String USER_NICK = "nick";//
     public final static String USER_WEIXIN= "weixin";//
+    public final static String USER_SEX= "sex";//
     public final static String USER_SIGN = "sign";//
     public final static String USER_CONTENT = "content";//
     public final static int RESULT_USER_NICK = 9;//

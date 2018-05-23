@@ -19,7 +19,12 @@
     <string name="login_bar_registe">注册</string>
     <string name="login_bar_next">下一步</string>
     <string name="login_account">账号: </string>
+    <string name="login_mobile">手机号: </string>
+    <string name="login_weixin">微信号: </string>
+    <string name="login_weixin_hint">请输入微信号 </string>
+    <string name="login_mobile_hint">请输入手机号</string>
     <string name="login_account_hin">请输入手机号/账号</string>
+    <string name="login_account_hint">请输入账号</string>
     <string name="login_password">密码: </string>
     <string name="login_password_hint">请输入密码</string>
     <string name="login_forget_password">忘记密码？</string>

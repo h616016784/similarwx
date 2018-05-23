@@ -88,6 +88,8 @@ public class RegisterPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PHONE,user.getMobile());
         if (user.getWechatAccount()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_WEIXIN,user.getWechatAccount());
+        if (user.getGender()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_SEX,user.getGender());
         //云信登录
         LoginInfo loginInfo=new LoginInfo(user.getAccId(),user.getToken());
         doYunXinLogin(loginInfo,user);

@@ -19,5 +19,7 @@ import retrofit2.http.QueryMap;
 public interface APIService {
 
     @POST("resUsers/register")
+    Call<RspUser> registe(@QueryMap Map<String,String> map);
+    @POST("resUsers/login")
     Call<RspUser> login(@QueryMap Map<String,String> map);
 }

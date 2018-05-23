@@ -56,21 +56,83 @@
             android:layout_toRightOf="@id/login_account_tv"
             android:background="@null"
             android:textSize="@dimen/text_content_or_button"
-            android:hint="@string/login_account_hin"
-            android:text="paopaotest1"
+            android:hint="@string/login_account_hint"
+            android:text="hhltest1"
             android:inputType="text"
             android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:lines="1"
             />
     </RelativeLayout>
-    <include android:layout_marginLeft="@dimen/distance_normal"
-        android:layout_marginRight="@dimen/distance_normal"
-        layout="@layout/segmentation_line"
-        tools:ignore="IncludeLayoutParam"/>
+    <include
+        layout="@layout/segmentation_line" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/distance_big"
+        android:layout_marginTop="@dimen/distance_normal"
+        android:layout_marginLeft="@dimen/distance_small"
+        android:layout_marginRight="@dimen/distance_small"
+        android:padding="@dimen/distance_small">
+        <TextView
+            android:id="@+id/login_mobile_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:text="@string/login_mobile"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_content_or_button"/>
+        <EditText
+            android:id="@+id/login_mobile_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_middle"
+            android:layout_toRightOf="@id/login_mobile_tv"
+            android:background="@null"
+            android:textSize="@dimen/text_content_or_button"
+            android:hint="@string/login_mobile_hint"
+            android:text="15701332721"
+            android:inputType="text"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:lines="1"
+            />
+    </RelativeLayout>
+    <include
+        layout="@layout/segmentation_line" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_normal"
+        android:layout_marginLeft="@dimen/distance_small"
+        android:layout_marginRight="@dimen/distance_small"
+        android:padding="@dimen/distance_small">
+        <TextView
+            android:id="@+id/login_weixin_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:text="@string/login_weixin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_content_or_button"/>
+        <EditText
+            android:id="@+id/login_weixin_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_middle"
+            android:layout_toRightOf="@id/login_weixin_tv"
+            android:background="@null"
+            android:textSize="@dimen/text_content_or_button"
+            android:hint="@string/login_weixin_hint"
+            android:text="15701332721"
+            android:inputType="text"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:lines="1"
+            />
+    </RelativeLayout>
+    <include
+        layout="@layout/segmentation_line" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_normal"
         android:layout_marginLeft="@dimen/distance_small"
         android:layout_marginRight="@dimen/distance_small"
         android:padding="@dimen/distance_small">
@@ -92,9 +154,11 @@
             android:textSize="@dimen/text_content_or_button"
             android:hint="@string/login_password_hint"
             android:password="true"
+            android:text="123456"
             android:digits="0123456789qwertyuioplkjhgfdsazxcvbnm"
             android:lines="1"
             />
+
     </RelativeLayout>
     <include
         layout="@layout/segmentation_line" />
