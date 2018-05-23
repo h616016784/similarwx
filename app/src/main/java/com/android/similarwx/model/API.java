@@ -83,7 +83,7 @@ public class API implements APIConstants {
         map.put("accId",name);
         map.put("mobile",mobile);
         map.put("wechatAccount",weixin);
-        map.put("passwordStr",password);
+        map.put("passwdStr",password);
         Call<RspUser> user=apiService.login(map);
         user.enqueue(new Callback<RspUser>() {
             @Override
