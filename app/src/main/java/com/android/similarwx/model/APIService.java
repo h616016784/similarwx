@@ -1,8 +1,11 @@
 package com.android.similarwx.model;
 
+import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspUser;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -22,4 +25,7 @@ public interface APIService {
     Call<RspUser> registe(@QueryMap Map<String,String> map);
     @POST("resUsers/login")
     Call<RspUser> login(@QueryMap Map<String,String> map);
+
+    @POST("group/getGroupList")
+    Call<RspGroup> reqGroupList(@QueryMap Map<String,String> map);
 }

@@ -49,6 +49,8 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccId());
         if (user.getToken()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,user.getToken());
+        else
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
         if (user.getName()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_NICK,user.getName());
         if (user.getEmail()!=null)
@@ -60,7 +62,14 @@ public class LoginPresent extends BasePresent {
         if (user.getGender()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_SEX,user.getGender());
         //云信登录
-        LoginInfo loginInfo=new LoginInfo(user.getAccId(),user.getToken());
+
+        String accid=user.getAccId();
+        String token=user.getToken();
+        if (TextUtils.isEmpty(accid))
+            accid="hhltest1";
+        if (TextUtils.isEmpty(accid))
+            token="a170417844a19c6bfebb4ab1a137fc31";
+        LoginInfo loginInfo=new LoginInfo(accid,token);
         doYunXinLogin(loginInfo,user);
     }
 

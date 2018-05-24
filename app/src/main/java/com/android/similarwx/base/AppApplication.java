@@ -65,7 +65,7 @@ public class AppApplication extends BaseApplication {
         String token;
         try {
             accid=(String) SharePreferenceUtil.getObject(this,AppConstants.USER_ACCID,"无");
-            token=(String) SharePreferenceUtil.getObject(this,AppConstants.USER_TOKEN,"无");
+            token=(String) SharePreferenceUtil.getObject(this,AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
         }catch (Exception e){
             return null;
         }

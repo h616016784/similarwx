@@ -17,6 +17,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
+import com.android.similarwx.beans.GroupMemberBean;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.fragment.ChartFragment;
 import com.android.similarwx.fragment.ExplainFragment;
@@ -25,6 +26,7 @@ import com.android.similarwx.fragment.MIFragmentNew;
 import com.android.similarwx.fragment.MyFragment;
 import com.android.similarwx.fragment.NoticeFragment;
 import com.android.similarwx.fragment.ServiceFragment;
+import com.android.similarwx.inteface.MainGroupView;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
@@ -43,7 +45,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/1.
  */
 
-public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
+public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView {
 
     Unbinder unbinder;
     @BindView(R.id.main_search_iv)
@@ -74,9 +76,9 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
-        groupPresent=new GroupPresent();
+        groupPresent=new GroupPresent(this);
         editDialogSimple=new EditDialogSimple(this,null);
-        initData();
+//        initData();
         adapter=new HomeAdapter(R.layout.item_group,this,mListData);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -88,6 +90,12 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
     private void initData() {
         mListData=groupPresent.getInitData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        groupPresent.getGroupList();
     }
 
     @Override
@@ -152,5 +160,18 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         if (imm.isActive()) {//如果开启
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,InputMethodManager.HIDE_NOT_ALWAYS);//关闭软键盘，开启方法相同，这个方法是切换开启与关闭状态的
         }
+    }
+
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void groupRefresh(List<GroupMessageBean> data) {
+        data.add(0,new GroupMessageBean());
+        data.add(0,new GroupMessageBean());
+        adapter.addData(data);
     }
 }

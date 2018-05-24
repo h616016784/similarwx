@@ -5,6 +5,7 @@ package com.android.similarwx.beans;
  */
 
 public class GroupMessageBean extends BaseBean {
+
     private String name;
     private String imageUrl;
     private String msgCount;

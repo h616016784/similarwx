@@ -103,11 +103,9 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
             inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         hideKeyboard();
     }
-
 }
