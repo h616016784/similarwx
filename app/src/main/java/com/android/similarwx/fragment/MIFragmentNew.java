@@ -85,6 +85,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy {
     private SessionCustomization customization;
     // 聊天对象
     protected String sessionId; // p2p对方Account或者群id
+    protected String sessionName; // 群名称
     protected SessionTypeEnum sessionType;
 
     private int flag=DELETE_GROUP_EIGHT;
@@ -107,6 +108,8 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy {
             customization = (SessionCustomization) bundle.getSerializable(Extras.EXTRA_CUSTOMIZATION);
             sessionId = bundle.getString(AppConstants.CHAT_ACCOUNT_ID);
             sessionType = (SessionTypeEnum) bundle.getSerializable(AppConstants.CHAT_TYPE);
+            sessionName = bundle.getString(AppConstants.CHAT_ACCOUNT_NAME);
+            mActionbar.setTitle(sessionName);
         }
         unbinder=ButterKnife.bind(this, contentView);
 
@@ -119,11 +122,10 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy {
             mActionbar.setRightImageOnClickListener(this);
             mActionbar.setRightImagePeopleOnClickListener(this);
         }
-//        View rootView=contentView.findViewById(R.id.messageActivityBottomLayout);
+
         Container container = new Container(activity, sessionId, sessionType, this);
         if (inputPanel == null) {
             inputPanel = new InputPanel(container, contentView, getActionList());
-//            inputPanel.setCustomization(customization);
         } else {
             inputPanel.reload(container, customization);
         }
@@ -141,16 +143,6 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy {
                 mi_smartRefreshLayout.finishRefresh(true);
             }
         });
-//        multipleItemAdapter.setUpFetchEnable(true);
-//        multipleItemAdapter.setStartUpFetchPosition(0);
-//        multipleItemAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
-//            @Override
-//            public void onUpFetch() {
-//                multipleItemAdapter.setUpFetching(true);
-//                Toaster.toastShort("Fetching");
-//                multipleItemAdapter.setUpFetching(false);
-//            }
-//        });
 
         miRecyclerView.requestFocus();
         //注册云信消息接受者
@@ -201,7 +193,6 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy {
                         RedResultDialogFragment.show(activity);
                         break;
                 }
-
             }
         });
     }

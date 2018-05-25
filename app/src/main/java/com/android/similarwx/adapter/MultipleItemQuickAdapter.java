@@ -53,7 +53,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_mitext_right_iv,false);helper.setVisible(R.id.item_mitext_left_iv,true);
                     helper.setVisible(R.id.item_mitext_right_title,false);helper.setVisible(R.id.item_mitext_left_title,true);
                     helper.setVisible(R.id.item_mitext_right_content,false);helper.setVisible(R.id.item_mitext_left_content,true);
-                    helper.setText(R.id.item_mitext_left_title,item.getName());
+                    helper.setText(R.id.item_mitext_left_title,item.getImMessage().getFromNick());
 //                    helper.setText(R.id.item_mitext_left_content,item.getImMessage().getContent());
                     String textContent=item.getImMessage().getContent();
                     if (!TextUtils.isEmpty(textContent)){
@@ -64,7 +64,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_mitext_right_iv,true);helper.setVisible(R.id.item_mitext_left_iv,false);
                     helper.setVisible(R.id.item_mitext_right_title,true);helper.setVisible(R.id.item_mitext_left_title,false);
                     helper.setVisible(R.id.item_mitext_right_content,true);helper.setVisible(R.id.item_mitext_left_content,false);
-                    helper.setText(R.id.item_mitext_right_title,item.getName());
+                    helper.setText(R.id.item_mitext_right_title,item.getImMessage().getFromNick());
 //                    helper.setText(R.id.item_mitext_right_content,item.getImMessage().getContent());
                     String textContent=item.getImMessage().getContent();
                     if (!TextUtils.isEmpty(textContent)){
@@ -78,7 +78,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_mi_image_right_iv,false);helper.setVisible(R.id.item_mi_image_left_iv,true);
                     helper.setVisible(R.id.item_mi_image_right_title,false);helper.setVisible(R.id.item_mi_image_left_title,true);
                     helper.setVisible(R.id.item_mi_image_right_content,false);helper.setVisible(R.id.item_mi_image_left_content,true);
-                    helper.setText(R.id.item_mi_image_left_title,item.getName());
+                    helper.setText(R.id.item_mi_image_left_title,item.getImMessage().getFromNick());
                     String s=imMessage.getAttachment().toJson(false);
                     Gson gson=new Gson();
                     CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
@@ -91,7 +91,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_mi_image_right_iv,true);helper.setVisible(R.id.item_mi_image_left_iv,false);
                     helper.setVisible(R.id.item_mi_image_right_title,true);helper.setVisible(R.id.item_mi_image_left_title,false);
                     helper.setVisible(R.id.item_mi_image_right_content,true);helper.setVisible(R.id.item_mi_image_left_content,false);
-                    helper.setText(R.id.item_mi_image_right_title,item.getName());
+                    helper.setText(R.id.item_mi_image_right_title,item.getImMessage().getFromNick());
 
                     String s=imMessage.getAttachment().toJson(false);
                     Gson gson=new Gson();
@@ -107,13 +107,13 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_mi_auto_right_title,false);helper.setVisible(R.id.item_mi_auto_left_title,true);
                     helper.setVisible(R.id.item_mi_auto_right_content,false);helper.setVisible(R.id.item_mi_auto_left_content,true);
                     helper.setBackgroundRes(R.id.item_mi_auto_content_rl,R.drawable.mi_chatfrom_bg_normal);
-                    helper.setText(R.id.item_mi_auto_left_title,item.getName());
+                    helper.setText(R.id.item_mi_auto_left_title,item.getImMessage().getFromNick());
                 }else {
                     helper.setVisible(R.id.item_mi_auto_right_iv,true);helper.setVisible(R.id.item_mi_auto_left_iv,false);
                     helper.setVisible(R.id.item_mi_auto_right_title,true);helper.setVisible(R.id.item_mi_auto_left_title,false);
                     helper.setVisible(R.id.item_mi_auto_right_content,true);helper.setVisible(R.id.item_mi_auto_left_content,false);
                     helper.setBackgroundRes(R.id.item_mi_auto_content_rl,R.drawable.ease_chatfrom_bg_normal_right);
-                    helper.setText(R.id.item_mi_auto_right_title,item.getName());
+                    helper.setText(R.id.item_mi_auto_right_title,item.getImMessage().getFromNick());
                 }
 
                 break;
@@ -127,10 +127,14 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_red_right_iv,false);helper.setVisible(R.id.item_red_left_iv,true);
                     helper.setVisible(R.id.item_red_right_content,false);helper.setVisible(R.id.item_red_left_content,true);
                     helper.setVisible(R.id.item_red_packet_right_rl,false);helper.setVisible(R.id.item_red_packet_rl,true);
+
+                    helper.setText(R.id.item_red_left_content,item.getImMessage().getFromNick());
                 }else {
                     helper.setVisible(R.id.item_red_left_iv,false);helper.setVisible(R.id.item_red_right_iv,true);
                     helper.setVisible(R.id.item_red_left_content,false);helper.setVisible(R.id.item_red_right_content,true);
                     helper.setVisible(R.id.item_red_packet_rl,false);helper.setVisible(R.id.item_red_packet_right_rl,true);
+
+                    helper.setText(R.id.item_red_right_content,item.getImMessage().getFromNick());
                 }
                 break;
         }

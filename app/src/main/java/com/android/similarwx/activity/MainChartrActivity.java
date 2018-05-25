@@ -148,6 +148,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_GROUP_EIGHT);
                     bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
                     bundle.putString(AppConstants.CHAT_ACCOUNT_ID,mListData.get(position).getGroupId());//群id号
+                    bundle.putString(AppConstants.CHAT_ACCOUNT_NAME,mListData.get(position).getGroupName());//群name
                     FragmentUtils.navigateToNormalActivity(MainChartrActivity.this,new MIFragmentNew(),bundle);
                 }
             });
