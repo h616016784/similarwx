@@ -10,13 +10,13 @@ import java.util.List;
  */
 
 public class RspGroup extends BaseResponse {
-    List<GroupMessageBean> data;
+    GroupMessageBean data;
 
-    public List<GroupMessageBean> getData() {
+    public GroupMessageBean getData() {
         return data;
     }
 
-    public void setData(List<GroupMessageBean> data) {
+    public void setData(GroupMessageBean data) {
         this.data = data;
     }
 }

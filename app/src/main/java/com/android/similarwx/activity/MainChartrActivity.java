@@ -62,7 +62,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     RelativeLayout mainMyChart;
 
     private HomeAdapter adapter;
-    private List<GroupMessageBean> mListData;
+    private List<GroupMessageBean.ListBean> mListData;
     GroupPresent groupPresent;
     private EditDialogSimple editDialogSimple;
 
@@ -79,6 +79,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         groupPresent=new GroupPresent(this);
         editDialogSimple=new EditDialogSimple(this,null);
 //        initData();
+        groupPresent.getGroupList();
         adapter=new HomeAdapter(R.layout.item_group,this,mListData);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -95,7 +96,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     @Override
     protected void onResume() {
         super.onResume();
-        groupPresent.getGroupList();
     }
 
     @Override
@@ -133,13 +133,13 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
      * @param position
      */
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
         if (position==0){//通知
             FragmentUtils.navigateToNormalActivity(this,new NoticeFragment(),null);
         }else  if (position==1){//在线客服
             FragmentUtils.navigateToNormalActivity(this,new ServiceFragment(),null);
         }else {
-            editDialogSimple.setTitle(mListData.get(position).getName());
+            editDialogSimple.setTitle(mListData.get(position).getGroupName());
             editDialogSimple.show();
             editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                 @Override
@@ -147,7 +147,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     Bundle bundle=new Bundle();
                     bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_GROUP_EIGHT);
                     bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
-                    bundle.putString(AppConstants.CHAT_ACCOUNT_ID,"450185785");//群id号
+                    bundle.putString(AppConstants.CHAT_ACCOUNT_ID,mListData.get(position).getGroupId());//群id号
                     FragmentUtils.navigateToNormalActivity(MainChartrActivity.this,new MIFragmentNew(),bundle);
                 }
             });
@@ -162,16 +162,21 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         }
     }
 
-
     @Override
     public void showErrorMessage(String err) {
 
     }
 
     @Override
-    public void groupRefresh(List<GroupMessageBean> data) {
-        data.add(0,new GroupMessageBean());
-        data.add(0,new GroupMessageBean());
-        adapter.addData(data);
+    public void groupRefresh(List<GroupMessageBean.ListBean> data) {
+        mListData=new ArrayList<>();
+        GroupMessageBean.ListBean bean=new GroupMessageBean.ListBean();
+        bean.setGroupName(AppContext.getString(R.string.main_notice));
+        mListData.add(bean);
+        GroupMessageBean.ListBean bean1=new GroupMessageBean.ListBean();
+        bean1.setGroupName(AppContext.getString(R.string.main_online_answer));
+        mListData.add(bean1);
+        mListData.addAll(data);
+        adapter.addData(mListData);
     }
 }

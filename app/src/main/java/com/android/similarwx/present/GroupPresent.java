@@ -24,8 +24,8 @@ public class GroupPresent extends BasePresent {
     public GroupPresent(MainGroupView view){
         this.mView=view;
     }
-    public List<GroupMessageBean> getInitData(){
-        List<GroupMessageBean> mListData=new ArrayList<>();
+    public List<GroupMessageBean.ListBean> getInitData(){
+        List<GroupMessageBean.ListBean> mListData=new ArrayList<>();
 //        GroupMessageBean bean=new GroupMessageBean();
 //        bean.setName(AppContext.getString(R.string.main_notice));
 //        mListData.add(bean);
@@ -47,10 +47,8 @@ public class GroupPresent extends BasePresent {
     public void analyzeRes(RspGroup rspGroup) {
         String code=rspGroup.getErrorCode();
         if (code.equals("0000")){
-            List<GroupMessageBean> list=rspGroup.getData();
-            if (list!=null){
-
-            }
+            List<GroupMessageBean.ListBean> list=rspGroup.getData().getList();
+            mView.groupRefresh(list);
         }else {
             Toaster.toastShort(rspGroup.getErrorMsg());
         }

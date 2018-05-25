@@ -82,26 +82,26 @@ public class GroupMessageBean extends BaseBean {
 
         private String groupType;
         private int endRange;
-        private Object createTime;
+        private String createTime;
         private String groupName;
         private String requirement;
         private int thunderNumber;
         private String gameType;
-        private Object updateTime;
-        private Object multipleRate;
-        private Object attr;
+        private String updateTime;
+        private String multipleRate;
+        private String attr;
         private int startRange;
-        private Object attrValue;
+        private String attrValue;
         private int id;
         private String groupId;
         private int px;
-        private Object groupIcon;
-        private Object description;
+        private String groupIcon;
+        private String description;
         private String rewardRules;
         private int totalNumber;
         private int totalRedEnvelopes;
         private String notice;
-        private Object attrName;
+        private String attrName;
         private String createId;
 
         public String getGroupType() {
@@ -120,11 +120,11 @@ public class GroupMessageBean extends BaseBean {
             this.endRange = endRange;
         }
 
-        public Object getCreateTime() {
+        public String getCreateTime() {
             return createTime;
         }
 
-        public void setCreateTime(Object createTime) {
+        public void setCreateTime(String createTime) {
             this.createTime = createTime;
         }
 
@@ -160,27 +160,27 @@ public class GroupMessageBean extends BaseBean {
             this.gameType = gameType;
         }
 
-        public Object getUpdateTime() {
+        public String getUpdateTime() {
             return updateTime;
         }
 
-        public void setUpdateTime(Object updateTime) {
+        public void setUpdateTime(String updateTime) {
             this.updateTime = updateTime;
         }
 
-        public Object getMultipleRate() {
+        public String getMultipleRate() {
             return multipleRate;
         }
 
-        public void setMultipleRate(Object multipleRate) {
+        public void setMultipleRate(String multipleRate) {
             this.multipleRate = multipleRate;
         }
 
-        public Object getAttr() {
+        public String getAttr() {
             return attr;
         }
 
-        public void setAttr(Object attr) {
+        public void setAttr(String attr) {
             this.attr = attr;
         }
 
@@ -192,11 +192,11 @@ public class GroupMessageBean extends BaseBean {
             this.startRange = startRange;
         }
 
-        public Object getAttrValue() {
+        public String getAttrValue() {
             return attrValue;
         }
 
-        public void setAttrValue(Object attrValue) {
+        public void setAttrValue(String attrValue) {
             this.attrValue = attrValue;
         }
 
@@ -224,19 +224,19 @@ public class GroupMessageBean extends BaseBean {
             this.px = px;
         }
 
-        public Object getGroupIcon() {
+        public String getGroupIcon() {
             return groupIcon;
         }
 
-        public void setGroupIcon(Object groupIcon) {
+        public void setGroupIcon(String groupIcon) {
             this.groupIcon = groupIcon;
         }
 
-        public Object getDescription() {
+        public String getDescription() {
             return description;
         }
 
-        public void setDescription(Object description) {
+        public void setDescription(String description) {
             this.description = description;
         }
 
@@ -272,11 +272,11 @@ public class GroupMessageBean extends BaseBean {
             this.notice = notice;
         }
 
-        public Object getAttrName() {
+        public String getAttrName() {
             return attrName;
         }
 
-        public void setAttrName(Object attrName) {
+        public void setAttrName(String attrName) {
             this.attrName = attrName;
         }
 

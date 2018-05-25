@@ -14,17 +14,17 @@ import java.util.List;
  * Created by Administrator on 2018/4/1.
  */
 
-public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean,BaseViewHolder>{
+public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,BaseViewHolder>{
     private Context context;
-    public HomeAdapter(int layoutResId,Context context,List<GroupMessageBean> mListData){
+    public HomeAdapter(int layoutResId,Context context,List<GroupMessageBean.ListBean> mListData){
         super(layoutResId,mListData);
         this.context=context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, GroupMessageBean item) {
-        helper.setText(R.id.item_group_tv,item.getName());
-        helper.setText(R.id.item_group_count_tv,item.getMsgCount());
+    protected void convert(BaseViewHolder helper, GroupMessageBean.ListBean item) {
+        helper.setText(R.id.item_group_tv,item.getGroupName());
+        helper.setText(R.id.item_group_count_tv,15+"");
         if(helper.getLayoutPosition()==0){
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_notice);
             helper.setVisible(R.id.item_group_count_tv,false);

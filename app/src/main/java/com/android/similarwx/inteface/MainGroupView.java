@@ -12,5 +12,5 @@ import java.util.List;
  */
 
 public interface MainGroupView extends ViewInterface {
-    void groupRefresh(List<GroupMessageBean> data);
+    void groupRefresh(List<GroupMessageBean.ListBean> data);
 }
