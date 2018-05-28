@@ -3,12 +3,15 @@ package com.android.similarwx.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
@@ -35,6 +38,12 @@ public class SendRedFragment extends BaseFragment {
     EditText sendRedLeiEt;
     @BindView(R.id.send_red_bt)
     Button sendRedBt;
+    @BindView(R.id.send_red_group_hint_tv)
+    TextView groupHintTv;
+    @BindView(R.id.send_red_group_money_tv)
+    TextView groupMoneyTv;
+    @BindView(R.id.send_red_sum_money)
+    TextView sumMoneyTv;
     Unbinder unbinder;
 
     @Override
@@ -47,6 +56,7 @@ public class SendRedFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle("发红包");
         unbinder = ButterKnife.bind(this, contentView);
+        sendRedSumEt.addTextChangedListener(textWatcher);
     }
 
     @Override
@@ -69,4 +79,24 @@ public class SendRedFragment extends BaseFragment {
         activity.setResult(Activity.RESULT_OK,intent);
         activity.finish();
     }
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (TextUtils.isEmpty(s)){
+                sumMoneyTv.setText("¥0.0");
+            }else {
+                sumMoneyTv.setText("¥"+s);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 }
