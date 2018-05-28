@@ -3,6 +3,7 @@ package com.android.similarwx.model;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGroup;
+import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspUser;
 
 import java.util.List;
@@ -28,4 +29,7 @@ public interface APIService {
 
     @POST("group/getGroupList")
     Call<RspGroup> reqGroupList(@QueryMap Map<String,String> map);
+
+    @POST("sys/noticeList")
+    Call<RspNotice> getNotices(@QueryMap Map<String, String> map);
 }

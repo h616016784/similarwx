@@ -45,8 +45,8 @@ public class GroupPresent extends BasePresent {
     }
 
     public void analyzeRes(RspGroup rspGroup) {
-        String code=rspGroup.getErrorCode();
-        if (code.equals("0000")){
+        String result=rspGroup.getResult();
+        if (result.equals("success")){
             List<GroupMessageBean.ListBean> list=rspGroup.getData().getList();
             mView.groupRefresh(list);
         }else {

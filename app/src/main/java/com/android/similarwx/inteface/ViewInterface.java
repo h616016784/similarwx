@@ -8,5 +8,4 @@ import com.android.similarwx.beans.User;
 
 public interface ViewInterface {
     void showErrorMessage(String err);
-
 }

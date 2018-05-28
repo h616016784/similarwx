@@ -60,8 +60,8 @@ public class RegisterPresent extends BasePresent {
     }
     //解析相应体
     public void analyzeRes(RspUser rspUser){
-        String code=rspUser.getErrorCode();
-        if (code.equals("0000")){
+        String result=rspUser.getResult();
+        if (result.equals("success")){
             User user=rspUser.getData();
             if (user!=null)
                  saveUser(user);

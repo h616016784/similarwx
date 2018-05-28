@@ -4,10 +4,12 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGroup;
+import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.present.LoginPresent;
+import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.present.RegisterPresent;
 
 import java.util.HashMap;
@@ -122,6 +124,27 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroup> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void getNotices(final NoticePresent present) {
+        Map<String,String> map=new HashMap<>();
+        Call<RspNotice> rspNoticeCall=apiService.getNotices(map);
+        rspNoticeCall.enqueue(new Callback<RspNotice>() {
+            @Override
+            public void onResponse(Call<RspNotice> call, Response<RspNotice> response) {
+                try {
+                    RspNotice rspNotice=response.body();
+                    present.analyzeRes(rspNotice);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspNotice> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
             }
         });

@@ -17,6 +17,16 @@
             android:text="@string/main_title"
             android:textSize="@dimen/text_appbar"
             android:textColor="@color/white"/>
+
+        <ImageView
+            android:id="@+id/create_group_iv"
+            android:layout_width="@dimen/distance_big"
+            android:layout_height="@dimen/distance_big"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/distance_smaller"
+            android:layout_marginRight="@dimen/distance_normal"
+            android:src="@drawable/message_button_bottom_add_selector"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
