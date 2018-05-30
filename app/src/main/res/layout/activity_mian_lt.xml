@@ -45,14 +45,15 @@
                     android:id="@+id/main_search_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/distance_smaller"
                     android:layout_marginLeft="@dimen/distance_small"
-                    android:src="@drawable/search"/>
+                    android:src="@drawable/img_search"/>
                 <EditText
                     android:id="@+id/main_search_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/distance_middle"
-                    android:layout_marginTop="@dimen/distance_small"
+                    android:layout_marginTop="@dimen/distance_smaller"
                     android:layout_toRightOf="@id/main_search_iv"
                     android:background="@null"
                     android:textSize="@dimen/text_content_or_button"
@@ -74,7 +75,7 @@
         </android.support.v7.widget.RecyclerView>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_tab_navigation_big"
+            android:layout_height="@dimen/height_tab_navigation"
             android:background="@color/white"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
@@ -85,8 +86,8 @@
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/main_explain_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/home_bottom_icon_size"
+                    android:layout_height="@dimen/home_bottom_icon_size"
                     android:src="@drawable/selector_explain_tab"
                     android:layout_centerHorizontal="true"
                     />
@@ -106,8 +107,8 @@
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/main_rl_chart_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/home_bottom_icon_size"
+                    android:layout_height="@dimen/home_bottom_icon_size"
                     android:src="@drawable/selector_chart_tab"
                     android:layout_centerHorizontal="true"
                     />
@@ -127,8 +128,8 @@
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/main_my_chart_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/home_bottom_icon_size"
+                    android:layout_height="@dimen/home_bottom_icon_size"
                     android:src="@drawable/selector_my_tab"
                     android:layout_centerHorizontal="true"
                     />

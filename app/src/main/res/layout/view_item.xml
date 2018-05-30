@@ -10,8 +10,8 @@
         android:layout_margin="@dimen/distance_smaller">
         <ImageView
             android:id="@+id/view_iv"
-            android:layout_width="@dimen/avatar_m"
-            android:layout_height="@dimen/avatar_m"
+            android:layout_width="@dimen/home_bottom_icon_size"
+            android:layout_height="@dimen/home_bottom_icon_size"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_wo_shoucang"/>
         <TextView
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/view_iv"
-            android:textSize="@dimen/text_sub_title"
+            android:textSize="@dimen/text_content_or_button"
             android:layout_marginLeft="@dimen/distance_small"
             android:text="推荐码"/>
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:textSize="@dimen/text_sub_title"
+            android:textSize="@dimen/text_content_or_button"
             android:layout_marginRight="@dimen/distance_normal"
             android:text=""/>
     </RelativeLayout>
