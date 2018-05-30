@@ -8,11 +8,13 @@ import com.android.outbaselibrary.BaseApplication;
 import com.android.outbaselibrary.utils.LogUtil;
 import com.android.similarwx.misdk.ScreenUtil;
 import com.android.similarwx.misdk.StorageUtil;
+import com.android.similarwx.misdk.model.RedCustomAttachParser;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.emoji.StickerManager;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.util.NIMUtil;
 
 /**
@@ -51,6 +53,7 @@ public class AppApplication extends BaseApplication {
             // 注意：以下操作必须在主进程中进行
             // 1、UI相关初始化操作
             // 2、相关Service调用
+            NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new RedCustomAttachParser());
         }
     }
 

@@ -10,6 +10,7 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.fragment.MIFragment;
+import com.android.similarwx.fragment.MIFragmentNew;
 import com.android.similarwx.fragment.SendRedFragment;
 import com.android.similarwx.misdk.model.CustomAttachment;
 import com.android.similarwx.utils.FragmentUtils;
@@ -48,7 +49,7 @@ public class RedAction extends BaseAction {
             Log.e(""+AppConstants.SEND_RED_REQUEST,"发红包的结果数据");
             if(data!=null){
                 RedDetailBean redDetailBean= (RedDetailBean) data.getSerializableExtra(AppConstants.TRANSFER_CHAT_REDENTITY);
-                ((MIFragment)fromFragment).senCustemRed(redDetailBean);
+                ((MIFragmentNew)fromFragment).senCustemRed(redDetailBean);
 //                if (redDetailBean!=null){
 //                    IMMessage imMessage=createCustomMessage(redDetailBean);
 //                    if (imMessage!=null)
