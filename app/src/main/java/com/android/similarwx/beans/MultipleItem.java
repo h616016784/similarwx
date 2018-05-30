@@ -10,6 +10,9 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
 public class MultipleItem extends  BaseBean implements MultiItemEntity {
+    /**
+     *  文本：0   图片：1    视频：2    通知：5    tip:10    自定义100
+     */
     public static final int ITEM_TEXT = 0;
     public static final int ITEM_IMAGE= 1;
     public static final int ITEM_AUDIO= 2;

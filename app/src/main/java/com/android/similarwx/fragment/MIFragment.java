@@ -20,6 +20,10 @@ import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
+import com.android.similarwx.beans.RedDetailBean;
+import com.android.similarwx.inteface.MiViewInterface;
+import com.android.similarwx.misdk.model.CustomAttachment;
+import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.RedDialogFragment;
@@ -67,7 +71,7 @@ import butterknife.Unbinder;
  * Created by hanhuailong on 2018/3/28.
  */
 
-public class MIFragment extends BaseFragment implements ModuleProxy {
+public class MIFragment extends BaseFragment implements ModuleProxy ,MiViewInterface{
     public static final int DELETE_THREE=0;
     public static final int DELETE_GROUP_EIGHT=1;
     public static final String MIFLAG="miFlag";
@@ -91,6 +95,8 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     Observer<SystemMessage> systemMessageObserver;
     IMMessage author;
     AudioPlayer player;//播放器
+
+    private MIPresent miPresent;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mi_layout;
@@ -99,6 +105,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     @Override
     protected void onInitView(View contentView) {
         AndroidBug5497Workaround.assistActivity(activity);
+        miPresent=new MIPresent(this);
         Bundle bundle=getArguments();
         if (bundle!=null){
             flag=bundle.getInt(MIFLAG);
@@ -133,19 +140,19 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         miRecyclerView.setAdapter(multipleItemAdapter);
         addListener();
 
-        multipleItemAdapter.setUpFetchEnable(true);
-        multipleItemAdapter.setStartUpFetchPosition(0);
-        multipleItemAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
-            @Override
-            public void onUpFetch() {
-                multipleItemAdapter.setUpFetching(true);
-                Toaster.toastShort("Fetching");
-                multipleItemAdapter.setUpFetching(false);
-//                multipleItemAdapter.loadMoreComplete();
-//                multipleItemAdapter.loadMoreEnd();
-//                multipleItemAdapter.loadMoreEnd(true);
-            }
-        });
+//        multipleItemAdapter.setUpFetchEnable(true);
+//        multipleItemAdapter.setStartUpFetchPosition(0);
+//        multipleItemAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
+//            @Override
+//            public void onUpFetch() {
+//                multipleItemAdapter.setUpFetching(true);
+//                Toaster.toastShort("Fetching");
+//                multipleItemAdapter.setUpFetching(false);
+////                multipleItemAdapter.loadMoreComplete();
+////                multipleItemAdapter.loadMoreEnd();
+////                multipleItemAdapter.loadMoreEnd(true);
+//            }
+//        });
 
         miRecyclerView.requestFocus();
         //注册云信消息接受者
@@ -388,4 +395,31 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         // 播放进度报告，每隔 500ms 会回调一次，告诉当前进度。 参数为当前进度，单位为毫秒，可用于更新 UI
         public void onPlaying(long curPosition) {}
     };
+
+    //===========================一下是view接口实现
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void senCustemRed(RedDetailBean data) {
+        if (data!=null){
+            miPresent.sendRed(sessionId);
+
+            IMMessage imMessage=createCustomMessage(data);
+            if (imMessage!=null)
+                sendMessage(imMessage);
+        }
+    }
+
+    /**
+     * 创建自定义消息
+     * @param redDetailBean
+     * @return
+     */
+    protected IMMessage createCustomMessage(RedDetailBean  redDetailBean) {
+        return MessageBuilder.createCustomMessage(sessionId, sessionType, "红包",
+                new CustomAttachment<RedDetailBean>(redDetailBean));
+    }
 }

@@ -12,6 +12,9 @@ public  class CustomAttachment<T> implements MsgAttachment{
     protected int type;
     protected T data;
 
+    public CustomAttachment( T data) {
+        this.data=data;
+    }
     public CustomAttachment(int type, T data) {
         this.type = type;
         this.data=data;

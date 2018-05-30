@@ -5,10 +5,12 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspNotice;
+import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.present.LoginPresent;
+import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.present.RegisterPresent;
 
@@ -146,6 +148,24 @@ public class API implements APIConstants {
             @Override
             public void onFailure(Call<RspNotice> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void sendRed(String groupId, final MIPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("groupId",groupId);
+        Call<RspRed> rspRedCall=apiService.sendRed(map);
+        rspRedCall.enqueue(new Callback<RspRed>() {
+            @Override
+            public void onResponse(Call<RspRed> call, Response<RspRed> response) {
+                RspRed rspRed=response.body();
+                present.analyzeRes(rspRed);
+            }
+
+            @Override
+            public void onFailure(Call<RspRed> call, Throwable t) {
+
             }
         });
     }
