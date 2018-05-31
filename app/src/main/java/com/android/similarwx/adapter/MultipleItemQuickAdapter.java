@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.MultipleItem;
+import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.widget.emoji.EmojiManager;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -32,8 +33,10 @@ import java.util.List;
  */
 public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<MultipleItem, BaseViewHolder> {
     private Context context;
+    private Gson gson;
     public MultipleItemQuickAdapter(Context context,List<MultipleItem> data) {
         super(data);
+        gson=new Gson();
         this.context=context;
         addItemType(MultipleItem.ITEM_TEXT, R.layout.item_mitext_type);
         addItemType(MultipleItem.ITEM_IMAGE, R.layout.item_mi_image_type);
@@ -123,18 +126,23 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                      helper.setText(R.id.item_sys_tv,item.getImMessage().getContent());
                 break;
             case MultipleItem.ITEM_RED://红包类信息
+                String json=item.getImMessage().getAttachment().toJson(false);
+                RedDetailBean bean=gson.fromJson(json, RedDetailBean.class);
                 if (imMessage.getDirect()== MsgDirectionEnum.Out){
                     helper.setVisible(R.id.item_red_right_iv,false);helper.setVisible(R.id.item_red_left_iv,true);
                     helper.setVisible(R.id.item_red_right_content,false);helper.setVisible(R.id.item_red_left_content,true);
                     helper.setVisible(R.id.item_red_packet_right_rl,false);helper.setVisible(R.id.item_red_packet_rl,true);
 
                     helper.setText(R.id.item_red_left_content,item.getImMessage().getFromNick());
+
+                    helper.setText(R.id.item_red_packet_count_tv,bean.getMoney());
                 }else {
                     helper.setVisible(R.id.item_red_left_iv,false);helper.setVisible(R.id.item_red_right_iv,true);
                     helper.setVisible(R.id.item_red_left_content,false);helper.setVisible(R.id.item_red_right_content,true);
                     helper.setVisible(R.id.item_red_packet_rl,false);helper.setVisible(R.id.item_red_packet_right_rl,true);
 
                     helper.setText(R.id.item_red_right_content,item.getImMessage().getFromNick());
+                    helper.setText(R.id.item_red_packet_count_right_tv,bean.getMoney());
                 }
                 break;
         }

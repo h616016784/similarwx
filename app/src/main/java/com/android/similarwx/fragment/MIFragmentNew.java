@@ -399,13 +399,18 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
 
     @Override
     public void senCustemRed(RedDetailBean data) {
-        if (data!=null){
-            miPresent.sendRed(sessionId);
-
-            IMMessage imMessage=createCustomMessage(data);
-            if (imMessage!=null)
-                sendMessage(imMessage);
-        }
+//        if (data!=null){
+//            miPresent.sendRed(sessionId);
+//
+//            IMMessage imMessage=createCustomMessage(data);
+//            if (imMessage!=null)
+//                sendMessage(imMessage);
+//        }
+        RedDetailBean bean=new RedDetailBean();
+        bean.setMoney("100");
+        IMMessage imMessage=createCustomMessage(bean);
+        if (imMessage!=null)
+            sendMessage(imMessage);
     }
     /**
      * 创建自定义消息
