@@ -10,7 +10,7 @@ android {
         applicationId "com.android.similarwx"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 1
+        versionCode 10000
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -21,9 +21,22 @@ android {
             abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
+    signingConfigs {
+        release {
+            storeFile file(getProperty("KSTORE"))
+            storePassword "123456"
+            keyAlias "Paopao"
+            keyPassword "123456"
+            v2SigningEnabled false
+        }
+    }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

@@ -1,1 +1,1 @@
-include ':app', ':outbaselibrary', ':uikit'
+include ':app', ':outbaselibrary'
