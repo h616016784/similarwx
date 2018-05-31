@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.android.similarwx.R;
@@ -29,6 +30,7 @@ public class SplashActivity extends BaseActivity {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                splashIv.setVisibility(View.VISIBLE);
                 animator.start();
             }
         },100);
