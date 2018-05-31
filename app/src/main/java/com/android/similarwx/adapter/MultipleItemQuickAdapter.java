@@ -186,7 +186,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                         Drawable d=EmojiManager.getDrawable(context,temp);
                         SpannableString ss = new SpannableString("emoji");
                         //得到drawable对象，即所要插入的图片
-                        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+                        d.setBounds(0, 0, d.getIntrinsicWidth()/2, d.getIntrinsicHeight()/2);
                         //用这个drawable对象代替字符串easy
                         ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
                         //包括0但是不包括"easy".length()即：4。[0,4)。值得注意的是当我们复制这个图片的时候，实际是复制了"easy"这个字符串。
