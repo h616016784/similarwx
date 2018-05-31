@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">paopao</string>
     <string name="action_settings">Settings</string>
 
     <string name="account_qr_refreshtip">二维码每30秒会刷新一次（%s）</string>

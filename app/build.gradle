@@ -8,6 +8,7 @@ android {
     aaptOptions.useNewCruncher = false
     defaultConfig {
         applicationId "com.android.similarwx"
+        resValue "string", "app_name", "paopao"
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 10000
@@ -33,6 +34,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.release
+            resValue "string", "app_name", "paopao测试"
         }
         release {
             minifyEnabled false
