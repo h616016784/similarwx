@@ -7,6 +7,5 @@ import com.android.similarwx.beans.RedDetailBean;
  */
 
 public interface MiViewInterface extends ViewInterface{
-
-    void senCustemRed(RedDetailBean data);
+    void reFreshCustemRed(RedDetailBean data);
 }

@@ -71,7 +71,7 @@ import butterknife.Unbinder;
  * Created by hanhuailong on 2018/3/28.
  */
 
-public class MIFragment extends BaseFragment implements ModuleProxy ,MiViewInterface{
+public class MIFragment extends BaseFragment implements ModuleProxy {
     public static final int DELETE_THREE=0;
     public static final int DELETE_GROUP_EIGHT=1;
     public static final String MIFLAG="miFlag";
@@ -105,7 +105,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy ,MiViewInter
     @Override
     protected void onInitView(View contentView) {
         AndroidBug5497Workaround.assistActivity(activity);
-        miPresent=new MIPresent(this);
+//        miPresent=new MIPresent(this);
         Bundle bundle=getArguments();
         if (bundle!=null){
             flag=bundle.getInt(MIFLAG);
@@ -397,21 +397,6 @@ public class MIFragment extends BaseFragment implements ModuleProxy ,MiViewInter
     };
 
     //===========================一下是view接口实现
-    @Override
-    public void showErrorMessage(String err) {
-
-    }
-
-    @Override
-    public void senCustemRed(RedDetailBean data) {
-        if (data!=null){
-            miPresent.sendRed(sessionId);
-
-            IMMessage imMessage=createCustomMessage(data);
-            if (imMessage!=null)
-                sendMessage(imMessage);
-        }
-    }
 
     /**
      * 创建自定义消息

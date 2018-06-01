@@ -103,6 +103,7 @@ public class GroupMessageBean extends BaseBean {
         private String notice;
         private String attrName;
         private String createId;
+        private String userExists;
 
         public String getGroupType() {
             return groupType;
@@ -286,6 +287,13 @@ public class GroupMessageBean extends BaseBean {
 
         public void setCreateId(String createId) {
             this.createId = createId;
+        }
+
+        public String getUserExists() {
+            return userExists;
+        }
+        public void setUserExists(String userExists) {
+            this.userExists = userExists;
         }
     }
 }

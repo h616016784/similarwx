@@ -396,21 +396,23 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     public void showErrorMessage(String err) {
 
     }
-
-    @Override
     public void senCustemRed(RedDetailBean data) {
-//        if (data!=null){
-//            miPresent.sendRed(sessionId);
-//
-//            IMMessage imMessage=createCustomMessage(data);
-//            if (imMessage!=null)
-//                sendMessage(imMessage);
-//        }
-        RedDetailBean bean=new RedDetailBean();
-        bean.setMoney("100");
-        IMMessage imMessage=createCustomMessage(bean);
-        if (imMessage!=null)
-            sendMessage(imMessage);
+        if (data!=null){
+            miPresent.sendRed(sessionId);
+        }
+//        RedDetailBean bean=new RedDetailBean();
+//        bean.setMoney("100");
+//        IMMessage imMessage=createCustomMessage(bean);
+//        if (imMessage!=null)
+//            sendMessage(imMessage);
+    }
+    @Override
+    public void reFreshCustemRed(RedDetailBean data) {
+        if (data!=null){
+            IMMessage imMessage=createCustomMessage(data);
+            if (imMessage!=null)
+                sendMessage(imMessage);
+        }
     }
     /**
      * 创建自定义消息
@@ -421,4 +423,6 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
         return MessageBuilder.createCustomMessage(sessionId, sessionType, "红包",
                 new CustomAttachment<RedDetailBean>(redDetailBean));
     }
+
+
 }

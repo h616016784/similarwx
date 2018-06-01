@@ -143,19 +143,25 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         } else if (position == 1) {//在线客服
             FragmentUtils.navigateToNormalActivity(this, new ServiceFragment(), null);
         } else {
-            editDialogSimple.setTitle(mListData.get(position).getGroupName());
-            editDialogSimple.show();
-            editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
-                @Override
-                public void onClickListener(String text) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_GROUP_EIGHT);
-                    bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
-                    bundle.putString(AppConstants.CHAT_ACCOUNT_ID, mListData.get(position).getGroupId());//群id号
-                    bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, mListData.get(position).getGroupName());//群name
-                    FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
-                }
-            });
+            final GroupMessageBean.ListBean bean=mListData.get(position);
+            if (bean.getUserExists().equals("0")){//不在群里
+                editDialogSimple.setTitle(bean.getGroupName());
+                editDialogSimple.show();
+                editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                    @Override
+                    public void onClickListener(String text) {
+
+                    }
+                });
+            }else {//在群里  直接进入
+                Bundle bundle = new Bundle();
+                bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_GROUP_EIGHT);
+                bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
+                bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getGroupId());//群id号
+                bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getGroupName());//群name
+                FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
+            }
+
         }
     }
 

@@ -24,7 +24,7 @@ public class MIPresent extends BasePresent {
     public void analyzeRes(RspRed rspRed) {
         String result=rspRed.getResult();
         if (result.equals("success")){
-            mView.senCustemRed(rspRed.getData());
+            mView.reFreshCustemRed(rspRed.getData());
         }else {
             Toaster.toastShort(rspRed.getErrorMsg());
         }
