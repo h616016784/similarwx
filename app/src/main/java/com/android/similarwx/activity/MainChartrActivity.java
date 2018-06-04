@@ -161,7 +161,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getGroupName());//群name
                 FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
             }
-
         }
     }
 
