@@ -4,6 +4,7 @@ import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
+import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspUser;
@@ -34,6 +35,9 @@ public interface APIService {
 
     @POST("group/doGroupApply")
     Call<RspGroupApply> doGroupAppley(@QueryMap Map<String,String> map);
+
+    @POST("group/getGroupUserList")
+    Call<RspGroupUser> getGroupUserList(@QueryMap Map<String,String> map);
 
     @POST("sys/noticeList")
     Call<RspNotice> getNotices(@QueryMap Map<String, String> map);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
@@ -16,7 +17,11 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupMemberBean;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.RuleBean;
+import com.android.similarwx.inteface.GroupInfoViewInterface;
+import com.android.similarwx.present.GroupInfoPresent;
+import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.input.sessions.Extras;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
@@ -36,7 +41,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/3.
  */
 
-public class GroupInfoFragment extends BaseFragment {
+public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInterface{
     @BindView(R.id.group_info_member_rv)
     RecyclerView groupInfoMemberRv;
     @BindView(R.id.group_info_member_num_tv)
@@ -45,6 +50,8 @@ public class GroupInfoFragment extends BaseFragment {
     TextView groupInfoNameTv;
     @BindView(R.id.group_info_code_iv)
     ImageView groupInfoCodeIv;
+    @BindView(R.id.group_info_code_rl)
+    RelativeLayout groupInfoCodeRl;
     @BindView(R.id.group_info_notice_tv)
     TextView groupInfoNoticeTv;
     @BindView(R.id.group_info_know_tv)
@@ -56,11 +63,13 @@ public class GroupInfoFragment extends BaseFragment {
     LinearLayout groupInfoMemberLl;
 
     private BaseQuickAdapter groupAdapter;
-    private List<GroupMemberBean> groupList;
+    private List<GroupUser.ListBean> groupList;
 
     private BaseQuickAdapter ruleAdapter;
     private List<RuleBean> ruleList;
     protected GroupMessageBean.ListBean listBean;
+
+    private GroupInfoPresent groupInfoPresent;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_group_info;
@@ -75,13 +84,14 @@ public class GroupInfoFragment extends BaseFragment {
         }
         mActionbar.setTitle("群信息");
         unbinder = ButterKnife.bind(this, contentView);
+        groupInfoPresent=new GroupInfoPresent(this);
         initDataAndView();
 
         groupInfoMemberRv.setLayoutManager(new GridLayoutManager(activity, 4));
-        groupAdapter = new BaseQuickAdapter<GroupMemberBean, BaseViewHolder>(R.layout.item_group_member, groupList) {
+        groupAdapter = new BaseQuickAdapter<GroupUser.ListBean, BaseViewHolder>(R.layout.item_group_member, groupList) {
             @Override
-            protected void convert(BaseViewHolder helper, GroupMemberBean item) {
-                helper.setText(R.id.item_group_member_tv, item.getName());
+            protected void convert(BaseViewHolder helper, GroupUser.ListBean item) {
+                helper.setText(R.id.item_group_member_tv, item.getUserName());
             }
         };
         groupInfoMemberRv.setAdapter(groupAdapter);
@@ -101,16 +111,23 @@ public class GroupInfoFragment extends BaseFragment {
     private void initDataAndView() {
         groupList = new ArrayList<>();
         ruleList = new ArrayList<>();
-        GroupMemberBean groupMemberBean = new GroupMemberBean();
-        groupMemberBean.setName("哈哈哈");
-        groupList.add(groupMemberBean);
+
         RuleBean ruleBean = new RuleBean();
         ruleBean.setName("奖励");
         ruleBean.setNum1("1.11");
         ruleBean.setNum2("2.22");
         ruleList.add(ruleBean);
+        doGroupUserList();
 
+        groupInfoMemberNumTv.setText(""+listBean.getPx());
+        groupInfoNameTv.setText(listBean.getGroupName());
+        groupInfoNoticeTv.setText(listBean.getNotice());
+        groupInfoKnowTv.setText(listBean.getDescription());
+    }
 
+    private void doGroupUserList() {
+        if (listBean!=null)
+            groupInfoPresent.getGroupUserList(listBean.getGroupId());
     }
 
     @Override
@@ -120,15 +137,26 @@ public class GroupInfoFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.group_info_member_ll,R.id.group_info_code_iv})
+    @OnClick({R.id.group_info_member_ll,R.id.group_info_code_rl})
     public void onViewClicked(View view) {
         switch (view.getId()){
-            case R.id.group_info_code_iv:
+            case R.id.group_info_code_rl:
                 FragmentUtils.navigateToNormalActivity(activity,new GroupCodeFragment(),null);
                 break;
             case R.id.group_info_member_ll://全部成员
 
                 break;
         }
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void refreshUserlist(GroupUser list) {
+        groupList=list.getList();
+        groupAdapter.addData(groupList);
     }
 }

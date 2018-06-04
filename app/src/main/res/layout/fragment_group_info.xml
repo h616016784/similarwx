@@ -63,6 +63,7 @@
         android:layout_height="1dp"
         android:background="@color/divider"/>
     <RelativeLayout
+        android:id="@+id/group_info_code_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/distance_small"
