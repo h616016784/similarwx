@@ -17,6 +17,7 @@ import com.android.similarwx.base.AndroidBug5497Workaround;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.CharImageBean;
+import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
@@ -91,6 +92,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     protected String sessionId; // p2p对方Account或者群id
     protected String sessionName; // 群名称
     protected SessionTypeEnum sessionType;
+    protected GroupMessageBean.ListBean listBean;
 
     private int flag=DELETE_GROUP_EIGHT;
 
@@ -115,6 +117,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
             sessionId = bundle.getString(AppConstants.CHAT_ACCOUNT_ID);
             sessionType = (SessionTypeEnum) bundle.getSerializable(AppConstants.CHAT_TYPE);
             sessionName = bundle.getString(AppConstants.CHAT_ACCOUNT_NAME);
+            listBean= (GroupMessageBean.ListBean) bundle.getSerializable(AppConstants.CHAT_GROUP_BEAN);
             mActionbar.setTitle(sessionName);
         }
         unbinder=ButterKnife.bind(this, contentView);
@@ -287,7 +290,9 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                 showDeleteDialog();
                 break;
             case R.id.right_image_people:
-                FragmentUtils.navigateToNormalActivity(activity,new GroupInfoFragment(),null);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,listBean);
+                FragmentUtils.navigateToNormalActivity(activity,new GroupInfoFragment(),bundle);
                 break;
         }
     }

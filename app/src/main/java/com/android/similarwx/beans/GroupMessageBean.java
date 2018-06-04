@@ -1,5 +1,6 @@
 package com.android.similarwx.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -53,7 +54,7 @@ public class GroupMessageBean extends BaseBean {
         this.list = list;
     }
 
-    public static class ListBean {
+    public static class ListBean implements Serializable{
         /**
          * groupType : 1
          * endRange : 100

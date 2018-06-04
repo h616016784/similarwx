@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.AppConstants;
@@ -27,6 +29,8 @@ import com.android.similarwx.fragment.ServiceFragment;
 import com.android.similarwx.inteface.MainGroupView;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.widget.dialog.EasyAlertDialog;
+import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -145,23 +149,34 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         } else {
             final GroupMessageBean.ListBean bean=mListData.get(position);
             if (bean.getUserExists().equals("0")){//不在群里
-                editDialogSimple.setTitle(bean.getGroupName());
-                editDialogSimple.show();
-                editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
                     @Override
-                    public void onClickListener(String text) {
+                    public void doCancelAction() {
 
                     }
+                    @Override
+                    public void doOkAction() {
+                        doGroupApply(bean.getGroupId());
+                    }
                 });
+                mDialog.show();
             }else {//在群里  直接进入
                 Bundle bundle = new Bundle();
                 bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_GROUP_EIGHT);
                 bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
                 bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getGroupId());//群id号
                 bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getGroupName());//群name
+                bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,bean);
                 FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
             }
         }
+    }
+
+    /**
+     * 申请加入群组
+     */
+    private void doGroupApply(String groupId) {
+        groupPresent.doGroupAppley(groupId);
     }
 
     @Override
@@ -188,5 +203,10 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         mListData.add(bean1);
         mListData.addAll(data);
         adapter.addData(mListData);
+    }
+
+    @Override
+    public void groupApply(String msg) {
+        Toaster.toastShort("申请成功，等待群主审批");
     }
 }

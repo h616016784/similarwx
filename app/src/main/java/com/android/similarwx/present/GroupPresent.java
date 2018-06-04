@@ -7,6 +7,7 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGroup;
+import com.android.similarwx.beans.response.RspGroupApply;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.inteface.MainGroupView;
 import com.android.similarwx.model.API;
@@ -51,6 +52,20 @@ public class GroupPresent extends BasePresent {
             mView.groupRefresh(list);
         }else {
             Toaster.toastShort(rspGroup.getErrorMsg());
+        }
+    }
+
+    public void doGroupAppley(String groupId) {
+        String accid=SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ACCID,"无");
+        API.getInstance().doGroupAppley(groupId,accid,this);
+    }
+
+    public void analyzeApplyRes(RspGroupApply rspGroupApply) {
+        String result=rspGroupApply.getResult();
+        if (result.equals("success")){
+            mView.groupApply("success");
+        }else {
+            Toaster.toastShort(rspGroupApply.getErrorMsg());
         }
     }
 }

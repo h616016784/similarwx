@@ -34,6 +34,8 @@ public class AppConstants extends BaseConstants {
     public static final String CHAT_ACCOUNT_ID = "accountId";
     public static final String CHAT_ACCOUNT_NAME = "accountName";
     public static final String CHAT_TYPE = "messageType";
+    public static final String CHAT_GROUP_BEAN = "groupBean";
+
     /**
      * 用户标签
      */

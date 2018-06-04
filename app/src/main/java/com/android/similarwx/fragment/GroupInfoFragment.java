@@ -12,12 +12,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupMemberBean;
+import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.RuleBean;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.widget.input.sessions.Extras;
+import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +60,7 @@ public class GroupInfoFragment extends BaseFragment {
 
     private BaseQuickAdapter ruleAdapter;
     private List<RuleBean> ruleList;
-
+    protected GroupMessageBean.ListBean listBean;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_group_info;
@@ -64,9 +69,14 @@ public class GroupInfoFragment extends BaseFragment {
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            listBean= (GroupMessageBean.ListBean) bundle.getSerializable(AppConstants.CHAT_GROUP_BEAN);
+        }
         mActionbar.setTitle("群信息");
         unbinder = ButterKnife.bind(this, contentView);
-        initData();
+        initDataAndView();
+
         groupInfoMemberRv.setLayoutManager(new GridLayoutManager(activity, 4));
         groupAdapter = new BaseQuickAdapter<GroupMemberBean, BaseViewHolder>(R.layout.item_group_member, groupList) {
             @Override
@@ -88,7 +98,7 @@ public class GroupInfoFragment extends BaseFragment {
         groupInfoRuleRv.setAdapter(ruleAdapter);
     }
 
-    private void initData() {
+    private void initDataAndView() {
         groupList = new ArrayList<>();
         ruleList = new ArrayList<>();
         GroupMemberBean groupMemberBean = new GroupMemberBean();
@@ -99,6 +109,8 @@ public class GroupInfoFragment extends BaseFragment {
         ruleBean.setNum1("1.11");
         ruleBean.setNum2("2.22");
         ruleList.add(ruleBean);
+
+
     }
 
     @Override

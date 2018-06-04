@@ -4,6 +4,7 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGroup;
+import com.android.similarwx.beans.response.RspGroupApply;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspUser;
@@ -131,6 +132,29 @@ public class API implements APIConstants {
         });
     }
 
+    public void doGroupAppley(String groupId, String userId, final GroupPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("groupId",groupId);
+        map.put("applyUserId",userId);
+        map.put("applyInfo","Android App申请");
+        Call<RspGroupApply> call=apiService.doGroupAppley(map);
+        call.enqueue(new Callback<RspGroupApply>() {
+            @Override
+            public void onResponse(Call<RspGroupApply> call, Response<RspGroupApply> response) {
+                try {
+                    RspGroupApply rspGroupApply=response.body();
+                    present.analyzeApplyRes(rspGroupApply);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspGroupApply> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
     public void getNotices(final NoticePresent present) {
         Map<String,String> map=new HashMap<>();
         Call<RspNotice> rspNoticeCall=apiService.getNotices(map);
@@ -169,4 +193,5 @@ public class API implements APIConstants {
             }
         });
     }
+
 }
