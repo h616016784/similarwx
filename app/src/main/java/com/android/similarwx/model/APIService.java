@@ -7,6 +7,7 @@ import com.android.similarwx.beans.response.RspGroupApply;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
+import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspUser;
 
 import java.util.List;
@@ -43,5 +44,5 @@ public interface APIService {
     Call<RspNotice> getNotices(@QueryMap Map<String, String> map);
 
     @POST("redPac/send")
-    Call<RspRed> sendRed(@QueryMap Map<String, String> map);
+    Call<RspSendRed> sendRed(@QueryMap Map<String, String> map);
 }

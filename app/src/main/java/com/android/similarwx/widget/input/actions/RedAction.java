@@ -9,6 +9,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
+import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.fragment.MIFragment;
 import com.android.similarwx.fragment.MIFragmentNew;
 import com.android.similarwx.fragment.SendRedFragment;
@@ -41,6 +42,7 @@ public class RedAction extends BaseAction {
     @Override
     public void onClick() {
         Bundle bundle=new Bundle();
+        bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,((MIFragmentNew)fromFragment).listBean);
         FragmentUtils.navigateToNormalActivityForResult(fromFragment,new SendRedFragment(),bundle, makeRequestCode(AppConstants.SEND_RED_REQUEST));
     }
 
@@ -48,7 +50,7 @@ public class RedAction extends BaseAction {
         if (requestCode==AppConstants.SEND_RED_REQUEST){//发红包回调请求
             Log.e(""+AppConstants.SEND_RED_REQUEST,"发红包的结果数据");
             if(data!=null){
-                RedDetailBean redDetailBean= (RedDetailBean) data.getSerializableExtra(AppConstants.TRANSFER_CHAT_REDENTITY);
+                SendRed redDetailBean= (SendRed) data.getSerializableExtra(AppConstants.TRANSFER_CHAT_REDENTITY);
                 ((MIFragmentNew)fromFragment).senCustemRed(redDetailBean);
 //                if (redDetailBean!=null){
 //                    IMMessage imMessage=createCustomMessage(redDetailBean);

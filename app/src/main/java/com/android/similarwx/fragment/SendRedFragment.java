@@ -13,12 +13,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.RedDetailBean;
+import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.widget.input.sessions.Extras;
+import com.android.similarwx.widget.input.sessions.SessionCustomization;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +53,7 @@ public class SendRedFragment extends BaseFragment {
     @BindView(R.id.send_red_sum_money)
     TextView sumMoneyTv;
     Unbinder unbinder;
+    public GroupMessageBean.ListBean listBean;
 
     @Override
     protected int getLayoutResource() {
@@ -54,6 +63,10 @@ public class SendRedFragment extends BaseFragment {
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            listBean= (GroupMessageBean.ListBean) bundle.getSerializable(AppConstants.CHAT_GROUP_BEAN);
+        }
         mActionbar.setTitle("发红包");
         unbinder = ButterKnife.bind(this, contentView);
         sendRedSumEt.addTextChangedListener(textWatcher);
@@ -68,13 +81,27 @@ public class SendRedFragment extends BaseFragment {
     @OnClick(R.id.send_red_bt)
     public void onViewClicked() {
         Intent intent=new Intent();
-        RedDetailBean bean=new RedDetailBean();
+        SendRed bean=new SendRed();
         String money=sendRedSumEt.getText().toString();
         if (TextUtils.isEmpty(money)){
             Toaster.toastShort("金额不能为空！");
             return;
         }
-        bean.setMoney(money);
+        String type = null;
+        if (listBean!=null){
+            type = listBean.getGameType();
+            if (type.equals("1")){
+                type="MINE";
+            }else {
+                type="LUCK";
+            }
+        }
+
+        bean.setRequestNum(UUID.randomUUID().toString());
+        bean.setAmount(money);
+        bean.setGroupId(listBean.getGroupId());
+        bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
+        bean.setType(type);
         intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,bean);
         activity.setResult(Activity.RESULT_OK,intent);
         activity.finish();

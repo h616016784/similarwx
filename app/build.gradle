@@ -101,4 +101,24 @@ dependencies {
     SmartRefreshLayout
      */
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-1'
+
+    //rx
+    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    //rxbinding
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+    compile 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.1.1'
+    compile 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
+    compile 'com.jakewharton.rxbinding2:rxbinding-design:2.1.1'
+    compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.1.1'
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion '27.0.2'
+                }
+            }
+        }
+    }
 }

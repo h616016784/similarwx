@@ -21,6 +21,7 @@ import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
+import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.inteface.MiViewInterface;
 import com.android.similarwx.misdk.model.CustomAttachment;
 import com.android.similarwx.present.MIPresent;
@@ -92,7 +93,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     protected String sessionId; // p2p对方Account或者群id
     protected String sessionName; // 群名称
     protected SessionTypeEnum sessionType;
-    protected GroupMessageBean.ListBean listBean;
+    public GroupMessageBean.ListBean listBean;
 
     private int flag=DELETE_GROUP_EIGHT;
 
@@ -231,7 +232,6 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                     multipleItemAdapter.addData(0,list);
                 }
             }
-
             @Override
             public void onFailed(int code) {
 
@@ -401,9 +401,9 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     public void showErrorMessage(String err) {
 
     }
-    public void senCustemRed(RedDetailBean data) {
+    public void senCustemRed(SendRed data) {
         if (data!=null){
-            miPresent.sendRed(sessionId);
+            miPresent.sendRed(data);
         }
 //        RedDetailBean bean=new RedDetailBean();
 //        bean.setMoney("100");
@@ -412,7 +412,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
 //            sendMessage(imMessage);
     }
     @Override
-    public void reFreshCustemRed(RedDetailBean data) {
+    public void reFreshCustemRed(SendRed data) {
         if (data!=null){
             IMMessage imMessage=createCustomMessage(data);
             if (imMessage!=null)
@@ -424,9 +424,9 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
      * @param redDetailBean
      * @return
      */
-    protected IMMessage createCustomMessage(RedDetailBean redDetailBean) {
+    protected IMMessage createCustomMessage(SendRed redDetailBean) {
         return MessageBuilder.createCustomMessage(sessionId, sessionType, "红包",
-                new CustomAttachment<RedDetailBean>(redDetailBean));
+                new CustomAttachment<SendRed>(redDetailBean));
     }
 
 

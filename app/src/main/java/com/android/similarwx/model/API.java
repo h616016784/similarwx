@@ -8,6 +8,7 @@ import com.android.similarwx.beans.response.RspGroupApply;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
+import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.GroupInfoPresent;
@@ -19,6 +20,7 @@ import com.android.similarwx.present.RegisterPresent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -200,20 +202,24 @@ public class API implements APIConstants {
         });
     }
 
-    public void sendRed(String groupId, final MIPresent present) {
+    public void sendRed(String requestNum, String userId,String groupId,String amount,String type, final MIPresent present) {
         Map<String,String> map=new HashMap<>();
+        map.put("requestNum",requestNum );
+        map.put("userId",userId);
         map.put("groupId",groupId);
-        Call<RspRed> rspRedCall=apiService.sendRed(map);
-        rspRedCall.enqueue(new Callback<RspRed>() {
+        map.put("amount",amount);
+        map.put("type",type);
+        Call<RspSendRed> rspRedCall=apiService.sendRed(map);
+        rspRedCall.enqueue(new Callback<RspSendRed>() {
             @Override
-            public void onResponse(Call<RspRed> call, Response<RspRed> response) {
-                RspRed rspRed=response.body();
+            public void onResponse(Call<RspSendRed> call, Response<RspSendRed> response) {
+                RspSendRed rspRed=response.body();
                 present.analyzeRes(rspRed);
             }
 
             @Override
-            public void onFailure(Call<RspRed> call, Throwable t) {
-
+            public void onFailure(Call<RspSendRed> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
             }
         });
     }

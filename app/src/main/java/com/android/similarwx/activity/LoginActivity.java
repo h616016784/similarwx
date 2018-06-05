@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.User;
@@ -18,11 +19,18 @@ import com.android.similarwx.fragment.RegistFragment;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.utils.FragmentUtils;
-import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
@@ -53,9 +61,38 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         //初始化butterKnife
         ButterKnife.bind(this);
         loginPresent = new LoginPresent(this);
+        //防止抖动
+        RxView.clicks(loginLogin).throttleFirst(1,TimeUnit.SECONDS)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Object value) {
+                        loginError.setVisibility(View.GONE);
+                        String name = loginAccount.getText().toString();
+                        String mobile = loginMobileEt.getText().toString();
+                        String password = loginPassword.getText().toString();
+                        String weixin = loginWeixinEt.getText().toString();
+                        loginPresent.login(name, password, weixin,mobile,null);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toaster.toastShort(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("onComplete","点击了！");
+                    }
+                });
     }
 
-    @OnClick({R.id.login, R.id.regist, R.id.login_forget_password, R.id.login_wx_iv, R.id.login_login})
+    @OnClick({R.id.login, R.id.regist, R.id.login_forget_password, R.id.login_wx_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login://
@@ -71,15 +108,14 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
                 break;
             case R.id.login_login://登录
-
 //                Log.e("消息信息","文本："+MsgTypeEnum.text.getValue()+"图片："+MsgTypeEnum.image.getValue()+"视频："+ MsgTypeEnum.audio.getValue()
 //                        +"通知："+MsgTypeEnum.notification.getValue()+"tip:"+MsgTypeEnum.tip.getValue()+"自定义"+MsgTypeEnum.custom.getValue());
-                loginError.setVisibility(View.GONE);
-                String name = loginAccount.getText().toString();
-                String mobile = loginMobileEt.getText().toString();
-                String password = loginPassword.getText().toString();
-                String weixin = loginWeixinEt.getText().toString();
-                loginPresent.login(name, password, weixin,mobile,null);
+//                loginError.setVisibility(View.GONE);
+//                String name = loginAccount.getText().toString();
+//                String mobile = loginMobileEt.getText().toString();
+//                String password = loginPassword.getText().toString();
+//                String weixin = loginWeixinEt.getText().toString();
+//                loginPresent.login(name, password, weixin,mobile,null);
                 break;
         }
     }
