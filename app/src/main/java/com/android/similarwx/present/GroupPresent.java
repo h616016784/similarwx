@@ -46,12 +46,14 @@ public class GroupPresent extends BasePresent {
     }
 
     public void analyzeRes(RspGroup rspGroup) {
-        String result=rspGroup.getResult();
-        if (result.equals("success")){
-            List<GroupMessageBean.ListBean> list=rspGroup.getData().getList();
-            mView.groupRefresh(list);
-        }else {
-            Toaster.toastShort(rspGroup.getErrorMsg());
+        if (rspGroup!=null){
+            String result=rspGroup.getResult();
+            if (result.equals("success")){
+                List<GroupMessageBean.ListBean> list=rspGroup.getData().getList();
+                mView.groupRefresh(list);
+            }else {
+                Toaster.toastShort(rspGroup.getErrorMsg());
+            }
         }
     }
 
@@ -61,11 +63,13 @@ public class GroupPresent extends BasePresent {
     }
 
     public void analyzeApplyRes(RspGroupApply rspGroupApply) {
-        String result=rspGroupApply.getResult();
-        if (result.equals("success")){
-            mView.groupApply("success");
-        }else {
-            Toaster.toastShort(rspGroupApply.getErrorMsg());
+        if (rspGroupApply!=null){
+            String result=rspGroupApply.getResult();
+            if (result.equals("success")){
+                mView.groupApply("success");
+            }else {
+                Toaster.toastShort(rspGroupApply.getErrorMsg());
+            }
         }
     }
 }

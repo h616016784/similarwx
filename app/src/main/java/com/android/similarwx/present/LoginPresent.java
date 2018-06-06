@@ -61,14 +61,16 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_WEIXIN,user.getWechatAccount());
         if (user.getGender()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_SEX,user.getGender());
+        if (user.getId()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
         //云信登录
 
         String accid=user.getAccId();
         String token=user.getToken();
-        if (TextUtils.isEmpty(accid))
-            accid="hhltest1";
-        if (TextUtils.isEmpty(accid))
-            token="a170417844a19c6bfebb4ab1a137fc31";
+//        if (TextUtils.isEmpty(accid))
+//            accid="hhltest1";
+//        if (TextUtils.isEmpty(accid))
+//            token="a170417844a19c6bfebb4ab1a137fc31";
         LoginInfo loginInfo=new LoginInfo(accid,token);
         doYunXinLogin(loginInfo,user);
     }

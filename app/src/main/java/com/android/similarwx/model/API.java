@@ -213,8 +213,12 @@ public class API implements APIConstants {
         rspRedCall.enqueue(new Callback<RspSendRed>() {
             @Override
             public void onResponse(Call<RspSendRed> call, Response<RspSendRed> response) {
-                RspSendRed rspRed=response.body();
-                present.analyzeRes(rspRed);
+                try {
+                    RspSendRed rspRed=response.body();
+                    present.analyzeRes(rspRed);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
             }
 
             @Override

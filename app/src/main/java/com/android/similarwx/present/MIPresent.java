@@ -20,15 +20,17 @@ public class MIPresent extends BasePresent {
         this.mView=view;
     }
     public void sendRed(SendRed sendRed){
-        API.getInstance().sendRed(sendRed.getRequestNum(),sendRed.getUserId(),sendRed.getGroupId(),sendRed.getAmount(),sendRed.getType(),this);
+        API.getInstance().sendRed(sendRed.getRequestNum(),sendRed.getMyUserId(),sendRed.getMyGroupId(),sendRed.getAmount(),sendRed.getType(),this);
     }
 
     public void analyzeRes(RspSendRed rspRed) {
-        String result=rspRed.getResult();
-        if (result.equals("success")){
-            mView.reFreshCustemRed(rspRed.getData());
-        }else {
-            Toaster.toastShort(rspRed.getErrorMsg());
+        if (rspRed!=null){
+            String result=rspRed.getResult();
+            if (result.equals("success")){
+                mView.reFreshCustemRed(rspRed.getData());
+            }else {
+                Toaster.toastShort(rspRed.getErrorMsg());
+            }
         }
     }
 }

@@ -26,6 +26,8 @@ import com.android.similarwx.widget.input.sessions.Extras;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -100,7 +102,9 @@ public class SendRedFragment extends BaseFragment {
         bean.setRequestNum(UUID.randomUUID().toString());
         bean.setAmount(money);
         bean.setGroupId(listBean.getGroupId());
+        bean.setMyGroupId(listBean.getId()+"");
         bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
+        bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无"));
         bean.setType(type);
         intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,bean);
         activity.setResult(Activity.RESULT_OK,intent);

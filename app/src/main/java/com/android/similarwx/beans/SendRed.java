@@ -13,8 +13,26 @@ public class SendRed extends BaseBean{
     private String shouqi;
     private String requestNum;
     private String userId;
+    private String myUserId;
+    private String myGroupId;
     private String groupId;
     private String type;
+
+    public String getMyUserId() {
+        return myUserId;
+    }
+
+    public void setMyUserId(String myUserId) {
+        this.myUserId = myUserId;
+    }
+
+    public String getMyGroupId() {
+        return myGroupId;
+    }
+
+    public void setMyGroupId(String myGroupId) {
+        this.myGroupId = myGroupId;
+    }
 
     public String getRedPacId() {
         return redPacId;
