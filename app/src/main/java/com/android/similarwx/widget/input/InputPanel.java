@@ -91,7 +91,8 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     private boolean started = false;
     private boolean cancelled = false;
     private boolean touched = false; // 是否按着
-    private boolean isKeyboardShowed = true; // 是否显示键盘
+    public boolean isKeyboardShowed = true; // 是否显示键盘
+    public boolean isShowed = false; // 是否显示界面（emoji和action）
 
     // state
     private boolean actionPanelBottomLayoutHasSetup = false;
@@ -396,6 +397,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
     // 隐藏表情布局
     private void hideEmojiLayout() {
+        isShowed=false;
         uiHandler.removeCallbacks(showEmojiRunnable);
         if (emoticonPickerView != null) {
             emoticonPickerView.setVisibility(View.GONE);
@@ -404,6 +406,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
     // 隐藏更多布局
     private void hideActionPanelLayout() {
+        isShowed=false;
         uiHandler.removeCallbacks(showMoreFuncRunnable);
         if (actionPanelBottomLayout != null) {
             actionPanelBottomLayout.setVisibility(View.GONE);
@@ -437,6 +440,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         uiHandler.postDelayed(showEmojiRunnable, 200);
         emoticonPickerView.setVisibility(View.VISIBLE);
         emoticonPickerView.show(this);
+        isShowed=true;
         container.proxy.onInputPanelExpand();
     }
 
@@ -472,6 +476,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         hideInputMethod();
 
         uiHandler.postDelayed(showMoreFuncRunnable, SHOW_LAYOUT_DELAY);
+        isShowed=true;
         container.proxy.onInputPanelExpand();
     }
 
@@ -593,7 +598,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     /**
      * 隐藏所有输入布局
      */
-    private void hideAllInputLayout(boolean immediately) {
+    public void hideAllInputLayout(boolean immediately) {
         if (hideAllInputLayoutRunnable == null) {
             hideAllInputLayoutRunnable = new Runnable() {
 

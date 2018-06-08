@@ -17,18 +17,8 @@ public class GroupMessageBean extends BaseBean {
      * list : [{"groupType":"1","endRange":100,"createTime":null,"groupName":"测试群001","requirement":"bbb","thunderNumber":9,"gameType":"1","updateTime":null,"multipleRate":null,"attr":null,"startRange":10,"attrValue":null,"id":7,"groupId":"499364036","px":1,"groupIcon":null,"description":null,"rewardRules":"[{\"rewardName\":\"豹子\",\"rewardValue\":\"6.66\",\"amountReward\":\"6.66\",\"id\":\"\"}]","totalNumber":100,"totalRedEnvelopes":200,"notice":"aaa","attrName":null,"createId":"hhltest1"}]
      */
 
-    private String retCode;
     private int count;
-    private String retMsg;
     private List<ListBean> list;
-
-    public String getRetCode() {
-        return retCode;
-    }
-
-    public void setRetCode(String retCode) {
-        this.retCode = retCode;
-    }
 
     public int getCount() {
         return count;
@@ -38,13 +28,6 @@ public class GroupMessageBean extends BaseBean {
         this.count = count;
     }
 
-    public String getRetMsg() {
-        return retMsg;
-    }
-
-    public void setRetMsg(String retMsg) {
-        this.retMsg = retMsg;
-    }
 
     public List<ListBean> getList() {
         return list;

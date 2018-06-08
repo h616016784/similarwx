@@ -27,7 +27,18 @@ public class MIPresent extends BasePresent {
         if (rspRed!=null){
             String result=rspRed.getResult();
             if (result.equals("success")){
-                mView.reFreshCustemRed(rspRed.getData());
+                SendRed sendRed=rspRed.getData();
+                if (sendRed!=null){
+                    String code=sendRed.getRetCode();
+                    if (code.equals("0000")){
+                        mView.reFreshCustemRed(sendRed);
+                    }else {
+                        Toaster.toastShort(sendRed.getRetMsg());
+                    }
+                }else {
+                    Toaster.toastShort("解析异常");
+                }
+
             }else {
                 Toaster.toastShort(rspRed.getErrorMsg());
             }

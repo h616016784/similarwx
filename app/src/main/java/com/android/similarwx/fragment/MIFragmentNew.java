@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.android.outbaselibrary.utils.Toaster;
@@ -315,6 +316,27 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
         inputPanel.onActivityResult(requestCode, resultCode, data);
 
     }
+
+    @Override
+    public boolean isInterceptKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN
+                && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (inputPanel!=null && inputPanel.isShowed){
+                inputPanel.hideAllInputLayout(true);
+                return true;
+            }
+        }
+        return false;
+    }
+//    @Override
+//    protected boolean onBackPressed() {
+//        if (inputPanel!=null && !inputPanel.isKeyboardShowed){
+//            inputPanel.hideAllInputLayout(true);
+//            return true;
+//        }
+//        return super.onBackPressed();
+//    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
