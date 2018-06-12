@@ -22,6 +22,7 @@ import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.Strings.MD5;
 import com.android.similarwx.widget.input.sessions.Extras;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -92,14 +93,16 @@ public class SendRedFragment extends BaseFragment {
         String type = null;
         if (listBean!=null){
             type = listBean.getGameType();
-            if (type.equals("1")){
+            if (type.equals("1")){//普通
                 type="MINE";
-            }else {
+            }else if(type.equals("2")){//扫雷
+                type="MINE";
+            }else if(type.equals("3")){//幸运接龙
                 type="LUCK";
             }
         }
 
-        bean.setRequestNum(UUID.randomUUID().toString());
+        bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
         bean.setAmount(money);
         bean.setGroupId(listBean.getGroupId());
         bean.setMyGroupId(listBean.getId()+"");
