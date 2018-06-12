@@ -166,4 +166,5 @@
         <item name="android:backgroundDimAmount">0.4</item>
     </style>
     <style name="dialog_untran" parent="dialog_tran"></style>
+
 </resources>

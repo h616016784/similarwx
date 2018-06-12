@@ -28,6 +28,7 @@ import com.android.similarwx.misdk.model.CustomAttachment;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.dialog.RedDialogFragment;
+import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.android.similarwx.widget.input.InputPanel;
@@ -188,6 +189,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 MultipleItem bean=multipleItemAdapter.getData().get(position);
                 IMMessage imMessage=bean.getImMessage();
+                RedLoadingDialogFragment.show(activity);
                 switch (imMessage.getMsgType().getValue()){
                     case MultipleItem.ITEM_IMAGE://图片
                         break;
@@ -201,6 +203,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                         player.start( AudioManager.STREAM_VOICE_CALL);
                         break;
                     case MultipleItem.ITEM_RED://红包
+
                         RedResultDialogFragment.show(activity);
                         break;
                 }

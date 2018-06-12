@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
+import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -87,10 +88,13 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     Gson gson=new Gson();
                     CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
                     String imagePath=charImageBean.getPath();
-                    Glide.with(context)
-                            .load(new File(imagePath))
-                            .error(R.drawable.nim_default_img_failed)
-                            .into((ImageView) helper.getView(R.id.item_mi_image_left_content));
+                    if (!TextUtils.isEmpty(imagePath)){
+                        Glide.with(context)
+                                .load(new File(imagePath))
+                                .error(R.drawable.nim_default_img_failed)
+                                .into((ImageView) helper.getView(R.id.item_mi_image_left_content));
+                    }
+
                 }else {
                     helper.setVisible(R.id.item_mi_image_right_iv,true);helper.setVisible(R.id.item_mi_image_left_iv,false);
                     helper.setVisible(R.id.item_mi_image_right_title,true);helper.setVisible(R.id.item_mi_image_left_title,false);
@@ -101,7 +105,10 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     Gson gson=new Gson();
                     CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
                     String imagePath=charImageBean.getPath();
-                    Glide.with(context).load(new File(imagePath)).into((ImageView) helper.getView(R.id.item_mi_image_right_content));
+                    if (!TextUtils.isEmpty(imagePath)){
+                        Glide.with(context).load(new File(imagePath)).into((ImageView) helper.getView(R.id.item_mi_image_right_content));
+                    }
+
                 }
                 break;
             case MultipleItem.ITEM_AUDIO://音频
@@ -127,23 +134,28 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                      helper.setText(R.id.item_sys_tv,item.getImMessage().getContent());
                 break;
             case MultipleItem.ITEM_RED://红包类信息
-                String json=item.getImMessage().getAttachment().toJson(false);
-                SendRed bean=gson.fromJson(json, SendRed.class);
+                MsgAttachment attachment=imMessage.getAttachment();
                 if (imMessage.getDirect()== MsgDirectionEnum.Out){
                     helper.setVisible(R.id.item_red_right_iv,false);helper.setVisible(R.id.item_red_left_iv,true);
                     helper.setVisible(R.id.item_red_right_content,false);helper.setVisible(R.id.item_red_left_content,true);
                     helper.setVisible(R.id.item_red_packet_right_rl,false);helper.setVisible(R.id.item_red_packet_rl,true);
-
-                    helper.setText(R.id.item_red_left_content,item.getImMessage().getFromNick());
-
-                    helper.setText(R.id.item_red_packet_count_tv,bean.getAmount());
                 }else {
                     helper.setVisible(R.id.item_red_left_iv,false);helper.setVisible(R.id.item_red_right_iv,true);
                     helper.setVisible(R.id.item_red_left_content,false);helper.setVisible(R.id.item_red_right_content,true);
                     helper.setVisible(R.id.item_red_packet_rl,false);helper.setVisible(R.id.item_red_packet_right_rl,true);
-
-                    helper.setText(R.id.item_red_right_content,item.getImMessage().getFromNick());
-                    helper.setText(R.id.item_red_packet_count_right_tv,bean.getAmount());
+                }
+                if (attachment!=null){
+                    String json=attachment.toJson(false);
+                    if (!TextUtils.isEmpty(json)){
+                        SendRed bean=gson.fromJson(json, SendRed.class);
+                        if (imMessage.getDirect()== MsgDirectionEnum.Out){
+                            helper.setText(R.id.item_red_left_content,item.getImMessage().getFromNick());
+                            helper.setText(R.id.item_red_packet_count_tv,bean.getAmount());
+                        }else {
+                            helper.setText(R.id.item_red_right_content,item.getImMessage().getFromNick());
+                            helper.setText(R.id.item_red_packet_count_right_tv,bean.getAmount());
+                        }
+                    }
                 }
                 break;
         }
