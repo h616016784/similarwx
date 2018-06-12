@@ -17,6 +17,15 @@ public class SendRed extends BaseBean{
     private String myGroupId;
     private String groupId;
     private String type;
+    private String lei;
+
+    public String getLei() {
+        return lei;
+    }
+
+    public void setLei(String lei) {
+        this.lei = lei;
+    }
 
     public String getMyUserId() {
         return myUserId;

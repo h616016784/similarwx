@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.inteface.MiViewInterface;
 import com.android.similarwx.misdk.model.CustomAttachment;
 import com.android.similarwx.present.MIPresent;
@@ -56,6 +58,7 @@ import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
+import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
@@ -109,10 +112,12 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
         return R.layout.fragment_mi_layout_new;
     }
 
+    private Gson gson;
     @Override
     protected void onInitView(View contentView) {
         AndroidBug5497Workaround.assistActivity(activity);
         miPresent=new MIPresent(this);
+        gson=new Gson();
         Bundle bundle=getArguments();
         if (bundle!=null){
             flag=bundle.getInt(MIFLAG);
@@ -189,13 +194,13 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 MultipleItem bean=multipleItemAdapter.getData().get(position);
                 IMMessage imMessage=bean.getImMessage();
-                RedLoadingDialogFragment.show(activity);
+
                 switch (imMessage.getMsgType().getValue()){
                     case MultipleItem.ITEM_IMAGE://图片
                         break;
                     case MultipleItem.ITEM_AUDIO://音频
                         String s=imMessage.getAttachment().toJson(false);
-                        Gson gson=new Gson();
+
                         CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
                         String imagePath=charImageBean.getPath();
                         // 构造播放器对象
@@ -203,8 +208,16 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                         player.start( AudioManager.STREAM_VOICE_CALL);
                         break;
                     case MultipleItem.ITEM_RED://红包
-
-                        RedResultDialogFragment.show(activity);
+//                        RedLoadingDialogFragment.show(activity);
+                        MsgAttachment attachment=bean.getImMessage().getAttachment();
+                        if (attachment!=null) {
+                            String json = attachment.toJson(false);
+                            if (!TextUtils.isEmpty(json)) {
+                                SendRed sendRed = gson.fromJson(json, SendRed.class);
+                                miPresent.grabRed(sendRed.getRedPacId());
+                            }
+                        }
+//
                         break;
                 }
             }
@@ -444,6 +457,14 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                 sendMessage(imMessage);
         }
     }
+
+    @Override
+    public void grabRed(RspGrabRed.GrabRedBean bean) {
+        if (bean!=null){
+            RedResultDialogFragment.show(activity);
+        }
+    }
+
     /**
      * 创建自定义消息
      * @param redDetailBean

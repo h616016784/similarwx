@@ -3,6 +3,7 @@ package com.android.similarwx.model;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
 import com.android.similarwx.beans.response.RspGroupUser;
@@ -17,6 +18,7 @@ import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.present.RegisterPresent;
+import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -202,13 +204,14 @@ public class API implements APIConstants {
         });
     }
 
-    public void sendRed(String requestNum, String userId,String groupId,String amount,String type, final MIPresent present) {
+    public void sendRed(String requestNum, String userId,String groupId,String amount,String type, String lei,final MIPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("requestNum",requestNum );
         map.put("userId",userId);
         map.put("groupId",groupId);
         map.put("amount",amount);
         map.put("type",type);
+        map.put("thunder",lei);
         Call<RspSendRed> rspRedCall=apiService.sendRed(map);
         rspRedCall.enqueue(new Callback<RspSendRed>() {
             @Override
@@ -229,4 +232,26 @@ public class API implements APIConstants {
         });
     }
 
+    public void grabRed(String userId, String redId, MIPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("userId",userId );
+        map.put("redPacId",redId);
+        Call<RspGrabRed> call=apiService.grabRed(map);
+        call.enqueue(new Callback<RspGrabRed>() {
+            @Override
+            public void onResponse(Call<RspGrabRed> call, Response<RspGrabRed> response) {
+                try {
+                    RspGrabRed grabRed=response.body();
+                    present.analyzeRes(grabRed);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspGrabRed> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
 }

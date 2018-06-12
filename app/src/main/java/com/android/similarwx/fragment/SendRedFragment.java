@@ -86,8 +86,13 @@ public class SendRedFragment extends BaseFragment {
         Intent intent=new Intent();
         SendRed bean=new SendRed();
         String money=sendRedSumEt.getText().toString();
+        String lei=sendRedLeiEt.getText().toString();
         if (TextUtils.isEmpty(money)){
             Toaster.toastShort("金额不能为空！");
+            return;
+        }
+        if (TextUtils.isEmpty(lei)){
+            Toaster.toastShort("雷数不能为空！");
             return;
         }
         String type = null;
@@ -102,6 +107,7 @@ public class SendRedFragment extends BaseFragment {
             }
         }
 
+        bean.setLei(lei);
         bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
         bean.setAmount(money);
         bean.setGroupId(listBean.getGroupId());
