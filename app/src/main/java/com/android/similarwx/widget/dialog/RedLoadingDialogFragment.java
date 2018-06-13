@@ -74,7 +74,7 @@ public class RedLoadingDialogFragment extends DialogFragment {
     }
     public static void disMiss(Activity activity){
         FragmentManager transaction=activity.getFragmentManager();
-        Fragment prev = transaction.findFragmentByTag("fragment_dialog");
+        Fragment prev = transaction.findFragmentByTag("redLoadingDialog");
         if (prev != null) {
             DialogFragment df = (DialogFragment) prev;
             df.dismiss();

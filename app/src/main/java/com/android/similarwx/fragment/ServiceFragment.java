@@ -13,6 +13,9 @@ import com.android.similarwx.adapter.ServiceAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.ServiceItemBean;
+import com.android.similarwx.beans.response.RspService;
+import com.android.similarwx.inteface.ServiceViewInterface;
+import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -29,11 +32,12 @@ import butterknife.Unbinder;
  * Created by hanhuailong on 2018/4/2.
  */
 
-public class ServiceFragment extends BaseFragment {
+public class ServiceFragment extends BaseFragment implements ServiceViewInterface{
     @BindView(R.id.service_recycler)
     RecyclerView serviceRecycler;
     Unbinder unbinder;
 
+    private ServicePresent mPresent;
     private ServiceAdapter serviceAdapter;
     @Override
     protected int getLayoutResource() {
@@ -45,6 +49,7 @@ public class ServiceFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.service_title);
         unbinder = ButterKnife.bind(this, contentView);
+        mPresent=new ServicePresent(this);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(activity);
         serviceRecycler.setLayoutManager(linearLayoutManager);
         serviceAdapter=new ServiceAdapter(R.layout.item_service,activity);
@@ -52,11 +57,11 @@ public class ServiceFragment extends BaseFragment {
         serviceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ServiceItemBean bean=serviceAdapter.getData().get(position);
+                RspService.DataBean.ResUsersDetailListBean bean=serviceAdapter.getData().get(position);
                 Bundle bundle=new Bundle();
                 bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
                 bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
-                bundle.putString(AppConstants.CHAT_ACCOUNT_ID,"paopaotest2");
+                bundle.putString(AppConstants.CHAT_ACCOUNT_ID,bean.getAccId());
                 FragmentUtils.navigateToNormalActivity(activity,new MIFragment(),bundle);
             }
         });
@@ -71,18 +76,31 @@ public class ServiceFragment extends BaseFragment {
 
     @Override
     protected void fetchData() {
-       List<ServiceItemBean> data=new ArrayList<>();
-       ServiceItemBean serviceItemBean=new ServiceItemBean();
-       serviceItemBean.setRole("群主");
-       serviceItemBean.setContent("管家（在线）");
-       serviceItemBean.setImageUrl("http://p1.pstatp.com/large/166200019850062839d3");
-       data.add(serviceItemBean);
-       serviceAdapter.addData(data);
+//       List<ServiceItemBean> data=new ArrayList<>();
+//       ServiceItemBean serviceItemBean=new ServiceItemBean();
+//       serviceItemBean.setRole("群主");
+//       serviceItemBean.setContent("管家（在线）");
+//       serviceItemBean.setImageUrl("http://p1.pstatp.com/large/166200019850062839d3");
+//       data.add(serviceItemBean);
+//       serviceAdapter.addData(data);
+        mPresent.getServicesList();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void serviceRefresh(List<RspService.DataBean.ResUsersDetailListBean> resUsersDetailList) {
+        if (resUsersDetailList!=null){
+            serviceAdapter.addData(resUsersDetailList);
+        }
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
     }
 }

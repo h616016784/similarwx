@@ -9,6 +9,7 @@ import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspSendRed;
+import com.android.similarwx.beans.response.RspService;
 import com.android.similarwx.beans.response.RspUser;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public interface APIService {
     Call<RspUser> registe(@QueryMap Map<String,String> map);
     @POST("resUsers/login")
     Call<RspUser> login(@QueryMap Map<String,String> map);
+    @POST("resUsers/getCustomerServiceUserList")
+    Call<RspService> getServices(@QueryMap Map<String, String> map);
 
     @POST("group/getGroupList")
     Call<RspGroup> reqGroupList(@QueryMap Map<String,String> map);
@@ -41,6 +44,7 @@ public interface APIService {
     @POST("group/getGroupUserList")
     Call<RspGroupUser> getGroupUserList(@QueryMap Map<String,String> map);
 
+
     @POST("sys/noticeList")
     Call<RspNotice> getNotices(@QueryMap Map<String, String> map);
 
@@ -48,4 +52,6 @@ public interface APIService {
     Call<RspSendRed> sendRed(@QueryMap Map<String, String> map);
     @POST("redPac/grab")
     Call<RspGrabRed> grabRed(@QueryMap Map<String, String> map);
+
+
 }

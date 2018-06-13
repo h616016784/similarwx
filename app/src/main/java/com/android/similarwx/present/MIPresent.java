@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.app.Activity;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.AppConstants;
@@ -27,9 +29,9 @@ public class MIPresent extends BasePresent {
         API.getInstance().sendRed(sendRed.getRequestNum(),sendRed.getMyUserId(),sendRed.getMyGroupId(),sendRed.getAmount(),sendRed.getType(),sendRed.getLei(),this);
     }
 
-    public void grabRed(String redId){
+    public void grabRed(String redId, Activity activity){
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().grabRed(userId,redId,this);
+        API.getInstance().grabRed(userId,redId,this,activity);
     }
     public void analyzeRes(RspSendRed rspRed) {
         if (rspRed!=null){

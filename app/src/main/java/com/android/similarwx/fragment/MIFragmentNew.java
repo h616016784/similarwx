@@ -200,7 +200,6 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                         break;
                     case MultipleItem.ITEM_AUDIO://音频
                         String s=imMessage.getAttachment().toJson(false);
-
                         CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
                         String imagePath=charImageBean.getPath();
                         // 构造播放器对象
@@ -208,13 +207,13 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                         player.start( AudioManager.STREAM_VOICE_CALL);
                         break;
                     case MultipleItem.ITEM_RED://红包
-//                        RedLoadingDialogFragment.show(activity);
+                        RedLoadingDialogFragment.show(activity);
                         MsgAttachment attachment=bean.getImMessage().getAttachment();
                         if (attachment!=null) {
                             String json = attachment.toJson(false);
                             if (!TextUtils.isEmpty(json)) {
                                 SendRed sendRed = gson.fromJson(json, SendRed.class);
-                                miPresent.grabRed(sendRed.getRedPacId());
+                                miPresent.grabRed(sendRed.getRedPacId(),activity);
                             }
                         }
 //

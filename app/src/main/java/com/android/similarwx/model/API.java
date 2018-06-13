@@ -1,5 +1,7 @@
 package com.android.similarwx.model;
 
+import android.app.Activity;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
@@ -10,6 +12,7 @@ import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspSendRed;
+import com.android.similarwx.beans.response.RspService;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.GroupInfoPresent;
@@ -18,6 +21,7 @@ import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.present.RegisterPresent;
+import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 
 import java.util.HashMap;
@@ -232,7 +236,7 @@ public class API implements APIConstants {
         });
     }
 
-    public void grabRed(String userId, String redId, MIPresent present) {
+    public void grabRed(String userId, String redId, MIPresent present, Activity activity) {
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         map.put("redPacId",redId);
@@ -240,6 +244,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspGrabRed>() {
             @Override
             public void onResponse(Call<RspGrabRed> call, Response<RspGrabRed> response) {
+                RedLoadingDialogFragment.disMiss(activity);
                 try {
                     RspGrabRed grabRed=response.body();
                     present.analyzeRes(grabRed);
@@ -250,6 +255,29 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGrabRed> call, Throwable t) {
+                RedLoadingDialogFragment.disMiss(activity);
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void getServicesList(String userType, ServicePresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("userType",userType );
+        Call<RspService> call=apiService.getServices(map);
+        call.enqueue(new Callback<RspService>() {
+            @Override
+            public void onResponse(Call<RspService> call, Response<RspService> response) {
+                try {
+                    RspService rspService=response.body();
+                    present.analyzeRes(rspService);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspService> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
             }
         });
