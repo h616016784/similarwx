@@ -20,6 +20,7 @@ import com.android.similarwx.beans.Notice;
 import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.widget.ListPopWindow;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
+import com.android.similarwx.widget.dialog.RuleDialogFragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -103,6 +104,7 @@ public class AddGroupFragment extends BaseFragment {
             }
         };
         createGroupRuleRv.setAdapter(adapter);
+        hideKeyboard();
     }
 
     private void initGroupList() {
@@ -153,7 +155,7 @@ public class AddGroupFragment extends BaseFragment {
                 }).show();
                 break;
             case R.id.create_group_add_rule_iv:
-
+                RuleDialogFragment.show(activity);
                 break;
             case R.id.create_group_new_bt:
 
