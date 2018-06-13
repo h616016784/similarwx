@@ -80,14 +80,6 @@ public class ListPopWindow {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pop_client_more,parent,false);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mItemClickListener!=null){
-                        mItemClickListener.onItemClick(1);
-                    }
-                }
-            });
             ViewHolder holder = new ViewHolder(view);
             return holder;
         }
@@ -97,6 +89,15 @@ public class ListPopWindow {
             if (res!=null && res.size()>0){
                 PopMoreBean bean=res.get(position);
                 holder.name.setText(bean.getName());
+                holder.getView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(mItemClickListener!=null){
+                            mItemClickListener.onItemClick(position);
+                        }
+                        dismiss();
+                    }
+                });
             }
         }
 
@@ -114,6 +115,9 @@ public class ListPopWindow {
             public ViewHolder(View view) {
                 super(view);
                 name = (TextView) view.findViewById(R.id.item_pop_client_more_tv);
+            }
+            public View getView(){
+                return itemView;
             }
         }
     }

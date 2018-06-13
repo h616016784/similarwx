@@ -19,6 +19,7 @@ import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.fragment.AddGroupFragment;
 import com.android.similarwx.fragment.ChartFragment;
 import com.android.similarwx.fragment.ExplainFragment;
 import com.android.similarwx.fragment.MIFragment;
@@ -80,7 +81,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
-        createGroupIv.setVisibility(View.GONE);
         groupPresent = new GroupPresent(this);
         editDialogSimple = new EditDialogSimple(this, null);
 //        initData();
@@ -116,7 +116,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
                 break;
             case R.id.create_group_iv:
-
+                FragmentUtils.navigateToNormalActivity(this, new AddGroupFragment(), null);
                 break;
             case R.id.main_rl_explain:
                 FragmentUtils.navigateToNormalActivity(this, new ExplainFragment(), null);

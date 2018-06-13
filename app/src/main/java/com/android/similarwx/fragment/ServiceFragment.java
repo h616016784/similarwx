@@ -62,7 +62,8 @@ public class ServiceFragment extends BaseFragment implements ServiceViewInterfac
                 bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
                 bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
                 bundle.putString(AppConstants.CHAT_ACCOUNT_ID,bean.getAccId());
-                FragmentUtils.navigateToNormalActivity(activity,new MIFragment(),bundle);
+                bundle.putString(AppConstants.CHAT_ACCOUNT_NAME,bean.getName());
+                FragmentUtils.navigateToNormalActivity(activity,new MIFragmentNew(),bundle);
             }
         });
         ImageView imageView=contentView.findViewById(R.id.imageView);

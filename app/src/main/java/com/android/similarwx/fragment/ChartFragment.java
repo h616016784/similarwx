@@ -59,7 +59,7 @@ public class ChartFragment extends BaseFragment {
                    if (recentContact!=null){
                        Bundle bundle=new Bundle();
                        bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
-                       FragmentUtils.navigateToNormalActivity(activity,new MIFragment(),bundle);
+                       FragmentUtils.navigateToNormalActivity(activity,new MIFragmentNew(),bundle);
                    }
                }
             }
