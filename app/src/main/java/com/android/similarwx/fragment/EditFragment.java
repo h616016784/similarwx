@@ -12,6 +12,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.utils.CodeUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,13 +56,14 @@ public class EditFragment extends BaseFragment {
         mActionbar.setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String str=myBaseEditEt.getText().toString();
                 if (TextUtils.isEmpty(str)){
                     Toaster.toastShort("不能为空！");
                     return;
                 }
                 Intent intent=new Intent();
-                intent.putExtra(AppConstants.USER_CONTENT,str);
+                intent.putExtra(AppConstants.USER_CONTENT, str);
                 activity.setResult(activity.RESULT_OK,intent);
                 activity.finish();
             }

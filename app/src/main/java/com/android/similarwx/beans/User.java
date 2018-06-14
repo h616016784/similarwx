@@ -5,59 +5,80 @@ package com.android.similarwx.beans;
  */
 
 public class User extends BaseBean{
+
     /**
+     * personalitySignature : null
+     * passwd : 7c4a8d09ca3762af61e59520943dc26494f8941b
      * icon : null
      * inviter : null
-     * passwd : 7c4a8d09ca3762af61e59520943dc26494f8941b
      * birth : null
      * totalBalance : null
      * state : null
-     * modifyDate : null
-     * loginFlg : 0
+     * modifyDate : 2018-05-23 23:18:02
+     * userChildCount : 0
      * birthStr : null
      * userType : null
-     * id : null
-     * passwdStr : 123456
+     * loginFlg : 1
+     * id : 28
      * invitationCode : 981c2e1b7692c2180557a03ce7a30064436b6da6
+     * passwdStr : null
      * alipay : null
-     * email : wangyihanhuailong@163.com
-     * token : a170417844a19c6bfebb4ab1a137fc31
      * wechatAccount : 15701332721
+     * token : a170417844a19c6bfebb4ab1a137fc31
+     * email : wangyihanhuailong@163.com
      * name : joke1
      * gender : null
-     * recentLoginTime : null
+     * recentLoginTime : 2018-06-14 11:04:34
      * registIp : null
      * createDate : 2018-05-23 21:29:53
      * registTime : 2018-05-23 21:29:53
-     * mobile : 15701332721
      * accId : hhltest1
+     * mobile : 15701332721
      */
 
+    private String personalitySignature;
+    private String passwd;
     private String icon;
     private String inviter;
-    private String passwd;
     private String birth;
     private String totalBalance;
     private String state;
     private String modifyDate;
-    private int loginFlg;
+    private int userChildCount;
     private String birthStr;
     private String userType;
+    private int loginFlg;
     private String id;
-    private String passwdStr;
     private String invitationCode;
+    private String passwdStr;
     private String alipay;
-    private String email;
-    private String token;
     private String wechatAccount;
+    private String token;
+    private String email;
     private String name;
     private String gender;
     private String recentLoginTime;
     private String registIp;
     private String createDate;
     private String registTime;
-    private String mobile;
     private String accId;
+    private String mobile;
+
+    public String getPersonalitySignature() {
+        return personalitySignature;
+    }
+
+    public void setPersonalitySignature(String personalitySignature) {
+        this.personalitySignature = personalitySignature;
+    }
+
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
 
     public String getIcon() {
         return icon;
@@ -73,14 +94,6 @@ public class User extends BaseBean{
 
     public void setInviter(String inviter) {
         this.inviter = inviter;
-    }
-
-    public String getPasswd() {
-        return passwd;
-    }
-
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
     }
 
     public String getBirth() {
@@ -115,12 +128,12 @@ public class User extends BaseBean{
         this.modifyDate = modifyDate;
     }
 
-    public int getLoginFlg() {
-        return loginFlg;
+    public int getUserChildCount() {
+        return userChildCount;
     }
 
-    public void setLoginFlg(int loginFlg) {
-        this.loginFlg = loginFlg;
+    public void setUserChildCount(int userChildCount) {
+        this.userChildCount = userChildCount;
     }
 
     public String getBirthStr() {
@@ -139,20 +152,20 @@ public class User extends BaseBean{
         this.userType = userType;
     }
 
+    public int getLoginFlg() {
+        return loginFlg;
+    }
+
+    public void setLoginFlg(int loginFlg) {
+        this.loginFlg = loginFlg;
+    }
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getPasswdStr() {
-        return passwdStr;
-    }
-
-    public void setPasswdStr(String passwdStr) {
-        this.passwdStr = passwdStr;
     }
 
     public String getInvitationCode() {
@@ -163,6 +176,14 @@ public class User extends BaseBean{
         this.invitationCode = invitationCode;
     }
 
+    public String getPasswdStr() {
+        return passwdStr;
+    }
+
+    public void setPasswdStr(String passwdStr) {
+        this.passwdStr = passwdStr;
+    }
+
     public String getAlipay() {
         return alipay;
     }
@@ -171,12 +192,12 @@ public class User extends BaseBean{
         this.alipay = alipay;
     }
 
-    public String getEmail() {
-        return email;
+    public String getWechatAccount() {
+        return wechatAccount;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setWechatAccount(String wechatAccount) {
+        this.wechatAccount = wechatAccount;
     }
 
     public String getToken() {
@@ -187,12 +208,12 @@ public class User extends BaseBean{
         this.token = token;
     }
 
-    public String getWechatAccount() {
-        return wechatAccount;
+    public String getEmail() {
+        return email;
     }
 
-    public void setWechatAccount(String wechatAccount) {
-        this.wechatAccount = wechatAccount;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -243,19 +264,19 @@ public class User extends BaseBean{
         this.registTime = registTime;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
     public String getAccId() {
         return accId;
     }
 
     public void setAccId(String accId) {
         this.accId = accId;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

@@ -107,7 +107,7 @@ public class SendRedFragment extends BaseFragment {
             }
         }
 
-        bean.setLei(lei);
+        bean.setThunder(lei);
         bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
         bean.setAmount(money);
         bean.setGroupId(listBean.getGroupId());

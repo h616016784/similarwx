@@ -113,7 +113,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.main_search_iv:
-
                 break;
             case R.id.create_group_iv:
                 FragmentUtils.navigateToNormalActivity(this, new AddGroupFragment(), null);

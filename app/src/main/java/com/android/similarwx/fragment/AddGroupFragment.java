@@ -75,6 +75,7 @@ public class AddGroupFragment extends BaseFragment {
     private List<PopMoreBean> groupTypeList;
 
     private BaseQuickAdapter adapter;
+    private List<GroupRule> groupRuleList;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_add_group;
@@ -94,7 +95,7 @@ public class AddGroupFragment extends BaseFragment {
             }
         });
         createGroupRuleRv.setLayoutManager(new LinearLayoutManager(activity));
-        adapter=new BaseQuickAdapter<GroupRule,BaseViewHolder>(R.layout.item_group_info_rule){
+        adapter=new BaseQuickAdapter<GroupRule,BaseViewHolder>(R.layout.item_group_rule,groupRuleList){
 
             @Override
             protected void convert(BaseViewHolder helper, GroupRule item) {
@@ -117,6 +118,8 @@ public class AddGroupFragment extends BaseFragment {
         bean2.setName("交友群");
         groupTypeList.add(bean);
         groupTypeList.add(bean2);
+
+        groupRuleList=new ArrayList<>();
     }
 
 
@@ -155,7 +158,14 @@ public class AddGroupFragment extends BaseFragment {
                 }).show();
                 break;
             case R.id.create_group_add_rule_iv:
-                RuleDialogFragment.show(activity);
+                RuleDialogFragment.show(activity, new RuleDialogFragment.OnConfirmClickListener() {
+                    @Override
+                    public void onConfirmClickListener(GroupRule groupRule) {
+                        if (groupRule!=null){
+                            adapter.addData(groupRule);
+                        }
+                    }
+                });
                 break;
             case R.id.create_group_new_bt:
 

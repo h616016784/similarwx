@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.ServiceItemBean;
 import com.android.similarwx.utils.FragmentUtils;
@@ -16,6 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.List;
@@ -46,6 +48,8 @@ public class ChartFragment extends BaseFragment {
         baseQuickAdapter=new BaseQuickAdapter<RecentContact,BaseViewHolder>(R.layout.item_chart,null) {
             @Override
             protected void convert(BaseViewHolder helper, RecentContact item) {
+                helper.setText(R.id.item_chart_name_tv,item.getContactId());
+                helper.setText(R.id.item_chart_content_tv,item.getContent());
 
             }
         };
@@ -59,6 +63,9 @@ public class ChartFragment extends BaseFragment {
                    if (recentContact!=null){
                        Bundle bundle=new Bundle();
                        bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
+                       bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
+                       bundle.putString(AppConstants.CHAT_ACCOUNT_ID,recentContact.getContactId());
+                       bundle.putString(AppConstants.CHAT_ACCOUNT_NAME,recentContact.getContactId());
                        FragmentUtils.navigateToNormalActivity(activity,new MIFragmentNew(),bundle);
                    }
                }

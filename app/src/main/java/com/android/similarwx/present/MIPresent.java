@@ -26,7 +26,7 @@ public class MIPresent extends BasePresent {
         this.mView=view;
     }
     public void sendRed(SendRed sendRed){
-        API.getInstance().sendRed(sendRed.getRequestNum(),sendRed.getMyUserId(),sendRed.getMyGroupId(),sendRed.getAmount(),sendRed.getType(),sendRed.getLei(),this);
+        API.getInstance().sendRed(sendRed.getRequestNum(),sendRed.getMyUserId(),sendRed.getMyGroupId(),sendRed.getAmount(),sendRed.getType(),sendRed.getThunder(),this);
     }
 
     public void grabRed(String redId, Activity activity){

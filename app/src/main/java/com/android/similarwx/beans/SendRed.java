@@ -5,26 +5,62 @@ package com.android.similarwx.beans;
  */
 
 public class SendRed extends BaseBean{
-    private String redPacId;
-    private String name;
-    private String url;
-    private String amount;
-    private String time;
-    private String shouqi;
-    private String requestNum;
-    private String userId;
-    private String myUserId;
-    private String myGroupId;
-    private String groupId;
-    private String type;
-    private String lei;
 
-    public String getLei() {
-        return lei;
+    private String title;//标题
+    private String cotent;//内容
+    private String url;//图片地址
+    private String redPacId;//红包编号
+    private String amount;//发包金额
+    private String time;//发包时间
+    private String shouqi;//手气
+    private String requestNum;//请求编号，每个用户，保证唯一
+    private String userId;//云信的accid
+    private String myUserId;//发包用户编号（本地服务器）
+    private String myGroupId;//群组编号（本地服务器）
+    private String groupId;//群组编号（云信）
+    private String type;//发包类型，MINE：扫雷红包；LUCK：拼手气红包
+    private String thunder;//中雷数字
+    private String click;//0表示未点击，1表示点击
+    private String count;//数量，type为LUCK时必填
+
+    public String getCount() {
+        return count;
     }
 
-    public void setLei(String lei) {
-        this.lei = lei;
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCotent() {
+        return cotent;
+    }
+
+    public void setCotent(String cotent) {
+        this.cotent = cotent;
+    }
+
+    public String getClick() {
+        return click;
+    }
+
+    public void setClick(String click) {
+        this.click = click;
+    }
+
+    public String getThunder() {
+        return thunder;
+    }
+
+    public void setThunder(String thunder) {
+        this.thunder = thunder;
     }
 
     public String getMyUserId() {
@@ -49,14 +85,6 @@ public class SendRed extends BaseBean{
 
     public void setRedPacId(String redPacId) {
         this.redPacId = redPacId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUrl() {

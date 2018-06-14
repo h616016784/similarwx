@@ -28,10 +28,13 @@
             android:id="@+id/view_right_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/view_name_tv"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:textSize="@dimen/text_content_or_button"
+            android:gravity="right"
             android:layout_marginRight="@dimen/distance_normal"
+            android:singleLine="true"
             android:text=""/>
     </RelativeLayout>
     <View

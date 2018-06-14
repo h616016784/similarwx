@@ -30,6 +30,7 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
     private EditText dialog_create_group_rule_name_et,dialog_create_group_rule_grab_et,dialog_create_group_rule_get_et;
     private Button mCreatGroup;
 
+    private OnConfirmClickListener mClickListener;
     public static RuleDialogFragment newInstance() {
         return newInstance(null, null);
     }
@@ -69,8 +70,11 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
         super.onDestroy();
     }
 
-    public static void show(Activity activity){
+    public static void show(Activity activity,OnConfirmClickListener listener){
         RuleDialogFragment redResultDialogFragment= RuleDialogFragment.newInstance();
+        if (listener!=null){
+            redResultDialogFragment.setOnConfirmClickListener(listener);
+        }
         FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
         transaction.add(redResultDialogFragment,"ruleDialog");
         transaction.addToBackStack(null);
@@ -85,6 +89,9 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
         }
     }
 
+    public void setOnConfirmClickListener(OnConfirmClickListener listener){
+        this.mClickListener=listener;
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -103,8 +110,15 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
                 bean.setName(name);
                 bean.setGrab(grab);
                 bean.setBack(back);
-
+                if (mClickListener!=null){
+                    mClickListener.onConfirmClickListener(bean);
+                }
+                dismiss();
                 break;
         }
     }
+    public interface OnConfirmClickListener {
+        void onConfirmClickListener(GroupRule groupRule);
+    }
+
 }

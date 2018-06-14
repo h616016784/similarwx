@@ -61,19 +61,25 @@ public class SharePreferenceUtil {
      * @param key
      * @param object
      */
-    public static void saveSerializableObject(Context context, String fileName, String key, Object object) throws IOException {
-        SharedPreferences.Editor spEdit = context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();
-        //先将序列化结果写到byte缓存中，其实就分配一个内存空间
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream os = new ObjectOutputStream(bos);
-        os.writeObject(object);//将对象序列化写入byte缓存
-        //将序列化的数据转为16进制保存
-        String bytesToHexString = bytesToHexString(bos.toByteArray());
-        //保存该16进制数组
-        spEdit.putString(key, bytesToHexString);
-        spEdit.commit();
+    public static void saveSerializableObject(Context context, String fileName, String key, Object object){
+        try {
+            SharedPreferences.Editor spEdit = context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();
+            //先将序列化结果写到byte缓存中，其实就分配一个内存空间
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream os = new ObjectOutputStream(bos);
+            os.writeObject(object);//将对象序列化写入byte缓存
+            //将序列化的数据转为16进制保存
+            String bytesToHexString = bytesToHexString(bos.toByteArray());
+            //保存该16进制数组
+            spEdit.putString(key, bytesToHexString);
+            spEdit.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
-
+    public static void saveSerializableObjectDefault(Context context,String key, Object object){
+        saveSerializableObject(context,"localData",key, object);
+    }
     /**
      * desc:将数组转为16进制
      *
@@ -104,25 +110,32 @@ public class SharePreferenceUtil {
      * @param key
      * @return
      */
-    public static Object getSerializableObject(Context context, String fileName, String key) throws IOException, ClassNotFoundException {
-        SharedPreferences sp = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        if (sp.contains(key)) {
-            String string = sp.getString(key, "");
-            if (TextUtils.isEmpty(string)) {
-                return null;
-            } else {
-                //将16进制的数据转为数组，准备反序列化
-                byte[] stringToBytes = StringToBytes(string);
-                ByteArrayInputStream bis = new ByteArrayInputStream(stringToBytes);
-                ObjectInputStream is = new ObjectInputStream(bis);
-                //返回反序列化得到的对象
-                Object readObject = is.readObject();
-                return readObject;
+    public static Object getSerializableObject(Context context, String fileName, String key) {
+        try {
+            SharedPreferences sp = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+            if (sp.contains(key)) {
+                String string = sp.getString(key, "");
+                if (TextUtils.isEmpty(string)) {
+                    return null;
+                } else {
+                    //将16进制的数据转为数组，准备反序列化
+                    byte[] stringToBytes = StringToBytes(string);
+                    ByteArrayInputStream bis = new ByteArrayInputStream(stringToBytes);
+                    ObjectInputStream is = new ObjectInputStream(bis);
+                    //返回反序列化得到的对象
+                    Object readObject = is.readObject();
+                    return readObject;
+                }
             }
+        }catch (Exception e){
+            return null;
         }
         return null;
     }
 
+    public static Object getSerializableObjectDefault(Context context, String key) {
+        return getSerializableObject(context, "localData", key);
+    }
     /**
      * desc:将16进制的数据转为数组
      *

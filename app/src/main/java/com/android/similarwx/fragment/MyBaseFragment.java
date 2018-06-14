@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.inteface.MyBaseViewInterface;
 import com.android.similarwx.misdk.AttachmentStore;
 import com.android.similarwx.misdk.Extras;
 import com.android.similarwx.misdk.ImageUtil;
@@ -20,7 +22,10 @@ import com.android.similarwx.misdk.StorageType;
 import com.android.similarwx.misdk.StorageUtil;
 import com.android.similarwx.misdk.activity.PickImageActivity;
 import com.android.similarwx.misdk.activity.PreviewImageFromCameraActivity;
+import com.android.similarwx.present.MyBasePresent;
+import com.android.similarwx.utils.CodeUtils;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Strings.StringUtil;
 import com.android.similarwx.widget.BaseItemView;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
@@ -36,7 +41,7 @@ import butterknife.Unbinder;
  * Created by hanhuailong on 2018/4/11.
  */
 
-public class MyBaseFragment extends BaseFragment {
+public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
     @BindView(R.id.my_base_head_bv)
     BaseItemView myBaseHeadBv;
     @BindView(R.id.my_base_nikename_bv)
@@ -58,6 +63,9 @@ public class MyBaseFragment extends BaseFragment {
 
     private boolean multiSelect;
     private boolean crop = false;
+
+    private User mUser;
+    private MyBasePresent myBasePresent;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_base;
@@ -72,13 +80,31 @@ public class MyBaseFragment extends BaseFragment {
     }
 
     private void init() {
-        myBaseHeadBv.setNameText(R.string.my_base_head);myBaseHeadBv.setImageView(R.drawable.rp_avatar);
+        myBasePresent=new MyBasePresent(this);
+        myBaseHeadBv.setNameText(R.string.my_base_head);
+        myBaseHeadBv.setImageView(R.drawable.rp_avatar);
         myBaseNikenameBv.setNameText(R.string.my_base_nick);
+        myBaseNikenameBv.setImageView(R.drawable.em_right);
         myBaseAccountBv.setNameText(R.string.my_base_account);
         myBaseSexBv.setNameText(R.string.my_base_sex);
+        myBaseSexBv.setImageView(R.drawable.em_right);
         myBaseSignBv.setNameText(R.string.my_base_sign);
+        myBaseSignBv.setImageView(R.drawable.em_right);
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
+        if (mUser!=null){
+            myBaseNikenameBv.setRightText(mUser.getName());
+            myBaseAccountBv.setRightText(mUser.getAccId());
+            myBaseSexBv.setRightText(mUser.getGender()==null?"男":mUser.getGender());
+            myBaseSignBv.setRightText(mUser.getPersonalitySignature()==null?"":mUser.getPersonalitySignature());
+        }
+
+    }
 
     @Override
     public void onDestroyView() {
@@ -118,13 +144,14 @@ public class MyBaseFragment extends BaseFragment {
                 .setConfirmButton(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        myBaseSexBv.setRightText("男");
+                        myBasePresent.updateUserByGender("0");
                     }
                 })
                 .setCancelButton(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        myBaseSexBv.setRightText("女");
+                        myBasePresent.updateUserByGender("1");
+
                     }
                 })
                 .setCancleBackground(R.drawable.green_round_rect_btn)
@@ -157,13 +184,18 @@ public class MyBaseFragment extends BaseFragment {
             case AppConstants.RESULT_USER_NICK:
                 if (data!=null){
                     String content=data.getStringExtra(AppConstants.USER_CONTENT);
-                    myBaseNikenameBv.setRightText(content);
+                    if (!TextUtils.isEmpty(content)){
+                        myBasePresent.updateUserByNick(content);
+                    }
                 }
                 break;
             case AppConstants.RESULT_USER_SIGN:
                 if (data!=null){
                     String content=data.getStringExtra(AppConstants.USER_CONTENT);
-                    myBaseSignBv.setRightText(content);
+                    if (!TextUtils.isEmpty(content)){
+//                        content= CodeUtils.convertUTF8ToString(content);
+                        myBasePresent.updateUserBySign(content);
+                    }
                 }
                 break;
             case AppConstants.PICK_IMAGE:
@@ -264,5 +296,29 @@ public class MyBaseFragment extends BaseFragment {
                 Log.e("发送图片",file.getAbsolutePath());
             }
         });
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void reFreshUser(User user) {
+        if (user!=null){
+            myBaseNikenameBv.setRightText(user.getName());
+            myBaseSignBv.setRightText(user.getPersonalitySignature());
+            String gender=user.getGender();
+            if (TextUtils.isEmpty(gender)){
+                myBaseSexBv.setRightText("未知");
+            }else {
+                if ("0".equals(gender))
+                    myBaseSexBv.setRightText("男");
+                else if ("1".equals(gender))
+                    myBaseSexBv.setRightText("女");
+                else
+                    myBaseSexBv.setRightText("未知");
+            }
+        }
     }
 }

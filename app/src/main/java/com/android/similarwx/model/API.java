@@ -19,6 +19,7 @@ import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.MIPresent;
+import com.android.similarwx.present.MyBasePresent;
 import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.present.RegisterPresent;
 import com.android.similarwx.present.ServicePresent;
@@ -120,6 +121,76 @@ public class API implements APIConstants {
         });
     }
 
+    public void updateUserByNick(String id, String nick, MyBasePresent present){
+        Map<String,String> map=new HashMap<>();
+        map.put("id",id);
+        map.put("name",nick);
+
+        Call<RspUser> call=apiService.updateUser(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                try {
+                    RspUser rspUser=response.body();
+                    present.analyzeRes(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+    public void updateUserBySign(String id, String personalitySignature, MyBasePresent present){
+        Map<String,String> map=new HashMap<>();
+        map.put("id",id);
+        map.put("personalitySignature",personalitySignature);
+
+        Call<RspUser> call=apiService.updateUser(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                try {
+                    RspUser rspUser=response.body();
+                    present.analyzeRes(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+    public void updateUserByGender(String id, String gender, MyBasePresent present){
+        Map<String,String> map=new HashMap<>();
+        map.put("id",id);
+        map.put("gender",gender);
+
+        Call<RspUser> call=apiService.updateUser(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                try {
+                    RspUser rspUser=response.body();
+                    present.analyzeRes(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
     public void reqGroupList(String userId , final GroupPresent present){
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);
@@ -208,14 +279,14 @@ public class API implements APIConstants {
         });
     }
 
-    public void sendRed(String requestNum, String userId,String groupId,String amount,String type, String lei,final MIPresent present) {
+    public void sendRed(String requestNum, String userId,String groupId,String amount,String type, String thunder,final MIPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("requestNum",requestNum );
         map.put("userId",userId);
         map.put("groupId",groupId);
         map.put("amount",amount);
         map.put("type",type);
-        map.put("thunder",lei);
+        map.put("thunder",thunder);
         Call<RspSendRed> rspRedCall=apiService.sendRed(map);
         rspRedCall.enqueue(new Callback<RspSendRed>() {
             @Override

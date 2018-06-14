@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -30,10 +32,16 @@ public interface APIService {
 
     @POST("resUsers/register")
     Call<RspUser> registe(@QueryMap Map<String,String> map);
+
     @POST("resUsers/login")
     Call<RspUser> login(@QueryMap Map<String,String> map);
+
     @POST("resUsers/getCustomerServiceUserList")
     Call<RspService> getServices(@QueryMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("resUsers/update")
+    Call<RspUser> updateUser(@FieldMap Map<String, String> map);
 
     @POST("group/getGroupList")
     Call<RspGroup> reqGroupList(@QueryMap Map<String,String> map);
@@ -44,14 +52,13 @@ public interface APIService {
     @POST("group/getGroupUserList")
     Call<RspGroupUser> getGroupUserList(@QueryMap Map<String,String> map);
 
-
     @POST("sys/noticeList")
     Call<RspNotice> getNotices(@QueryMap Map<String, String> map);
 
     @POST("redPac/send")
     Call<RspSendRed> sendRed(@QueryMap Map<String, String> map);
+
     @POST("redPac/grab")
     Call<RspGrabRed> grabRed(@QueryMap Map<String, String> map);
-
 
 }

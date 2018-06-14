@@ -25,7 +25,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:textSize="@dimen/text_sub_title"
-            android:layout_marginRight="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_big"
             android:text=""/>
         <ImageView
             android:id="@+id/view_base_iv"

@@ -17,6 +17,8 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
+import java.io.IOException;
+
 /**
  * Created by Administrator on 2018/3/31.
  */
@@ -45,6 +47,9 @@ public class LoginPresent extends BasePresent {
      * @param user
      */
     public void saveUser(User user){
+        if (user!=null){
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(),AppConstants.USER_OBJECT,user);
+        }
         if (user.getAccId()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccId());
         if (user.getToken()!=null)
@@ -63,6 +68,8 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_SEX,user.getGender());
         if (user.getId()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
+
+
         //云信登录
 
         String accid=user.getAccId();
@@ -73,6 +80,7 @@ public class LoginPresent extends BasePresent {
 //            token="a170417844a19c6bfebb4ab1a137fc31";
         LoginInfo loginInfo=new LoginInfo(accid,token);
         doYunXinLogin(loginInfo,user);
+
     }
 
     private void doYunXinLogin(LoginInfo loginInfo, final User user) {

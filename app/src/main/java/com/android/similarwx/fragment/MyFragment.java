@@ -13,10 +13,14 @@ import android.widget.TextView;
 
 import com.android.similarwx.R;
 import com.android.similarwx.activity.LoginActivity;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.ItemView;
 import com.android.similarwx.widget.dialog.CancelDialogBuilder;
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +56,7 @@ public class MyFragment extends BaseFragment {
     @BindView(R.id.my_base_ll)
     LinearLayout myBaseLl;
 
+    private User mUser;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my;
@@ -66,15 +71,13 @@ public class MyFragment extends BaseFragment {
     }
 
     private void init() {
-        myCodeItem.setNameText(R.string.my_code);
         myCodeItem.setImageView(R.drawable.icon_wo_shoucang);
-        myCodeItem.setRightText("0");
         myMoneyItem.setNameText(R.string.my_money);
         myMoneyItem.setImageView(R.drawable.icon_wo_btn3);
         myMoneyItem.setRightText("");
         myPlayItem.setNameText(R.string.my_player);
         myPlayItem.setImageView(R.drawable.icon_wo_btn2);
-        myPlayItem.setRightText("推荐:");
+
         mySetItem.setNameText(R.string.my_set);
         mySetItem.setImageView(R.drawable.icon_wo_shezhi);
         mySetItem.setRightText("");
@@ -84,8 +87,24 @@ public class MyFragment extends BaseFragment {
         myQuitItem.setNameText(R.string.my_quit);
         myQuitItem.setImageView(R.drawable.icon_wo_logout);
         myQuitItem.setRightText("");
-    }
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
+        myCodeItem.setNameText(R.string.my_code);
+        if (mUser!=null){
+            myCodeItem.setRightText(mUser.getInvitationCode());
+            myPlayItem.setRightText("推荐:"+mUser.getInviter());
+            myBaseNameTv.setText(mUser.getName());
+            String url=mUser.getIcon();
+            if (url!=null){
+                Glide.with(activity).load(url).error(R.drawable.rp_avatar).into(myBaseNameIv);
+            }
+            myBaseAccountTv.setText(mUser.getAccId());
+        }
+    }
 
     @Override
     public void onDestroyView() {
