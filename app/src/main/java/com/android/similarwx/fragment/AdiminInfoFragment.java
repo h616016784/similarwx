@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.webkit.WebView;
 
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
@@ -19,13 +18,10 @@ import butterknife.Unbinder;
  */
 
 public class AdiminInfoFragment extends BaseFragment {
-    @BindView(R.id.admin_weixin_account)
-    TextView adminWeixinAccount;
-    @BindView(R.id.admin_alipay_account)
-    TextView adminAlipayAccount;
-    @BindView(R.id.admin_to_code_iv)
-    ImageView adminToCodeIv;
+
     Unbinder unbinder;
+    @BindView(R.id.admin_to_code_wb)
+    WebView adminToCodeWb;
 
     @Override
     protected int getLayoutResource() {

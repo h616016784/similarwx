@@ -97,6 +97,7 @@
     <string name="chart_red_take">领取红包</string>
     <string name="chart_sys">某某加入了该群</string>
     <string name="chart_delete_dialog_message">是否清空所有聊天记录？</string>
+    <string name="chart_quit_group">是否退出本群？</string>
     <string name="chart_photo">选择拍照</string>
     <string name="chart_pic">选择图片</string>
     <string name="chart_red">红包</string>

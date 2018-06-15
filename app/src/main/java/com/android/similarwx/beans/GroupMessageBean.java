@@ -89,6 +89,14 @@ public class GroupMessageBean extends BaseBean {
         private String createId;
         private String userExists;
 
+        public String getRewardRules() {
+            return rewardRules;
+        }
+
+        public void setRewardRules(String rewardRules) {
+            this.rewardRules = rewardRules;
+        }
+
         public String getGroupType() {
             return groupType;
         }
@@ -223,14 +231,6 @@ public class GroupMessageBean extends BaseBean {
 
         public void setDescription(String description) {
             this.description = description;
-        }
-
-        public String getRewardRules() {
-            return rewardRules;
-        }
-
-        public void setRewardRules(String rewardRules) {
-            this.rewardRules = rewardRules;
         }
 
         public int getTotalNumber() {

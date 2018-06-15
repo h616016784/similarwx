@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout
+<!--    <LinearLayout
         android:layout_marginTop="@dimen/distance_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,5 +63,9 @@
         android:gravity="center_horizontal"
         android:text="扫一扫上面的二维码图案，跟群主联系一下"
         android:textSize="@dimen/text_content_or_button"
-        />
+        />-->
+    <WebView
+        android:id="@+id/admin_to_code_wb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
 </LinearLayout>

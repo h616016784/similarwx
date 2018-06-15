@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.GroupUser;
+import com.android.similarwx.beans.RewardRule;
 import com.android.similarwx.utils.FragmentUtils;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +37,7 @@ public class ClientDetailInfoFragment extends BaseFragment {
     Button clientDetailSentBt;
     Unbinder unbinder;
 
+    private GroupUser.ListBean bean;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_client_detail_info;
@@ -44,9 +48,15 @@ public class ClientDetailInfoFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle("详细信息");
         unbinder = ButterKnife.bind(this, contentView);
-
-       String accid= getArguments().getString(AppConstants.TRANSFER_ACCOUNT);
-
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            String accid= bundle.getString(AppConstants.TRANSFER_ACCOUNT);
+            bean = (GroupUser.ListBean) bundle.getSerializable(AppConstants.TRANSFER_AWARDRULE);
+           if (bean!=null){
+               clientDetailNameTv.setText(bean.getUserName());
+               clientDetailAccountTv.setText(bean.getUserId());
+           }
+        }
     }
 
     @Override
@@ -57,9 +67,14 @@ public class ClientDetailInfoFragment extends BaseFragment {
 
     @OnClick(R.id.client_detail_sent_bt)
     public void onViewClicked() {
-        Bundle bundle=new Bundle();
-        bundle.putString(AppConstants.CHAT_ACCOUNT_ID,"要发信息的accid");
-        FragmentUtils.navigateToNormalActivity(activity,new MIFragment(),bundle);
+        if (bean!=null){
+            Bundle bundle=new Bundle();
+            bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_THREE);
+            bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
+            bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getUserId());//
+            bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getUserName());//
+            FragmentUtils.navigateToNormalActivity(activity,new MIFragmentNew(),bundle);
+        }
     }
 
     @Override
