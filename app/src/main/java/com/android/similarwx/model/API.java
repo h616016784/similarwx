@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
@@ -15,6 +16,7 @@ import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
+import com.android.similarwx.present.AcountPresent;
 import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.present.LoginPresent;
@@ -349,6 +351,32 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspService> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void getBill(String userId,String type,String startDate,String endDate,AcountPresent present){
+        Map<String,String> map=new HashMap<>();
+        map.put("userId",userId );
+        map.put("type",type );
+        map.put("startDate",startDate );
+        map.put("endDate",endDate );
+
+        Call<RspBill> call=apiService.getBill(map);
+        call.enqueue(new Callback<RspBill>() {
+            @Override
+            public void onResponse(Call<RspBill> call, Response<RspBill> response) {
+                try {
+                    RspBill rspService=response.body();
+                    present.analyzeRes(rspService);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspBill> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
             }
         });

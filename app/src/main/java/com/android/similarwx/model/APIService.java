@@ -2,6 +2,7 @@ package com.android.similarwx.model;
 
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
@@ -61,4 +62,6 @@ public interface APIService {
     @POST("redPac/grab")
     Call<RspGrabRed> grabRed(@QueryMap Map<String, String> map);
 
+    @POST("trade/accountList")
+    Call<RspBill> getBill(@QueryMap Map<String, String> map);
 }

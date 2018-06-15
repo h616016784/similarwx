@@ -11,10 +11,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.Bill;
+import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.RedTakeBean;
+import com.android.similarwx.inteface.AcountViewInterface;
+import com.android.similarwx.present.AcountPresent;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.ListPopWindow;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
@@ -36,7 +43,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/3.
  */
 
-public class MyDetailFragment extends BaseFragment {
+public class MyDetailFragment extends BaseFragment implements AcountViewInterface{
     @BindView(R.id.my_detail_zong_tv)
     TextView myDetailZongTv;
     @BindView(R.id.my_detail_freeze_tv)
@@ -64,6 +71,9 @@ public class MyDetailFragment extends BaseFragment {
     private TimePickerView pvTime;
     private ListPopWindow listPopWindow;
     private List<PopMoreBean> moreList;
+
+//    public GroupMessageBean.ListBean listBean;
+    private AcountPresent mPresent;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_detail;
@@ -74,7 +84,17 @@ public class MyDetailFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle("我的明细");
         unbinder = ButterKnife.bind(this, contentView);
+        mPresent=new AcountPresent(this);
+//        Bundle bundle=getArguments();
+//        if (bundle!=null){
+//            listBean= (GroupMessageBean.ListBean) bundle.getSerializable(AppConstants.CHAT_GROUP_BEAN);
+//        }
         iniData();
+        initView();
+
+    }
+
+    private void initView() {
         myDetailRv.setLayoutManager(new LinearLayoutManager(activity));
         adapter=new BaseQuickAdapter<RedTakeBean,BaseViewHolder>(R.layout.item_my_detail,list) {
             @Override
@@ -91,6 +111,8 @@ public class MyDetailFragment extends BaseFragment {
 
             }
         });
+        getAccountList();//获取bill信息
+
         listPopWindow=new ListPopWindow(activity,moreList);
         pvTime=new TimePickerBuilder(activity, new OnTimeSelectListener() {
             @Override
@@ -190,7 +212,14 @@ public class MyDetailFragment extends BaseFragment {
         bean16.setId("14");
         bean16.setName("推荐返点");
         moreList.add(bean16);
+
     }
+
+    private void getAccountList() {
+        String userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
+//        mPresent.getAcountList();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -202,4 +231,13 @@ public class MyDetailFragment extends BaseFragment {
         unbinder.unbind();
     }
 
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void refreshBill(Bill bill) {
+
+    }
 }

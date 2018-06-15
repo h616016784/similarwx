@@ -80,4 +80,6 @@ public class AppConstants extends BaseConstants {
     public final static String USER_CONTENT = "content";//
     public final static int RESULT_USER_NICK = 9;//
     public final static int RESULT_USER_SIGN = 10;//
+
+
 }
