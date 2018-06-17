@@ -48,7 +48,7 @@
             <!--左边红包-->
             <RelativeLayout
                 android:id="@+id/item_red_packet_rl"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:paddingRight="@dimen/distance_big"
                 android:background="@drawable/em_red_packet_chatfrom_bg_focused">
@@ -99,10 +99,11 @@
             <!--右边红包-->
             <RelativeLayout
                 android:id="@+id/item_red_packet_right_rl"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:paddingLeft="@dimen/distance_normal"
                 android:layout_alignParentRight="true"
+                android:gravity="right"
                 android:background="@drawable/em_red_packet_chatto_bg_right_focused">
                 <!--右边红包详情-->
                 <LinearLayout

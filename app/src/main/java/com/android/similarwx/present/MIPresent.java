@@ -29,6 +29,10 @@ public class MIPresent extends BasePresent {
         API.getInstance().sendRed(sendRed.getRequestNum(),sendRed.getMyUserId(),sendRed.getMyGroupId(),sendRed.getAmount(),sendRed.getType(),sendRed.getThunder(),this);
     }
 
+    public void canGrab(String redId, Activity activity){
+        String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
+        API.getInstance().canGrab(userId,redId,this,activity);
+    }
     public void grabRed(String redId, Activity activity){
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
         API.getInstance().grabRed(userId,redId,this,activity);
@@ -68,6 +72,18 @@ public class MIPresent extends BasePresent {
                 }
             }else {
                 Toaster.toastShort(rspRed.getErrorMsg());
+            }
+        }
+    }
+
+    public void analyzeCanRed(RspGrabRed grabRed) {
+        if (grabRed != null) {
+            String result = grabRed.getResult();
+            if (result.equals("success")) {
+                RspGrabRed.GrabRedBean bena = grabRed.getData();
+                mView.canGrab(bena);
+            }else {
+                Toaster.toastShort(grabRed.getErrorMsg());
             }
         }
     }

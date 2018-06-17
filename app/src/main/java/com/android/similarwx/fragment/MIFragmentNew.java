@@ -213,7 +213,8 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                             String json = attachment.toJson(false);
                             if (!TextUtils.isEmpty(json)) {
                                 SendRed sendRed = gson.fromJson(json, SendRed.class);
-                                miPresent.grabRed(sendRed.getRedPacId(),activity);
+                                miPresent.canGrab(sendRed.getRedPacId(),activity);
+//                                miPresent.grabRed(sendRed.getRedPacId(),activity);
                             }
                         }
 //
@@ -459,8 +460,18 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
 
     @Override
     public void grabRed(RspGrabRed.GrabRedBean bean) {
-        if (bean!=null){
-            RedResultDialogFragment.show(activity);
+
+    }
+
+    @Override
+    public void canGrab(RspGrabRed.GrabRedBean bean) {
+        if (bean != null) {
+            String code = bean.getRetCode();
+            if (code.equals("0000")) {
+
+            } else {
+                RedResultDialogFragment.show(activity);
+            }
         }
     }
 

@@ -6,8 +6,17 @@ package com.android.similarwx.beans;
 
 public class PopMoreBean extends BaseBean{
     private String name;
+    private String content;
     private int image;
     private String id;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getName() {
         return name;

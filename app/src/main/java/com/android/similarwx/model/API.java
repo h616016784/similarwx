@@ -381,4 +381,29 @@ public class API implements APIConstants {
             }
         });
     }
+
+    public void canGrab(String userId, String redId, MIPresent miPresent, Activity activity) {
+        Map<String,String> map=new HashMap<>();
+        map.put("userId",userId );
+        map.put("redPacId",redId);
+        Call<RspGrabRed> call=apiService.canGrab(map);
+        call.enqueue(new Callback<RspGrabRed>() {
+            @Override
+            public void onResponse(Call<RspGrabRed> call, Response<RspGrabRed> response) {
+                RedLoadingDialogFragment.disMiss(activity);
+                try {
+                    RspGrabRed grabRed=response.body();
+                    miPresent.analyzeCanRed(grabRed);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspGrabRed> call, Throwable t) {
+                RedLoadingDialogFragment.disMiss(activity);
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
 }

@@ -59,6 +59,9 @@ public interface APIService {
     @POST("redPac/send")
     Call<RspSendRed> sendRed(@QueryMap Map<String, String> map);
 
+    @POST("redPac/canGrab")
+    Call<RspGrabRed> canGrab(@QueryMap Map<String, String> map);
+
     @POST("redPac/grab")
     Call<RspGrabRed> grabRed(@QueryMap Map<String, String> map);
 

@@ -47,6 +47,16 @@
             android:textStyle="bold"
             android:textSize="@dimen/text_content_or_button"/>
 
+        <ImageView
+            android:id="@+id/dialog_red_result_kai_tv"
+            android:layout_marginTop="@dimen/distance_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialog_red_result_tips_tv"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/pop_btn_kai"
+            />
+
 
         <TextView
             android:id="@+id/dialog_red_result_bottom_tv"

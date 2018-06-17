@@ -10,6 +10,7 @@
             android:id="@+id/item_pop_client_more_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="@dimen/dp_72"
             android:layout_marginLeft="@dimen/distance_middle"
             android:layout_marginRight="@dimen/distance_middle"
             android:layout_centerVertical="true"
