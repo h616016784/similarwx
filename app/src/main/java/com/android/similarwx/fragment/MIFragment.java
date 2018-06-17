@@ -200,7 +200,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
                         player.start( AudioManager.STREAM_VOICE_CALL);
                         break;
                     case MultipleItem.ITEM_RED://红包
-                        RedResultDialogFragment.show(activity);
+//                        RedResultDialogFragment.show(activity);
                         break;
                 }
 
