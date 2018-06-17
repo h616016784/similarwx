@@ -40,6 +40,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     private RechargePresent mPresent;
     String account;
 
+
     Unbinder unbinder;
 
     @Override
