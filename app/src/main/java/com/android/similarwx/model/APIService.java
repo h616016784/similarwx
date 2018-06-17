@@ -11,6 +11,7 @@ import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
+import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUser;
 
 import java.util.List;
@@ -67,4 +68,6 @@ public interface APIService {
 
     @POST("trade/accountList")
     Call<RspBill> getBill(@QueryMap Map<String, String> map);
+    @POST("trade/transfer")
+    Call<RspTransfer> transfer(@QueryMap Map<String, String> map);
 }

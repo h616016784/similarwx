@@ -14,6 +14,7 @@ import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
+import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.AcountPresent;
@@ -23,6 +24,7 @@ import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.MyBasePresent;
 import com.android.similarwx.present.NoticePresent;
+import com.android.similarwx.present.RechargePresent;
 import com.android.similarwx.present.RegisterPresent;
 import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
@@ -402,6 +404,31 @@ public class API implements APIConstants {
             @Override
             public void onFailure(Call<RspGrabRed> call, Throwable t) {
                 RedLoadingDialogFragment.disMiss(activity);
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void transfer(String userId, String requestNum, String toUserId, String amount, RechargePresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("userId",userId );
+        map.put("requestNum",requestNum );
+        map.put("toUserId",toUserId );
+        map.put("amount",amount );
+        Call<RspTransfer> call=apiService.transfer(map);
+        call.enqueue(new Callback<RspTransfer>() {
+            @Override
+            public void onResponse(Call<RspTransfer> call, Response<RspTransfer> response) {
+                try {
+                    RspTransfer transfer=response.body();
+                    present.analyzeRes(transfer);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspTransfer> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
             }
         });
