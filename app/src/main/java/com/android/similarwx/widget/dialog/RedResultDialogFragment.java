@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
+import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.utils.FragmentUtils;
 
@@ -20,9 +21,14 @@ import com.android.similarwx.utils.FragmentUtils;
  */
 
 public class RedResultDialogFragment extends DialogFragment implements View.OnClickListener {
-    public static RedResultDialogFragment newInstance(String message) {
-        return newInstance(null, message);
+    public static RedResultDialogFragment newInstance(RspGrabRed.GrabRedBean bean) {
+        RedResultDialogFragment redDialogFragment = new RedResultDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("isGood", bean);
+        redDialogFragment.setArguments(bundle);
+        return redDialogFragment;
     }
+
     public static RedResultDialogFragment newInstance(String title, String message) {
         RedResultDialogFragment redDialogFragment = new RedResultDialogFragment();
         Bundle bundle = new Bundle();
@@ -33,9 +39,12 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
     }
 
     private ImageView dialog_red_result_cancel_iv;
+    private ImageView dialog_red_result_kai_tv;
     private TextView dialog_red_result_bottom_tv;
     private TextView dialog_red_result_name_tv;
     private TextView dialog_red_result_tips_tv;
+
+    private static OnOpenClick mClicker;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,14 +64,30 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
         dialog_red_result_bottom_tv=view.findViewById(R.id.dialog_red_result_bottom_tv);
         dialog_red_result_name_tv=view.findViewById(R.id.dialog_red_result_name_tv);
         dialog_red_result_tips_tv=view.findViewById(R.id.dialog_red_result_tips_tv);
+        dialog_red_result_kai_tv=view.findViewById(R.id.dialog_red_result_kai_tv);
+
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            RspGrabRed.GrabRedBean bean= (RspGrabRed.GrabRedBean) bundle.getSerializable("isGood");
+            if (bean!=null){
+                String code = bean.getRetCode();
+                if (code.equals("0000")) {
+                    dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
+                } else {
+                    dialog_red_result_kai_tv.setVisibility(View.GONE);
+                }
+            }
+        }
     }
     private void addClickListener() {
         dialog_red_result_cancel_iv.setOnClickListener(this);
         dialog_red_result_bottom_tv.setOnClickListener(this);
+        dialog_red_result_kai_tv.setOnClickListener(this);
     }
 
-    public static void show(Activity activity){
-        RedResultDialogFragment redResultDialogFragment= RedResultDialogFragment.newInstance("");
+    public static void show(Activity activity,RspGrabRed.GrabRedBean bean,OnOpenClick onOpenClick){
+        mClicker=onOpenClick;
+        RedResultDialogFragment redResultDialogFragment= RedResultDialogFragment.newInstance(bean);
         FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
         transaction.add(redResultDialogFragment,"redResultDialog");
         transaction.addToBackStack(null);
@@ -80,6 +105,14 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
                 FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
                 dismiss();
                 break;
+            case R.id.dialog_red_result_kai_tv://开红包
+                if (mClicker!=null)
+                    mClicker.onOpenClick();
+//                dismiss();
+                break;
         }
+    }
+    public interface OnOpenClick{
+        void onOpenClick();
     }
 }

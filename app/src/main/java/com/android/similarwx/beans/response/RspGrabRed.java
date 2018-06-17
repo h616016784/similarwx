@@ -1,5 +1,7 @@
 package com.android.similarwx.beans.response;
 
+import com.android.similarwx.beans.BaseBean;
+
 /**
  * Created by Administrator on 2018/6/12.
  */
@@ -20,7 +22,7 @@ public class RspGrabRed extends BaseResponse {
         this.data = data;
     }
 
-    public static class GrabRedBean {
+    public static class GrabRedBean extends BaseBean{
         /**
          * thunder : false
          * thunderAmount : null

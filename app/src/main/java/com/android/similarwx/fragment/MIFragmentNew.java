@@ -460,18 +460,18 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
 
     @Override
     public void grabRed(RspGrabRed.GrabRedBean bean) {
-
+        FragmentUtils.navigateToNormalActivity(activity,new RedDetailFragment(),null);
     }
 
     @Override
     public void canGrab(RspGrabRed.GrabRedBean bean) {
         if (bean != null) {
-            String code = bean.getRetCode();
-            if (code.equals("0000")) {
-
-            } else {
-                RedResultDialogFragment.show(activity);
-            }
+            RedResultDialogFragment.show(activity, bean, new RedResultDialogFragment.OnOpenClick() {
+                @Override
+                public void onOpenClick() {
+                    miPresent.grabRed("id",activity);
+                }
+            });
         }
     }
 
