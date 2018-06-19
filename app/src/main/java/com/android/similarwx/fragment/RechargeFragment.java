@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.response.RspInMoney;
 import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.inteface.InMoneyViewInterface;
 import com.android.similarwx.inteface.RechargeViewInterface;
@@ -81,9 +82,9 @@ public class RechargeFragment extends BaseFragment implements InMoneyViewInterfa
                     Toaster.toastShort("充值金额不能为空！");
                     return;
                 }else {
-                    Bundle bundle=new Bundle();
+
                     mPresent.inputMoney(type,money);
-//                FragmentUtils.navigateToNormalActivity(getActivity(),new PayDetailFragment(),bundle);
+
                 }
 
 
@@ -97,7 +98,11 @@ public class RechargeFragment extends BaseFragment implements InMoneyViewInterfa
     }
 
     @Override
-    public void refreshInMoney() {
-
+    public void refreshInMoney(RspInMoney.InMoneyBean bean) {
+        if (bean!=null){
+            Bundle bundle=new Bundle();
+            bundle.putSerializable(PayDetailFragment.INMONEY,bean);
+            FragmentUtils.navigateToNormalActivity(getActivity(),new PayDetailFragment(),bundle);
+        }
     }
 }
