@@ -5,8 +5,10 @@ import android.app.Activity;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.beans.BaseBean;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.beans.response.RspCanGrab;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspSendRed;
@@ -76,11 +78,11 @@ public class MIPresent extends BasePresent {
         }
     }
 
-    public void analyzeCanRed(RspGrabRed grabRed) {
+    public void analyzeCanRed(RspCanGrab grabRed) {
         if (grabRed != null) {
             String result = grabRed.getResult();
             if (result.equals("success")) {
-                RspGrabRed.GrabRedBean bena = grabRed.getData();
+                BaseBean bena = grabRed.getData();
                 mView.canGrab(bena);
             }else {
                 Toaster.toastShort(grabRed.getErrorMsg());

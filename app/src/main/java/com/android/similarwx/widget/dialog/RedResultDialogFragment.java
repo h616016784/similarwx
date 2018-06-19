@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.beans.BaseBean;
+import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.utils.FragmentUtils;
@@ -21,10 +24,11 @@ import com.android.similarwx.utils.FragmentUtils;
  */
 
 public class RedResultDialogFragment extends DialogFragment implements View.OnClickListener {
-    public static RedResultDialogFragment newInstance(RspGrabRed.GrabRedBean bean) {
+    public static RedResultDialogFragment newInstance(BaseBean bean,SendRed sendRed) {
         RedResultDialogFragment redDialogFragment = new RedResultDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("isGood", bean);
+        bundle.putSerializable("info", sendRed);
         redDialogFragment.setArguments(bundle);
         return redDialogFragment;
     }
@@ -45,6 +49,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
     private TextView dialog_red_result_tips_tv;
 
     private static OnOpenClick mClicker;
+    static SendRed mSendRed;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,14 +73,19 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
 
         Bundle bundle=getArguments();
         if (bundle!=null){
-            RspGrabRed.GrabRedBean bean= (RspGrabRed.GrabRedBean) bundle.getSerializable("isGood");
+            BaseBean bean= (BaseBean) bundle.getSerializable("isGood");
+            SendRed sendRed= (SendRed) bundle.getSerializable("info");
             if (bean!=null){
                 String code = bean.getRetCode();
                 if (code.equals("0000")) {
                     dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
                 } else {
                     dialog_red_result_kai_tv.setVisibility(View.GONE);
+                    dialog_red_result_tips_tv.setText(bean.getRetMsg());
                 }
+            }
+            if (sendRed!=null){
+
             }
         }
     }
@@ -85,9 +95,10 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
         dialog_red_result_kai_tv.setOnClickListener(this);
     }
 
-    public static void show(Activity activity,RspGrabRed.GrabRedBean bean,OnOpenClick onOpenClick){
+    public static void show(Activity activity, BaseBean bean, SendRed sendRed, OnOpenClick onOpenClick){
         mClicker=onOpenClick;
-        RedResultDialogFragment redResultDialogFragment= RedResultDialogFragment.newInstance(bean);
+        mSendRed=sendRed;
+        RedResultDialogFragment redResultDialogFragment= RedResultDialogFragment.newInstance(bean,sendRed);
         FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
         transaction.add(redResultDialogFragment,"redResultDialog");
         transaction.addToBackStack(null);
@@ -102,6 +113,10 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
                 break;
             case R.id.dialog_red_result_bottom_tv:
                 Bundle bundle=new Bundle();
+                if (mSendRed!=null){
+                    bundle.putString(RedDetailFragment.GROUPID,mSendRed.getGroupId());
+                    bundle.putString(RedDetailFragment.REDID,mSendRed.getRedPacId());
+                }
                 FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
                 dismiss();
                 break;

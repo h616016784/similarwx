@@ -23,77 +23,59 @@ public class RspGrabRed extends BaseResponse {
     }
 
     public static class GrabRedBean extends BaseBean{
-        /**
+      /*  *
          * thunder : false
          * thunderAmount : null
          * amount : null
          * retCode : 9999
          * lucky : false
          * retMsg : 玩家已结算积分，红包作废
-         * luckAmount : null
-         */
+         * luckAmount : null*/
 
-        private boolean thunder;
-        private Object thunderAmount;
-        private Object amount;
-        private String retCode;
-        private boolean lucky;
-        private String retMsg;
-        private Object luckAmount;
 
-        public boolean isThunder() {
+        private String thunder;
+        private String thunderAmount;
+        private String amount;
+        private String lucky;
+        private String luckAmount;
+
+        public String getThunder() {
             return thunder;
         }
 
-        public void setThunder(boolean thunder) {
+        public void setThunder(String thunder) {
             this.thunder = thunder;
         }
 
-        public Object getThunderAmount() {
+        public String getThunderAmount() {
             return thunderAmount;
         }
 
-        public void setThunderAmount(Object thunderAmount) {
+        public void setThunderAmount(String thunderAmount) {
             this.thunderAmount = thunderAmount;
         }
 
-        public Object getAmount() {
+        public String getAmount() {
             return amount;
         }
 
-        public void setAmount(Object amount) {
+        public void setAmount(String amount) {
             this.amount = amount;
         }
 
-        public String getRetCode() {
-            return retCode;
-        }
-
-        public void setRetCode(String retCode) {
-            this.retCode = retCode;
-        }
-
-        public boolean isLucky() {
+        public String getLucky() {
             return lucky;
         }
 
-        public void setLucky(boolean lucky) {
+        public void setLucky(String lucky) {
             this.lucky = lucky;
         }
 
-        public String getRetMsg() {
-            return retMsg;
-        }
-
-        public void setRetMsg(String retMsg) {
-            this.retMsg = retMsg;
-        }
-
-        public Object getLuckAmount() {
+        public String getLuckAmount() {
             return luckAmount;
         }
 
-        public void setLuckAmount(Object luckAmount) {
+        public void setLuckAmount(String luckAmount) {
             this.luckAmount = luckAmount;
         }
     }

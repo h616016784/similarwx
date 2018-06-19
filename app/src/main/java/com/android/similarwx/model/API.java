@@ -6,12 +6,14 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspBill;
+import com.android.similarwx.beans.response.RspCanGrab;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
+import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
 import com.android.similarwx.beans.response.RspTransfer;
@@ -25,6 +27,7 @@ import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.MyBasePresent;
 import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.present.RechargePresent;
+import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.present.RegisterPresent;
 import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
@@ -388,21 +391,21 @@ public class API implements APIConstants {
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         map.put("redPacId",redId);
-        Call<RspGrabRed> call=apiService.canGrab(map);
-        call.enqueue(new Callback<RspGrabRed>() {
+        Call<RspCanGrab> call=apiService.canGrab(map);
+        call.enqueue(new Callback<RspCanGrab>() {
             @Override
-            public void onResponse(Call<RspGrabRed> call, Response<RspGrabRed> response) {
+            public void onResponse(Call<RspCanGrab> call, Response<RspCanGrab> response) {
                 RedLoadingDialogFragment.disMiss(activity);
                 try {
-                    RspGrabRed grabRed=response.body();
-                    miPresent.analyzeCanRed(grabRed);
+                    RspCanGrab rspCanGrab=response.body();
+                    miPresent.analyzeCanRed(rspCanGrab);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
                 }
             }
 
             @Override
-            public void onFailure(Call<RspGrabRed> call, Throwable t) {
+            public void onFailure(Call<RspCanGrab> call, Throwable t) {
                 RedLoadingDialogFragment.disMiss(activity);
                 Toaster.toastShort(t.getMessage());
             }
@@ -429,6 +432,29 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspTransfer> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void redDetailList(String redPacId, String groupId,RedDetailPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("redPacId",redPacId );
+        map.put("groupId",groupId );
+        Call<RspRedDetail> call=apiService.redDetailList(map);
+        call.enqueue(new Callback<RspRedDetail>() {
+            @Override
+            public void onResponse(Call<RspRedDetail> call, Response<RspRedDetail> response) {
+                try {
+                    RspRedDetail rspRedDetail=response.body();
+                    present.analyzeRes(rspRedDetail);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspRedDetail> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
             }
         });

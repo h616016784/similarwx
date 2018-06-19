@@ -66,6 +66,7 @@ public class Actionbar extends FrameLayout {
         }
 
         layout= LayoutInflater.from(context).inflate(R.layout.actionbar_common, this);
+
         setBackgroundColor(AppContext.getColor(R.color.white));
 
         mTitleLayout = (ViewGroup) layout.findViewById(R.id.title_layout);
@@ -77,6 +78,7 @@ public class Actionbar extends FrameLayout {
         rightImagePeople = (ImageView) layout.findViewById(R.id.right_image_people);
         mLeftLayout = (ViewGroup) layout.findViewById(R.id.left_layout);
         mRightLayout = (ViewGroup) layout.findViewById(R.id.right_layout);
+        layout_ll= (LinearLayout) layout.findViewById(R.id.content);
         initActions();
     }
 
@@ -171,7 +173,7 @@ public class Actionbar extends FrameLayout {
     }
 
     public void setWholeBackground(int res){
-        layout.setBackgroundColor(res);
+        layout_ll.setBackgroundResource(res);
     }
     /**
      * 设置people

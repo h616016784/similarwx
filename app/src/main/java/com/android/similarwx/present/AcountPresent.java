@@ -33,7 +33,7 @@ public class AcountPresent extends BasePresent {
         if (rspBill!=null){
             String result=rspBill.getResult();
             if (result.equals("success")){
-                
+                mView.refreshBill(rspBill.getData());
             }else {
                 Toaster.toastShort(rspBill.getErrorMsg());
             }

@@ -18,6 +18,7 @@ import com.android.similarwx.adapter.MultipleItemQuickAdapter;
 import com.android.similarwx.base.AndroidBug5497Workaround;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.BaseBean;
 import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.MIMultiItem;
@@ -107,6 +108,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     IMMessage author;
     AudioPlayer player;//播放器
     private MIPresent miPresent;
+    SendRed tempSendRed;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mi_layout_new;
@@ -212,12 +214,11 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                         if (attachment!=null) {
                             String json = attachment.toJson(false);
                             if (!TextUtils.isEmpty(json)) {
-                                SendRed sendRed = gson.fromJson(json, SendRed.class);
-                                miPresent.canGrab(sendRed.getRedPacId(),activity);
+                                tempSendRed= gson.fromJson(json, SendRed.class);
+                                miPresent.canGrab(tempSendRed.getRedPacId(),activity);
 //                                miPresent.grabRed(sendRed.getRedPacId(),activity);
                             }
                         }
-//
                         break;
                 }
             }
@@ -460,16 +461,27 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
 
     @Override
     public void grabRed(RspGrabRed.GrabRedBean bean) {
-        FragmentUtils.navigateToNormalActivity(activity,new RedDetailFragment(),null);
+        Bundle bundle=new Bundle();
+        if (tempSendRed!=null){
+            bundle.putString(RedDetailFragment.GROUPID,tempSendRed.getGroupId());
+            bundle.putString(RedDetailFragment.REDID,tempSendRed.getRedPacId());
+            bundle.putSerializable(RedDetailFragment.SENDRED,tempSendRed);
+            bundle.putSerializable(RedDetailFragment.GRAB,bean);
+            FragmentUtils.navigateToNormalActivity(activity,new RedDetailFragment(),bundle);
+        }
+
     }
 
     @Override
-    public void canGrab(RspGrabRed.GrabRedBean bean) {
+    public void canGrab(BaseBean bean) {
         if (bean != null) {
-            RedResultDialogFragment.show(activity, bean, new RedResultDialogFragment.OnOpenClick() {
+            RedResultDialogFragment.show(activity, bean,tempSendRed, new RedResultDialogFragment.OnOpenClick() {
                 @Override
                 public void onOpenClick() {
-                    miPresent.grabRed("id",activity);
+                    if (tempSendRed!=null){
+                        String redId=tempSendRed.getRedPacId();
+                        miPresent.grabRed(redId,activity);
+                    }
                 }
             });
         }
@@ -484,6 +496,4 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
         return MessageBuilder.createCustomMessage(sessionId, sessionType, "红包",
                 new CustomAttachment<SendRed>(redDetailBean));
     }
-
-
 }

@@ -3,12 +3,14 @@ package com.android.similarwx.model;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspBill;
+import com.android.similarwx.beans.response.RspCanGrab;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
+import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
 import com.android.similarwx.beans.response.RspTransfer;
@@ -61,7 +63,7 @@ public interface APIService {
     Call<RspSendRed> sendRed(@QueryMap Map<String, String> map);
 
     @POST("redPac/canGrab")
-    Call<RspGrabRed> canGrab(@QueryMap Map<String, String> map);
+    Call<RspCanGrab> canGrab(@QueryMap Map<String, String> map);
 
     @POST("redPac/grab")
     Call<RspGrabRed> grabRed(@QueryMap Map<String, String> map);
@@ -70,4 +72,6 @@ public interface APIService {
     Call<RspBill> getBill(@QueryMap Map<String, String> map);
     @POST("trade/transfer")
     Call<RspTransfer> transfer(@QueryMap Map<String, String> map);
+    @POST("redPac/list")
+    Call<RspRedDetail> redDetailList(@QueryMap Map<String, String> map);
 }

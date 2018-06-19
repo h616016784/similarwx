@@ -14,10 +14,10 @@ public class SendRed extends BaseBean{
     private String time;//发包时间
     private String shouqi;//手气
     private String requestNum;//请求编号，每个用户，保证唯一
-    private String userId;//云信的accid
-    private String myUserId;//发包用户编号（本地服务器）
-    private String myGroupId;//群组编号（本地服务器）
-    private String groupId;//群组编号（云信）
+    private String userId;//发包用户编号（本地服务器）
+    private String myUserId;//云信的accid
+    private String myGroupId;//群组编号（云信）
+    private String groupId;//群组编号（本地服务器）
     private String type;//发包类型，MINE：扫雷红包；LUCK：拼手气红包
     private String thunder;//中雷数字
     private String click;//0表示未点击，1表示点击

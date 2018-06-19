@@ -70,7 +70,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
     Unbinder unbinder;
 
     private BaseQuickAdapter adapter;
-    private List<RedTakeBean> list;
+    private List<Bill.BillDetail> list;
     private TimePickerView pvTime;
     private ListPopWindow listPopWindow;
     private List<PopMoreBean> moreList;
@@ -106,12 +106,14 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
 
     private void initView() {
         myDetailRv.setLayoutManager(new LinearLayoutManager(activity));
-        adapter=new BaseQuickAdapter<RedTakeBean,BaseViewHolder>(R.layout.item_my_detail,list) {
+        adapter=new BaseQuickAdapter<Bill.BillDetail,BaseViewHolder>(R.layout.item_my_detail,list) {
             @Override
-            protected void convert(BaseViewHolder helper, RedTakeBean item) {
-                helper.setText(R.id.item_my_detail_name_tv,item.getRedType());
-                helper.setText(R.id.item_my_detail_time_tv,item.getTime());
-                helper.setText(R.id.item_my_detail_money_tv,item.getMoney());
+            protected void convert(BaseViewHolder helper, Bill.BillDetail item) {
+                String type=item.getTradeType();
+                String name=name(type);
+                helper.setText(R.id.item_my_detail_name_tv,name);
+                helper.setText(R.id.item_my_detail_time_tv,item.getCreateDate());
+                helper.setText(R.id.item_my_detail_money_tv,item.getAmount());
             }
         };
         myDetailRv.setAdapter(adapter);
@@ -124,10 +126,10 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         //获取bill信息
         Calendar cal=Calendar.getInstance();
         Date endTime=cal.getTime();
-        mEnd=new SimpleDateFormat("yyyy-MM-dd").format(endTime);
+        mEnd=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime);
         cal.add(Calendar.DATE,-1);
         Date starTime=cal.getTime();
-        mStart=new SimpleDateFormat("yyyy-MM-dd").format(starTime);
+        mStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(starTime);
         myDetailStartTv.setText(mStart);
         myDetailEndTv.setText(mEnd);
         mPresent.getAcountList(userId, BillType.SEND_PACKAGE.toString(),mStart,mEnd);
@@ -136,6 +138,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         listPopWindow.setOnClickItem(new ListPopWindow.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                adapter.getData().clear();
                 mType=moreList.get(position).getContent();
                 mPresent.getAcountList(userId,mType.toString(),mStart,mEnd);
             }
@@ -144,12 +147,13 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             @Override
             public void onTimeSelect(Date date, View v) {
                 if (timeFlag==0){
-                    mStart=new SimpleDateFormat("yyyy-MM-dd").format(date);
+                    mStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                     myDetailStartTv.setText(mStart);
                 }else if (timeFlag==1){
-                    mEnd=new SimpleDateFormat("yyyy-MM-dd").format(date);
+                    mEnd=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                     myDetailEndTv.setText(mEnd);
                 }
+                adapter.getData().clear();
                 mPresent.getAcountList(userId,mType,mStart,mEnd);
             }
         }).build();
@@ -175,12 +179,6 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
 
 
     private void iniData() {
-        list=new ArrayList<>();
-        RedTakeBean redTakeBean=new RedTakeBean();
-        redTakeBean.setRedType("红包领取");
-        redTakeBean.setTime("2017-02-12");
-        redTakeBean.setMoney("+10");
-        list.add(redTakeBean);
 
         moreList=new ArrayList<>();
         PopMoreBean bean=new PopMoreBean();
@@ -245,6 +243,32 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         moreList.add(bean12);
 
     }
+    private String name(String type){
+        if (BillType.GRAP_PACKAGE.toString().equals(type)){
+            return BillType.GRAP_PACKAGE.toName();
+        }else if (BillType.OFFLINE_RECHARGE.toString().equals(type)){
+            return BillType.OFFLINE_RECHARGE.toName();
+        }else if (BillType.PACKAGE_REBATE.toString().equals(type)){
+            return BillType.PACKAGE_REBATE.toName();
+        }else if (BillType.PACKAGE_RETURN.toString().equals(type)){
+            return BillType.PACKAGE_RETURN.toName();
+        }else if (BillType.PACKAGE_REWARD.toString().equals(type)){
+            return BillType.PACKAGE_REWARD.toName();
+        }else if (BillType.RECHARGE.toString().equals(type)){
+            return BillType.RECHARGE.toName();
+        }else if (BillType.SEND_PACKAGE.toString().equals(type)){
+            return BillType.SEND_PACKAGE.toName();
+        }else if (BillType.THUNDER_PACKAGE.toString().equals(type)){
+            return BillType.THUNDER_PACKAGE.toName();
+        } else if (BillType.THUNDER_REWARD.toString().equals(type)){
+            return BillType.THUNDER_REWARD.toName();
+        }else if (BillType.TRANSFER.toString().equals(type)){
+            return BillType.TRANSFER.toName();
+        } else if (BillType.WITHDRAW.toString().equals(type)){
+            return BillType.WITHDRAW.toName();
+        }
+        return "发红包";
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -262,6 +286,8 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
 
     @Override
     public void refreshBill(Bill bill) {
-
+        if (bill!=null){
+            adapter.addData(bill.getAccountDetailList());
+        }
     }
 }
