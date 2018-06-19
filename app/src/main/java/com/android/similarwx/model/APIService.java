@@ -8,6 +8,7 @@ import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
 import com.android.similarwx.beans.response.RspGroupUser;
+import com.android.similarwx.beans.response.RspInMoney;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspRedDetail;
@@ -74,4 +75,6 @@ public interface APIService {
     Call<RspTransfer> transfer(@QueryMap Map<String, String> map);
     @POST("redPac/list")
     Call<RspRedDetail> redDetailList(@QueryMap Map<String, String> map);
+    @POST("redPac/list")
+    Call<RspInMoney>  inputMoney(@QueryMap Map<String, String> map);
 }

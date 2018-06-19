@@ -1,14 +1,21 @@
 package com.android.similarwx.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.response.RspTransfer;
+import com.android.similarwx.inteface.InMoneyViewInterface;
+import com.android.similarwx.inteface.RechargeViewInterface;
+import com.android.similarwx.present.InputMoneyPresent;
+import com.android.similarwx.present.RechargePresent;
 import com.android.similarwx.utils.FragmentUtils;
 
 import butterknife.BindView;
@@ -16,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class RechargeFragment extends BaseFragment {
+public class RechargeFragment extends BaseFragment implements InMoneyViewInterface {
     @BindView(R.id.recharge_money_et)
     EditText rechargeMoneyEt;
     @BindView(R.id.recharge_pay_weixin_iv)
@@ -31,6 +38,8 @@ public class RechargeFragment extends BaseFragment {
     Button sendRedBt;
     Unbinder unbinder;
 
+    private InputMoneyPresent mPresent;
+    String type="3";
     private boolean isWeixin=true;
     @Override
     protected int getLayoutResource() {
@@ -42,6 +51,7 @@ public class RechargeFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle("充值");
         unbinder = ButterKnife.bind(this, contentView);
+        mPresent=new InputMoneyPresent(this);
     }
 
     @Override
@@ -54,24 +64,40 @@ public class RechargeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.recharge_pay_weixin_ll:
+                type="3";
                 isWeixin=true;
                 rechargePayWeixinIv.setVisibility(View.VISIBLE);
                 rechargePayAlipayIv.setVisibility(View.INVISIBLE);
                 break;
             case R.id.recharge_pay_alipay_ll:
+                type="1";
                 isWeixin=false;
                 rechargePayWeixinIv.setVisibility(View.INVISIBLE);
                 rechargePayAlipayIv.setVisibility(View.VISIBLE);
                 break;
             case R.id.send_red_bt:
-                Bundle bundle=new Bundle();
-                if (isWeixin){
-
+                String money=rechargeMoneyEt.getText().toString();
+                if (TextUtils.isEmpty(money)){
+                    Toaster.toastShort("充值金额不能为空！");
+                    return;
                 }else {
-
+                    Bundle bundle=new Bundle();
+                    mPresent.inputMoney(type,money);
+//                FragmentUtils.navigateToNormalActivity(getActivity(),new PayDetailFragment(),bundle);
                 }
-                FragmentUtils.navigateToNormalActivity(getActivity(),new PayDetailFragment(),bundle);
+
+
                 break;
         }
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void refreshInMoney() {
+
     }
 }

@@ -11,6 +11,7 @@ import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
 import com.android.similarwx.beans.response.RspGroupUser;
+import com.android.similarwx.beans.response.RspInMoney;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspRedDetail;
@@ -22,6 +23,7 @@ import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.AcountPresent;
 import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.GroupPresent;
+import com.android.similarwx.present.InputMoneyPresent;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.MyBasePresent;
@@ -455,6 +457,30 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspRedDetail> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void inputMoney(String pay_id,String type,String price ,InputMoneyPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("pay_id",pay_id );
+        map.put("type",type );
+        map.put("price",price );
+        Call<RspInMoney> call=apiService.inputMoney(map);
+        call.enqueue(new Callback<RspInMoney>() {
+            @Override
+            public void onResponse(Call<RspInMoney> call, Response<RspInMoney> response) {
+                try {
+                    RspInMoney rspInMoney=response.body();
+                    present.analyzeInputMoney(rspInMoney);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspInMoney> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
             }
         });
