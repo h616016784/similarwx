@@ -75,6 +75,6 @@ public interface APIService {
     Call<RspTransfer> transfer(@QueryMap Map<String, String> map);
     @POST("redPac/list")
     Call<RspRedDetail> redDetailList(@QueryMap Map<String, String> map);
-    @POST("redPac/list")
+    @POST("codePay/send")
     Call<RspInMoney>  inputMoney(@QueryMap Map<String, String> map);
 }

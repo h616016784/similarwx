@@ -39,7 +39,7 @@ public class RechargeFragment extends BaseFragment implements InMoneyViewInterfa
     Unbinder unbinder;
 
     private InputMoneyPresent mPresent;
-    String type="3";
+    String type="1";
     private boolean isWeixin=true;
     @Override
     protected int getLayoutResource() {
