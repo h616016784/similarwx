@@ -5,31 +5,49 @@ package com.android.similarwx.beans;
  */
 
 public class GroupRule extends BaseBean {
-    private String name;
-    private String grab;
-    private String back;
+    private String Id;
+    private String groupId;
+    private String rewardName;
+    private String rewardValue;
+    private String amountReward;
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return Id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        Id = id;
     }
 
-    public String getGrab() {
-        return grab;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setGrab(String grab) {
-        this.grab = grab;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
-    public String getBack() {
-        return back;
+    public String getRewardName() {
+        return rewardName;
     }
 
-    public void setBack(String back) {
-        this.back = back;
+    public void setRewardName(String rewardName) {
+        this.rewardName = rewardName;
+    }
+
+    public String getRewardValue() {
+        return rewardValue;
+    }
+
+    public void setRewardValue(String rewardValue) {
+        this.rewardValue = rewardValue;
+    }
+
+    public String getAmountReward() {
+        return amountReward;
+    }
+
+    public void setAmountReward(String amountReward) {
+        this.amountReward = amountReward;
     }
 }

@@ -17,9 +17,11 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
+import okio.BufferedSink;
 import okio.BufferedSource;
 
 /**
@@ -36,7 +38,10 @@ public class LogInterceptor implements Interceptor {
         //打印请求信息
         Log.e("request","url:" + request.url());
         Log.e("request","method:" + request.method());
-        Log.e("request","request-body:" + request.body());
+        RequestBody requestBody=request.body();
+        BufferedSink bufferedSink=new Buffer();
+        requestBody.writeTo(bufferedSink);
+        Log.e("request","request-body:" +bufferedSink.buffer().readString(Charset.forName("UTF-8")));
         //为请求添加header信息
         String useKey=SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_KEY,"userKey");
         String nonce=UUID.randomUUID().toString();

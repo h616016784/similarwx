@@ -7,6 +7,7 @@ import com.android.similarwx.beans.response.RspCanGrab;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
+import com.android.similarwx.beans.response.RspGroupSave;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspInMoney;
 import com.android.similarwx.beans.response.RspNotice;
@@ -71,10 +72,18 @@ public interface APIService {
 
     @POST("trade/accountList")
     Call<RspBill> getBill(@QueryMap Map<String, String> map);
+
     @POST("trade/transfer")
     Call<RspTransfer> transfer(@QueryMap Map<String, String> map);
+
     @POST("redPac/list")
     Call<RspRedDetail> redDetailList(@QueryMap Map<String, String> map);
+
     @POST("codePay/send")
     Call<RspInMoney>  inputMoney(@QueryMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
+    @POST("group/save")
+    Call<RspGroupSave>  groupSave(@FieldMap Map<String, String> map);
 }

@@ -3,6 +3,7 @@ package com.android.similarwx.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +14,23 @@ import android.widget.ListPopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupRule;
 import com.android.similarwx.beans.Notice;
 import com.android.similarwx.beans.PopMoreBean;
+import com.android.similarwx.beans.request.ReqGroup;
+import com.android.similarwx.inteface.AddGroupViewInterface;
+import com.android.similarwx.present.AddGroupPresent;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.ListPopWindow;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.RuleDialogFragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +44,7 @@ import butterknife.Unbinder;
  * Created by hanhuailong on 2018/6/13.
  */
 
-public class AddGroupFragment extends BaseFragment {
+public class AddGroupFragment extends BaseFragment implements AddGroupViewInterface{
     Unbinder unbinder;
     @BindView(R.id.create_group_name_et)
     EditText createGroupNameEt;
@@ -76,6 +84,8 @@ public class AddGroupFragment extends BaseFragment {
 
     private BaseQuickAdapter adapter;
     private List<GroupRule> groupRuleList;
+    private AddGroupPresent mPresent;
+    ReqGroup reqGroup;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_add_group;
@@ -86,12 +96,16 @@ public class AddGroupFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle("创建群组");
         unbinder = ButterKnife.bind(this, contentView);
+        reqGroup=new ReqGroup();
+        mPresent=new AddGroupPresent(this);
         initGroupList();
         groupTypePop=new ListPopWindow(activity,groupTypeList);
         groupTypePop.setOnClickItem(new ListPopWindow.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                createGroupSetTv.setText(groupTypeList.get(position).getName());
+                PopMoreBean bean=groupTypeList.get(position);
+                createGroupSetTv.setText(bean.getName());
+                reqGroup.setGroupType(bean.getId());
             }
         });
         createGroupRuleRv.setLayoutManager(new LinearLayoutManager(activity));
@@ -99,9 +113,9 @@ public class AddGroupFragment extends BaseFragment {
 
             @Override
             protected void convert(BaseViewHolder helper, GroupRule item) {
-                helper.setText(R.id.item_create_group_rule_name,item.getName());
-                helper.setText(R.id.item_create_group_rule_grab,item.getGrab());
-                helper.setText(R.id.item_create_group_rule_get,item.getBack());
+                helper.setText(R.id.item_create_group_rule_name,item.getRewardName());
+                helper.setText(R.id.item_create_group_rule_grab,item.getRewardValue());
+                helper.setText(R.id.item_create_group_rule_get,item.getAmountReward());
             }
         };
         createGroupRuleRv.setAdapter(adapter);
@@ -112,12 +126,20 @@ public class AddGroupFragment extends BaseFragment {
         groupTypeList=new ArrayList<>();
         PopMoreBean bean=new PopMoreBean();
         bean.setId("1");
-        bean.setName("游戏群");
+        bean.setName("普通交友群");
         PopMoreBean bean2=new PopMoreBean();
         bean2.setId("2");
-        bean2.setName("交友群");
+        bean2.setName("扫雷游戏群");
         groupTypeList.add(bean);
         groupTypeList.add(bean2);
+        PopMoreBean bean3=new PopMoreBean();
+        bean3.setId("3");
+        bean3.setName("接龙游戏群");
+        groupTypeList.add(bean3);
+        PopMoreBean bean4=new PopMoreBean();
+        bean4.setId("4");
+        bean4.setName("牛牛游戏群");
+        groupTypeList.add(bean4);
 
         groupRuleList=new ArrayList<>();
     }
@@ -168,7 +190,47 @@ public class AddGroupFragment extends BaseFragment {
                 });
                 break;
             case R.id.create_group_new_bt:
+                String groupName=createGroupNameEt.getText().toString();
+                String notice=createGroupNoticeEt.getText().toString();
+                String must=createGroupMustEt.getText().toString();
+                String leilv=createGroupLeiEt.getText().toString();
+                String low=createGroupRangeLowEt.getText().toString();
+                String high=createGroupRangeHighEt.getText().toString();
 
+                if (TextUtils.isEmpty(groupName)){
+                    Toaster.toastShort("群名称不能为空！");
+                    return;
+                }
+                if (TextUtils.isEmpty(notice)){
+                    Toaster.toastShort("群公告不能为空！");
+                    return;
+                }
+                if (TextUtils.isEmpty(must)){
+                    Toaster.toastShort("群须知不能为空！");
+                    return;
+                }
+                if (TextUtils.isEmpty(low)){
+                    Toaster.toastShort("最低值不能为空！");
+                    return;
+                }
+                if (TextUtils.isEmpty(high)){
+                    Toaster.toastShort("最高值不能为空！");
+                    return;
+                }
+                String id=SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"无");
+                reqGroup.setGroupName(groupName);
+                reqGroup.setCreateId(id);
+                reqGroup.setNotice(notice);
+                reqGroup.setRequirement(must);
+                reqGroup.setMultipleRate(leilv);
+                reqGroup.setStartRange(low);
+                reqGroup.setEndRange(high);
+
+                List<GroupRule> list=adapter.getData();
+                Gson gson=new Gson();
+                String rules=gson.toJson(list);
+                reqGroup.setRewardRules(rules);
+                mPresent.addGroup(reqGroup);
                 break;
         }
     }
@@ -177,5 +239,16 @@ public class AddGroupFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void refreshAddGroup() {
+        Toaster.toastShort("创建群组成功！");
+        activity.finish();
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
     }
 }

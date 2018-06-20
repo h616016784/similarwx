@@ -29,11 +29,16 @@
                 android:background="@null"
                 android:minWidth="@dimen/distance_bigger"
                 android:textSize="@dimen/text_content_or_button"
-                android:inputType="numberDecimal"
                 android:gravity="right"
                 android:hint="请输入群名称"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"/>
         <RelativeLayout
             android:id="@+id/create_group_set_rl"
             android:layout_width="match_parent"
@@ -67,6 +72,12 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/em_right"/>
         </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,11 +99,16 @@
                 android:minWidth="@dimen/distance_bigger"
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_centerVertical="true"
-                android:inputType="numberDecimal"
                 android:gravity="right"
                 android:hint="点击输入群公告"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,12 +130,16 @@
                 android:minWidth="@dimen/distance_bigger"
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_centerVertical="true"
-                android:inputType="numberDecimal"
                 android:gravity="right"
                 android:hint="点击输入群须知"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"/>
         <RelativeLayout
             android:id="@+id/create_group_home_rl"
             android:layout_width="match_parent"
@@ -153,7 +173,12 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/em_right"/>
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -193,7 +218,12 @@
                 android:gravity="right"
                 android:hint="输入最低"/>
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -220,7 +250,12 @@
                 android:hint="输入个数"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -247,7 +282,12 @@
                 android:hint="输入中雷赔率"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"/>
         <RelativeLayout
             android:id="@+id/create_group_in_set_rl"
             android:layout_width="match_parent"
@@ -281,7 +321,12 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/em_right"/>
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

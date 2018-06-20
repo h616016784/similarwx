@@ -103,9 +103,9 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
                     Toaster.toastShort("奖励金额不能为空！");
 
                 GroupRule bean=new GroupRule();
-                bean.setName(name);
-                bean.setGrab(grab);
-                bean.setBack(back);
+                bean.setRewardName(name);
+                bean.setRewardValue(grab);
+                bean.setAmountReward(back);
                 if (mClickListener!=null){
                     mClickListener.onConfirmClickListener(bean);
                 }

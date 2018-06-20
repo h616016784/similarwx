@@ -19,6 +19,7 @@ import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.fragment.AddGroupFragment;
 import com.android.similarwx.fragment.ChartFragment;
 import com.android.similarwx.fragment.ExplainFragment;
@@ -30,6 +31,7 @@ import com.android.similarwx.fragment.ServiceFragment;
 import com.android.similarwx.inteface.MainGroupView;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
@@ -71,6 +73,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     GroupPresent groupPresent;
     private EditDialogSimple editDialogSimple;
 
+    private User mUser;
     public static void start(Activity context) {
         Intent intent = new Intent(context, MainChartrActivity.class);
         context.startActivity(intent);
@@ -82,6 +85,15 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
         groupPresent = new GroupPresent(this);
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
+        if (mUser!=null){
+            String userType=mUser.getUserType();
+            if (!TextUtils.isEmpty(userType)){
+                if (userType.equals("1")){
+                    createGroupIv.setVisibility(View.VISIBLE);
+                }
+            }
+        }
         editDialogSimple = new EditDialogSimple(this, null);
 //        initData();
         groupPresent.getGroupList();

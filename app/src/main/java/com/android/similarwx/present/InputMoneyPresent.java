@@ -5,7 +5,6 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.response.RspInMoney;
 import com.android.similarwx.inteface.InMoneyViewInterface;
-import com.android.similarwx.inteface.RechargeViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.utils.SharePreferenceUtil;
 

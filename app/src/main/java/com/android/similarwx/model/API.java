@@ -5,11 +5,13 @@ import android.app.Activity;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.request.ReqGroup;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
+import com.android.similarwx.beans.response.RspGroupSave;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspInMoney;
 import com.android.similarwx.beans.response.RspNotice;
@@ -21,6 +23,7 @@ import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.AcountPresent;
+import com.android.similarwx.present.AddGroupPresent;
 import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.present.InputMoneyPresent;
@@ -481,6 +484,36 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspInMoney> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void groupSave(ReqGroup reqGroup, AddGroupPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("groupName",reqGroup.getGroupName());
+        map.put("groupType",reqGroup.getGroupType());
+        map.put("createId",reqGroup.getCreateId());
+        map.put("notice",reqGroup.getNotice());
+        map.put("requirement",reqGroup.getRequirement());
+        map.put("multipleRate",reqGroup.getMultipleRate());
+        map.put("startRange",reqGroup.getStartRange());
+        map.put("endRange",reqGroup.getEndRange());
+        map.put("rewardRules",reqGroup.getRewardRules());
+        Call<RspGroupSave> call=apiService.groupSave(map);
+        call.enqueue(new Callback<RspGroupSave>() {
+            @Override
+            public void onResponse(Call<RspGroupSave> call, Response<RspGroupSave> response) {
+                try {
+                    RspGroupSave rspGroupSave=response.body();
+                    present.analyzeAddGroup(rspGroupSave);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspGroupSave> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
             }
         });
