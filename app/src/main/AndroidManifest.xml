@@ -38,6 +38,7 @@
         <activity android:name=".activity.MainChartrActivity" />
         <activity android:name=".base.NormalActivity">
         </activity>
+        <activity android:name=".activity.SysNoticeActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,6 +53,7 @@
         <activity android:name=".misdk.activity.PickImageActivity" />
         <activity android:name=".misdk.activity.PreviewImageFromCameraActivity" />
         <activity android:name=".misdk.activity.PreviewImageFromLocalActivity" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

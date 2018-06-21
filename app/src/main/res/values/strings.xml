@@ -163,6 +163,9 @@
     <string name="set_password_find">找回密码</string>
     <string name="set_password_message">为保障您的数据安全，修改密\n码前请填写前密码</string>
 
+    <!-- 系统消息通知-->
+    <string name="sys_notice_title">系统消息通知</string>
+
     <!-- 充值提示-->
     <string name="recharge_tip1">1:保存的二维码只能用一次，不能反复使用。</string>
     <string name="recharge_tip2">2:二维码保存后30秒不使用会失效，必须重新保存。</string>

@@ -32,11 +32,16 @@ import com.android.similarwx.inteface.MainGroupView;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.notification.NotificationUtil;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +90,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
         groupPresent = new GroupPresent(this);
+        initYunXinSystemMsgListener();
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
         if (mUser!=null){
             String userType=mUser.getUserType();
@@ -104,6 +110,18 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         recyclerView.requestFocus();
         adapter.setOnItemClickListener(this);
         hideKeyboard();
+    }
+
+    private void initYunXinSystemMsgListener() {
+        NIMClient.getService(SystemMessageObserver.class)
+                .observeReceiveSystemMsg(new Observer<SystemMessage>() {
+                    @Override
+                    public void onEvent(SystemMessage message) {
+                        // 收到系统通知，可以做相应操作
+
+
+                    }
+                }, true);
     }
 
     private void initData() {
@@ -154,6 +172,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
         if (position == 0) {//通知
+//            NotificationUtil.getInstance(this).notification();
             FragmentUtils.navigateToNormalActivity(this, new NoticeFragment(), null);
         } else if (position == 1) {//在线客服
             FragmentUtils.navigateToNormalActivity(this, new ServiceFragment(), null);
@@ -182,6 +201,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             }
         }
     }
+
 
     /**
      * 申请加入群组
@@ -220,4 +240,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     public void groupApply(String msg) {
         Toaster.toastShort("申请成功，等待群主审批");
     }
+
+
 }

@@ -65,15 +65,8 @@
             <include layout="@layout/include_divider"/>
             <include layout="@layout/include_divider"/>
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_marginTop="@dimen/distance_small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/main_ll">
-
-        </android.support.v7.widget.RecyclerView>
         <LinearLayout
+            android:id="@+id/bottom_ll"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_tab_navigation"
             android:background="@color/white"
@@ -143,5 +136,15 @@
                     />
             </RelativeLayout>
         </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_marginTop="@dimen/distance_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main_ll"
+            android:layout_above="@id/bottom_ll">
+
+        </android.support.v7.widget.RecyclerView>
+
     </RelativeLayout>
 </LinearLayout>
