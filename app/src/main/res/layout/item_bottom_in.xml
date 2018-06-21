@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen1dp"
+        android:background="@color/gray"/>
+    <TextView
+        android:id="@+id/item_bottom_tv"
+        android:padding="@dimen/distance_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minWidth="@dimen/dp_72"
+        android:textSize="@dimen/text_sub_title"
+        android:textColor="@color/sky_blue"
+        android:text="新建支付"/>
+</LinearLayout>

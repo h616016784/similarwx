@@ -26,6 +26,7 @@ import com.android.similarwx.inteface.AddGroupViewInterface;
 import com.android.similarwx.present.AddGroupPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.ListPopWindow;
+import com.android.similarwx.widget.dialog.BottomBaseDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.RuleDialogFragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -99,15 +100,13 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         reqGroup=new ReqGroup();
         mPresent=new AddGroupPresent(this);
         initGroupList();
-        groupTypePop=new ListPopWindow(activity,groupTypeList);
-        groupTypePop.setOnClickItem(new ListPopWindow.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                PopMoreBean bean=groupTypeList.get(position);
-                createGroupSetTv.setText(bean.getName());
-                reqGroup.setGroupType(bean.getId());
-            }
-        });
+//        groupTypePop=new ListPopWindow(activity,groupTypeList);
+//        groupTypePop.setOnClickItem(new ListPopWindow.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int position) {
+//
+//            }
+//        });
         createGroupRuleRv.setLayoutManager(new LinearLayoutManager(activity));
         adapter=new BaseQuickAdapter<GroupRule,BaseViewHolder>(R.layout.item_group_rule,groupRuleList){
 
@@ -149,9 +148,18 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.create_group_set_rl:
-                if (groupTypePop!=null){
-                    groupTypePop.show(createGroupSetTv);
-                }
+                BottomBaseDialog dialog=new BottomBaseDialog(activity);
+                dialog.setTitle("群类型设置");
+                dialog.setList(groupTypeList);
+                dialog.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        PopMoreBean bean=groupTypeList.get(position);
+                        createGroupSetTv.setText(bean.getName());
+                        reqGroup.setGroupType(bean.getId());
+                    }
+                });
+                dialog.show();
                 break;
             case R.id.create_group_home_rl:
                 EasyAlertDialogHelper.createOkCancelDiolag(activity, "提示", "是否大厅显示？","是","否", true, new EasyAlertDialogHelper.OnDialogActionListener() {

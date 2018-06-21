@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
@@ -27,8 +28,13 @@ import com.android.similarwx.utils.CodeUtils;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Strings.StringUtil;
+import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.widget.BaseItemView;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
+import com.bumptech.glide.Glide;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.nos.NosService;
 
 import java.io.File;
 
@@ -90,7 +96,6 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
         myBaseSexBv.setImageView(R.drawable.em_right);
         myBaseSignBv.setNameText(R.string.my_base_sign);
         myBaseSignBv.setImageView(R.drawable.em_right);
-
     }
 
     @Override
@@ -100,10 +105,31 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
         if (mUser!=null){
             myBaseNikenameBv.setRightText(mUser.getName());
             myBaseAccountBv.setRightText(mUser.getAccId());
-            myBaseSexBv.setRightText(mUser.getGender()==null?"男":mUser.getGender());
+            //性别
+            String gender=mUser.getGender();
+            if (TextUtils.isEmpty(gender)){
+                myBaseSexBv.setRightText("未知");
+            }else {
+                if ("0".equals(gender))
+                    myBaseSexBv.setRightText("男");
+                else if ("1".equals(gender))
+                    myBaseSexBv.setRightText("女");
+                else
+                    myBaseSexBv.setRightText("未知");
+            }
             myBaseSignBv.setRightText(mUser.getPersonalitySignature()==null?"":mUser.getPersonalitySignature());
+            //头像
+            String icon= mUser.getIcon();
+            if (!TextUtils.isEmpty(icon)){
+                Glide.with(activity)
+                        .load(icon)
+                        .override(120,120)
+                        .transform(new CircleCrop(activity))
+                        .placeholder(R.drawable.rp_avatar)
+                        .error(R.drawable.rp_avatar)
+                        .into(myBaseHeadBv.getRightImageView());
+            }
         }
-
     }
 
     @Override
@@ -282,9 +308,12 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
             public void sendImage(File file, boolean isOrig) {
 //                onPicked(file);
                 Log.e("从预览界面点击发送图片",file.getAbsolutePath());
+                upLoadImage(file);
             }
         });
     }
+
+
     /**
      * 发送图片
      */
@@ -294,10 +323,33 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
             @Override
             public void sendImage(File file, boolean isOrig) {
                 Log.e("发送图片",file.getAbsolutePath());
+                upLoadImage(file);
             }
         });
     }
 
+    private void upLoadImage(File file) {
+        if (file!=null){
+            NIMClient.getService(NosService.class).upload(file,"headImage").setCallback(new RequestCallback<String>() {
+                @Override
+                public void onSuccess(String param) {
+                    Log.e("onSuccess",param);
+                    if (!TextUtils.isEmpty(param))
+                        myBasePresent.updateUserByUrl(param);
+                }
+
+                @Override
+                public void onFailed(int code) {
+                    Toaster.toastShort(code+"");
+                }
+
+                @Override
+                public void onException(Throwable exception) {
+                    Toaster.toastShort(exception.toString());
+                }
+            });
+        }
+    }
     @Override
     public void showErrorMessage(String err) {
 
@@ -318,6 +370,16 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
                     myBaseSexBv.setRightText("女");
                 else
                     myBaseSexBv.setRightText("未知");
+            }
+            String icon=user.getIcon();
+            if (!TextUtils.isEmpty(icon)){
+                Glide.with(activity)
+                        .load(icon)
+                        .override(120,120)
+                        .transform(new CircleCrop(activity))
+                        .placeholder(R.drawable.rp_avatar)
+                        .error(R.drawable.rp_avatar)
+                        .into(myBaseHeadBv.getRightImageView());
             }
         }
     }

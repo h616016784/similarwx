@@ -30,6 +30,10 @@ public class MyBasePresent extends BasePresent {
         String id= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
         API.getInstance().updateUserByGender(id,gender,this);
     }
+    public void updateUserByUrl(String url){
+        String id= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
+        API.getInstance().updateUserByUrl(id,url,this);
+    }
 
     public void analyzeRes(RspUser rspUser) {
         String result=rspUser.getResult();

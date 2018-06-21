@@ -202,6 +202,29 @@ public class API implements APIConstants {
             }
         });
     }
+    public void updateUserByUrl(String id, String url, MyBasePresent present){
+        Map<String,String> map=new HashMap<>();
+        map.put("id",id);
+        map.put("icon",url);
+
+        Call<RspUser> call=apiService.updateUser(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                try {
+                    RspUser rspUser=response.body();
+                    present.analyzeRes(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
 
     public void reqGroupList(String userId , final GroupPresent present){
         Map<String,String> map=new HashMap<>();

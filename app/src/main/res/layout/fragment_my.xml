@@ -10,9 +10,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/white"
-        android:padding="@dimen/distance_smaller">
+        android:padding="@dimen/distance_middle">
 
         <ImageView
+            android:id="@+id/my_base_head_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/rp_avatar" />
@@ -20,6 +21,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_small"
             android:orientation="vertical">
 
             <LinearLayout
@@ -91,7 +93,7 @@
                 android:src="@drawable/em_right"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/distance_normal"/>
+                android:layout_marginRight="@dimen/distance_small"/>
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout

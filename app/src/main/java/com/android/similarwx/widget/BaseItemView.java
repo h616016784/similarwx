@@ -56,4 +56,7 @@ public class BaseItemView extends LinearLayout {
     public void setRightText(int text){
         view_right_tv.setText(this.getResources().getString(text));
     }
+    public ImageView getRightImageView(){
+        return view_iv;
+    }
 }

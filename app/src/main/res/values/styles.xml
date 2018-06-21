@@ -166,5 +166,9 @@
         <item name="android:backgroundDimAmount">0.4</item>
     </style>
     <style name="dialog_untran" parent="dialog_tran"></style>
+    <style name="BottomInAndOutStyle">
+        <item name="android:windowEnterAnimation">@anim/in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/out_bottom</item>
+    </style>
 
 </resources>
