@@ -118,8 +118,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     @Override
                     public void onEvent(SystemMessage message) {
                         // 收到系统通知，可以做相应操作
-
-
+                        NotificationUtil.getInstance(MainChartrActivity.this).notification();
                     }
                 }, true);
     }
@@ -172,7 +171,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
         if (position == 0) {//通知
-//            NotificationUtil.getInstance(this).notification();
+
             FragmentUtils.navigateToNormalActivity(this, new NoticeFragment(), null);
         } else if (position == 1) {//在线客服
             FragmentUtils.navigateToNormalActivity(this, new ServiceFragment(), null);
