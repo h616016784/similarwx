@@ -110,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/main_rl_chart_iv"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/main_chart"
+                    android:text="@string/main_msg"
                     android:textSize="@dimen/text_content_or_button"
                     />
             </RelativeLayout>
@@ -143,7 +143,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/main_ll"
             android:layout_above="@id/bottom_ll">
-
         </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
