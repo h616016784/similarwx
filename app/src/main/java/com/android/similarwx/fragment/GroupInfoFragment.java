@@ -19,6 +19,7 @@ import com.android.similarwx.beans.RewardRule;
 import com.android.similarwx.inteface.GroupInfoViewInterface;
 import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -66,7 +67,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     private BaseQuickAdapter ruleAdapter;
     private List<RewardRule> ruleList;
     protected GroupMessageBean.ListBean listBean;
-
+    private boolean isHost=false;
     private GroupInfoPresent groupInfoPresent;
     @Override
     protected int getLayoutResource() {
@@ -112,6 +113,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                     String id=groupList.get(position).getUserId();
                     bundle.putString(AppConstants.TRANSFER_AWARDRULE,id);
                     bundle.putSerializable(AppConstants.TRANSFER_AWARDRULE,groupList.get(position));
+                    bundle.putBoolean(AppConstants.TRANSFER_ISHOST,isHost);
                     FragmentUtils.navigateToNormalActivity(getActivity(),new ClientDetailInfoFragment(),bundle);
                 }
             }
@@ -125,6 +127,16 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             groupInfoNameTv.setText(listBean.getGroupName());
             groupInfoNoticeTv.setText(listBean.getNotice());
             groupInfoKnowTv.setText(listBean.getDescription());
+
+            String id= SharePreferenceUtil.getString(activity,AppConstants.USER_ACCID,"无");
+            String hostId=listBean.getCreateId();
+            if (id.equals(hostId)){
+                isHost=true;
+                groupInfoQuitBt.setText("解散群聊");
+            }else {
+                isHost=false;
+                groupInfoQuitBt.setText("退出群聊");
+            }
             String rules=listBean.getRewardRules();
             Gson gson=new Gson();
             ruleList=gson.fromJson(rules,new TypeToken<List<RewardRule>>() {
@@ -156,7 +168,11 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
 
                 break;
             case R.id.group_info_quit_bt://退出
-                Toaster.toastShort("请联系群管理者");
+                if (isHost){
+
+                }else {
+                    Toaster.toastShort("请联系群管理者");
+                }
                 break;
         }
     }

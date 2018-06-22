@@ -53,6 +53,7 @@ public class AppConstants extends BaseConstants {
     public static final String TRANSFER_AWARDRULE = "rewardRule";
     public static final String TRANSFER_BASE = "tag";
     public static final String TRANSFER_CHAT_REDENTITY= "redDetail";
+    public static final String TRANSFER_ISHOST= "isHost";
     /**
      * 更多中选择标示
      */

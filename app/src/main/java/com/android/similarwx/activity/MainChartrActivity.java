@@ -29,6 +29,8 @@ import com.android.similarwx.fragment.MyFragment;
 import com.android.similarwx.fragment.NoticeFragment;
 import com.android.similarwx.fragment.ServiceFragment;
 import com.android.similarwx.inteface.MainGroupView;
+import com.android.similarwx.inteface.YCallBack;
+import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
@@ -42,6 +44,7 @@ import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
+import com.netease.nimlib.sdk.team.model.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -185,7 +188,13 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     }
                     @Override
                     public void doOkAction() {
-                        doGroupApply(bean.getGroupId());
+                        APIYUNXIN.applyJoinTeam(bean.getGroupId(), "申请加入该群", new YCallBack<Team>() {
+                            @Override
+                            public void callBack(Team team) {
+                                Toaster.toastShort("申请成功，等待群主审批");
+                            }
+                        });
+//                        doGroupApply(bean.getGroupId());
                     }
                 });
                 mDialog.show();

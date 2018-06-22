@@ -39,6 +39,77 @@
                 android:textSize="@dimen/text_content_or_button"/>
         </LinearLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/client_detail_id_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_normal"
+        android:background="@color/white"
+        android:padding="@dimen/distance_small"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="身份"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:textSize="@dimen/text_content_or_button"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/client_detail_id_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="@dimen/distance_bigger"
+            android:textSize="@dimen/text_content_or_button"
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:hint="普通成员"
+            android:layout_marginRight="@dimen/distance_bigger"
+            android:layout_alignParentRight="true"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/em_right"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/client_detail_set_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_small"
+        android:background="@color/white"
+        android:padding="@dimen/distance_small"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="设置禁言"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:textSize="@dimen/text_content_or_button"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/client_detail_set_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="@dimen/distance_bigger"
+            android:textSize="@dimen/text_content_or_button"
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:hint="否"
+            android:layout_marginRight="@dimen/distance_bigger"
+            android:layout_alignParentRight="true"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/em_right"/>
+    </RelativeLayout>
     <Button
         android:id="@+id/client_detail_sent_bt"
         android:layout_width="match_parent"
@@ -49,5 +120,16 @@
         android:textColor="@color/white"
         android:background="@drawable/selector_normal_bg"
         android:text="发送消息"/>
+    <Button
+        android:id="@+id/client_detail_quit_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_normal"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginRight="@dimen/distance_normal"
+        android:textColor="@color/white"
+        android:background="@drawable/selector_red_bg"
+        android:text="移出本群"
+        android:visibility="gone"/>
 
 </LinearLayout>
