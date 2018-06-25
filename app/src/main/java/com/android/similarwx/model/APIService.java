@@ -86,4 +86,7 @@ public interface APIService {
     @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     @POST("group/save")
     Call<RspGroupSave>  groupSave(@FieldMap Map<String, String> map);
+
+    @POST("resUsers/getUserInfoByParams")
+    Call<RspUser>  getUserInfoByParams(@QueryMap Map<String, String> map);
 }

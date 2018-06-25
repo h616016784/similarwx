@@ -92,10 +92,13 @@ public class ClientDetailInfoFragment extends BaseFragment {
 
     private void initData() {
         list=new ArrayList<>();
-        PopMoreBean bean=new PopMoreBean();
-        bean.setId("1");
-        bean.setName("设为管理员");
-        list.add(bean);
+        PopMoreBean beanPop=new PopMoreBean();
+        beanPop.setId("1");
+        beanPop.setName("设为管理员");
+        list.add(beanPop);
+
+        //获取用户信息
+        API.getInstance().getUserInfoByParams(bean.getUserId(),"");
     }
 
     @Override

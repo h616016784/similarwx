@@ -120,6 +120,8 @@ dependencies {
     compile 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
     compile 'com.jakewharton.rxbinding2:rxbinding-design:2.1.1'
     compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.1.1'
+
+    compile (name: 'app-debug', ext: 'aar')
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             def requested = details.requested

@@ -1,6 +1,7 @@
 package com.android.similarwx.model;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
@@ -225,7 +226,31 @@ public class API implements APIConstants {
             }
         });
     }
+    public void getUserInfoByParams(String userId, String accId){
+        Map<String,String> map=new HashMap<>();
+        if (!TextUtils.isEmpty(userId))
+            map.put("userId",userId);
+        if (!TextUtils.isEmpty(accId))
+            map.put("accId",accId);
 
+        Call<RspUser> call=apiService.getUserInfoByParams(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                try {
+                    RspUser rspUser=response.body();
+//                    present.analyzeRes(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
     public void reqGroupList(String userId , final GroupPresent present){
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);

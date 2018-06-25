@@ -19,6 +19,8 @@ import com.android.similarwx.fragment.RegistFragment;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.ftxad.ftxsdk.Utils;
+import com.ftxad.ftxsdk.widget.PerformDialogFragment;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
@@ -99,6 +101,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
                 break;
             case R.id.regist://注册
+//                PerformDialogFragment.show(this);
                 FragmentUtils.navigateToNormalActivity(this, new RegistFragment(), null);
                 break;
             case R.id.login_forget_password://忘记密码
