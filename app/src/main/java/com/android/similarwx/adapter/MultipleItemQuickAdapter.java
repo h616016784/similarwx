@@ -173,6 +173,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
     }
 
     private void filterTextContext(String textContent, TextView textView) {
+        textView.setText("");
         boolean isFin=true;
         char[] chars=textContent.toCharArray();
         List<Character> tempCharList=new ArrayList<>();

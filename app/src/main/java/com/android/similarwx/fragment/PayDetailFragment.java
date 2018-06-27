@@ -27,6 +27,7 @@ import butterknife.Unbinder;
 
 public class PayDetailFragment extends BaseFragment {
     public static final String INMONEY="inMoney";
+    public static final String TYPE="type";
     @BindView(R.id.pay_detail_money_tv)
     TextView payDetailMoneyTv;
     @BindView(R.id.pay_detail_iv)
@@ -36,6 +37,7 @@ public class PayDetailFragment extends BaseFragment {
     Unbinder unbinder;
 
     private RspInMoney.InMoneyBean inMoneyBean;
+    private String type="1";
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_pay_detail;
@@ -49,6 +51,13 @@ public class PayDetailFragment extends BaseFragment {
         Bundle bundle=getArguments();
         if (bundle!=null){
             inMoneyBean= (RspInMoney.InMoneyBean) bundle.getSerializable(INMONEY);
+            type=  bundle.getString(TYPE);
+            if (TextUtils.isEmpty(type)){
+                if ("1".equals(type))
+                    mActionbar.setTitle(R.string.pay_detail_alipay_title);
+                else if ("3".equals(type))
+                    mActionbar.setTitle(R.string.pay_detail_title);
+            }
             if (inMoneyBean!=null){
                 inMoneyBean.getType();
                 String qRcode=inMoneyBean.getQrcode();

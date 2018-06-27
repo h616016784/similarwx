@@ -82,9 +82,7 @@ public class RechargeFragment extends BaseFragment implements InMoneyViewInterfa
                     Toaster.toastShort("充值金额不能为空！");
                     return;
                 }else {
-
                     mPresent.inputMoney(type,money);
-
                 }
 
 
@@ -102,6 +100,7 @@ public class RechargeFragment extends BaseFragment implements InMoneyViewInterfa
         if (bean!=null){
             Bundle bundle=new Bundle();
             bundle.putSerializable(PayDetailFragment.INMONEY,bean);
+            bundle.putString(PayDetailFragment.TYPE,type);
             FragmentUtils.navigateToNormalActivity(getActivity(),new PayDetailFragment(),bundle);
         }
     }

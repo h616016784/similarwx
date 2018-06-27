@@ -173,6 +173,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                         MultipleItem multipleItem=new MultipleItem(imMessage);
                         multipleItem.setName("paopao");
                         multipleItemAdapter.addData(multipleItem);
+                        miRecyclerView.scrollToPosition(multipleItemAdapter.getItemCount()-1);
                     }
                 }
             }
@@ -248,6 +249,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                         list.add(multipleItem);
                     }
                     multipleItemAdapter.addData(0,list);
+                    miRecyclerView.scrollToPosition(multipleItemAdapter.getItemCount()-1);
                 }
             }
             @Override
@@ -457,6 +459,8 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
             if (imMessage!=null)
                 sendMessage(imMessage);
         }
+        inputPanel.hideAllInputLayout(true);
+        miRecyclerView.scrollToPosition(multipleItemAdapter.getItemCount()-1);
     }
 
     @Override
