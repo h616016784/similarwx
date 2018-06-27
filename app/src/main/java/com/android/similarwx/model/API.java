@@ -25,6 +25,7 @@ import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.AcountPresent;
 import com.android.similarwx.present.AddGroupPresent;
+import com.android.similarwx.present.ClientDetailInfoPresent;
 import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.present.InputMoneyPresent;
@@ -226,7 +227,7 @@ public class API implements APIConstants {
             }
         });
     }
-    public void getUserInfoByParams(String userId, String accId){
+    public void getUserInfoByParams(String userId, String accId, ClientDetailInfoPresent present){
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(userId))
             map.put("userId",userId);
@@ -239,7 +240,7 @@ public class API implements APIConstants {
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
                 try {
                     RspUser rspUser=response.body();
-//                    present.analyzeRes(rspUser);
+                    present.analyzeRes(rspUser);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
                 }

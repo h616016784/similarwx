@@ -1,6 +1,7 @@
 package com.android.similarwx.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,18 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.PopMoreBean;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.inteface.ClientDetailInfoViewInterface;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.API;
 import com.android.similarwx.model.APIYUNXIN;
+import com.android.similarwx.present.ClientDetailInfoPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.widget.dialog.BottomBaseDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
+import com.bumptech.glide.Glide;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
@@ -39,7 +45,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/11.
  */
 
-public class ClientDetailInfoFragment extends BaseFragment {
+public class ClientDetailInfoFragment extends BaseFragment implements ClientDetailInfoViewInterface {
 
     @BindView(R.id.client_detail_account_iv)
     ImageView clientDetailAccountIv;
@@ -62,6 +68,8 @@ public class ClientDetailInfoFragment extends BaseFragment {
     Unbinder unbinder;
     private GroupUser.ListBean bean;
     private List<PopMoreBean> list;
+
+    ClientDetailInfoPresent mPresent;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_client_detail_info;
@@ -70,6 +78,7 @@ public class ClientDetailInfoFragment extends BaseFragment {
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
+        mPresent=new ClientDetailInfoPresent(this);
         mActionbar.setTitle("群名片");
         unbinder = ButterKnife.bind(this, contentView);
         Bundle bundle = getArguments();
@@ -98,7 +107,7 @@ public class ClientDetailInfoFragment extends BaseFragment {
         list.add(beanPop);
 
         //获取用户信息
-        API.getInstance().getUserInfoByParams(bean.getUserId(),"");
+        mPresent.getUserInfoByParams("",bean.getUserId());
     }
 
     @Override
@@ -183,6 +192,27 @@ public class ClientDetailInfoFragment extends BaseFragment {
                     }
                 });
                 break;
+        }
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void refreshUserInfo(User user) {
+        if (user!=null){
+            String icon=user.getIcon();
+            if (!TextUtils.isEmpty(icon)){
+                Glide.with(activity)
+                        .load(icon)
+                        .override(120,120)
+                        .transform(new CircleCrop(activity))
+                        .placeholder(R.drawable.rp_avatar)
+                        .error(R.drawable.rp_avatar)
+                        .into(clientDetailAccountIv);
+            }
         }
     }
 }
