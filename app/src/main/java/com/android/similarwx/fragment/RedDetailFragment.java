@@ -71,7 +71,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             grabRedBean= (RspGrabRed.GrabRedBean) bundle.getSerializable(GRAB);
             if (sendRed!=null){
 //                redDetailName.setText(sendRed.get);
-                redDetailCount.setText(sendRed.getCotent());
+                redDetailCount.setText(sendRed.getData().getCotent());
             }
             if (grabRedBean!=null){
                 redDetailAcountTv.setText(grabRedBean.getAmount()+"元");

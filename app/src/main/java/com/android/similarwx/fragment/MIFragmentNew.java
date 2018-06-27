@@ -215,7 +215,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                             String json = attachment.toJson(false);
                             if (!TextUtils.isEmpty(json)) {
                                 tempSendRed= gson.fromJson(json, SendRed.class);
-                                miPresent.canGrab(tempSendRed.getRedPacId(),activity);
+                                miPresent.canGrab(tempSendRed.getData().getRedPacId(),activity);
 //                                miPresent.grabRed(sendRed.getRedPacId(),activity);
                             }
                         }
@@ -451,7 +451,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
 //            sendMessage(imMessage);
     }
     @Override
-    public void reFreshCustemRed(SendRed data) {
+    public void reFreshCustemRed(SendRed.SendRedBean data) {
         if (data!=null){
             IMMessage imMessage=createCustomMessage(data);
             if (imMessage!=null)
@@ -463,8 +463,8 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     public void grabRed(RspGrabRed.GrabRedBean bean) {
         Bundle bundle=new Bundle();
         if (tempSendRed!=null){
-            bundle.putString(RedDetailFragment.GROUPID,tempSendRed.getGroupId());
-            bundle.putString(RedDetailFragment.REDID,tempSendRed.getRedPacId());
+            bundle.putString(RedDetailFragment.GROUPID,tempSendRed.getData().getGroupId());
+            bundle.putString(RedDetailFragment.REDID,tempSendRed.getData().getRedPacId());
             bundle.putSerializable(RedDetailFragment.SENDRED,tempSendRed);
             bundle.putSerializable(RedDetailFragment.GRAB,bean);
             FragmentUtils.navigateToNormalActivity(activity,new RedDetailFragment(),bundle);
@@ -479,8 +479,9 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                 @Override
                 public void onOpenClick() {
                     if (tempSendRed!=null){
-                        String redId=tempSendRed.getRedPacId();
+                        String redId=tempSendRed.getData().getRedPacId();
                         miPresent.grabRed(redId,activity);
+                        RedResultDialogFragment.disMiss(activity);
                     }
                 }
             });
@@ -492,8 +493,12 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
      * @param redDetailBean
      * @return
      */
-    protected IMMessage createCustomMessage(SendRed redDetailBean) {
+    protected IMMessage createCustomMessage(SendRed.SendRedBean redDetailBean) {
+        SendRed sendRed=new SendRed();
+        sendRed.setType("7");
+        sendRed.setData(redDetailBean);
+
         return MessageBuilder.createCustomMessage(sessionId, sessionType, "红包",
-                new CustomAttachment<SendRed>(redDetailBean));
+                new CustomAttachment<SendRed>(sendRed));
     }
 }

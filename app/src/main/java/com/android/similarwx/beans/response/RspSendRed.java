@@ -7,13 +7,13 @@ import com.android.similarwx.beans.SendRed;
  */
 
 public class RspSendRed extends BaseResponse {
-    private SendRed data;
+    private SendRed.SendRedBean data;
 
-    public SendRed getData() {
+    public SendRed.SendRedBean getData() {
         return data;
     }
 
-    public void setData(SendRed data) {
+    public void setData(SendRed.SendRedBean data) {
         this.data = data;
     }
 }

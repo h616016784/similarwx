@@ -148,12 +148,23 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     String json=attachment.toJson(false);
                     if (!TextUtils.isEmpty(json)){
                         SendRed bean=gson.fromJson(json, SendRed.class);
+                        String fromNick=item.getImMessage().getFromNick();
+                        String amount="";
+                        if (bean!=null){
+                            SendRed.SendRedBean sendRedBean=bean.getData();
+                            if (sendRedBean!=null)
+                                amount =sendRedBean.getAmount();
+                        }
                         if (imMessage.getDirect()== MsgDirectionEnum.Out){
-                            helper.setText(R.id.item_red_left_content,item.getImMessage().getFromNick());
-                            helper.setText(R.id.item_red_packet_count_tv,bean.getAmount());
+                            if (!TextUtils.isEmpty(fromNick))
+                                helper.setText(R.id.item_red_left_content,fromNick);
+                            if (!TextUtils.isEmpty(amount))
+                                helper.setText(R.id.item_red_packet_count_tv,amount);
                         }else {
-                            helper.setText(R.id.item_red_right_content,item.getImMessage().getFromNick());
-                            helper.setText(R.id.item_red_packet_count_right_tv,bean.getAmount());
+                            if (!TextUtils.isEmpty(fromNick))
+                                helper.setText(R.id.item_red_right_content,fromNick);
+                            if (!TextUtils.isEmpty(amount))
+                                helper.setText(R.id.item_red_packet_count_right_tv,amount);
                         }
                     }
                 }

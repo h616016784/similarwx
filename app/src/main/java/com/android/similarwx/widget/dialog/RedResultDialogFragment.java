@@ -2,6 +2,8 @@ package com.android.similarwx.widget.dialog;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -104,6 +106,14 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
         transaction.addToBackStack(null);
         transaction.commit();
     }
+    public static void disMiss(Activity activity){
+        FragmentManager transaction=activity.getFragmentManager();
+        Fragment prev = transaction.findFragmentByTag("redResultDialog");
+        if (prev != null) {
+            DialogFragment df = (DialogFragment) prev;
+            df.dismiss();
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -114,8 +124,8 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
             case R.id.dialog_red_result_bottom_tv:
                 Bundle bundle=new Bundle();
                 if (mSendRed!=null){
-                    bundle.putString(RedDetailFragment.GROUPID,mSendRed.getGroupId());
-                    bundle.putString(RedDetailFragment.REDID,mSendRed.getRedPacId());
+                    bundle.putString(RedDetailFragment.GROUPID,mSendRed.getData().getGroupId());
+                    bundle.putString(RedDetailFragment.REDID,mSendRed.getData().getRedPacId());
                 }
                 FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
                 dismiss();

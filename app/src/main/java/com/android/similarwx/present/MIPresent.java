@@ -28,7 +28,7 @@ public class MIPresent extends BasePresent {
         this.mView=view;
     }
     public void sendRed(SendRed sendRed){
-        API.getInstance().sendRed(sendRed.getRequestNum(),sendRed.getMyUserId(),sendRed.getMyGroupId(),sendRed.getAmount(),sendRed.getType(),sendRed.getThunder(),this);
+        API.getInstance().sendRed(sendRed.getData().getRequestNum(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),sendRed.getData().getAmount(),sendRed.getType(),sendRed.getData().getThunder(),this);
     }
 
     public void canGrab(String redId, Activity activity){
@@ -43,7 +43,7 @@ public class MIPresent extends BasePresent {
         if (rspRed!=null){
             String result=rspRed.getResult();
             if (result.equals("success")){
-                SendRed sendRed=rspRed.getData();
+                SendRed.SendRedBean sendRed=rspRed.getData();
                 if (sendRed!=null){
                     String code=sendRed.getRetCode();
                     if (code.equals("0000")){

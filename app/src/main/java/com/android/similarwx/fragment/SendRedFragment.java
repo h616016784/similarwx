@@ -84,7 +84,8 @@ public class SendRedFragment extends BaseFragment {
     @OnClick(R.id.send_red_bt)
     public void onViewClicked() {
         Intent intent=new Intent();
-        SendRed bean=new SendRed();
+        SendRed sendRed=new SendRed();
+        SendRed.SendRedBean bean=new SendRed.SendRedBean();
         String money=sendRedSumEt.getText().toString();
         String lei=sendRedLeiEt.getText().toString();
         if (TextUtils.isEmpty(money)){
@@ -115,7 +116,9 @@ public class SendRedFragment extends BaseFragment {
         bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
         bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无"));
         bean.setType(type);
-        intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,bean);
+        sendRed.setData(bean);
+        sendRed.setType("7");
+        intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,sendRed);
         activity.setResult(Activity.RESULT_OK,intent);
         activity.finish();
     }
