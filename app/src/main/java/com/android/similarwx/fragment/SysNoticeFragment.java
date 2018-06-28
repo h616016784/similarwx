@@ -86,6 +86,11 @@ public class SysNoticeFragment extends BaseFragment {
     }
 
     @Override
+    protected void fetchData() {
+        super.fetchData();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
     }
@@ -94,5 +99,10 @@ public class SysNoticeFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    protected boolean isNeedFetch() {
+        return true;
     }
 }
