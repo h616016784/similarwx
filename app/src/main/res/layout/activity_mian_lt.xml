@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/main_explain_iv"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/main_explain"
+                    android:text="@string/main_dating"
                     android:textSize="@dimen/text_content_or_button"
                     />
             </RelativeLayout>
@@ -111,6 +111,27 @@
                     android:layout_below="@id/main_rl_chart_iv"
                     android:layout_centerHorizontal="true"
                     android:text="@string/main_msg"
+                    android:textSize="@dimen/text_content_or_button"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/main_rl_find"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/main_rl_find_iv"
+                    android:layout_width="@dimen/home_bottom_icon_size"
+                    android:layout_height="@dimen/home_bottom_icon_size"
+                    android:src="@drawable/selector_find_tab"
+                    android:layout_centerHorizontal="true"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/main_rl_find_iv"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/main_find"
                     android:textSize="@dimen/text_content_or_button"
                     />
             </RelativeLayout>

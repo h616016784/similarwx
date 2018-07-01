@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,6 +20,7 @@ import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.fragment.AddGroupFragment;
 import com.android.similarwx.fragment.ChartFragment;
@@ -35,6 +37,7 @@ import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.notification.NotificationUtil;
+import com.android.similarwx.widget.ListPopWindowHelper;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
@@ -80,6 +83,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private List<GroupMessageBean.ListBean> mListData;
     GroupPresent groupPresent;
     private EditDialogSimple editDialogSimple;
+    private ListPopWindowHelper listPopWindowHelper=null;
+    private List<PopMoreBean> listMore=null;
 
     private User mUser;
     public static void start(Activity context) {
@@ -104,7 +109,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             }
         }
         editDialogSimple = new EditDialogSimple(this, null);
-//        initData();
+        initLoacalData();
         groupPresent.getGroupList();
         adapter = new HomeAdapter(R.layout.item_group, this, mListData);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -126,8 +131,22 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 }, true);
     }
 
-    private void initData() {
-        mListData = groupPresent.getInitData();
+    private void initLoacalData() {
+        listMore=new ArrayList<>();
+        PopMoreBean bean=new PopMoreBean();
+        bean.setName("创建群组");
+        bean.setImage(R.drawable.tooltip_icon_f);
+        listMore.add(bean);
+
+        PopMoreBean bean1=new PopMoreBean();
+        bean1.setName("查找用户");
+        bean1.setImage(R.drawable.tooltip_icon_f);
+        listMore.add(bean1);
+
+        PopMoreBean bean2=new PopMoreBean();
+        bean2.setName("查找群组");
+        bean2.setImage(R.drawable.tooltip_icon_f);
+        listMore.add(bean2);
     }
 
     @Override
@@ -141,24 +160,39 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         unbinder.unbind();
     }
 
-    @OnClick({R.id.main_search_iv, R.id.main_rl_explain, R.id.main_rl_chart, R.id.main_my_chart,R.id.create_group_iv})
+    @OnClick({R.id.main_search_iv, R.id.main_rl_chart, R.id.main_my_chart,R.id.create_group_iv,R.id.main_rl_find})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.main_search_iv:
                 break;
             case R.id.create_group_iv:
-                FragmentUtils.navigateToNormalActivity(this, new AddGroupFragment(), null);
+                listPopWindowHelper=new ListPopWindowHelper(listMore,MainChartrActivity.this,createGroupIv);
+                listPopWindowHelper.show();
+                listPopWindowHelper.getListInstance().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (position==0){
+                            FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new AddGroupFragment(), null);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
                 break;
-            case R.id.main_rl_explain:
-                FragmentUtils.navigateToNormalActivity(this, new ExplainFragment(), null);
+            case R.id.main_rl_find://发现
+
+//                FragmentUtils.navigateToNormalActivity(this, new ExplainFragment(), null);//此功能去掉
                 break;
-            case R.id.main_rl_chart:
+            case R.id.main_rl_chart://消息
                 Bundle bundle = new Bundle();
                 bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_THREE);
                 FragmentUtils.navigateToNormalActivity(this, new ChartFragment(), bundle);
 //                FragmentUtils.navigateToNormalActivity(this,new MIFragment(),bundle);
                 break;
-            case R.id.main_my_chart:
+            case R.id.main_my_chart://我的
                 FragmentUtils.navigateToNormalActivity(this, new MyFragment(), null);
                 break;
         }
