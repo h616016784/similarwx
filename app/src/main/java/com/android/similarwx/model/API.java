@@ -9,6 +9,7 @@ import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.request.ReqGroup;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
+import com.android.similarwx.beans.response.RspGetApply;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
@@ -319,8 +320,30 @@ public class API implements APIConstants {
         });
     }
 
-    public void getNotices(final NoticePresent present) {
+    public void getGroupApplyList(String userId) {
         Map<String,String> map=new HashMap<>();
+        map.put("handleUserId",userId);
+        Call<RspGetApply> call=apiService.getGroupApplyList(map);
+        call.enqueue(new Callback<RspGetApply>() {
+            @Override
+            public void onResponse(Call<RspGetApply> call, Response<RspGetApply> response) {
+                try {
+                    RspGetApply rspGetApply=response.body();
+//                    present.analyzeApplyRes(rspGroupApply);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspGetApply> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+    public void getNotices(String userId,final NoticePresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("handleUserId",userId);
         Call<RspNotice> rspNoticeCall=apiService.getNotices(map);
         rspNoticeCall.enqueue(new Callback<RspNotice>() {
             @Override
@@ -567,4 +590,5 @@ public class API implements APIConstants {
             }
         });
     }
+
 }

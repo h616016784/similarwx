@@ -1,15 +1,69 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.similarwx.fragment.ChartFragment">
+    tools:context="com.android.similarwx.fragment.ChartFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/chart_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/chart_iv"
+            android:layout_marginTop="@dimen/distance_smaller"
+            android:layout_marginBottom="@dimen/distance_smaller"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pic_1_cs"
+            android:layout_weight="1"/>
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/chart_name_tv"
+                android:layout_marginTop="@dimen/distance_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="群组通知"
+                android:textSize="@dimen/text_sub_title"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/chart_content_tv"
+                    android:layout_marginTop="@dimen/distance_smallest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消息内容"
+                    android:textColor="@color/gray"
+                    android:maxLines="1"
+                    />
+
+                <TextView
+                    android:id="@+id/chart_role_tv"
+                    android:layout_marginTop="@dimen/distance_smallest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:layout_marginLeft="@dimen/dimen4dp"
+                    android:text="@string/service_item_role"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chart_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
     </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</LinearLayout>

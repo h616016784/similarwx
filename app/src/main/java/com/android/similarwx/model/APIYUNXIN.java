@@ -4,6 +4,8 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.inteface.YCallBack;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.SystemMessageService;
+import com.netease.nimlib.sdk.msg.model.SystemMessage;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
@@ -219,5 +221,27 @@ public class APIYUNXIN {
                 Toaster.toastShort(exception.toString());
             }
         });
+    }
+    public static void getTeamNotice(YCallBack<List<SystemMessage>> callBack){
+        // 从1条开始，查询1条系统消息
+        NIMClient.getService(SystemMessageService.class).querySystemMessages(0, 5)
+                .setCallback(new RequestCallback<List<SystemMessage>>() {
+                    @Override
+                    public void onSuccess(List<SystemMessage> param) {
+                        // 查询成功
+                        if (callBack!=null)
+                            callBack.callBack(param);
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+                        // 查询失败
+                    }
+
+                    @Override
+                    public void onException(Throwable exception) {
+                        // error
+                    }
+                });
     }
 }

@@ -2,6 +2,10 @@ package com.android.similarwx.widget;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
@@ -21,63 +26,110 @@ import java.util.List;
  */
 
 public class ListPopWindowHelper {
-    private ListPopupWindow listPopupWindow=null;
-    private Context mContext;
-    public ListPopWindowHelper(List<PopMoreBean> list, Context context, View view){
-        this.mContext=context;
-        listPopupWindow=new ListPopupWindow(mContext);
+    PopupWindow popupWindow;
+    private RecyclerView pop_client_more_rv;
+    private List<PopMoreBean> res;
+    private MyAdapter adapter;
 
-        listPopupWindow.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-        listPopupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        listPopupWindow.setAnchorView(view);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
-        listPopupWindow.setModal(true);//设置是否是模式
+    private ListPopWindow.OnItemClickListener mItemClickListener;
+    public ListPopWindowHelper(Context context, List<PopMoreBean> res){
+        this.res=res;
+        init(context);
+    }
 
-        if (list!=null){
-            listPopupWindow.setAdapter(new MyAdapter(list));
+    private void init(Context context) {
+        //准备PopupWindow的布局View
+        View popupView = LayoutInflater.from(context).inflate(R.layout.pop_more_list, null);
+        pop_client_more_rv=popupView.findViewById(R.id.pop_client_more_rv);
+        popupWindow = new PopupWindow(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setContentView(popupView);
+        //点击空白区域PopupWindow消失，这里必须先设置setBackgroundDrawable，否则点击无反应
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popupWindow.setOutsideTouchable(true);
+        //设置PopupWindow动画
+//        popupWindow.setAnimationStyle(R.style.AnimDown);
+        //设置是否允许PopupWindow的范围超过屏幕范围
+        popupWindow.setClippingEnabled(true);
+
+        adapter=new MyAdapter();
+        pop_client_more_rv.setLayoutManager(new LinearLayoutManager(context));
+        pop_client_more_rv.setAdapter(adapter);
+    }
+    public void show(View view){
+        popupWindow.showAsDropDown(view);
+    }
+    public void dismiss(){
+        if(popupWindow!=null){
+            popupWindow.dismiss();
+        }
+    }
+    public void destroy(){
+        if(popupWindow!=null){
+            popupWindow.dismiss();
+            popupWindow=null;
         }
     }
 
-    public void show(){
-        listPopupWindow.show();
+    public void setData(List<PopMoreBean> res){
+        this.res=res;
+        adapter.notifyDataSetChanged();
+    }
+    public void setOnClickItem(ListPopWindow.OnItemClickListener onItemClickListener){
+        this.mItemClickListener=onItemClickListener;
     }
 
-    public ListPopupWindow getListInstance(){
-        return listPopupWindow;
-    }
-    private class MyAdapter extends BaseAdapter {
+    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
-        private List<PopMoreBean> list;
-        public MyAdapter(List<PopMoreBean> list){
-            this.list=list;
-        }
         @Override
-        public int getCount() {
-            if (list!=null){
-                return list.size();
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_pop,parent,false);
+            ViewHolder holder = new ViewHolder(view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            if (res!=null && res.size()>0){
+                PopMoreBean bean=res.get(position);
+                holder.iv.setImageResource(bean.getImage());
+                holder.name.setText(bean.getName());
+                holder.getView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(mItemClickListener!=null){
+                            mItemClickListener.onItemClick(position);
+                        }
+                        dismiss();
+                    }
+                });
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            if(res!=null){
+                return res.size();
             }
             return 0;
         }
 
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
+        class ViewHolder extends RecyclerView.ViewHolder{
+            TextView name;
+            ImageView iv;
 
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view=View.inflate(mContext, R.layout.item_list_pop,null);
-            TextView tv=view.findViewById(R.id.item_list_pop_tv);
-            ImageView iv=view.findViewById(R.id.item_list_pop_iv);
-            if (list!=null){
-                iv.setImageResource(list.get(position).getImage());
-                tv.setText(list.get(position).getName());
+            public ViewHolder(View view) {
+                super(view);
+                name = (TextView) view.findViewById(R.id.item_list_pop_tv);
+                iv=view.findViewById(R.id.item_list_pop_iv);
             }
-            return view;
+            public View getView(){
+                return itemView;
+            }
         }
     }
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
 }

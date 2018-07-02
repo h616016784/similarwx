@@ -37,6 +37,7 @@ import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.notification.NotificationUtil;
+import com.android.similarwx.widget.ListPopWindow;
 import com.android.similarwx.widget.ListPopWindowHelper;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
@@ -158,6 +159,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+//        listPopWindowHelper.destroy();
     }
 
     @OnClick({R.id.main_search_iv, R.id.main_rl_chart, R.id.main_my_chart,R.id.create_group_iv,R.id.main_rl_find})
@@ -166,19 +168,14 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             case R.id.main_search_iv:
                 break;
             case R.id.create_group_iv:
-                listPopWindowHelper=new ListPopWindowHelper(listMore,MainChartrActivity.this,createGroupIv);
-                listPopWindowHelper.show();
-                listPopWindowHelper.getListInstance().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                listPopWindowHelper=new ListPopWindowHelper(MainChartrActivity.this,listMore);
+                listPopWindowHelper.show(createGroupIv);
+                listPopWindowHelper.setOnClickItem(new ListPopWindow.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemClick(int position) {
                         if (position==0){
                             FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new AddGroupFragment(), null);
                         }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
                 break;
@@ -246,7 +243,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
 
     /**
-     * 申请加入群组
+     * 申请加入群组,不用了。。。。
      */
     private void doGroupApply(String groupId) {
         groupPresent.doGroupAppley(groupId);
