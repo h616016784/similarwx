@@ -9,7 +9,10 @@ import com.android.similarwx.adapter.NoticeAdapter;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.Notice;
 import com.android.similarwx.inteface.NoticeViewInterface;
+import com.android.similarwx.inteface.YCallBack;
+import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.NoticePresent;
+import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +53,16 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
 
     @Override
     protected void fetchData() {
-        noticePresent.getNoticeList();
+
+//        noticePresent.getNoticeList();
+        APIYUNXIN.getTeamNotice(new YCallBack<List<SystemMessage>>() {
+            @Override
+            public void callBack(List<SystemMessage> systemMessages) {
+                if (systemMessages != null && systemMessages.size() > 0) {
+
+                }
+            }
+        });
     }
 
     @Override

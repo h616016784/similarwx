@@ -320,6 +320,7 @@ public class API implements APIConstants {
         });
     }
 
+    //废弃了
     public void getGroupApplyList(String userId) {
         Map<String,String> map=new HashMap<>();
         map.put("handleUserId",userId);
