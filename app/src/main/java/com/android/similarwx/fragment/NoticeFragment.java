@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.android.similarwx.R;
 import com.android.similarwx.adapter.NoticeAdapter;
+import com.android.similarwx.adapter.NoticeAdapter2;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.Notice;
 import com.android.similarwx.inteface.NoticeViewInterface;
@@ -30,7 +31,7 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
     RecyclerView noticeRecycler;
     Unbinder unbinder;
 
-    private NoticeAdapter noticeAdapter;
+    private NoticeAdapter2 noticeAdapter;
 
     private NoticePresent noticePresent;
     @Override
@@ -46,7 +47,8 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
         noticePresent=new NoticePresent(this);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(activity);
         noticeRecycler.setLayoutManager(linearLayoutManager);
-        noticeAdapter=new NoticeAdapter(R.layout.item_notice);
+//        noticeAdapter=new NoticeAdapter2(R.layout.item_notice);
+        noticeAdapter=new NoticeAdapter2(R.layout.item_sys_notice);
         noticeRecycler.setAdapter(noticeAdapter);
 
     }
@@ -59,7 +61,7 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
             @Override
             public void callBack(List<SystemMessage> systemMessages) {
                 if (systemMessages != null && systemMessages.size() > 0) {
-
+                    noticeAdapter.addData(systemMessages);
                 }
             }
         });
@@ -84,6 +86,6 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
 
     @Override
     public void reFreshView(List<Notice> data) {
-        noticeAdapter.addData(data);
+//        noticeAdapter.addData(data);
     }
 }

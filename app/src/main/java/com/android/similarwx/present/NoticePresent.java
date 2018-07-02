@@ -20,7 +20,7 @@ public class NoticePresent extends BasePresent {
     }
 
     public void getNoticeList(){
-        API.getInstance().getNotices(this);
+//        API.getInstance().getNotices(this);
     }
     public void analyzeRes(RspNotice rspNotice) {
         String result=rspNotice.getResult();
