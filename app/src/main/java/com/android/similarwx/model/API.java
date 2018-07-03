@@ -372,7 +372,7 @@ public class API implements APIConstants {
         });
     }
     //任命或者取消任命管理员
-    public void doUpdateGroupUser(String grouId,String userId,String groupUserRule){
+    public void doUpdateGroupUser(String grouId,String userId,String groupUserRule,ClientDetailInfoPresent present){
         Map<String,String> map=new HashMap<>();
         map.put("grouId",grouId);
         map.put("userId",userId);
@@ -383,7 +383,7 @@ public class API implements APIConstants {
             public void onResponse(Call<RspUpdateGroupUser> call, Response<RspUpdateGroupUser> response) {
                 try {
                     RspUpdateGroupUser rspUpdateGroupUser=response.body();
-
+                    present.analyzeUpdateGroupUser(rspUpdateGroupUser);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
                 }

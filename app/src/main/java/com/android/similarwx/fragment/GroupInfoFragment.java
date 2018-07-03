@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
@@ -101,6 +104,10 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
         groupAdapter = new BaseQuickAdapter<GroupUser.ListBean, BaseViewHolder>(R.layout.item_group_member, groupList) {
             @Override
             protected void convert(BaseViewHolder helper, GroupUser.ListBean item) {
+                String icon=item.getUserIcon();
+                if (!TextUtils.isEmpty(icon)){
+                    Glide.with(activity).load(icon).into((ImageView) helper.getView(R.id.item_group_member_iv));
+                }
                 helper.setText(R.id.item_group_member_tv, item.getUserName());
             }
         };

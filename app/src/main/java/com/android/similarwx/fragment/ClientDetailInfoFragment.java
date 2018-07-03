@@ -143,6 +143,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                             @Override
                             public void callBack(List<TeamMember> teamMembers) {
                                 Toaster.toastShort("已提升为管理员");
+                                mPresent.doUpdateGroupUser(bean.getGroupId(),bean.getUserId(),"2");
                             }
                         });
                     }
@@ -214,5 +215,10 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                         .into(clientDetailAccountIv);
             }
         }
+    }
+    //设置管理员成功的回调
+    @Override
+    public void refreshUpdateUser() {
+        Toaster.toastShort("本地设置为管理员成功");
     }
 }

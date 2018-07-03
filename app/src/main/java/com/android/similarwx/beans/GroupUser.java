@@ -71,6 +71,8 @@ public class GroupUser {
         private String userId;
         private String userStatus;
         private String userName;
+        private String userIcon;
+        private String groupUserRule;
 
         public int getId() {
             return id;
@@ -126,6 +128,22 @@ public class GroupUser {
 
         public void setUserName(String userName) {
             this.userName = userName;
+        }
+
+        public String getUserIcon() {
+            return userIcon;
+        }
+
+        public void setUserIcon(String userIcon) {
+            this.userIcon = userIcon;
+        }
+
+        public String getGroupUserRule() {
+            return groupUserRule;
+        }
+
+        public void setGroupUserRule(String groupUserRule) {
+            this.groupUserRule = groupUserRule;
         }
     }
 }
