@@ -2,6 +2,7 @@ package com.android.similarwx.present;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.Notice;
+import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.inteface.NoticeViewInterface;
 import com.android.similarwx.model.API;
@@ -19,14 +20,13 @@ public class NoticePresent extends BasePresent {
         this.mView = mView;
     }
 
-    public void getNoticeList(){
-//        API.getInstance().getNotices(this);
+    public void doAddGroupUser(String groupId,String userId){
+        API.getInstance().doAddGroupUser(groupId,userId,this);
     }
-    public void analyzeRes(RspNotice rspNotice) {
+    public void analyzeRes(RspAddGroupUser rspNotice) {
         String result=rspNotice.getResult();
         if (result.equals("success")){
-            List<Notice> list=rspNotice.getData().getList();
-            mView.reFreshView(list);
+
         }else {
             Toaster.toastShort(rspNotice.getErrorMsg());
         }

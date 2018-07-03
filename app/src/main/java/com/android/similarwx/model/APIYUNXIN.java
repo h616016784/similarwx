@@ -54,6 +54,7 @@ public class APIYUNXIN {
      */
     public static void passApply(String teamId,String account,YCallBack<Void> callBack){
         // teamId为申请加入的群组id， account为申请入群的用户id
+
         NIMClient.getService(TeamService.class).passApply(teamId, account).setCallback(new RequestCallback<Void>() {
             @Override
             public void onSuccess(Void param) {

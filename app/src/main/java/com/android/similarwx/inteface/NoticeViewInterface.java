@@ -9,5 +9,5 @@ import java.util.List;
  */
 
 public interface NoticeViewInterface extends ViewInterface {
-    void reFreshView(List<Notice> data);
+    void aggreeView();
 }

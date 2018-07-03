@@ -43,6 +43,7 @@ import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
@@ -219,7 +220,11 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     }
                     @Override
                     public void doOkAction() {
-                        APIYUNXIN.applyJoinTeam(bean.getGroupId(), "申请加入该群", new YCallBack<Team>() {
+                        Gson gson=new Gson();
+                        mUser.setPasswd("申请加入该群");
+                        mUser.setPasswdStr(bean.getGroupName());
+                        String detail=gson.toJson(mUser);
+                        APIYUNXIN.applyJoinTeam(bean.getGroupId(), detail, new YCallBack<Team>() {
                             @Override
                             public void callBack(Team team) {
                                 Toaster.toastShort("申请成功，等待群主审批");

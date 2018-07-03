@@ -141,7 +141,8 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             Gson gson=new Gson();
             ruleList=gson.fromJson(rules,new TypeToken<List<RewardRule>>() {
             }.getType());
-            ruleAdapter.addData(ruleList);
+            if (ruleList!=null)
+                ruleAdapter.addData(ruleList);
         }
         doGroupUserList();
     }

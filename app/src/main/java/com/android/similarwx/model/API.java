@@ -7,8 +7,11 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.request.ReqGroup;
+import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
+import com.android.similarwx.beans.response.RspDeleteGroup;
+import com.android.similarwx.beans.response.RspDeleteGroupUser;
 import com.android.similarwx.beans.response.RspGetApply;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
@@ -22,6 +25,7 @@ import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
 import com.android.similarwx.beans.response.RspTransfer;
+import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.AcountPresent;
@@ -274,7 +278,7 @@ public class API implements APIConstants {
             }
         });
     }
-
+    //申请入群
     public void doGroupAppley(String groupId, String userId, final GroupPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("groupId",groupId);
@@ -298,6 +302,100 @@ public class API implements APIConstants {
             }
         });
     }
+    //添加群组成员
+    public void doAddGroupUser(String grouId,String userId,NoticePresent present){
+        Map<String,String> map=new HashMap<>();
+        map.put("grouId",grouId);
+        map.put("userId",userId);
+        Call<RspAddGroupUser> call=apiService.doAddGroupUser(map);
+        call.enqueue(new Callback<RspAddGroupUser>() {
+            @Override
+            public void onResponse(Call<RspAddGroupUser> call, Response<RspAddGroupUser> response) {
+                try {
+                    RspAddGroupUser rspGroupUser=response.body();
+                    present.analyzeRes(rspGroupUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspAddGroupUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    //解散群组
+    public void doDeleteGroup(String grouId){
+        Map<String,String> map=new HashMap<>();
+        map.put("grouId",grouId);
+        Call<RspDeleteGroup> call=apiService.doDeleteGroup(map);
+        call.enqueue(new Callback<RspDeleteGroup>() {
+            @Override
+            public void onResponse(Call<RspDeleteGroup> call, Response<RspDeleteGroup> response) {
+                try {
+                    RspDeleteGroup rspDeleteGroup=response.body();
+
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspDeleteGroup> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+    //踢出群组或退出群组
+    public void doDeleteGroupUser(String grouId,String userId){
+        Map<String,String> map=new HashMap<>();
+        map.put("grouId",grouId);
+        map.put("userId",userId);
+        Call<RspDeleteGroupUser> call=apiService.doDeleteGroupUser(map);
+        call.enqueue(new Callback<RspDeleteGroupUser>() {
+            @Override
+            public void onResponse(Call<RspDeleteGroupUser> call, Response<RspDeleteGroupUser> response) {
+                try {
+                    RspDeleteGroupUser rspDeleteGroupUser=response.body();
+
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspDeleteGroupUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+    //任命或者取消任命管理员
+    public void doUpdateGroupUser(String grouId,String userId,String groupUserRule){
+        Map<String,String> map=new HashMap<>();
+        map.put("grouId",grouId);
+        map.put("userId",userId);
+        map.put("groupUserRule",groupUserRule);
+        Call<RspUpdateGroupUser> call=apiService.doUpdateGroupUser(map);
+        call.enqueue(new Callback<RspUpdateGroupUser>() {
+            @Override
+            public void onResponse(Call<RspUpdateGroupUser> call, Response<RspUpdateGroupUser> response) {
+                try {
+                    RspUpdateGroupUser rspUpdateGroupUser=response.body();
+
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUpdateGroupUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
     public void GroupInfoPresent(String groupId, final GroupInfoPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("groupId",groupId);
@@ -338,27 +436,6 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGetApply> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
-            }
-        });
-    }
-    public void getNotices(String userId,final NoticePresent present) {
-        Map<String,String> map=new HashMap<>();
-        map.put("handleUserId",userId);
-        Call<RspNotice> rspNoticeCall=apiService.getNotices(map);
-        rspNoticeCall.enqueue(new Callback<RspNotice>() {
-            @Override
-            public void onResponse(Call<RspNotice> call, Response<RspNotice> response) {
-                try {
-                    RspNotice rspNotice=response.body();
-                    present.analyzeRes(rspNotice);
-                }catch (Exception e){
-                    Toaster.toastShort(e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RspNotice> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
             }
         });

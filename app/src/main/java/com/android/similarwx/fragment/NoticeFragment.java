@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.adapter.NoticeAdapter;
 import com.android.similarwx.adapter.NoticeAdapter2;
@@ -13,6 +14,8 @@ import com.android.similarwx.inteface.NoticeViewInterface;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.NoticePresent;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
 import java.util.ArrayList;
@@ -50,7 +53,42 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
 //        noticeAdapter=new NoticeAdapter2(R.layout.item_notice);
         noticeAdapter=new NoticeAdapter2(R.layout.item_sys_notice);
         noticeRecycler.setAdapter(noticeAdapter);
+        noticeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                SystemMessage message=noticeAdapter.getData().get(position);
+                switch (view.getId()){
+                    case R.id.item_sys_notice_agree_tv:
+                        if (message.getType().getValue()== SystemMessageType.ApplyJoinTeam.getValue()){
+                            noticePresent.doAddGroupUser(message.getTargetId(), message.getFromAccount());
+//                            APIYUNXIN.passApply(message.getTargetId(), message.getFromAccount(), new YCallBack<Void>() {
+//                                @Override
+//                                public void callBack(Void aVoid) {
+//                                    fetchData();
+//                                    Toaster.toastShort("已批准！");
+//                                }
+//                            });
+                        }else if (message.getType().getValue()== SystemMessageType.TeamInvite.getValue()){
 
+                        }
+
+                        break;
+                    case R.id.item_sys_notice_deny_tv:
+                        if (message.getType().getValue()== SystemMessageType.ApplyJoinTeam.getValue()){
+                            APIYUNXIN.rejectApply(message.getTargetId(), message.getFromAccount(), new YCallBack<Void>() {
+                                @Override
+                                public void callBack(Void aVoid) {
+                                    Toaster.toastShort("已拒绝！");
+                                    fetchData();
+                                }
+                            });
+                        }else if (message.getType().getValue()== SystemMessageType.TeamInvite.getValue()){
+
+                        }
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -85,7 +123,7 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
     }
 
     @Override
-    public void reFreshView(List<Notice> data) {
-//        noticeAdapter.addData(data);
+    public void aggreeView() {
+
     }
 }

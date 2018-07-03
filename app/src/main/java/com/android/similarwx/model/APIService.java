@@ -2,8 +2,11 @@ package com.android.similarwx.model;
 
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
+import com.android.similarwx.beans.response.RspDeleteGroup;
+import com.android.similarwx.beans.response.RspDeleteGroupUser;
 import com.android.similarwx.beans.response.RspGetApply;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
@@ -17,6 +20,7 @@ import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
 import com.android.similarwx.beans.response.RspTransfer;
+import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUser;
 
 import java.util.List;
@@ -83,10 +87,25 @@ public interface APIService {
     @POST("codePay/send")
     Call<RspInMoney>  inputMoney(@QueryMap Map<String, String> map);
 
+
+    //创建群组信息
     @FormUrlEncoded
     @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     @POST("group/save")
     Call<RspGroupSave>  groupSave(@FieldMap Map<String, String> map);
+
+    //添加群组成员
+    @POST("group/doAddGroupUser")
+    Call<RspAddGroupUser>  doAddGroupUser(@QueryMap Map<String, String> map);
+    //解散群组
+    @POST("group/doDeleteGroup")
+    Call<RspDeleteGroup>  doDeleteGroup(@QueryMap Map<String, String> map);
+    //踢出群组或退出群组
+    @POST("group/doDeleteGroupUser")
+    Call<RspDeleteGroupUser>  doDeleteGroupUser(@QueryMap Map<String, String> map);
+    //任命或者取消任命管理员
+    @POST("group/doUpdateGroupUser")
+    Call<RspUpdateGroupUser>  doUpdateGroupUser(@QueryMap Map<String, String> map);
 
     @POST("resUsers/getUserInfoByParams")
     Call<RspUser>  getUserInfoByParams(@QueryMap Map<String, String> map);
