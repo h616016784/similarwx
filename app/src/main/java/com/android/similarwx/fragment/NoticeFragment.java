@@ -15,6 +15,7 @@ import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.NoticePresent;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.netease.nimlib.sdk.msg.constant.SystemMessageStatus;
 import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
@@ -60,14 +61,13 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
                 switch (view.getId()){
                     case R.id.item_sys_notice_agree_tv:
                         if (message.getType().getValue()== SystemMessageType.ApplyJoinTeam.getValue()){
-                            noticePresent.doAddGroupUser(message.getTargetId(), message.getFromAccount());
-//                            APIYUNXIN.passApply(message.getTargetId(), message.getFromAccount(), new YCallBack<Void>() {
-//                                @Override
-//                                public void callBack(Void aVoid) {
-//                                    fetchData();
-//                                    Toaster.toastShort("已批准！");
-//                                }
-//                            });
+
+                            APIYUNXIN.passApply(message.getTargetId(), message.getFromAccount(), new YCallBack<Void>() {
+                                @Override
+                                public void callBack(Void aVoid) {
+                                    noticePresent.doAddGroupUser(message);
+                                }
+                            });
                         }else if (message.getType().getValue()== SystemMessageType.TeamInvite.getValue()){
 
                         }
@@ -123,7 +123,12 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
     }
 
     @Override
-    public void aggreeView() {
-
+    public void aggreeView(SystemMessage systemMessage) {
+        if (systemMessage.getType().getValue()== SystemMessageType.ApplyJoinTeam.getValue()){//申请入群
+            APIYUNXIN.setSystemMessageStatus(systemMessage.getMessageId(), SystemMessageStatus.passed);
+        }
+        else if (systemMessage.getType().getValue()== SystemMessageType.TeamInvite.getValue()){
+            APIYUNXIN.setSystemMessageStatus(systemMessage.getMessageId(), SystemMessageStatus.passed);
+        }
     }
 }

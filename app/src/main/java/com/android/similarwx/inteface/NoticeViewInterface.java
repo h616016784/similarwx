@@ -1,6 +1,7 @@
 package com.android.similarwx.inteface;
 
 import com.android.similarwx.beans.Notice;
+import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ import java.util.List;
  */
 
 public interface NoticeViewInterface extends ViewInterface {
-    void aggreeView();
+    void aggreeView(SystemMessage systemMessage);
 }

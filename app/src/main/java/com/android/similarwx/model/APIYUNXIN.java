@@ -5,6 +5,7 @@ import com.android.similarwx.inteface.YCallBack;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.SystemMessageService;
+import com.netease.nimlib.sdk.msg.constant.SystemMessageStatus;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.model.Team;
@@ -244,5 +245,9 @@ public class APIYUNXIN {
                         // error
                     }
                 });
+    }
+    public static void setSystemMessageStatus(long messageId,SystemMessageStatus status){
+        NIMClient.getService(SystemMessageService.class)
+                .setSystemMessageStatus(messageId, status);
     }
 }

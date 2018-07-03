@@ -305,7 +305,7 @@ public class API implements APIConstants {
     //添加群组成员
     public void doAddGroupUser(String grouId,String userId,NoticePresent present){
         Map<String,String> map=new HashMap<>();
-        map.put("grouId",grouId);
+        map.put("groupId",grouId);
         map.put("userId",userId);
         Call<RspAddGroupUser> call=apiService.doAddGroupUser(map);
         call.enqueue(new Callback<RspAddGroupUser>() {
@@ -329,7 +329,7 @@ public class API implements APIConstants {
     //解散群组
     public void doDeleteGroup(String grouId){
         Map<String,String> map=new HashMap<>();
-        map.put("grouId",grouId);
+        map.put("groupId",grouId);
         Call<RspDeleteGroup> call=apiService.doDeleteGroup(map);
         call.enqueue(new Callback<RspDeleteGroup>() {
             @Override
@@ -349,9 +349,9 @@ public class API implements APIConstants {
         });
     }
     //踢出群组或退出群组
-    public void doDeleteGroupUser(String grouId,String userId){
+    public void doDeleteGroupUser(String grouId,String userId,ClientDetailInfoPresent present){
         Map<String,String> map=new HashMap<>();
-        map.put("grouId",grouId);
+        map.put("groupId",grouId);
         map.put("userId",userId);
         Call<RspDeleteGroupUser> call=apiService.doDeleteGroupUser(map);
         call.enqueue(new Callback<RspDeleteGroupUser>() {
@@ -359,6 +359,7 @@ public class API implements APIConstants {
             public void onResponse(Call<RspDeleteGroupUser> call, Response<RspDeleteGroupUser> response) {
                 try {
                     RspDeleteGroupUser rspDeleteGroupUser=response.body();
+                    present.analyzeDeleteGroupUser(rspDeleteGroupUser);
 
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
@@ -374,7 +375,7 @@ public class API implements APIConstants {
     //任命或者取消任命管理员
     public void doUpdateGroupUser(String grouId,String userId,String groupUserRule,ClientDetailInfoPresent present){
         Map<String,String> map=new HashMap<>();
-        map.put("grouId",grouId);
+        map.put("groupId",grouId);
         map.put("userId",userId);
         map.put("groupUserRule",groupUserRule);
         Call<RspUpdateGroupUser> call=apiService.doUpdateGroupUser(map);

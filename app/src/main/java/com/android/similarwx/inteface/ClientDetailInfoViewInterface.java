@@ -9,4 +9,5 @@ import com.android.similarwx.beans.User;
 public interface ClientDetailInfoViewInterface extends ViewInterface {
     void refreshUserInfo(User user);
     void refreshUpdateUser();
+    void refreshDeleteUser();
 }

@@ -190,6 +190,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                     @Override
                     public void callBack(Void aVoid) {
                         Toaster.toastShort("该用户已移除");
+                        mPresent.doDeleteGroupUser(bean.getGroupId(), bean.getUserId());
                     }
                 });
                 break;
@@ -220,5 +221,11 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     @Override
     public void refreshUpdateUser() {
         Toaster.toastShort("本地设置为管理员成功");
+    }
+
+    //剔除成员成功的回调
+    @Override
+    public void refreshDeleteUser() {
+        activity.finish();
     }
 }

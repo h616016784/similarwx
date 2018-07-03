@@ -2,6 +2,7 @@ package com.android.similarwx.present;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspDeleteGroupUser;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.inteface.ClientDetailInfoViewInterface;
@@ -23,6 +24,13 @@ public class ClientDetailInfoPresent {
     public void doUpdateGroupUser(String groupId,String userId,String groupUserRule){
         API.getInstance().doUpdateGroupUser(groupId,userId,groupUserRule,this);
     }
+
+    public void doDeleteGroupUser(String groupId,String userId){
+        API.getInstance().doDeleteGroupUser(groupId,userId,this);
+    }
+
+
+
     public void analyzeRes(RspUser rspUser) {
         String result=rspUser.getResult();
         if (result.equals("success")){
@@ -44,4 +52,12 @@ public class ClientDetailInfoPresent {
         }
     }
 
+    public void analyzeDeleteGroupUser(RspDeleteGroupUser rspDeleteGroupUser) {
+        String result=rspDeleteGroupUser.getResult();
+        if (result.equals("success")){
+            mView.refreshDeleteUser();
+        }else {
+            Toaster.toastShort(rspDeleteGroupUser.getErrorMsg());
+        }
+    }
 }
