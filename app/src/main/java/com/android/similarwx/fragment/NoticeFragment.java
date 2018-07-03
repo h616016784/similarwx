@@ -93,7 +93,6 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
 
     @Override
     protected void fetchData() {
-
 //        noticePresent.getNoticeList();
         APIYUNXIN.getTeamNotice(new YCallBack<List<SystemMessage>>() {
             @Override

@@ -14,11 +14,13 @@ import com.android.outbaselibrary.primary.Log;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.utils.FragmentUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -100,8 +102,21 @@ public class ChartFragment extends BaseFragment {
                 if (systemMessages != null && systemMessages.size() > 0) {
 
                     SystemMessage message = systemMessages.get(0);
-                    chartContentTv.setText(message.getFromAccount());
-                    chartRoleTv.setText(message.getContent());
+
+
+                    Gson gson=new Gson();
+                    User user = null;
+                    String content=message.getContent();
+                    try {
+                        user =gson.fromJson(content, User.class);
+                    }catch (Exception e){
+
+                    }
+                    if (user!=null){
+                        chartContentTv.setText(user.getName());
+                        chartRoleTv.setText(user.getPasswd());
+                    }
+
                 }
             }
         });
