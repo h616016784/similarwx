@@ -88,20 +88,25 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
             if (bean != null) {
                 clientDetailNameTv.setText(bean.getUserName());
                 clientDetailAccountTv.setText(bean.getUserId());
+
             }
-            boolean isHost = bundle.getBoolean(AppConstants.TRANSFER_ISHOST);
-            if (isHost) {
-                String rule=bean.getGroupUserRule();
-                clientDetailIdRl.setVisibility(View.VISIBLE);
-                clientDetailSetRl.setVisibility(View.VISIBLE);
-                clientDetailQuitBt.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(rule)){
-                    clientDetailIdTv.setText("普通用户");
-                }else {
-                    if(rule.equals("1")){
+//            boolean isHost = bundle.getBoolean(AppConstants.TRANSFER_ISHOST);
+            String rule=bean.getGroupUserRule();
+            if (TextUtils.isEmpty(rule)){
+                clientDetailIdTv.setText("普通用户");
+            }else {
+                if (!rule.equals("1")){
+                    clientDetailIdRl.setVisibility(View.VISIBLE);
+                    clientDetailSetRl.setVisibility(View.VISIBLE);
+                    clientDetailQuitBt.setVisibility(View.VISIBLE);
+                    if (TextUtils.isEmpty(rule)){
                         clientDetailIdTv.setText("普通用户");
-                    }else{
-                        clientDetailIdTv.setText("管理员");
+                    }else {
+                        if(rule.equals("1")){
+                            clientDetailIdTv.setText("普通用户");
+                        }else{
+                            clientDetailIdTv.setText("管理员");
+                        }
                     }
                 }
             }

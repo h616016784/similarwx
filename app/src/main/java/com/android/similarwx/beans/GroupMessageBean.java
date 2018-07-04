@@ -93,6 +93,15 @@ public class GroupMessageBean extends BaseBean {
         private String joinmode;
         private String deleteFlag;
         private String grabBagNumber;
+        private String groupUserRule;
+
+        public String getGroupUserRule() {
+            return groupUserRule;
+        }
+
+        public void setGroupUserRule(String groupUserRule) {
+            this.groupUserRule = groupUserRule;
+        }
 
         public String getHallDisplay() {
             return hallDisplay;
