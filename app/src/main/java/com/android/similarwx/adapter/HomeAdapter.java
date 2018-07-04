@@ -1,6 +1,8 @@
 package com.android.similarwx.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.widget.ImageView;
 
 import com.android.similarwx.R;
 import com.android.similarwx.beans.GroupMessageBean;
@@ -32,9 +34,13 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
             helper.setVisible(R.id.item_group_count_tv,false);
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
         }else{
-//            helper.setVisible(R.id.item_group_count_tv,true);
-//            Glide.with(context).load(item.getImageUrl()).
-//            into((ImageView) helper.getView(R.id.item_group_iv));
+            String groupIcon =item.getGroupIcon();
+            if (!TextUtils.isEmpty(groupIcon)){
+                Glide.with(context).load(groupIcon)
+                        .error(R.drawable.ease_default_image)
+                        .placeholder(R.drawable.ease_default_image)
+                        .into((ImageView) helper.getView(R.id.item_group_iv));
+            }
         }
     }
 }

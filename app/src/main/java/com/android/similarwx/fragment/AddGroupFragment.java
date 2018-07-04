@@ -166,11 +166,13 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                     @Override
                     public void doCancelAction() {
                         createGroupHomeTv.setText("否");
+                        reqGroup.setHallDisplay("0");
                     }
 
                     @Override
                     public void doOkAction() {
                         createGroupHomeTv.setText("是");
+                        reqGroup.setHallDisplay("1");
                     }
                 }).show();
                 break;
@@ -179,11 +181,13 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                     @Override
                     public void doCancelAction() {
                         createGroupInSetTv.setText("否");
+                        reqGroup.setJoinmode("0");
                     }
 
                     @Override
                     public void doOkAction() {
                         createGroupInSetTv.setText("是");
+                        reqGroup.setJoinmode("1");
                     }
                 }).show();
                 break;

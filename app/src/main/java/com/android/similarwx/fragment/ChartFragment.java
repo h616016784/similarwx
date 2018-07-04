@@ -67,7 +67,7 @@ public class ChartFragment extends BaseFragment {
         baseQuickAdapter = new BaseQuickAdapter<RecentContact, BaseViewHolder>(R.layout.item_chart, null) {
             @Override
             protected void convert(BaseViewHolder helper, RecentContact item) {
-                helper.setText(R.id.item_chart_name_tv, item.getContactId());
+                helper.setText(R.id.item_chart_name_tv, item.getFromNick());
                 helper.setText(R.id.item_chart_content_tv, item.getContent());
             }
         };
@@ -89,7 +89,7 @@ public class ChartFragment extends BaseFragment {
                 }
             }
         });
-        registerMessageObservber();
+        queryRecentContacts();
         querySystemMessages();
         return view;
     }
@@ -124,7 +124,7 @@ public class ChartFragment extends BaseFragment {
 //        API.getInstance().getGroupApplyList(userid);
     }
 
-    private void registerMessageObservber() {
+    private void queryRecentContacts() {
         NIMClient.getService(MsgService.class).queryRecentContacts()
                 .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
                     @Override

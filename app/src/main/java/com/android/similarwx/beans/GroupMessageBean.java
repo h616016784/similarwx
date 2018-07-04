@@ -89,6 +89,43 @@ public class GroupMessageBean extends BaseBean {
         private String createId;
         private String userExists;
 
+        private String hallDisplay;
+        private String joinmode;
+        private String deleteFlag;
+        private String grabBagNumber;
+
+        public String getHallDisplay() {
+            return hallDisplay;
+        }
+
+        public void setHallDisplay(String hallDisplay) {
+            this.hallDisplay = hallDisplay;
+        }
+
+        public String getJoinmode() {
+            return joinmode;
+        }
+
+        public void setJoinmode(String joinmode) {
+            this.joinmode = joinmode;
+        }
+
+        public String getDeleteFlag() {
+            return deleteFlag;
+        }
+
+        public void setDeleteFlag(String deleteFlag) {
+            this.deleteFlag = deleteFlag;
+        }
+
+        public String getGrabBagNumber() {
+            return grabBagNumber;
+        }
+
+        public void setGrabBagNumber(String grabBagNumber) {
+            this.grabBagNumber = grabBagNumber;
+        }
+
         public String getRewardRules() {
             return rewardRules;
         }

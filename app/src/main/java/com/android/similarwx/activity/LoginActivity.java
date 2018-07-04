@@ -101,7 +101,6 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
                 break;
             case R.id.regist://注册
-                PerformDialogFragment.show(this);
                 FragmentUtils.navigateToNormalActivity(this, new RegistFragment(), null);
                 break;
             case R.id.login_forget_password://忘记密码

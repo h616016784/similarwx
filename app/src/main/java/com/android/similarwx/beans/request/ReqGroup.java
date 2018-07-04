@@ -29,6 +29,24 @@ public class ReqGroup {
     private String updateTime;
     private String userExists;
     private String grabBagNumber;
+    private String hallDisplay;
+    private String joinmode;
+
+    public String getHallDisplay() {
+        return hallDisplay;
+    }
+
+    public void setHallDisplay(String hallDisplay) {
+        this.hallDisplay = hallDisplay;
+    }
+
+    public String getJoinmode() {
+        return joinmode;
+    }
+
+    public void setJoinmode(String joinmode) {
+        this.joinmode = joinmode;
+    }
 
     public String getRewardRules() {
         return rewardRules;

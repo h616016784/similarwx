@@ -51,6 +51,8 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 import com.netease.nimlib.sdk.team.model.Team;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -214,39 +216,73 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         } else {
             final GroupMessageBean.ListBean bean=mListData.get(position);
             if (bean.getUserExists().equals("0")){//不在群里
-                EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
-                    @Override
-                    public void doCancelAction() {
-
-                    }
-                    @Override
-                    public void doOkAction() {
-                        Gson gson=new Gson();
-                        mUser.setPasswd("申请加入该群");
-                        mUser.setPasswdStr(bean.getGroupName());
-                        String detail=gson.toJson(mUser);
-                        APIYUNXIN.applyJoinTeam(bean.getGroupId(), detail, new YCallBack<Team>() {
+                String joinmode=bean.getJoinmode();
+                if (!TextUtils.isEmpty(joinmode)){
+                    if (bean.getJoinmode().equals(0)){//允许任何人加入
+                        doInGroup(bean);
+                    }else if (bean.getJoinmode().equals(1)){
+                        EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
                             @Override
-                            public void callBack(Team team) {
-                                Toaster.toastShort("申请成功，等待群主审批");
+                            public void doCancelAction() {
+
+                            }
+                            @Override
+                            public void doOkAction() {
+                                Gson gson=new Gson();
+                                mUser.setPasswd("申请加入该群");
+                                mUser.setPasswdStr(bean.getGroupName());
+                                String detail=gson.toJson(mUser);
+                                APIYUNXIN.applyJoinTeam(bean.getGroupId(), detail, new YCallBack<Team>() {
+                                    @Override
+                                    public void callBack(Team team) {
+                                        Toaster.toastShort("申请成功，等待群主审批");
+                                    }
+                                });
+//                        doGroupApply(bean.getGroupId());
                             }
                         });
-//                        doGroupApply(bean.getGroupId());
+                        mDialog.show();
+                    }else {
+
                     }
-                });
-                mDialog.show();
+                }else {
+                    EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
+                        @Override
+                        public void doCancelAction() {
+
+                        }
+                        @Override
+                        public void doOkAction() {
+                            Gson gson=new Gson();
+                            mUser.setPasswd("申请加入该群");
+                            mUser.setPasswdStr(bean.getGroupName());
+                            String detail=gson.toJson(mUser);
+                            APIYUNXIN.applyJoinTeam(bean.getGroupId(), detail, new YCallBack<Team>() {
+                                @Override
+                                public void callBack(Team team) {
+                                    Toaster.toastShort("申请成功，等待群主审批");
+                                }
+                            });
+//                        doGroupApply(bean.getGroupId());
+                        }
+                    });
+                    mDialog.show();
+                }
             }else {//在群里  直接进入
-                Bundle bundle = new Bundle();
-                bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_GROUP_EIGHT);
-                bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
-                bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getGroupId());//群id号
-                bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getGroupName());//群name
-                bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,bean);
-                FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
+                doInGroup(bean);
             }
         }
     }
 
+    public void doInGroup(GroupMessageBean.ListBean bean){
+        Bundle bundle = new Bundle();
+        bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_GROUP_EIGHT);
+        bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
+        bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getGroupId());//群id号
+        bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getGroupName());//群name
+        bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,bean);
+        FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
+    }
 
     /**
      * 申请加入群组,不用了。。。。
@@ -270,14 +306,26 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
     @Override
     public void groupRefresh(List<GroupMessageBean.ListBean> data) {
-        mListData = new ArrayList<>();
+        if (mListData==null)
+            mListData = new ArrayList<>();
+        mListData.clear();
+        adapter.getData().clear();
         GroupMessageBean.ListBean bean = new GroupMessageBean.ListBean();
         bean.setGroupName(AppContext.getString(R.string.main_notice));
         mListData.add(bean);
         GroupMessageBean.ListBean bean1 = new GroupMessageBean.ListBean();
         bean1.setGroupName(AppContext.getString(R.string.main_online_answer));
         mListData.add(bean1);
-        mListData.addAll(data);
+//        if (data!=null){
+//            for (GroupMessageBean.ListBean listBean:data){
+//                String hallDisplay=listBean.getHallDisplay();
+//                if (!TextUtils.isEmpty(hallDisplay)){
+//                    if (listBean.getHallDisplay().equals("1"))//正式的要加上这个过滤
+//                        mListData.add(listBean);
+//                }
+//            }
+//        }
+        mListData.addAll(data);//正式要去掉这个
         adapter.addData(mListData);
     }
 
