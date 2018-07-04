@@ -117,7 +117,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     private Gson gson;
     @Override
     protected void onInitView(View contentView) {
-        AndroidBug5497Workaround.assistActivity(activity);
+//        AndroidBug5497Workaround.assistActivity(activity);
         miPresent=new MIPresent(this);
         gson=new Gson();
         Bundle bundle=getArguments();

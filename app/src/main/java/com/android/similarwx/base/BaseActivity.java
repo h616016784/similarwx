@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.android.outbaselibrary.utils.StringUtil;
@@ -19,6 +20,7 @@ import com.android.similarwx.inteface.OnInterceptKeyListener;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.StatusBarUtil;
 import com.android.similarwx.widget.Actionbar;
+import com.gyf.barlibrary.ImmersionBar;
 
 import java.util.List;
 
@@ -69,6 +71,7 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
     };
 
     private OnInterceptKeyListener mOnInterceptKeyListener;
+    private ImmersionBar mImmersionBar;
 
     public void refresh() {
         if (mContentFragment != null) {
@@ -91,11 +94,16 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f)
+                .statusBarColor(R.color.colorPrimary)
+                .fitsSystemWindows(true).init();
         setContentView();
 
         mOnInterceptKeyListener = initContentFragment();
 
 //        StatusBarUtil.statusBarLightMode(this);
+
         registerReceiver(mFinishReceiver, new IntentFilter(ACTION_FINISH));
     }
 
@@ -227,6 +235,9 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mImmersionBar != null) {
+            mImmersionBar.destroy();
+        }
         hideKeyboard();
         unregister();
     }

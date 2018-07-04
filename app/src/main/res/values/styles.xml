@@ -7,8 +7,8 @@
         <item name="colorPrimaryDark">@color/primary_blue</item>
         <item name="colorAccent">@color/light_orange</item>
 
-        <item name="android:windowTranslucentNavigation" tools:ignore="NewApi">true</item>
-        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
+<!--        <item name="android:windowTranslucentNavigation" tools:ignore="NewApi">true</item>
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>-->
         <!-- 设置statusBarColor 为透明-->
     </style>
 

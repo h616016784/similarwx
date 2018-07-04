@@ -13,12 +13,15 @@ import android.widget.TextView;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.RewardRule;
 import com.android.similarwx.inteface.GroupInfoViewInterface;
+import com.android.similarwx.inteface.YCallBack;
+import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
@@ -177,7 +180,13 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                 break;
             case R.id.group_info_quit_bt://退出
                 if (isHost){
-
+                    APIYUNXIN.dismissTeam(listBean.getGroupId(), new YCallBack<Void>() {
+                        @Override
+                        public void callBack(Void aVoid) {
+                            Toaster.toastShort("解散群成功,调用本地代码 ！");
+                            groupInfoPresent.doDeleteGroup(listBean.getGroupId());
+                        }
+                    });
                 }else {
                     Toaster.toastShort("请联系群管理者");
                 }
@@ -202,5 +211,11 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                 groupInfoMemberNumTv.setText("("+groupList.size()+")");
             }
         }
+    }
+
+    @Override
+    public void refreshDeleteGroup() {
+        Toaster.toastShort("群解散成功");
+        MainChartrActivity.start(activity);
     }
 }

@@ -35,7 +35,8 @@
         <activity android:name=".activity.LoginActivity">
         </activity>
         <activity android:name=".activity.MIActivity" />
-        <activity android:name=".activity.MainChartrActivity" />
+        <activity android:name=".activity.MainChartrActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".base.NormalActivity">
         </activity>
         <activity android:name=".activity.SysNoticeActivity" />

@@ -327,7 +327,7 @@ public class API implements APIConstants {
     }
 
     //解散群组
-    public void doDeleteGroup(String grouId){
+    public void doDeleteGroup(String grouId , GroupInfoPresent groupInfoPresent){
         Map<String,String> map=new HashMap<>();
         map.put("groupId",grouId);
         Call<RspDeleteGroup> call=apiService.doDeleteGroup(map);
@@ -336,7 +336,7 @@ public class API implements APIConstants {
             public void onResponse(Call<RspDeleteGroup> call, Response<RspDeleteGroup> response) {
                 try {
                     RspDeleteGroup rspDeleteGroup=response.body();
-
+                    groupInfoPresent.analyzeDeleteGroup(rspDeleteGroup);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
                 }

@@ -112,7 +112,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         }
         editDialogSimple = new EditDialogSimple(this, null);
         initLoacalData();
-        groupPresent.getGroupList();
+
         adapter = new HomeAdapter(R.layout.item_group, this, mListData);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -154,6 +154,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     @Override
     protected void onResume() {
         super.onResume();
+        groupPresent.getGroupList();
     }
 
     @Override

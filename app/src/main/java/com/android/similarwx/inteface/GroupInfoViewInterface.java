@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface GroupInfoViewInterface extends ViewInterface {
     void refreshUserlist(GroupUser groupUser);
+    void refreshDeleteGroup();
 }
