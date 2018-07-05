@@ -105,6 +105,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
                         String text=null;
                         if (TextUtils.isEmpty(sendRed.getData().getThunder())){
                             text=sendRed.getData().getCount();
+
                         }else {
                             text=sendRed.getData().getThunder();
                         }
