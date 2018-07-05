@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.outbaselibrary.primary.AppContext;
@@ -53,11 +54,15 @@ public class SendRedFragment extends BaseFragment {
     TextView groupHintTv;
     @BindView(R.id.send_red_group_money_tv)
     TextView groupMoneyTv;
+    @BindView(R.id.send_red_lei_tv)
+    TextView sendRedLeiTv;
+    @BindView(R.id.send_red_lei_rl)
+    RelativeLayout sendRedLeiRl;
     @BindView(R.id.send_red_sum_money)
     TextView sumMoneyTv;
     Unbinder unbinder;
     public GroupMessageBean.ListBean listBean;
-
+    private String type = null;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_send_red;
@@ -73,6 +78,24 @@ public class SendRedFragment extends BaseFragment {
         mActionbar.setTitle("发红包");
         unbinder = ButterKnife.bind(this, contentView);
         sendRedSumEt.addTextChangedListener(textWatcher);
+
+        if (listBean!=null){
+            String gameType = listBean.getGameType();
+            if (TextUtils.isEmpty(gameType)){
+                type="MINE";
+            }else {
+                if (gameType.equals("1")){//游戏群
+                    type="MINE";
+                }else if(gameType.equals("2")){//交友群也就是普通群
+                    type="LUCK";
+                    sendRedLeiRl.setVisibility(View.GONE);
+//                    sendRedLeiTv.setText("总数");
+//                    sendRedLeiEt.setHint("请输入总数");
+                    groupHintTv.setText("总数最好不要超过10个");
+                }
+            }
+            groupMoneyTv.setText("红包发布范围： "+listBean.getStartRange()+"-"+listBean.getEndRange()+"元");
+        }
     }
 
     @Override
@@ -88,27 +111,25 @@ public class SendRedFragment extends BaseFragment {
         SendRed.SendRedBean bean=new SendRed.SendRedBean();
         String money=sendRedSumEt.getText().toString();
         String lei=sendRedLeiEt.getText().toString();
+        String count=sendRedCountEt.getText().toString();
         if (TextUtils.isEmpty(money)){
             Toaster.toastShort("金额不能为空！");
             return;
         }
-        if (TextUtils.isEmpty(lei)){
-            Toaster.toastShort("雷数不能为空！");
-            return;
-        }
-        String type = null;
-        if (listBean!=null){
-            type = listBean.getGameType();
-            if (type.equals("1")){//普通
-                type="MINE";
-            }else if(type.equals("2")){//扫雷
-                type="MINE";
-            }else if(type.equals("3")){//幸运接龙
-                type="LUCK";
+
+        if (type.equals("MINE")){//游戏群
+            if (TextUtils.isEmpty(lei)){
+                Toaster.toastShort("雷数不能为空！");
+                return;
             }
+            bean.setThunder(lei);
+            bean.setTitle("扫雷红包游戏");
+
+        }else {
+            bean.setCount(count);
+            bean.setTitle("手气红包游戏");
         }
 
-        bean.setThunder(lei);
         bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
         bean.setAmount(money);
         bean.setGroupId(listBean.getGroupId());
@@ -116,6 +137,7 @@ public class SendRedFragment extends BaseFragment {
         bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
         bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无"));
         bean.setType(type);
+        bean.setCotent("领取红包");
         sendRed.setData(bean);
         sendRed.setType("7");
         intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,sendRed);

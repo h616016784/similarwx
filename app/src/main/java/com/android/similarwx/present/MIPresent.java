@@ -28,7 +28,7 @@ public class MIPresent extends BasePresent {
         this.mView=view;
     }
     public void sendRed(SendRed sendRed){
-        API.getInstance().sendRed(sendRed.getData().getRequestNum(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),sendRed.getData().getAmount(),sendRed.getType(),sendRed.getData().getThunder(),this);
+        API.getInstance().sendRed(sendRed.getData().getRequestNum(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),sendRed.getData().getAmount(),sendRed.getData().getType(),sendRed.getData().getCount(),sendRed.getData().getThunder(),this);
     }
 
     public void canGrab(String redId, Activity activity){
@@ -60,22 +60,7 @@ public class MIPresent extends BasePresent {
         }
     }
     public void analyzeRes(RspGrabRed rspRed) {
-        if (rspRed!=null) {
-            String result = rspRed.getResult();
-            if (result.equals("success")) {
-                RspGrabRed.GrabRedBean bena=rspRed.getData();
-                if (bena!=null){
-                    String code=bena.getRetCode();
-                    if (code.equals("0000")){
-                        mView.grabRed(bena);
-                    }else {
-                        Toaster.toastShort(bena.getRetMsg());
-                    }
-                }
-            }else {
-                Toaster.toastShort(rspRed.getErrorMsg());
-            }
-        }
+        mView.grabRed(rspRed);
     }
 
     public void analyzeCanRed(RspCanGrab grabRed) {

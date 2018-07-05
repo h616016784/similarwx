@@ -14,16 +14,20 @@ import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.widget.emoji.EmojiManager;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
+import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,6 +55,8 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
         IMMessage imMessage=item.getImMessage();
+        NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(item.getImMessage().getFromAccount());
+        String imageUrl=user.getAvatar();
         switch (helper.getItemViewType()) {
             case MultipleItem.ITEM_TEXT://文本
 
@@ -64,7 +70,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     if (!TextUtils.isEmpty(textContent)){
                         filterTextContext(textContent , (TextView) helper.getView(R.id.item_mitext_left_content));
                     }
-
+                    loadHeadImage(imageUrl,helper,R.id.item_mitext_left_iv);
                 }else {
                     helper.setVisible(R.id.item_mitext_right_iv,true);helper.setVisible(R.id.item_mitext_left_iv,false);
                     helper.setVisible(R.id.item_mitext_right_title,true);helper.setVisible(R.id.item_mitext_left_title,false);
@@ -75,6 +81,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     if (!TextUtils.isEmpty(textContent)){
                         filterTextContext(textContent , (TextView) helper.getView(R.id.item_mitext_right_content));
                     }
+                    loadHeadImage(imageUrl,helper,R.id.item_mitext_right_iv);
                 }
                 break;
             case MultipleItem.ITEM_IMAGE://图片
@@ -91,10 +98,11 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     if (!TextUtils.isEmpty(imagePath)){
                         Glide.with(context)
                                 .load(new File(imagePath))
+                                .override(120,120)
                                 .error(R.drawable.nim_default_img_failed)
                                 .into((ImageView) helper.getView(R.id.item_mi_image_left_content));
                     }
-
+                    loadHeadImage(imageUrl,helper,R.id.item_mi_image_left_iv);
                 }else {
                     helper.setVisible(R.id.item_mi_image_right_iv,true);helper.setVisible(R.id.item_mi_image_left_iv,false);
                     helper.setVisible(R.id.item_mi_image_right_title,true);helper.setVisible(R.id.item_mi_image_left_title,false);
@@ -106,9 +114,9 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
                     String imagePath=charImageBean.getPath();
                     if (!TextUtils.isEmpty(imagePath)){
-                        Glide.with(context).load(new File(imagePath)).into((ImageView) helper.getView(R.id.item_mi_image_right_content));
+                        Glide.with(context).load(new File(imagePath)).override(120,120).into((ImageView) helper.getView(R.id.item_mi_image_right_content));
                     }
-
+                    loadHeadImage(imageUrl,helper,R.id.item_mi_image_right_iv);
                 }
                 break;
             case MultipleItem.ITEM_AUDIO://音频
@@ -119,12 +127,14 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_mi_auto_right_content,false);helper.setVisible(R.id.item_mi_auto_left_content,true);
                     helper.setBackgroundRes(R.id.item_mi_auto_content_rl,R.drawable.mi_chatfrom_bg_normal);
                     helper.setText(R.id.item_mi_auto_left_title,item.getImMessage().getFromNick());
+                    loadHeadImage(imageUrl,helper,R.id.item_mi_auto_left_iv);
                 }else {
                     helper.setVisible(R.id.item_mi_auto_right_iv,true);helper.setVisible(R.id.item_mi_auto_left_iv,false);
                     helper.setVisible(R.id.item_mi_auto_right_title,true);helper.setVisible(R.id.item_mi_auto_left_title,false);
                     helper.setVisible(R.id.item_mi_auto_right_content,true);helper.setVisible(R.id.item_mi_auto_left_content,false);
                     helper.setBackgroundRes(R.id.item_mi_auto_content_rl,R.drawable.ease_chatfrom_bg_normal_right);
                     helper.setText(R.id.item_mi_auto_right_title,item.getImMessage().getFromNick());
+                    loadHeadImage(imageUrl,helper,R.id.item_mi_auto_right_iv);
                 }
 
                 break;
@@ -139,32 +149,56 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_red_right_iv,false);helper.setVisible(R.id.item_red_left_iv,true);
                     helper.setVisible(R.id.item_red_right_content,false);helper.setVisible(R.id.item_red_left_content,true);
                     helper.setVisible(R.id.item_red_packet_right_rl,false);helper.setVisible(R.id.item_red_packet_rl,true);
+                    loadHeadImage(imageUrl,helper,R.id.item_red_left_iv);
                 }else {
                     helper.setVisible(R.id.item_red_left_iv,false);helper.setVisible(R.id.item_red_right_iv,true);
                     helper.setVisible(R.id.item_red_left_content,false);helper.setVisible(R.id.item_red_right_content,true);
                     helper.setVisible(R.id.item_red_packet_rl,false);helper.setVisible(R.id.item_red_packet_right_rl,true);
+                    loadHeadImage(imageUrl,helper,R.id.item_red_right_iv);
                 }
                 if (attachment!=null){
                     String json=attachment.toJson(false);
                     if (!TextUtils.isEmpty(json)){
                         SendRed bean=gson.fromJson(json, SendRed.class);
                         String fromNick=item.getImMessage().getFromNick();
-                        String amount="";
+                        String amount=null;
+                        String title=null;
+                        String click=null;
+                        String textContent=null;
                         if (bean!=null){
                             SendRed.SendRedBean sendRedBean=bean.getData();
-                            if (sendRedBean!=null)
+                            if (sendRedBean!=null){
                                 amount =sendRedBean.getAmount();
+                                title =sendRedBean.getTitle();
+                                click=sendRedBean.getClick();
+                                if (TextUtils.isEmpty(sendRedBean.getThunder()))
+                                    textContent=sendRedBean.getAmount()+"-"+sendRedBean.getCount();
+                                else
+                                    textContent=sendRedBean.getAmount()+"-"+sendRedBean.getThunder();
+                            }
+
                         }
                         if (imMessage.getDirect()== MsgDirectionEnum.Out){
                             if (!TextUtils.isEmpty(fromNick))
                                 helper.setText(R.id.item_red_left_content,fromNick);
                             if (!TextUtils.isEmpty(amount))
                                 helper.setText(R.id.item_red_packet_count_tv,amount);
+                            helper.setText(R.id.item_red_packet_explain_tv,title);
+                            if (!TextUtils.isEmpty(click)){
+                                if (click.equals(1))
+                                    helper.setText(R.id.item_red_packet_take_tv,"已抢过");
+                            }
+                            helper.setText(R.id.item_red_packet_count_tv,textContent);
                         }else {
                             if (!TextUtils.isEmpty(fromNick))
                                 helper.setText(R.id.item_red_right_content,fromNick);
                             if (!TextUtils.isEmpty(amount))
                                 helper.setText(R.id.item_red_packet_count_right_tv,amount);
+                            if (!TextUtils.isEmpty(click)){
+                                if (click.equals(1))
+                                    helper.setText(R.id.item_red_packet_take_right_tv,"已抢过");
+                            }
+                            helper.setText(R.id.item_red_packet_count_right_tv,textContent);
                         }
                     }
                 }
@@ -172,6 +206,14 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
         }
     }
 
+    private void loadHeadImage(String imageUrl,BaseViewHolder helper,int res){
+        if (!TextUtils.isEmpty(imageUrl)){
+            Glide.with(context).load(imageUrl).override(60,60).transform(new CircleCrop(context))
+                    .placeholder(R.drawable.rp_avatar)
+                    .error(R.drawable.rp_avatar)
+                    .into((ImageView) helper.getView(res));
+        }
+    }
     private void filterTextContext(String textContent, TextView textView) {
         textView.setText("");
         boolean isFin=true;

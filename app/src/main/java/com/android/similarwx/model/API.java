@@ -442,14 +442,18 @@ public class API implements APIConstants {
         });
     }
 
-    public void sendRed(String requestNum, String userId,String groupId,String amount,String type, String thunder,final MIPresent present) {
+    public void sendRed(String requestNum, String userId,String groupId,String amount,String type, String count,String thunder,final MIPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("requestNum",requestNum );
         map.put("userId",userId);
         map.put("groupId",groupId);
         map.put("amount",amount);
         map.put("type",type);
-        map.put("thunder",thunder);
+        if (type.equals("MINE"))
+            map.put("thunder",thunder);
+        else {
+            map.put("count",count);
+        }
         Call<RspSendRed> rspRedCall=apiService.sendRed(map);
         rspRedCall.enqueue(new Callback<RspSendRed>() {
             @Override
@@ -551,7 +555,6 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspCanGrab>() {
             @Override
             public void onResponse(Call<RspCanGrab> call, Response<RspCanGrab> response) {
-                RedLoadingDialogFragment.disMiss(activity);
                 try {
                     RspCanGrab rspCanGrab=response.body();
                     miPresent.analyzeCanRed(rspCanGrab);
@@ -562,7 +565,6 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspCanGrab> call, Throwable t) {
-                RedLoadingDialogFragment.disMiss(activity);
                 Toaster.toastShort(t.getMessage());
             }
         });

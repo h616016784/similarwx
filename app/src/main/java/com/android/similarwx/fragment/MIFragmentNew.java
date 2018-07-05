@@ -109,6 +109,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     AudioPlayer player;//播放器
     private MIPresent miPresent;
     SendRed tempSendRed;
+    RedResultDialogFragment redResultDialogFragment;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mi_layout_new;
@@ -210,7 +211,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                         player.start( AudioManager.STREAM_VOICE_CALL);
                         break;
                     case MultipleItem.ITEM_RED://红包
-                        RedLoadingDialogFragment.show(activity);
+
                         MsgAttachment attachment=bean.getImMessage().getAttachment();
                         if (attachment!=null) {
                             String json = attachment.toJson(false);
@@ -386,10 +387,24 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                     Log.e("sendMessg","custom");
                     break;
             }
-            NIMClient.getService(MsgService.class).sendMessage(msg,false);
-            MultipleItem multipleItem=new MultipleItem(msg);
-            multipleItem.setName("测试11");
-            multipleItemAdapter.addData(multipleItem);
+            NIMClient.getService(MsgService.class).sendMessage(msg,false).setCallback(new RequestCallback<Void>() {
+                @Override
+                public void onSuccess(Void param) {
+                    MultipleItem multipleItem=new MultipleItem(msg);
+                    multipleItem.setName("测试11");
+                    multipleItemAdapter.addData(multipleItem);
+                }
+
+                @Override
+                public void onFailed(int code) {
+                    Toaster.toastShort(code+"");
+                }
+
+                @Override
+                public void onException(Throwable exception) {
+                    Toaster.toastShort(exception.toString());
+                }
+            });
         }
 
         return true;
@@ -464,28 +479,45 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     }
 
     @Override
-    public void grabRed(RspGrabRed.GrabRedBean bean) {
-        Bundle bundle=new Bundle();
-        if (tempSendRed!=null){
-            bundle.putString(RedDetailFragment.GROUPID,tempSendRed.getData().getGroupId());
-            bundle.putString(RedDetailFragment.REDID,tempSendRed.getData().getRedPacId());
-            bundle.putSerializable(RedDetailFragment.SENDRED,tempSendRed);
-            bundle.putSerializable(RedDetailFragment.GRAB,bean);
-            FragmentUtils.navigateToNormalActivity(activity,new RedDetailFragment(),bundle);
+    public void grabRed(RspGrabRed bean) {
+        RedResultDialogFragment.disMiss(activity);
+        if (bean!=null) {
+            String result = bean.getResult();
+            if (result.equals("success")) {
+                RspGrabRed.GrabRedBean bena=bean.getData();
+                if (bena!=null){
+                    String code=bena.getRetCode();
+                    if (code.equals("0000")){
+                        Bundle bundle=new Bundle();
+                        if (tempSendRed!=null){
+                            redResultDialogFragment.dismiss();
+                            bundle.putString(RedDetailFragment.GROUPID,tempSendRed.getData().getGroupId());
+                            bundle.putString(RedDetailFragment.REDID,tempSendRed.getData().getRedPacId());
+                            bundle.putSerializable(RedDetailFragment.SENDRED,tempSendRed);
+                            bundle.putSerializable(RedDetailFragment.GRAB,bena);
+                            FragmentUtils.navigateToNormalActivity(activity,new RedDetailFragment(),bundle);
+                        }
+                    }else {
+                        redResultDialogFragment.setErrorText(bena.getRetMsg());
+                    }
+                }
+            }else {
+                Toaster.toastShort(bean.getErrorMsg());
+            }
         }
-
     }
 
     @Override
     public void canGrab(BaseBean bean) {
         if (bean != null) {
-            RedResultDialogFragment.show(activity, bean,tempSendRed, new RedResultDialogFragment.OnOpenClick() {
+            redResultDialogFragment=RedResultDialogFragment.show(activity, bean,tempSendRed, new RedResultDialogFragment.OnOpenClick() {
                 @Override
                 public void onOpenClick() {
                     if (tempSendRed!=null){
                         String redId=tempSendRed.getData().getRedPacId();
+                        RedLoadingDialogFragment.show(activity);
                         miPresent.grabRed(redId,activity);
-                        RedResultDialogFragment.disMiss(activity);
+
                     }
                 }
             });

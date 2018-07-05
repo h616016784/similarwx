@@ -3,6 +3,7 @@ package com.android.similarwx.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,9 @@ import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.TimeUtil;
+import com.android.similarwx.utils.glide.CircleCrop;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
@@ -27,6 +31,8 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.List;
 
@@ -67,8 +73,21 @@ public class ChartFragment extends BaseFragment {
         baseQuickAdapter = new BaseQuickAdapter<RecentContact, BaseViewHolder>(R.layout.item_chart, null) {
             @Override
             protected void convert(BaseViewHolder helper, RecentContact item) {
-                helper.setText(R.id.item_chart_name_tv, item.getFromNick());
+                String account=item.getFromAccount();
+                NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(account);//用户详情
+
+                helper.setText(R.id.item_chart_name_tv, user.getName());
                 helper.setText(R.id.item_chart_content_tv, item.getContent());
+                helper.setText(R.id.item_chart_role_tv, TimeUtil.timestampToString(item.getTime(),"yyyy-MM-dd"));
+                String icon =user.getAvatar();
+                if (!TextUtils.isEmpty(icon)) {
+                    Glide.with(activity).load(icon)
+                            .error(R.drawable.rp_avatar)
+                            .override(1200,120)
+//                            .transform(new CircleCrop(activity))
+                            .placeholder(R.drawable.rp_avatar)
+                            .into((ImageView) helper.getView(R.id.item_chart_iv));
+                }
             }
         };
         chartRv.setAdapter(baseQuickAdapter);

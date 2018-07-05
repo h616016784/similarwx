@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,11 @@ import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.glide.CircleCrop;
+import com.bumptech.glide.Glide;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 /**
  * Created by Administrator on 2018/4/9.
@@ -77,18 +83,37 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
         if (bundle!=null){
             BaseBean bean= (BaseBean) bundle.getSerializable("isGood");
             SendRed sendRed= (SendRed) bundle.getSerializable("info");
+            if (sendRed!=null){
+                String accid=sendRed.getData().getMyUserId();//云信的accid
+                NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(accid);
+                dialog_red_result_tips_tv.setText(user.getName());
+                String url=user.getAvatar();
+                if (!TextUtils.isEmpty(url)){
+                    Glide.with(getActivity()).load(url).override(60,60).transform(new CircleCrop(getActivity()))
+                            .placeholder(R.drawable.rp_avatar)
+                            .error(R.drawable.rp_avatar)
+                            .into(dialog_red_result_cancel_iv);
+                }
+            }
             if (bean!=null){
                 String code = bean.getRetCode();
                 if (code.equals("0000")) {
                     dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
+                    if (sendRed!=null){
+                        String text=null;
+                        if (TextUtils.isEmpty(sendRed.getData().getThunder())){
+                            text=sendRed.getData().getCount();
+                        }else {
+                            text=sendRed.getData().getThunder();
+                        }
+                        dialog_red_result_tips_tv.setText(sendRed.getData().getAmount()+"-"+text);
+                    }
                 } else {
                     dialog_red_result_kai_tv.setVisibility(View.GONE);
                     dialog_red_result_tips_tv.setText(bean.getRetMsg());
                 }
             }
-            if (sendRed!=null){
 
-            }
         }
     }
     private void addClickListener() {
@@ -97,7 +122,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
         dialog_red_result_kai_tv.setOnClickListener(this);
     }
 
-    public static void show(Activity activity, BaseBean bean, SendRed sendRed, OnOpenClick onOpenClick){
+    public static RedResultDialogFragment show(Activity activity, BaseBean bean, SendRed sendRed, OnOpenClick onOpenClick){
         mClicker=onOpenClick;
         mSendRed=sendRed;
         RedResultDialogFragment redResultDialogFragment= RedResultDialogFragment.newInstance(bean,sendRed);
@@ -105,6 +130,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
         transaction.add(redResultDialogFragment,"redResultDialog");
         transaction.addToBackStack(null);
         transaction.commit();
+        return redResultDialogFragment;
     }
     public static void disMiss(Activity activity){
         FragmentManager transaction=activity.getFragmentManager();
@@ -136,6 +162,10 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
 //                dismiss();
                 break;
         }
+    }
+    public void setErrorText(String text){
+        dialog_red_result_tips_tv.setText(text);
+        dialog_red_result_kai_tv.setVisibility(View.GONE);
     }
     public interface OnOpenClick{
         void onOpenClick();

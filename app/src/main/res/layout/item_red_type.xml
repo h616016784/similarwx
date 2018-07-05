@@ -67,7 +67,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/distance_smaller"
+                        android:layout_marginLeft="@dimen/distance_big"
                         android:layout_toRightOf="@id/item_red_packet_inner_iv"
                         android:orientation="vertical">
                         <TextView
@@ -115,7 +115,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/distance_smaller"
+                        android:layout_marginRight="@dimen/distance_big"
                         android:layout_toRightOf="@id/item_red_packet_inner_iv"
                         android:orientation="vertical">
                         <TextView

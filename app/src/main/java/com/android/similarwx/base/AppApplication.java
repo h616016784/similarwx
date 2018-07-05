@@ -73,8 +73,10 @@ public class AppApplication extends BaseApplication {
             return null;
         }
 
-        if (!TextUtils.isEmpty(accid)&&!TextUtils.isEmpty(token))
-            return  new LoginInfo(accid,token);
+        if (!TextUtils.isEmpty(accid)&&!TextUtils.isEmpty(token)){
+            LoginInfo info=new LoginInfo(accid,token);
+            return  info;
+        }
         return null;
     }
     // 如果返回值为 null，则全部使用默认参数。

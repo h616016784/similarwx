@@ -11,6 +11,6 @@ import com.android.similarwx.beans.response.RspGrabRed;
 
 public interface MiViewInterface extends ViewInterface{
     void reFreshCustemRed(SendRed.SendRedBean data);
-    void grabRed(RspGrabRed.GrabRedBean bean);
+    void grabRed(RspGrabRed bean);
     void canGrab(BaseBean bean);
 }

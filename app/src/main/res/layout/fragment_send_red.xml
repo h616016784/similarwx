@@ -80,12 +80,14 @@
         android:textSize="@dimen/text_content_or_button"
         />
     <RelativeLayout
+        android:id="@+id/send_red_lei_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/distance_normal"
         android:padding="@dimen/distance_small"
         >
         <TextView
+            android:id="@+id/send_red_lei_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="雷数"
