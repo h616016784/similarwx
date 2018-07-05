@@ -51,6 +51,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
     }
 
     private ImageView dialog_red_result_cancel_iv;
+    private ImageView dialog_red_result_head_iv;
     private ImageView dialog_red_result_kai_tv;
     private TextView dialog_red_result_bottom_tv;
     private TextView dialog_red_result_name_tv;
@@ -74,6 +75,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
 
     private void initView(View view) {
         dialog_red_result_cancel_iv=view.findViewById(R.id.dialog_red_result_cancel_iv);
+        dialog_red_result_head_iv=view.findViewById(R.id.dialog_red_result_head_iv);
         dialog_red_result_bottom_tv=view.findViewById(R.id.dialog_red_result_bottom_tv);
         dialog_red_result_name_tv=view.findViewById(R.id.dialog_red_result_name_tv);
         dialog_red_result_tips_tv=view.findViewById(R.id.dialog_red_result_tips_tv);
@@ -86,13 +88,13 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
             if (sendRed!=null){
                 String accid=sendRed.getData().getMyUserId();//云信的accid
                 NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(accid);
-                dialog_red_result_tips_tv.setText(user.getName());
+                dialog_red_result_name_tv.setText(user.getName());
                 String url=user.getAvatar();
                 if (!TextUtils.isEmpty(url)){
                     Glide.with(getActivity()).load(url).override(60,60).transform(new CircleCrop(getActivity()))
                             .placeholder(R.drawable.rp_avatar)
                             .error(R.drawable.rp_avatar)
-                            .into(dialog_red_result_cancel_iv);
+                            .into(dialog_red_result_head_iv);
                 }
             }
             if (bean!=null){
@@ -152,6 +154,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
                 if (mSendRed!=null){
                     bundle.putString(RedDetailFragment.GROUPID,mSendRed.getData().getGroupId());
                     bundle.putString(RedDetailFragment.REDID,mSendRed.getData().getRedPacId());
+                    bundle.putSerializable(RedDetailFragment.SENDRED,mSendRed);
                 }
                 FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
                 dismiss();

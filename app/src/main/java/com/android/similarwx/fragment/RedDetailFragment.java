@@ -1,11 +1,14 @@
 package com.android.similarwx.fragment;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
@@ -17,6 +20,11 @@ import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.inteface.RedDetailViewInterface;
 import com.android.similarwx.present.RedDetailPresent;
+import com.android.similarwx.utils.glide.CircleCrop;
+import com.bumptech.glide.Glide;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +48,8 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     TextView redDetailCount;
     @BindView(R.id.red_detail_acount_tv)
     TextView redDetailAcountTv;
+    @BindView(R.id.red_detail_head_iv)
+    ImageView redDetailHeadIv;
     @BindView(R.id.red_detail_rv)
     RecyclerView redDetailRv;
     Unbinder unbinder;
@@ -70,8 +80,17 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             sendRed= (SendRed) bundle.getSerializable(SENDRED);
             grabRedBean= (RspGrabRed.GrabRedBean) bundle.getSerializable(GRAB);
             if (sendRed!=null){
-//                redDetailName.setText(sendRed.get);
                 redDetailCount.setText(sendRed.getData().getCotent());
+                String accid=sendRed.getData().getMyUserId();//云信的accid
+                NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(accid);
+                redDetailName.setText(user.getName());
+                String url=user.getAvatar();
+                if (!TextUtils.isEmpty(url)){
+                    Glide.with(getActivity()).load(url).override(60,60).transform(new CircleCrop(getActivity()))
+                            .placeholder(R.drawable.rp_avatar)
+                            .error(R.drawable.rp_avatar)
+                            .into(redDetailHeadIv);
+                }
             }
             if (grabRedBean!=null){
                 redDetailAcountTv.setText(grabRedBean.getAmount()+"元");

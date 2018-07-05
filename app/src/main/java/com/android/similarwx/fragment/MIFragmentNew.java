@@ -480,7 +480,6 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
 
     @Override
     public void grabRed(RspGrabRed bean) {
-        RedResultDialogFragment.disMiss(activity);
         if (bean!=null) {
             String result = bean.getResult();
             if (result.equals("success")) {
@@ -490,7 +489,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                     if (code.equals("0000")){
                         Bundle bundle=new Bundle();
                         if (tempSendRed!=null){
-                            redResultDialogFragment.dismiss();
+                            RedResultDialogFragment.disMiss(activity);
                             bundle.putString(RedDetailFragment.GROUPID,tempSendRed.getData().getGroupId());
                             bundle.putString(RedDetailFragment.REDID,tempSendRed.getData().getRedPacId());
                             bundle.putSerializable(RedDetailFragment.SENDRED,tempSendRed);
