@@ -181,8 +181,6 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                         if (imMessage.getDirect()== MsgDirectionEnum.Out){
                             if (!TextUtils.isEmpty(fromNick))
                                 helper.setText(R.id.item_red_left_content,fromNick);
-                            if (!TextUtils.isEmpty(amount))
-                                helper.setText(R.id.item_red_packet_count_tv,amount);
                             helper.setText(R.id.item_red_packet_explain_tv,title);
                             if (!TextUtils.isEmpty(click)){
                                 if (click.equals(1))
@@ -192,8 +190,6 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                         }else {
                             if (!TextUtils.isEmpty(fromNick))
                                 helper.setText(R.id.item_red_right_content,fromNick);
-                            if (!TextUtils.isEmpty(amount))
-                                helper.setText(R.id.item_red_packet_count_right_tv,amount);
                             if (!TextUtils.isEmpty(click)){
                                 if (click.equals(1))
                                     helper.setText(R.id.item_red_packet_take_right_tv,"已抢过");
