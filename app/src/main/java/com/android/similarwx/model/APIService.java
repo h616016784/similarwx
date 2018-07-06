@@ -2,6 +2,7 @@ package com.android.similarwx.model;
 
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.BaseResponse;
 import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
@@ -50,6 +51,8 @@ public interface APIService {
     @POST("resUsers/getCustomerServiceUserList")
     Call<RspService> getServices(@QueryMap Map<String, String> map);
 
+    @POST("resUsers/setPaymentPasswd")
+    Call<BaseResponse> setPaymentPasswd(@QueryMap Map<String, String> map);
     @FormUrlEncoded
     @POST("resUsers/update")
     Call<RspUser> updateUser(@FieldMap Map<String, String> map);

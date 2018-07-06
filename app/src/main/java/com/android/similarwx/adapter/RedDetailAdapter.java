@@ -35,7 +35,7 @@ public class RedDetailAdapter extends BaseQuickAdapter<RedDetialBean,BaseViewHol
 
         helper.setText(R.id.item_red_detail_name_tv,item.getName());
 //        helper.setText(R.id.item_red_detail_time_tv,item.get);
-        helper.setText(R.id.item_red_detail_money_tv,item.getAmount()+"");
+        helper.setText(R.id.item_red_detail_money_tv,item.getAmount()+"元");
 //        helper.setText(R.id.item_red_detail_shouqi_tv,item.getShouqi());
         String imageUrl=item.getIcon();
         if (!TextUtils.isEmpty(imageUrl)){

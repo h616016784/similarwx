@@ -44,7 +44,7 @@ public class SetFragment extends BaseFragment {
     private void init() {
         mySetAccountBv.setNameText(R.string.set_account);mySetAccountBv.setRightText("");
         mySetPhoneBv.setNameText(R.string.set_phone);mySetPhoneBv.setRightText("");
-        mySetPasswordBv.setNameText(R.string.set_password);mySetPasswordBv.setRightText("");
+        mySetPasswordBv.setNameText(R.string.set_password);mySetPasswordBv.setRightText("");mySetPasswordBv.setImageView(R.drawable.em_right);
     }
 
     @Override

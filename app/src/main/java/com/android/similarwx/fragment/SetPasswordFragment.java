@@ -2,15 +2,21 @@ package com.android.similarwx.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.model.API;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.BaseItemView;
 import com.android.similarwx.widget.ItemView;
 import com.android.similarwx.widget.dialog.AlertDialogFragment;
@@ -37,6 +43,7 @@ public class SetPasswordFragment extends BaseFragment {
     Unbinder unbinder;
 
     EditDialogSimple editDialogSimple;
+    User muser;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_set_password;
@@ -51,9 +58,9 @@ public class SetPasswordFragment extends BaseFragment {
     }
 
     private void init() {
-        mySetPasswordLoginIv.setNameText(R.string.set_password_login);
-        mySetPasswordPayIv.setNameText(R.string.set_password_pay);
-        mySetPasswordFindIv.setNameText(R.string.set_password_find);
+        mySetPasswordLoginIv.setNameText(R.string.set_password_login);mySetPasswordLoginIv.setImageView(R.drawable.em_right);
+        mySetPasswordPayIv.setNameText(R.string.set_password_pay);mySetPasswordPayIv.setImageView(R.drawable.em_right);
+        mySetPasswordFindIv.setNameText(R.string.set_password_find);mySetPasswordFindIv.setImageView(R.drawable.em_right);
     }
 
 
@@ -82,6 +89,7 @@ public class SetPasswordFragment extends BaseFragment {
     }
 
     private void showEditDialog(int flag) {
+        muser= (User) SharePreferenceUtil.getObject(activity, AppConstants.USER_OBJECT,"");
         if(editDialogSimple==null)
             editDialogSimple=new EditDialogSimple(activity,"");
         if(flag==0){
@@ -89,7 +97,11 @@ public class SetPasswordFragment extends BaseFragment {
             editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                 @Override
                 public void onClickListener(String text) {
-
+                    if (TextUtils.isEmpty(text))
+                        Toaster.toastShort("登录密码不能为空");
+                    else {
+                        API.getInstance().setPaymentPasswd(muser.getId(),"",text);
+                    }
                 }
             });
         } else{

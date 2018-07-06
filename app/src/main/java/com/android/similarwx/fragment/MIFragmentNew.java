@@ -531,6 +531,16 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     protected IMMessage createCustomMessage(SendRed.SendRedBean redDetailBean) {
         SendRed sendRed=new SendRed();
         sendRed.setType("7");
+        String groupType=listBean.getGroupType();
+        if (TextUtils.isEmpty(groupType)){
+            redDetailBean.setTitle("手气红包游戏");
+        }else {
+            if(listBean.getGroupType().equals("1")){
+                redDetailBean.setTitle("扫雷红包游戏");
+            }else {
+                redDetailBean.setTitle("手气红包游戏");
+            }
+        }
         sendRed.setData(redDetailBean);
 
         return MessageBuilder.createCustomMessage(sessionId, sessionType, "红包",

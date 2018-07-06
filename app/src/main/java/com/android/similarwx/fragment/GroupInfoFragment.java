@@ -123,7 +123,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                     String id=groupList.get(position).getUserId();
                     bundle.putString(AppConstants.TRANSFER_AWARDRULE,id);
                     bundle.putSerializable(AppConstants.TRANSFER_AWARDRULE,groupList.get(position));
-                    bundle.putBoolean(AppConstants.TRANSFER_ISHOST,isHost);
+                    bundle.putString(AppConstants.TRANSFER_GROUP_USER_ROLE,listBean.getGroupUserRule());
                     FragmentUtils.navigateToNormalActivity(getActivity(),new ClientDetailInfoFragment(),bundle);
                 }
             }

@@ -80,13 +80,13 @@ public class SendRedFragment extends BaseFragment {
         sendRedSumEt.addTextChangedListener(textWatcher);
 
         if (listBean!=null){
-            String gameType = listBean.getGameType();
-            if (TextUtils.isEmpty(gameType)){
+            String groupType = listBean.getGroupType();
+            if (TextUtils.isEmpty(groupType)){
                 type="MINE";
             }else {
-                if (gameType.equals("1")){//游戏群
+                if (groupType.equals("1")){//游戏群
                     type="MINE";
-                }else if(gameType.equals("2")){//交友群也就是普通群
+                }else if(groupType.equals("2")){//交友群也就是普通群
                     type="LUCK";
                     sendRedLeiRl.setVisibility(View.GONE);
 //                    sendRedLeiTv.setText("总数");

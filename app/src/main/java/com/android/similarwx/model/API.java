@@ -7,6 +7,7 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.request.ReqGroup;
+import com.android.similarwx.beans.response.BaseResponse;
 import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
@@ -254,6 +255,27 @@ public class API implements APIConstants {
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void setPaymentPasswd(String userId,String paymentPasswd,String passwdStr){
+        Map<String,String> map=new HashMap<>();
+        map.put("userId",userId);
+        if (!TextUtils.isEmpty(paymentPasswd))
+            map.put("paymentPasswd",paymentPasswd);
+        if (!TextUtils.isEmpty(passwdStr))
+            map.put("passwdStr",passwdStr);
+        Call<BaseResponse> call=apiService.setPaymentPasswd(map);
+        call.enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+
             }
         });
     }
