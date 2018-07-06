@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.BaseBean;
+import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
@@ -24,8 +25,14 @@ import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.bumptech.glide.Glide;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.netease.nimlib.sdk.uinfo.model.UserInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/9.
@@ -87,15 +94,33 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
             SendRed sendRed= (SendRed) bundle.getSerializable("info");
             if (sendRed!=null){
                 String accid=sendRed.getData().getMyUserId();//云信的accid
-                NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(accid);
-                dialog_red_result_name_tv.setText(user.getName());
-                String url=user.getAvatar();
-                if (!TextUtils.isEmpty(url)){
-                    Glide.with(getActivity()).load(url).override(60,60).transform(new CircleCrop(getActivity()))
-                            .placeholder(R.drawable.rp_avatar)
-                            .error(R.drawable.rp_avatar)
-                            .into(dialog_red_result_head_iv);
-                }
+                List accounts=new ArrayList();
+                accounts.add(accid);
+                NIMClient.getService(UserService.class).fetchUserInfo(accounts)
+                        .setCallback(new RequestCallback<List<UserInfo>>() {
+                            @Override
+                            public void onSuccess(List<UserInfo> param) {
+                                if (param!=null&& param.size()>0){
+                                    UserInfo userInfo=param.get(0);
+                                    String imageUrl=userInfo.getAvatar();
+                                    dialog_red_result_name_tv.setText(userInfo.getName());
+                                    if (!TextUtils.isEmpty(imageUrl)){
+                                        Glide.with(getActivity()).load(imageUrl).override(120,120).transform(new CircleCrop(getActivity()))
+                                                .placeholder(R.drawable.rp_avatar)
+                                                .error(R.drawable.rp_avatar)
+                                                .into(dialog_red_result_head_iv);
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onFailed(int code) {
+
+                            }
+                            @Override
+                            public void onException(Throwable exception) {
+
+                            }
+                        });
             }
             if (bean!=null){
                 String code = bean.getRetCode();

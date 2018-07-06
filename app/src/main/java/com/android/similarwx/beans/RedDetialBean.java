@@ -6,54 +6,79 @@ package com.android.similarwx.beans;
 
 public class RedDetialBean extends BaseBean{
 
+
     /**
-     * pacId : 1806191142543649989
-     * groupName : 测试群001
+     * amount : 3.14
+     * bestHand : true
+     * icon : https://nim.nosdn.127.net/NTI1MzE5Mg==/bmltYV8xOTI1NTU5MDA3XzE1MjgyNjQ4MTEzMzZfODlmZWNiZDAtMjIzNi00YTQ2LThjNmItNzFjNGFjMGQxNGMy
+     * lucky : false
      * thunderDeduct : null
      * luckyReward : null
-     * modifyDate : null
+     * name : zhou
+     * userId : 27
      * isLucky : false
-     * version : 0
+     * accId : zhou123
      * isThunder : false
-     * id : 1806191143018672359
-     * amount : 2.65
-     * groupId : 7
-     * userId : 28
-     * isSyncAccount : true
-     * createDate : 2018-06-19 11:43:01
-     * accId : hhltest1
      */
 
-    private String pacId;
-    private String groupName;
+    private double amount;
+    private boolean bestHand;
+    private String icon;
+    private boolean lucky;
     private String thunderDeduct;
     private String luckyReward;
-    private String modifyDate;
-    private boolean isLucky;
-    private String version;
-    private boolean isThunder;
-    private String id;
-    private double amount;
-    private String groupId;
+    private String name;
     private String userId;
-    private boolean isSyncAccount;
-    private String createDate;
+    private boolean isLucky;
     private String accId;
+    private boolean isThunder;
 
-    public String getPacId() {
-        return pacId;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setPacId(String pacId) {
-        this.pacId = pacId;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public boolean isBestHand() {
+        return bestHand;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setBestHand(boolean bestHand) {
+        this.bestHand = bestHand;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public boolean isLucky() {
+        return lucky;
+    }
+
+    public void setLucky(boolean lucky) {
+        this.lucky = lucky;
+    }
+
+    public String getAccId() {
+        return accId;
+    }
+
+    public void setAccId(String accId) {
+        this.accId = accId;
+    }
+
+    public boolean isThunder() {
+        return isThunder;
+    }
+
+    public void setThunder(boolean thunder) {
+        isThunder = thunder;
     }
 
     public String getThunderDeduct() {
@@ -72,60 +97,12 @@ public class RedDetialBean extends BaseBean{
         this.luckyReward = luckyReward;
     }
 
-    public String getModifyDate() {
-        return modifyDate;
+    public String getName() {
+        return name;
     }
 
-    public void setModifyDate(String modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-
-    public boolean isLucky() {
-        return isLucky;
-    }
-
-    public void setLucky(boolean lucky) {
-        isLucky = lucky;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public boolean isThunder() {
-        return isThunder;
-    }
-
-    public void setThunder(boolean thunder) {
-        isThunder = thunder;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUserId() {
@@ -134,29 +111,5 @@ public class RedDetialBean extends BaseBean{
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public boolean isSyncAccount() {
-        return isSyncAccount;
-    }
-
-    public void setSyncAccount(boolean syncAccount) {
-        isSyncAccount = syncAccount;
-    }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getAccId() {
-        return accId;
-    }
-
-    public void setAccId(String accId) {
-        this.accId = accId;
     }
 }

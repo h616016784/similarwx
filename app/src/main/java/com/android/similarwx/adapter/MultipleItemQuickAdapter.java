@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
@@ -28,6 +29,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.netease.nimlib.sdk.uinfo.model.UserInfo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -55,8 +57,61 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
         IMMessage imMessage=item.getImMessage();
-        NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(item.getImMessage().getFromAccount());
-        String imageUrl=user.getAvatar();
+        List accounts=new ArrayList();
+        accounts.add(item.getImMessage().getFromAccount());
+        NIMClient.getService(UserService.class).fetchUserInfo(accounts)
+                .setCallback(new RequestCallback<List<UserInfo>>() {
+                    @Override
+                    public void onSuccess(List<UserInfo> param) {
+                        if (param!=null&& param.size()>0){
+                            String imageUrl=param.get(0).getAvatar();
+                            switch (helper.getItemViewType()) {
+                                case MultipleItem.ITEM_TEXT://文本
+                                    if (imMessage.getDirect()== MsgDirectionEnum.Out){
+                                        loadHeadImage(imageUrl,helper,R.id.item_mitext_left_iv);
+                                    }else {
+                                        loadHeadImage(imageUrl,helper,R.id.item_mitext_right_iv);
+                                    }
+                                    break;
+                                case MultipleItem.ITEM_IMAGE://图片
+                                    if (imMessage.getDirect()== MsgDirectionEnum.Out){
+                                        loadHeadImage(imageUrl,helper,R.id.item_mi_image_left_iv);
+                                    }else {
+                                        loadHeadImage(imageUrl,helper,R.id.item_mi_image_right_iv);
+                                    }
+                                    break;
+                                case MultipleItem.ITEM_AUDIO://音频
+                                    if (imMessage.getDirect()== MsgDirectionEnum.Out){
+                                        loadHeadImage(imageUrl,helper,R.id.item_mi_auto_left_iv);
+                                    }else {
+                                        loadHeadImage(imageUrl,helper,R.id.item_mi_auto_right_iv);
+                                    }
+                                    break;
+                                case MultipleItem.ITEM_NOTIFICATION://通知类信息
+
+                                    break;
+                                case MultipleItem.ITEM_RED://红包类信息
+                                    if (imMessage.getDirect()== MsgDirectionEnum.Out){
+                                        loadHeadImage(imageUrl,helper,R.id.item_red_left_iv);
+                                    }else {
+                                        loadHeadImage(imageUrl,helper,R.id.item_red_right_iv);
+                                    }
+                                    break;
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+
+                    }
+
+                    @Override
+                    public void onException(Throwable exception) {
+
+                    }
+                });
         switch (helper.getItemViewType()) {
             case MultipleItem.ITEM_TEXT://文本
 
@@ -70,7 +125,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     if (!TextUtils.isEmpty(textContent)){
                         filterTextContext(textContent , (TextView) helper.getView(R.id.item_mitext_left_content));
                     }
-                    loadHeadImage(imageUrl,helper,R.id.item_mitext_left_iv);
+
                 }else {
                     helper.setVisible(R.id.item_mitext_right_iv,true);helper.setVisible(R.id.item_mitext_left_iv,false);
                     helper.setVisible(R.id.item_mitext_right_title,true);helper.setVisible(R.id.item_mitext_left_title,false);
@@ -81,7 +136,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     if (!TextUtils.isEmpty(textContent)){
                         filterTextContext(textContent , (TextView) helper.getView(R.id.item_mitext_right_content));
                     }
-                    loadHeadImage(imageUrl,helper,R.id.item_mitext_right_iv);
+
                 }
                 break;
             case MultipleItem.ITEM_IMAGE://图片
@@ -102,7 +157,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                                 .error(R.drawable.nim_default_img_failed)
                                 .into((ImageView) helper.getView(R.id.item_mi_image_left_content));
                     }
-                    loadHeadImage(imageUrl,helper,R.id.item_mi_image_left_iv);
+
                 }else {
                     helper.setVisible(R.id.item_mi_image_right_iv,true);helper.setVisible(R.id.item_mi_image_left_iv,false);
                     helper.setVisible(R.id.item_mi_image_right_title,true);helper.setVisible(R.id.item_mi_image_left_title,false);
@@ -116,7 +171,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     if (!TextUtils.isEmpty(imagePath)){
                         Glide.with(context).load(new File(imagePath)).override(120,120).into((ImageView) helper.getView(R.id.item_mi_image_right_content));
                     }
-                    loadHeadImage(imageUrl,helper,R.id.item_mi_image_right_iv);
+
                 }
                 break;
             case MultipleItem.ITEM_AUDIO://音频
@@ -127,14 +182,14 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_mi_auto_right_content,false);helper.setVisible(R.id.item_mi_auto_left_content,true);
                     helper.setBackgroundRes(R.id.item_mi_auto_content_rl,R.drawable.mi_chatfrom_bg_normal);
                     helper.setText(R.id.item_mi_auto_left_title,item.getImMessage().getFromNick());
-                    loadHeadImage(imageUrl,helper,R.id.item_mi_auto_left_iv);
+
                 }else {
                     helper.setVisible(R.id.item_mi_auto_right_iv,true);helper.setVisible(R.id.item_mi_auto_left_iv,false);
                     helper.setVisible(R.id.item_mi_auto_right_title,true);helper.setVisible(R.id.item_mi_auto_left_title,false);
                     helper.setVisible(R.id.item_mi_auto_right_content,true);helper.setVisible(R.id.item_mi_auto_left_content,false);
                     helper.setBackgroundRes(R.id.item_mi_auto_content_rl,R.drawable.ease_chatfrom_bg_normal_right);
                     helper.setText(R.id.item_mi_auto_right_title,item.getImMessage().getFromNick());
-                    loadHeadImage(imageUrl,helper,R.id.item_mi_auto_right_iv);
+
                 }
 
                 break;
@@ -149,12 +204,12 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setVisible(R.id.item_red_right_iv,false);helper.setVisible(R.id.item_red_left_iv,true);
                     helper.setVisible(R.id.item_red_right_content,false);helper.setVisible(R.id.item_red_left_content,true);
                     helper.setVisible(R.id.item_red_packet_right_rl,false);helper.setVisible(R.id.item_red_packet_rl,true);
-                    loadHeadImage(imageUrl,helper,R.id.item_red_left_iv);
+
                 }else {
                     helper.setVisible(R.id.item_red_left_iv,false);helper.setVisible(R.id.item_red_right_iv,true);
                     helper.setVisible(R.id.item_red_left_content,false);helper.setVisible(R.id.item_red_right_content,true);
                     helper.setVisible(R.id.item_red_packet_rl,false);helper.setVisible(R.id.item_red_packet_right_rl,true);
-                    loadHeadImage(imageUrl,helper,R.id.item_red_right_iv);
+
                 }
                 if (attachment!=null){
                     String json=attachment.toJson(false);

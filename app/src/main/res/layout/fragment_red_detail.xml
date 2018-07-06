@@ -44,7 +44,7 @@
             android:textSize="@dimen/text_big_title"
             android:layout_below="@id/red_detail_count"
             android:layout_centerHorizontal="true"
-            android:text="21.5元"
+            android:text="0.00元"
             android:textColor="@color/black"
             android:textStyle="bold"
             />
@@ -65,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/red_detail_hit"
+            android:gravity="center"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
 
