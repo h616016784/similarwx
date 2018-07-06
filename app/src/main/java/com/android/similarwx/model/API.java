@@ -25,6 +25,7 @@ import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
+import com.android.similarwx.beans.response.RspSetPassword;
 import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUser;
@@ -43,6 +44,7 @@ import com.android.similarwx.present.RechargePresent;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.present.RegisterPresent;
 import com.android.similarwx.present.ServicePresent;
+import com.android.similarwx.present.SetPasswordPresent;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 
 import java.util.HashMap;
@@ -259,22 +261,22 @@ public class API implements APIConstants {
         });
     }
 
-    public void setPaymentPasswd(String userId,String paymentPasswd,String passwdStr){
+    public void setPaymentPasswd(String userId, String paymentPasswd, String passwdStr, SetPasswordPresent present){
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);
         if (!TextUtils.isEmpty(paymentPasswd))
             map.put("paymentPasswd",paymentPasswd);
         if (!TextUtils.isEmpty(passwdStr))
             map.put("passwdStr",passwdStr);
-        Call<BaseResponse> call=apiService.setPaymentPasswd(map);
-        call.enqueue(new Callback<BaseResponse>() {
+        Call<RspSetPassword> call=apiService.setPaymentPasswd(map);
+        call.enqueue(new Callback<RspSetPassword>() {
             @Override
-            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+            public void onResponse(Call<RspSetPassword> call, Response<RspSetPassword> response) {
 
             }
 
             @Override
-            public void onFailure(Call<BaseResponse> call, Throwable t) {
+            public void onFailure(Call<RspSetPassword> call, Throwable t) {
 
             }
         });
