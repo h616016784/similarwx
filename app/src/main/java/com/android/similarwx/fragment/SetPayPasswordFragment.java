@@ -17,6 +17,7 @@ import com.android.similarwx.inteface.SetPasswordViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.present.SetPasswordPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.Strings.MD5;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +48,7 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
         mActionbar.setTitle(R.string.set_pay_password_title);
         mActionbar.setRightText(R.string.register_complete);
         mActionbar.setRightOnClickListener(this);
-        muser= (User) SharePreferenceUtil.getObject(activity, AppConstants.USER_OBJECT,"");
+        muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
     }
 
     @Override
@@ -63,7 +64,7 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                 else if (!password.equals(confirmPassword))
                     Toaster.toastShort("密码前后不一致!");
                 else
-                    present.setPassword(muser.getId(),password,"");
+                    present.setPassword(muser.getId(), MD5.getStringMD5(password),"");
                 break;
         }
     }

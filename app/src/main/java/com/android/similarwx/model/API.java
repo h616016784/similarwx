@@ -40,6 +40,7 @@ import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.MyBasePresent;
 import com.android.similarwx.present.NoticePresent;
+import com.android.similarwx.present.PhoneVerifyPresent;
 import com.android.similarwx.present.RechargePresent;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.present.RegisterPresent;
@@ -278,6 +279,27 @@ public class API implements APIConstants {
             @Override
             public void onFailure(Call<RspSetPassword> call, Throwable t) {
 
+            }
+        });
+    }
+    public void getMobileVerifyCode(String mobile, PhoneVerifyPresent present){
+        Map<String,String> map=new HashMap<>();
+        map.put("mobile",mobile);
+        Call<BaseResponse> call=apiService.getMobileVerifyCode(map);
+        call.enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                try {
+                    BaseResponse rspGroup=response.body();
+                    present.analyzeRes(rspGroup);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
             }
         });
     }

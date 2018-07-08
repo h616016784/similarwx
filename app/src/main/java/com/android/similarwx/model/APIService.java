@@ -54,6 +54,10 @@ public interface APIService {
 
     @POST("resUsers/setPaymentPasswd")
     Call<RspSetPassword> setPaymentPasswd(@QueryMap Map<String, String> map);
+
+    @POST("resUsers/getMobileVerifyCode")
+    Call<BaseResponse> getMobileVerifyCode(@QueryMap Map<String, String> map);
+
     @FormUrlEncoded
     @POST("resUsers/update")
     Call<RspUser> updateUser(@FieldMap Map<String, String> map);

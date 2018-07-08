@@ -14,9 +14,12 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.inteface.SetPasswordViewInterface;
 import com.android.similarwx.model.API;
+import com.android.similarwx.present.SetPasswordPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.Strings.MD5;
 import com.android.similarwx.widget.BaseItemView;
 import com.android.similarwx.widget.ItemView;
 import com.android.similarwx.widget.dialog.AlertDialogFragment;
@@ -33,7 +36,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/11.
  */
 
-public class SetPasswordFragment extends BaseFragment {
+public class SetPasswordFragment extends BaseFragment implements SetPasswordViewInterface {
     @BindView(R.id.my_set_password_login_iv)
     BaseItemView mySetPasswordLoginIv;
     @BindView(R.id.my_set_password_pay_iv)
@@ -43,6 +46,7 @@ public class SetPasswordFragment extends BaseFragment {
     Unbinder unbinder;
 
     EditDialogSimple editDialogSimple;
+    SetPasswordPresent present;
     User muser;
     @Override
     protected int getLayoutResource() {
@@ -54,6 +58,7 @@ public class SetPasswordFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.my_base_title);
         unbinder = ButterKnife.bind(this, contentView);
+        present=new SetPasswordPresent(this);
         init();
     }
 
@@ -84,12 +89,13 @@ public class SetPasswordFragment extends BaseFragment {
                 showEditDialog(1);
                 break;
             case R.id.my_set_password_find_iv:
+                FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),null);
                 break;
         }
     }
 
     private void showEditDialog(int flag) {
-        muser= (User) SharePreferenceUtil.getObject(activity, AppConstants.USER_OBJECT,"");
+        muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
         if(editDialogSimple==null)
             editDialogSimple=new EditDialogSimple(activity,"");
         if(flag==0){
@@ -100,20 +106,41 @@ public class SetPasswordFragment extends BaseFragment {
                     if (TextUtils.isEmpty(text))
                         Toaster.toastShort("登录密码不能为空");
                     else {
-                        API.getInstance().setPaymentPasswd(muser.getId(),"",text);
+                        present.setPassword(muser.getId(),"",text);
                     }
                 }
             });
         } else{
-            editDialogSimple.setTitle(AppContext.getResources().getString(R.string.set_password_message));
-            editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
-                @Override
-                public void onClickListener(String text) {
-                    FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),null);
-                }
-            });
+            if (TextUtils.isEmpty(muser.getPaymentPasswd())){
+                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),null);
+            }else{
+                editDialogSimple.setTitle(AppContext.getResources().getString(R.string.set_password_message));
+                editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                    @Override
+                    public void onClickListener(String text) {
+                        String myPayPassword=muser.getPaymentPasswd();
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("支付密码不能为空");
+                        else {
+                            if (MD5.getStringMD5(text).equals(myPayPassword))
+                                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),null);
+                            else
+                                Toaster.toastShort("原支付密码不正确!");
+                        }
+                    }
+                });
+            }
         }
-
         editDialogSimple.show();
+    }
+
+    @Override
+    public void refreshSetPassword() {
+
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
     }
 }

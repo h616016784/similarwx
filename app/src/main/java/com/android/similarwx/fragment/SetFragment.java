@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.BaseItemView;
 
 import butterknife.BindView;
@@ -42,8 +44,10 @@ public class SetFragment extends BaseFragment {
     }
 
     private void init() {
-        mySetAccountBv.setNameText(R.string.set_account);mySetAccountBv.setRightText("");
-        mySetPhoneBv.setNameText(R.string.set_phone);mySetPhoneBv.setRightText("");
+        String account= SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"");
+        String mobile= SharePreferenceUtil.getString(activity, AppConstants.USER_PHONE,"");
+        mySetAccountBv.setNameText(R.string.set_account);mySetAccountBv.setRightText(account);
+        mySetPhoneBv.setNameText(R.string.set_phone);mySetPhoneBv.setRightText(mobile);
         mySetPasswordBv.setNameText(R.string.set_password);mySetPasswordBv.setRightText("");mySetPasswordBv.setImageView(R.drawable.em_right);
     }
 

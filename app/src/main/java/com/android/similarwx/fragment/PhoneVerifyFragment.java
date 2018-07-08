@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.inteface.PhoneVerifyViewInterface;
+import com.android.similarwx.present.PhoneVerifyPresent;
 import com.android.similarwx.utils.FragmentUtils;
 
 import butterknife.BindView;
@@ -24,7 +26,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/14.
  */
 
-public class PhoneVerifyFragment extends BaseFragment {
+public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyViewInterface{
     @BindView(R.id.verify_phone_et)
     EditText verifyPhoneEt;
     @BindView(R.id.verify_code_et)
@@ -36,6 +38,7 @@ public class PhoneVerifyFragment extends BaseFragment {
     Unbinder unbinder;
 
     private CountDownTimer timer;
+    PhoneVerifyPresent present;
 
     @Override
     protected int getLayoutResource() {
@@ -47,15 +50,18 @@ public class PhoneVerifyFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle("验证");
         unbinder = ButterKnife.bind(this, contentView);
+        present=new PhoneVerifyPresent(this);
         timer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                verifyGetCodeTv.setText("还剩" + millisUntilFinished / 1000);
+                verifyGetCodeTv.setText("还剩(" + millisUntilFinished / 1000+")");
+                verifyGetCodeTv.setClickable(false);
             }
 
             @Override
             public void onFinish() {
                 verifyGetCodeTv.setText("获取验证码");
+                verifyGetCodeTv.setClickable(true);
             }
         };
     }
@@ -77,12 +83,22 @@ public class PhoneVerifyFragment extends BaseFragment {
                 if (TextUtils.isEmpty(text))
                     Toaster.toastShort("手机号不能为空");
                 else
-                    timer.start();
-                break;
-            case R.id.verify_next:
-                FragmentUtils.navigateToNormalActivity(activity,new SetPasswordFragment(),null);
+                    present.getMobileVerifyCode(text);
 
                 break;
+            case R.id.verify_next:
+                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),null);
+                break;
         }
+    }
+
+    @Override
+    public void refreshGettMobileVerifyCode() {
+        timer.start();
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+        timer.cancel();
     }
 }
