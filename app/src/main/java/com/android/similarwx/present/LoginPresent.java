@@ -73,7 +73,8 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_SEX,user.getGender());
         if (user.getId()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
-
+        if (user.getPaymentPasswd()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,user.getPaymentPasswd());
 
         //云信登录
 

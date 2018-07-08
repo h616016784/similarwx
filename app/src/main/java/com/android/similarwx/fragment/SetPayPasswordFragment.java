@@ -28,6 +28,8 @@ import butterknife.Unbinder;
  */
 
 public class SetPayPasswordFragment extends BaseFragment implements SetPasswordViewInterface {
+    public static final String LOG_PSD="loginPassword";
+    public static final String PAY_PSD="payPassword";
     Unbinder unbinder;
     @BindView(R.id.set_pay_password_et)
     EditText setPayPasswordEt;
@@ -35,6 +37,7 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
     EditText setPayPasswordConfirmEt;
     User muser;
     SetPasswordPresent present;
+    private String type="";
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_pay_password;
@@ -45,7 +48,14 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
         super.onInitView(contentView);
         present=new SetPasswordPresent(this);
         unbinder = ButterKnife.bind(this, contentView);
-        mActionbar.setTitle(R.string.set_pay_password_title);
+        type=getArguments().getString(AppConstants.TRANSFER_PASSWORD_TYPE);
+        if (!TextUtils.isEmpty(type)){
+            if (type.equals(LOG_PSD)){
+                mActionbar.setTitle("设置登录密码");
+            }else {
+                mActionbar.setTitle(R.string.set_pay_password_title);
+            }
+        }
         mActionbar.setRightText(R.string.register_complete);
         mActionbar.setRightOnClickListener(this);
         muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
@@ -63,8 +73,14 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                     Toaster.toastShort("确认密码不能为空！");
                 else if (!password.equals(confirmPassword))
                     Toaster.toastShort("密码前后不一致!");
-                else
-                    present.setPassword(muser.getId(), MD5.getStringMD5(password),"");
+                else{
+                    if (type.equals(LOG_PSD)){
+                        present.setPassword(muser.getId(),"",password);
+                    }else {
+                        present.setPassword(muser.getId(), password,"");
+                    }
+
+                }
                 break;
         }
     }
@@ -77,7 +93,13 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
 
     @Override
     public void refreshSetPassword() {
+        String password=setPayPasswordEt.getText().toString();
+        if (type.equals(LOG_PSD)){
 
+        }else {
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,password);
+        }
+        activity.finish();
     }
 
     @Override

@@ -110,9 +110,12 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordView
                     }
                 }
             });
+            editDialogSimple.show();
         } else{
             if (TextUtils.isEmpty(muser.getPaymentPasswd())){
-                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),null);
+                Bundle bundle=new Bundle();
+                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
+                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
             }else{
                 editDialogSimple.setTitle(AppContext.getResources().getString(R.string.set_password_message));
                 editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
@@ -122,16 +125,19 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordView
                         if (TextUtils.isEmpty(text))
                             Toaster.toastShort("支付密码不能为空");
                         else {
-                            if (MD5.getStringMD5(text).equals(myPayPassword))
-                                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),null);
-                            else
+                            if (text.equals(myPayPassword)){
+                                Bundle bundle=new Bundle();
+                                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
+                                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                            } else
                                 Toaster.toastShort("原支付密码不正确!");
                         }
                     }
                 });
+                editDialogSimple.show();
             }
         }
-        editDialogSimple.show();
+
     }
 
     @Override

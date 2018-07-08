@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.inteface.PhoneVerifyViewInterface;
 import com.android.similarwx.present.PhoneVerifyPresent;
@@ -79,7 +80,7 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.verify_get_code_tv:
-                String text = verifyGetCodeTv.getText().toString();
+                String text = verifyPhoneEt.getText().toString();
                 if (TextUtils.isEmpty(text))
                     Toaster.toastShort("手机号不能为空");
                 else
@@ -87,7 +88,9 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
 
                 break;
             case R.id.verify_next:
-                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),null);
+                Bundle bundle=new Bundle();
+                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
+                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
                 break;
         }
     }

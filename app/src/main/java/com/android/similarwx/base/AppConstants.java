@@ -55,6 +55,7 @@ public class AppConstants extends BaseConstants {
     public static final String TRANSFER_CHAT_REDENTITY= "redDetail";
     public static final String TRANSFER_ISHOST= "isHost";
     public static final String TRANSFER_GROUP_USER_ROLE= "groupUserRole";
+    public static final String TRANSFER_PASSWORD_TYPE= "passwordType";
     /**
      * 更多中选择标示
      */
@@ -80,6 +81,7 @@ public class AppConstants extends BaseConstants {
     public final static String USER_SEX= "sex";//
     public final static String USER_SIGN = "sign";//
     public final static String USER_CONTENT = "content";//
+    public final static String USER_PAYPASSWORD = "payPassword";//
     public final static int RESULT_USER_NICK = 9;//
     public final static int RESULT_USER_SIGN = 10;//
 

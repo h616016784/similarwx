@@ -273,12 +273,17 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspSetPassword>() {
             @Override
             public void onResponse(Call<RspSetPassword> call, Response<RspSetPassword> response) {
-
+                try {
+                    RspSetPassword rspUser=response.body();
+                    present.analyzeRes(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
             }
 
             @Override
             public void onFailure(Call<RspSetPassword> call, Throwable t) {
-
+                Toaster.toastShort(t.getMessage());
             }
         });
     }
