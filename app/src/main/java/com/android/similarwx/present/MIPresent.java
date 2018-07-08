@@ -28,7 +28,7 @@ public class MIPresent extends BasePresent {
         this.mView=view;
     }
     public void sendRed(SendRed sendRed){
-        API.getInstance().sendRed(sendRed.getData().getRequestNum(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),sendRed.getData().getAmount(),sendRed.getData().getType(),sendRed.getData().getCount(),sendRed.getData().getThunder(),this);
+        API.getInstance().sendRed(sendRed.getData().getRequestNum(),sendRed.getData().getUserId(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),sendRed.getData().getAmount(),sendRed.getData().getType(),sendRed.getData().getCount(),sendRed.getData().getThunder(),this);
     }
 
     public void canGrab(String redId, Activity activity){
@@ -39,7 +39,7 @@ public class MIPresent extends BasePresent {
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
         API.getInstance().grabRed(userId,redId,this,activity);
     }
-    public void analyzeRes(RspSendRed rspRed) {
+    public void analyzeRes(RspSendRed rspRed,String accid) {
         if (rspRed!=null){
             String result=rspRed.getResult();
             if (result.equals("success")){
@@ -47,6 +47,7 @@ public class MIPresent extends BasePresent {
                 if (sendRed!=null){
                     String code=sendRed.getRetCode();
                     if (code.equals("0000")){
+                        sendRed.setMyUserId(accid);
                         mView.reFreshCustemRed(sendRed);
                     }else {
                         Toaster.toastShort(sendRed.getRetMsg());

@@ -25,11 +25,13 @@ import com.android.similarwx.beans.MIMultiItem;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.inteface.MiViewInterface;
 import com.android.similarwx.misdk.model.CustomAttachment;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.RedDialogFragment;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
@@ -90,6 +92,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     SmartRefreshLayout mi_smartRefreshLayout;
     Unbinder unbinder;
 
+
     private MultipleItemQuickAdapter multipleItemAdapter;
     private List<MultipleItem> data;
 
@@ -120,6 +123,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     protected void onInitView(View contentView) {
 //        AndroidBug5497Workaround.assistActivity(activity);
         miPresent=new MIPresent(this);
+
         gson=new Gson();
         Bundle bundle=getArguments();
         if (bundle!=null){
@@ -211,7 +215,6 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                         player.start( AudioManager.STREAM_VOICE_CALL);
                         break;
                     case MultipleItem.ITEM_RED://红包
-
                         MsgAttachment attachment=bean.getImMessage().getAttachment();
                         if (attachment!=null) {
                             String json = attachment.toJson(false);

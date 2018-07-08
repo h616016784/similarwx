@@ -22,6 +22,8 @@ import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Strings.MD5;
 import com.android.similarwx.widget.input.sessions.Extras;
@@ -63,6 +65,7 @@ public class SendRedFragment extends BaseFragment {
     Unbinder unbinder;
     public GroupMessageBean.ListBean listBean;
     private String type = null;
+    private User mUser;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_send_red;
@@ -72,6 +75,7 @@ public class SendRedFragment extends BaseFragment {
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
         Bundle bundle=getArguments();
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
         if (bundle!=null){
             listBean= (GroupMessageBean.ListBean) bundle.getSerializable(AppConstants.CHAT_GROUP_BEAN);
         }
@@ -106,43 +110,49 @@ public class SendRedFragment extends BaseFragment {
 
     @OnClick(R.id.send_red_bt)
     public void onViewClicked() {
-        Intent intent=new Intent();
-        SendRed sendRed=new SendRed();
-        SendRed.SendRedBean bean=new SendRed.SendRedBean();
-        String money=sendRedSumEt.getText().toString();
-        String lei=sendRedLeiEt.getText().toString();
-        String count=sendRedCountEt.getText().toString();
-        if (TextUtils.isEmpty(money)){
-            Toaster.toastShort("金额不能为空！");
-            return;
-        }
-
-        if (type.equals("MINE")){//游戏群
-            if (TextUtils.isEmpty(lei)){
-                Toaster.toastShort("雷数不能为空！");
+        if (TextUtils.isEmpty(mUser.getPaymentPasswd())){
+            Bundle bundle=new Bundle();
+            bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
+            FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+        }else {
+            Intent intent=new Intent();
+            SendRed sendRed=new SendRed();
+            SendRed.SendRedBean bean=new SendRed.SendRedBean();
+            String money=sendRedSumEt.getText().toString();
+            String lei=sendRedLeiEt.getText().toString();
+            String count=sendRedCountEt.getText().toString();
+            if (TextUtils.isEmpty(money)){
+                Toaster.toastShort("金额不能为空！");
                 return;
             }
-            bean.setThunder(lei);
-            bean.setTitle("扫雷红包游戏");
 
-        }else {
-            bean.setCount(count);
-            bean.setTitle("手气红包游戏");
+            if (type.equals("MINE")){//游戏群
+                if (TextUtils.isEmpty(lei)){
+                    Toaster.toastShort("雷数不能为空！");
+                    return;
+                }
+                bean.setThunder(lei);
+                bean.setTitle("扫雷红包游戏");
+
+            }else {
+                bean.setCount(count);
+                bean.setTitle("手气红包游戏");
+            }
+
+            bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
+            bean.setAmount(money);
+            bean.setGroupId(listBean.getGroupId());
+            bean.setMyGroupId(listBean.getId()+"");
+            bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无"));
+            bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
+            bean.setType(type);
+            bean.setCotent("领取红包");
+            sendRed.setData(bean);
+            sendRed.setType("7");
+            intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,sendRed);
+            activity.setResult(Activity.RESULT_OK,intent);
+            activity.finish();
         }
-
-        bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
-        bean.setAmount(money);
-        bean.setGroupId(listBean.getGroupId());
-        bean.setMyGroupId(listBean.getId()+"");
-        bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
-        bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无"));
-        bean.setType(type);
-        bean.setCotent("领取红包");
-        sendRed.setData(bean);
-        sendRed.setType("7");
-        intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,sendRed);
-        activity.setResult(Activity.RESULT_OK,intent);
-        activity.finish();
     }
     private TextWatcher textWatcher=new TextWatcher() {
         @Override

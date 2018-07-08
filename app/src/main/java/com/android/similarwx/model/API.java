@@ -493,7 +493,7 @@ public class API implements APIConstants {
         });
     }
 
-    public void sendRed(String requestNum, String userId,String groupId,String amount,String type, String count,String thunder,final MIPresent present) {
+    public void sendRed(String requestNum, String userId,String accid,String groupId,String amount,String type, String count,String thunder,final MIPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("requestNum",requestNum );
         map.put("userId",userId);
@@ -511,7 +511,7 @@ public class API implements APIConstants {
             public void onResponse(Call<RspSendRed> call, Response<RspSendRed> response) {
                 try {
                     RspSendRed rspRed=response.body();
-                    present.analyzeRes(rspRed);
+                    present.analyzeRes(rspRed,accid);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
                 }
