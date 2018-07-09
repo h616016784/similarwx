@@ -77,8 +77,8 @@ public class PickerAlbumAdapter extends BaseAdapter {
 //                .into(imageView);
         Glide.with(AppContext.getContext())
                 .load(thumbPath)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .placeholder(R.drawable.nim_image_default)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .placeholder(R.drawable.nim_image_default)
                 .into(viewHolder.folderCover);
         viewHolder.folderName.setText(albumInfo.getAlbumName());
         viewHolder.folderFileNum.setText(String.format(mContext.getResources().getString(

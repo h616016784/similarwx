@@ -218,9 +218,9 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             if (bean.getUserExists().equals("0")){//不在群里
                 String joinmode=bean.getJoinmode();
                 if (!TextUtils.isEmpty(joinmode)){
-                    if (bean.getJoinmode().equals(0)){//允许任何人加入
+                    if (joinmode.equals("0")){//允许任何人加入
                         doInGroup(bean);
-                    }else if (bean.getJoinmode().equals(1)){
+                    }else if (joinmode.equals("1")){
                         EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
                             @Override
                             public void doCancelAction() {

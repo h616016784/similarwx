@@ -101,9 +101,10 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
                                     String imageUrl=userInfo.getAvatar();
                                     redDetailName.setText(userInfo.getName());
                                     if (!TextUtils.isEmpty(imageUrl)){
-                                        Glide.with(getActivity()).load(imageUrl).override(120,120).transform(new CircleCrop(getActivity()))
-                                                .placeholder(R.drawable.rp_avatar)
-                                                .error(R.drawable.rp_avatar)
+                                        Glide.with(getActivity()).load(imageUrl)
+//                                                .override(120,120).transform(new CircleCrop(getActivity()))
+//                                                .placeholder(R.drawable.rp_avatar)
+//                                                .error(R.drawable.rp_avatar)
                                                 .into(redDetailHeadIv);
                                     }
                                 }

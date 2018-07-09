@@ -123,10 +123,10 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
             if (!TextUtils.isEmpty(icon)){
                 Glide.with(activity)
                         .load(icon)
-                        .override(120,120)
-                        .transform(new CircleCrop(activity))
-                        .placeholder(R.drawable.rp_avatar)
-                        .error(R.drawable.rp_avatar)
+//                        .override(120,120)
+//                        .transform(new CircleCrop(activity))
+//                        .placeholder(R.drawable.rp_avatar)
+//                        .error(R.drawable.rp_avatar)
                         .into(myBaseHeadBv.getRightImageView());
             }
         }
@@ -375,10 +375,10 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
             if (!TextUtils.isEmpty(icon)){
                 Glide.with(activity)
                         .load(icon)
-                        .override(120,120)
-                        .transform(new CircleCrop(activity))
-                        .placeholder(R.drawable.rp_avatar)
-                        .error(R.drawable.rp_avatar)
+//                        .override(120,120)
+//                        .transform(new CircleCrop(activity))
+//                        .placeholder(R.drawable.rp_avatar)
+//                        .error(R.drawable.rp_avatar)
                         .into(myBaseHeadBv.getRightImageView());
             }
         }

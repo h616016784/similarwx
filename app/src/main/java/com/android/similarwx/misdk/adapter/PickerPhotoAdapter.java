@@ -145,8 +145,8 @@ public class PickerPhotoAdapter extends BaseAdapter {
 //            PickerImageLoader.display(thumbPath, photoInfo.getAbsolutePath(), viewHolder.image, R.drawable.nim_image_default);
             Glide.with(AppContext.getContext())
                     .load(thumbPath)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .placeholder(R.drawable.nim_image_default)
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                    .placeholder(R.drawable.nim_image_default)
                     .into(viewHolder.image);
         }
 

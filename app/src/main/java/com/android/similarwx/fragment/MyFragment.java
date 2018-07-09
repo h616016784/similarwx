@@ -106,10 +106,10 @@ public class MyFragment extends BaseFragment {
             if (url!=null){
                 Glide.with(activity)
                         .load(url)
-                        .override(120,120)
-                        .transform(new CircleCrop(activity))
-                        .placeholder(R.drawable.rp_avatar)
-                        .error(R.drawable.rp_avatar)
+//                        .override(120,120)
+//                        .transform(new CircleCrop(activity))
+//                        .placeholder(R.drawable.rp_avatar)
+//                        .error(R.drawable.rp_avatar)
                         .into(myBaseHeadIv);
             }
             myBaseAccountTv.setText(mUser.getAccId());

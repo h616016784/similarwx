@@ -105,9 +105,10 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
                                     String imageUrl=userInfo.getAvatar();
                                     dialog_red_result_name_tv.setText(userInfo.getName());
                                     if (!TextUtils.isEmpty(imageUrl)){
-                                        Glide.with(getActivity()).load(imageUrl).override(120,120).transform(new CircleCrop(getActivity()))
-                                                .placeholder(R.drawable.rp_avatar)
-                                                .error(R.drawable.rp_avatar)
+                                        Glide.with(getActivity()).load(imageUrl)
+//                                                .override(120,120).transform(new CircleCrop(getActivity()))
+//                                                .placeholder(R.drawable.rp_avatar)
+//                                                .error(R.drawable.rp_avatar)
                                                 .into(dialog_red_result_head_iv);
                                     }
                                 }

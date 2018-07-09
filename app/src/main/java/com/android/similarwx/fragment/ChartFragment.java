@@ -82,10 +82,10 @@ public class ChartFragment extends BaseFragment {
                 String icon =user.getAvatar();
                 if (!TextUtils.isEmpty(icon)) {
                     Glide.with(activity).load(icon)
-                            .error(R.drawable.rp_avatar)
-                            .override(1200,120)
+//                            .error(R.drawable.rp_avatar)
+//                            .override(1200,120)
 //                            .transform(new CircleCrop(activity))
-                            .placeholder(R.drawable.rp_avatar)
+//                            .placeholder(R.drawable.rp_avatar)
                             .into((ImageView) helper.getView(R.id.item_chart_iv));
                 }
             }

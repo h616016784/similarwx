@@ -83,7 +83,7 @@ public class NewMultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multi
                     String imagePath=charImageBean.getPath();
                     Glide.with(context)
                             .load(new File(imagePath))
-                            .error(R.drawable.nim_default_img_failed)
+//                            .error(R.drawable.nim_default_img_failed)
                             .into((ImageView) helper.getView(R.id.item_mi_image_left_content));
                 }else {
                     helper.setVisible(R.id.item_mi_image_right_iv,true);helper.setVisible(R.id.item_mi_image_left_iv,false);

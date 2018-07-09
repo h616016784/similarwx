@@ -58,7 +58,7 @@ public class JsonConverterFactory extends Converter.Factory {
                             if (jo.has("data")) {//对后端无数据时返回不标准的json做处理（无数据，data部分应该返回空对象，但后端返回了空字符串）
                                 Object data = jo.get("data");
                                 if ("".equals(data + "")) {
-                                    jo.put("data", null);
+//                                    jo.put("data", null);
                                     t = gson.fromJson(jo.toString(), type);
                                 }
                             }

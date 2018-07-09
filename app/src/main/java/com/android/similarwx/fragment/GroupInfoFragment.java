@@ -154,12 +154,18 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             if (ruleList!=null)
                 ruleAdapter.addData(ruleList);
         }
-        doGroupUserList();
+
     }
 
     private void doGroupUserList() {
         if (listBean!=null)
             groupInfoPresent.getGroupUserList(listBean.getGroupId());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        doGroupUserList();
     }
 
     @Override

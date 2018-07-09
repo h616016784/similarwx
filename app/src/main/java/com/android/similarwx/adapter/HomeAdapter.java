@@ -37,8 +37,8 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
             String groupIcon =item.getGroupIcon();
             if (!TextUtils.isEmpty(groupIcon)){
                 Glide.with(context).load(groupIcon)
-                        .error(R.drawable.ease_default_image)
-                        .placeholder(R.drawable.ease_default_image)
+//                        .error(R.drawable.ease_default_image)
+//                        .placeholder(R.drawable.ease_default_image)
                         .into((ImageView) helper.getView(R.id.item_group_iv));
             }
         }

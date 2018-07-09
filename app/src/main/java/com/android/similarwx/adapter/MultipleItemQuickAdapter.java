@@ -9,11 +9,13 @@ import android.text.style.ImageSpan;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.primary.Log;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.misdk.helper.TeamNotificationHelper;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.widget.emoji.EmojiManager;
 import com.bumptech.glide.Glide;
@@ -23,10 +25,14 @@ import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
+import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.constant.NotificationType;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
+import com.netease.nimlib.sdk.team.model.MemberChangeAttachment;
+import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.netease.nimlib.sdk.uinfo.model.UserInfo;
@@ -153,8 +159,8 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     if (!TextUtils.isEmpty(imagePath)){
                         Glide.with(context)
                                 .load(new File(imagePath))
-                                .override(120,120)
-                                .error(R.drawable.nim_default_img_failed)
+//                                .override(120,120)
+//                                .error(R.drawable.nim_default_img_failed)
                                 .into((ImageView) helper.getView(R.id.item_mi_image_left_content));
                     }
 
@@ -169,7 +175,9 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     CharImageBean charImageBean=gson.fromJson(s, CharImageBean.class);
                     String imagePath=charImageBean.getPath();
                     if (!TextUtils.isEmpty(imagePath)){
-                        Glide.with(context).load(new File(imagePath)).override(120,120).into((ImageView) helper.getView(R.id.item_mi_image_right_content));
+                        Glide.with(context).load(new File(imagePath))
+//                                .override(120,120)
+                                .into((ImageView) helper.getView(R.id.item_mi_image_right_content));
                     }
 
                 }
@@ -194,9 +202,9 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
 
                 break;
             case MultipleItem.ITEM_NOTIFICATION://通知类信息
-                String content= item.getSystemCotent();
-                if (!TextUtils.isEmpty(content))
-                     helper.setText(R.id.item_sys_tv,item.getImMessage().getContent());
+
+                String noticeContexnt=TeamNotificationHelper.getMsgShowText(imMessage);
+                helper.setText(R.id.item_sys_tv,noticeContexnt);
                 break;
             case MultipleItem.ITEM_RED://红包类信息
                 MsgAttachment attachment=imMessage.getAttachment();
@@ -259,9 +267,11 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
 
     private void loadHeadImage(String imageUrl,BaseViewHolder helper,int res){
         if (!TextUtils.isEmpty(imageUrl)){
-            Glide.with(context).load(imageUrl).override(60,60).transform(new CircleCrop(context))
-                    .placeholder(R.drawable.rp_avatar)
-                    .error(R.drawable.rp_avatar)
+            Glide.with(context).load(imageUrl)
+//                    .override(60,60)
+//                    .transform(new CircleCrop(context))
+//                    .placeholder(R.drawable.rp_avatar)
+//                    .error(R.drawable.rp_avatar)
                     .into((ImageView) helper.getView(res));
         }
     }

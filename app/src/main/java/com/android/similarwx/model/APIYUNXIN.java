@@ -35,8 +35,10 @@ public class APIYUNXIN {
 
             @Override
             public void onFailed(int code) {
-                // 申请失败
-                Toaster.toastShort(code+"");
+                if (code==808)
+                    Toaster.toastShort("申请成功，等待群主审批");
+                else
+                    Toaster.toastShort(code+"");// 申请失败
             }
 
             @Override

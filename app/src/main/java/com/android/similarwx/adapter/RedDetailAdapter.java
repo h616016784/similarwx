@@ -39,9 +39,10 @@ public class RedDetailAdapter extends BaseQuickAdapter<RedDetialBean,BaseViewHol
 //        helper.setText(R.id.item_red_detail_shouqi_tv,item.getShouqi());
         String imageUrl=item.getIcon();
         if (!TextUtils.isEmpty(imageUrl)){
-            Glide.with(mContext).load(imageUrl).override(60,60).transform(new CircleCrop(mContext))
-                    .placeholder(R.drawable.rp_avatar)
-                    .error(R.drawable.rp_avatar)
+            Glide.with(mContext).load(imageUrl)
+//                    .override(60,60).transform(new CircleCrop(mContext))
+//                    .placeholder(R.drawable.rp_avatar)
+//                    .error(R.drawable.rp_avatar)
                     .into((ImageView) helper.getView(R.id.item_red_detail_iv));
         }
         boolean isLucky=item.isLucky();

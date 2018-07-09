@@ -10,6 +10,8 @@ import android.graphics.Paint;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
+import java.security.MessageDigest;
+
 /**
  * Created by hanhuailong on 2018/6/21.
  */
@@ -23,10 +25,6 @@ public class CircleCrop extends BitmapTransformation {
         super(bitmapPool);
     }
 
-    @Override
-    public String getId() {
-        return "com.android.similarwx.utils.glide.CircleCrop";
-    }
 
     @Override
     protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
@@ -56,9 +54,14 @@ public class CircleCrop extends BitmapTransformation {
         float radius = diameter / 2f;
         canvas.drawCircle(radius, radius, radius, paint);
 
-        if (toReuse != null && !pool.put(toReuse)) {
-            toReuse.recycle();
-        }
+//        if (toReuse != null && !pool.put(toReuse)) {
+//            toReuse.recycle();
+//        }
         return result;
+    }
+
+    @Override
+    public void updateDiskCacheKey(MessageDigest messageDigest) {
+
     }
 }
