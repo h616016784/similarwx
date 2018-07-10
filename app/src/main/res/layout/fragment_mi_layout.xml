@@ -9,31 +9,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/messageActivityBottomLayout"
+            android:id="@+id/messageActivityBottomLayout_l"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
             <include layout="@layout/layout_textmessage"/>
 
-            <com.android.similarwx.widget.emoji.EmoticonPickerView
-                android:id="@+id/emoticon_picker_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"/>
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/mi_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/messageActivityBottomLayout">
+            android:layout_above="@id/messageActivityBottomLayout_l">
         </android.support.v7.widget.RecyclerView>
         <RelativeLayout
             android:id="@+id/layoutPlayAudio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_above="@id/messageActivityBottomLayout"
+            android:layout_above="@id/messageActivityBottomLayout_l"
             android:background="@drawable/shape_noice_dialog_bg_gray"
             android:visibility="gone"
             >

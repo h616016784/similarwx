@@ -10,10 +10,12 @@ import com.android.similarwx.misdk.ScreenUtil;
 import com.android.similarwx.misdk.StorageUtil;
 import com.android.similarwx.misdk.model.RedCustomAttachParser;
 import com.android.similarwx.utils.SharePreferenceUtil;
-import com.android.similarwx.widget.emoji.StickerManager;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.business.contact.core.query.PinYin;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.mixpush.NIMPushClient;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.util.NIMUtil;
 
@@ -28,9 +30,38 @@ public class AppApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         mInstance=this;
-        initYunXinSDK(this);
+//        initYunXinSDK(this);
+        initNIM(this);
     }
 
+    private void initNIM(AppApplication appApplication) {
+        NIMClient.init(this, loginInfo(), options());
+
+        if (NIMUtil.isMainProcess(this)) {
+            // 在主进程中初始化UI组件，判断所属进程方法请参见demo源码。
+            initUiKit();
+        }
+    }
+    private void initUiKit() {
+        // 初始化
+        NimUIKit.init(this);
+
+        // 会话窗口的定制: 示例代码可详见demo源码中的SessionHelper类。
+        // 1.注册自定义消息附件解析器（可选）
+        // 2.注册各种扩展消息类型的显示ViewHolder（可选）
+        // 3.设置会话中点击事件响应处理（一般需要）
+//        SessionHelper.init();
+
+        // 通讯录列表定制：示例代码可详见demo源码中的ContactHelper类。ContactHelper
+        // 1.定制通讯录列表中点击事响应处理（一般需要，UIKit 提供默认实现为点击进入聊天界面)
+//        ContactHelper.init();
+
+        // 注册自定义推送消息处理，这个是可选项
+//        NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
+        // init pinyin
+        PinYin.init(this);
+        PinYin.validate();
+    }
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

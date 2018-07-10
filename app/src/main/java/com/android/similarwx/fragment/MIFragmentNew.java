@@ -36,7 +36,6 @@ import com.android.similarwx.widget.dialog.RedDialogFragment;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
-import com.android.similarwx.widget.input.InputPanel;
 import com.android.similarwx.widget.input.actions.BaseAction;
 import com.android.similarwx.widget.input.actions.BillAciton;
 import com.android.similarwx.widget.input.actions.CashAction;
@@ -96,7 +95,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     private MultipleItemQuickAdapter multipleItemAdapter;
     private List<MultipleItem> data;
 
-    protected InputPanel inputPanel;
+//    protected InputPanel inputPanel;
     private SessionCustomization customization;
     // 聊天对象
     protected String sessionId; // p2p对方Account或者群id
@@ -148,11 +147,11 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
         }
 
         Container container = new Container(activity, sessionId, sessionType, this);
-        if (inputPanel == null) {
-            inputPanel = new InputPanel(container, contentView, getActionList());
-        } else {
-            inputPanel.reload(container, customization);
-        }
+//        if (inputPanel == null) {
+//            inputPanel = new InputPanel(container, contentView, getActionList());
+//        } else {
+//            inputPanel.reload(container, customization);
+//        }
 
         multipleItemAdapter = new MultipleItemQuickAdapter(activity,null);
 
@@ -336,7 +335,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        inputPanel.onActivityResult(requestCode, resultCode, data);
+//        inputPanel.onActivityResult(requestCode, resultCode, data);
 
     }
 
@@ -344,10 +343,10 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     public boolean isInterceptKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN
                 && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            if (inputPanel!=null && inputPanel.isShowed){
-                inputPanel.hideAllInputLayout(true);
-                return true;
-            }
+//            if (inputPanel!=null && inputPanel.isShowed){
+//                inputPanel.hideAllInputLayout(true);
+//                return true;
+//            }
         }
         return false;
     }
@@ -477,7 +476,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
             if (imMessage!=null)
                 sendMessage(imMessage);
         }
-        inputPanel.hideAllInputLayout(true);
+//        inputPanel.hideAllInputLayout(true);
         miRecyclerView.scrollToPosition(multipleItemAdapter.getItemCount()-1);
     }
 

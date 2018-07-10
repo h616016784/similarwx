@@ -44,6 +44,7 @@ import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
@@ -275,13 +276,18 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     }
 
     public void doInGroup(GroupMessageBean.ListBean bean){
-        Bundle bundle = new Bundle();
-        bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_GROUP_EIGHT);
-        bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
-        bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getGroupId());//群id号
-        bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getGroupName());//群name
-        bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,bean);
-        FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_GROUP_EIGHT);
+//        bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
+//        bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getGroupId());//群id号
+//        bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getGroupName());//群name
+//        bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,bean);
+//        FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
+
+        // 打开群聊界面
+        NimUIKit.startTeamSession(this, bean.getGroupId());
+
+//        NimUIKit.startP2PSession(this, bean.getGroupId());
     }
 
     /**

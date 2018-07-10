@@ -17,7 +17,7 @@ import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.misdk.helper.TeamNotificationHelper;
 import com.android.similarwx.utils.glide.CircleCrop;
-import com.android.similarwx.widget.emoji.EmojiManager;
+//import com.android.similarwx.widget.emoji.EmojiManager;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -311,7 +311,8 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                             temp+=String.valueOf(c);
                         }
 //                        String emoji=tempEmojiCharList.toString();
-                        Drawable d=EmojiManager.getDrawable(context,temp);
+//                        Drawable d=EmojiManager.getDrawable(context,temp);
+                        Drawable d=null;
                         SpannableString ss = new SpannableString("emoji");
                         //得到drawable对象，即所要插入的图片
                         d.setBounds(0, 0, d.getIntrinsicWidth()/2, d.getIntrinsicHeight()/2);

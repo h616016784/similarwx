@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.MultipleItem;
-import com.android.similarwx.widget.emoji.EmojiManager;
+//import com.android.similarwx.widget.emoji.EmojiManager;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -169,7 +169,8 @@ public class NewMultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multi
                             temp+=String.valueOf(c);
                         }
 //                        String emoji=tempEmojiCharList.toString();
-                        Drawable d=EmojiManager.getDrawable(context,temp);
+//                        Drawable d=EmojiManager.getDrawable(context,temp);
+                        Drawable d=null;
                         SpannableString ss = new SpannableString("emoji");
                         //得到drawable对象，即所要插入的图片
                         d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());

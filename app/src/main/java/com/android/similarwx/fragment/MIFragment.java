@@ -29,7 +29,6 @@ import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.RedDialogFragment;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
-import com.android.similarwx.widget.input.InputPanel;
 import com.android.similarwx.widget.input.actions.BaseAction;
 import com.android.similarwx.widget.input.actions.BillAciton;
 import com.android.similarwx.widget.input.actions.CashAction;
@@ -83,7 +82,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     private MultipleItemQuickAdapter multipleItemAdapter;
     private List<MultipleItem> data;
 
-    protected InputPanel inputPanel;
+//    protected InputPanel inputPanel;
     private SessionCustomization customization;
     // 聊天对象
     protected String sessionId; // p2p对方Account或者群id
@@ -126,12 +125,12 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         }
 //        View rootView=contentView.findViewById(R.id.messageActivityBottomLayout);
         Container container = new Container(activity, sessionId, sessionType, this);
-        if (inputPanel == null) {
-            inputPanel = new InputPanel(container, contentView, getActionList());
-//            inputPanel.setCustomization(customization);
-        } else {
-            inputPanel.reload(container, customization);
-        }
+//        if (inputPanel == null) {
+//            inputPanel = new InputPanel(container, contentView, getActionList());
+////            inputPanel.setCustomization(customization);
+//        } else {
+//            inputPanel.reload(container, customization);
+//        }
 
         multipleItemAdapter = new MultipleItemQuickAdapter(activity,null);
 
@@ -312,7 +311,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        inputPanel.onActivityResult(requestCode, resultCode, data);
+//        inputPanel.onActivityResult(requestCode, resultCode, data);
 
     }
     @Override

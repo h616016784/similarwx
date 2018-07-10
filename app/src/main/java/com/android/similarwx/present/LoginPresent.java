@@ -12,6 +12,7 @@ import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -85,8 +86,43 @@ public class LoginPresent extends BasePresent {
 //        if (TextUtils.isEmpty(accid))
 //            token="a170417844a19c6bfebb4ab1a137fc31";
         LoginInfo loginInfo=new LoginInfo(accid,token);
-        doYunXinLogin(loginInfo,user);
+//        doYunXinLogin(loginInfo,user);
 
+        doNimLogin(loginInfo,user);
+    }
+
+    private void doNimLogin(LoginInfo loginInfo, User user) {
+        NimUIKit.login(loginInfo, new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo param) {
+
+                NIMClient.getService(AuthService.class).openLocalCache(loginInfo.getAccount());
+
+                //跟新本地用户资料
+                doUpdateLocalYunxin(user);
+                loginViewInterface.loginScucces(user);
+//                DemoCache.setAccount(account);
+//                saveLoginInfo(account, token);
+//
+//                // 初始化消息提醒配置
+//                initNotificationConfig();
+
+            }
+
+            @Override
+            public void onFailed(int code) {
+                if (code == 302 || code == 404) {
+                    Toaster.toastShort("登录失败");
+                } else {
+                    Toaster.toastShort("登录失败");
+                }
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                Toaster.toastShort("登录异常");
+            }
+        });
     }
 
     private void doYunXinLogin(LoginInfo loginInfo, final User user) {
