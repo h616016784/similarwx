@@ -8,6 +8,7 @@ import com.android.similarwx.fragment.AdiminInfoFragment;
 import com.android.similarwx.fragment.ClientDetailInfoFragment;
 import com.android.similarwx.fragment.MIFragment;
 import com.android.similarwx.utils.FragmentUtils;
+import com.netease.nim.uikit.business.session.actions.BaseAction;
 
 /**
  * Created by hanhuailong on 2018/4/9.

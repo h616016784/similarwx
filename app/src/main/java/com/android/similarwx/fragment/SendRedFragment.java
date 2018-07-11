@@ -126,25 +126,39 @@ public class SendRedFragment extends BaseFragment {
                 return;
             }
 
-            if (type.equals("MINE")){//游戏群
-                if (TextUtils.isEmpty(lei)){
-                    Toaster.toastShort("雷数不能为空！");
-                    return;
-                }
-                bean.setThunder(lei);
-                bean.setTitle("扫雷红包游戏");
-
-            }else {
+            if (TextUtils.isEmpty(type)){
                 bean.setCount(count);
                 bean.setTitle("手气红包游戏");
+            }else {
+                if (type.equals("MINE")){//游戏群
+                    if (TextUtils.isEmpty(lei)){
+                        Toaster.toastShort("雷数不能为空！");
+                        return;
+                    }
+                    bean.setThunder(lei);
+                    bean.setTitle("扫雷红包游戏");
+
+                }else {
+                    bean.setCount(count);
+                    bean.setTitle("手气红包游戏");
+                }
             }
+
 
             bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
             bean.setAmount(money);
-            bean.setGroupId(listBean.getGroupId());
-            bean.setMyGroupId(listBean.getId()+"");
+            if (listBean!=null){
+                bean.setGroupId(listBean.getGroupId());
+                bean.setMyGroupId(listBean.getId()+"");
+            }
+
             bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无"));
             bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
+
+            type="MINE";
+            bean.setGroupId("499364036");
+            bean.setMyGroupId("7");
+
             bean.setType(type);
             bean.setCotent("领取红包");
             sendRed.setData(bean);

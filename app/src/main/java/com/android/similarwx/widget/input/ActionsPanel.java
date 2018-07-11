@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.similarwx.R;
-import com.android.similarwx.widget.input.actions.BaseAction;
+import com.netease.nim.uikit.business.session.actions.BaseAction;
 
 import java.util.List;
 

@@ -16,6 +16,7 @@ import com.android.similarwx.misdk.StorageUtil;
 import com.android.similarwx.misdk.activity.PickImageActivity;
 import com.android.similarwx.misdk.activity.PreviewImageFromCameraActivity;
 import com.android.similarwx.utils.Strings.StringUtil;
+import com.netease.nim.uikit.business.session.actions.BaseAction;
 
 import java.io.File;
 

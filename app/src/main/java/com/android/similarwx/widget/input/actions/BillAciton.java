@@ -8,6 +8,7 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.fragment.MIFragmentNew;
 import com.android.similarwx.fragment.MyDetailFragment;
 import com.android.similarwx.utils.FragmentUtils;
+import com.netease.nim.uikit.business.session.actions.BaseAction;
 
 /**
  * Created by hanhuailong on 2018/4/9.

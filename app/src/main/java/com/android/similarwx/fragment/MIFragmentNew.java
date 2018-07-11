@@ -36,7 +36,6 @@ import com.android.similarwx.widget.dialog.RedDialogFragment;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
-import com.android.similarwx.widget.input.actions.BaseAction;
 import com.android.similarwx.widget.input.actions.BillAciton;
 import com.android.similarwx.widget.input.actions.CashAction;
 import com.android.similarwx.widget.input.actions.ContactAdminAction;
@@ -51,6 +50,7 @@ import com.android.similarwx.widget.input.sessions.Extras;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.netease.nim.uikit.business.session.actions.BaseAction;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -287,7 +287,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
         List<BaseAction> actions = new ArrayList<>();
         if(flag==DELETE_GROUP_EIGHT){
             actions.add(new ImageAction());
-            actions.add(new RedAction(this));
+//            actions.add(new RedAction(this));
             actions.add(new ContactAdminAction());
             actions.add(new BillAciton());
             actions.add(new RechargeAciton());

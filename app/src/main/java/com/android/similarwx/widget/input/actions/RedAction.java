@@ -1,8 +1,8 @@
 package com.android.similarwx.widget.input.actions;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.android.similarwx.R;
@@ -10,14 +10,13 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
-import com.android.similarwx.fragment.MIFragment;
-import com.android.similarwx.fragment.MIFragmentNew;
 import com.android.similarwx.fragment.SendRedFragment;
 import com.android.similarwx.misdk.model.CustomAttachment;
-import com.android.similarwx.utils.FragmentUtils;
-import com.android.similarwx.widget.input.module.Container;
+import com.android.similarwx.utils.FragmentUtilsV4;
+import com.netease.nim.uikit.business.session.actions.BaseAction;
+import com.netease.nim.uikit.business.session.fragment.MessageFragment;
+import com.netease.nim.uikit.business.session.module.Container;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
-import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -26,7 +25,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
  */
 
 public class RedAction extends BaseAction {
-    private Fragment fromFragment;
+    private MessageFragment fromFragment;
     /**
      * 构造函数
      *
@@ -34,7 +33,7 @@ public class RedAction extends BaseAction {
     public RedAction() {
         super(R.drawable.demo_reply_bar_hb, R.string.chart_red);
     }
-    public RedAction(Fragment fromFragment) {
+    public RedAction(MessageFragment fromFragment) {
         super(R.drawable.demo_reply_bar_hb, R.string.chart_red);
         this.fromFragment=fromFragment;
     }
@@ -42,8 +41,7 @@ public class RedAction extends BaseAction {
     @Override
     public void onClick() {
         Bundle bundle=new Bundle();
-        bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,((MIFragmentNew)fromFragment).listBean);
-        FragmentUtils.navigateToNormalActivityForResult(fromFragment,new SendRedFragment(),bundle, makeRequestCode(AppConstants.SEND_RED_REQUEST));
+        FragmentUtilsV4.navigateToNormalActivityForResult(fromFragment.getActivity(),new SendRedFragment(),bundle, makeRequestCode(AppConstants.SEND_RED_REQUEST));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -51,7 +49,7 @@ public class RedAction extends BaseAction {
             Log.e(""+AppConstants.SEND_RED_REQUEST,"发红包的结果数据");
             if(data!=null){
                 SendRed redDetailBean= (SendRed) data.getSerializableExtra(AppConstants.TRANSFER_CHAT_REDENTITY);
-                ((MIFragmentNew)fromFragment).senCustemRed(redDetailBean);
+                fromFragment.senCustemRed(redDetailBean);
 //                if (redDetailBean!=null){
 //                    IMMessage imMessage=createCustomMessage(redDetailBean);
 //                    if (imMessage!=null)

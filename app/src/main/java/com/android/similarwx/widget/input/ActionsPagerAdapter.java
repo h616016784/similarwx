@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.android.similarwx.R;
-import com.android.similarwx.widget.input.actions.BaseAction;
+import com.netease.nim.uikit.business.session.actions.BaseAction;
 
 import java.util.ArrayList;
 import java.util.List;

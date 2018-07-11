@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.android.similarwx.widget.input.actions.BaseAction;
+import com.netease.nim.uikit.business.session.actions.BaseAction;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 
 import java.io.Serializable;
