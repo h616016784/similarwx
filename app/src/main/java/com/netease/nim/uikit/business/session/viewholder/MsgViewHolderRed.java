@@ -8,6 +8,9 @@ import android.widget.TextView;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
+import com.netease.nim.uikit.business.chatroom.adapter.ChatRoomMsgAdapter;
+import com.netease.nim.uikit.business.session.module.ModuleProxy;
+import com.netease.nim.uikit.business.session.module.list.MsgAdapter;
 import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLoadAdapter;
 
 /**
@@ -81,6 +84,13 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
 
     @Override
     protected void onItemClick() {
-        super.onItemClick();
+        RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+        BaseMultiItemFetchLoadAdapter adapter = getAdapter();
+        ModuleProxy proxy = null;
+        if (adapter instanceof MsgAdapter) {
+            proxy = ((MsgAdapter) adapter).getContainer().proxy;
+        } else if (adapter instanceof ChatRoomMsgAdapter) {
+            proxy = ((ChatRoomMsgAdapter) adapter).getContainer().proxy;
+        }
     }
 }
