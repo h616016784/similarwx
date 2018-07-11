@@ -436,4 +436,9 @@
     <string name="fts_prefix_hit">前缀匹配高亮检索结果</string>
     <string name="msg_search">全文检索</string>
     <string name="msg_search_limit">全文检索显示条数</string>
+
+    <string name="red_packet">红包</string>
+    <string name="open_rp">领取红包</string>
+    <string name="check_rp">查看红包</string>
+    <string name="rp_push_content">发来了一个红包</string>
 </resources>

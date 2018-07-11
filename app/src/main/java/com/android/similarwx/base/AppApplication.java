@@ -6,6 +6,9 @@ import android.text.TextUtils;
 
 import com.android.outbaselibrary.BaseApplication;
 import com.android.outbaselibrary.utils.LogUtil;
+import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRed;
+import com.android.similarwx.inteface.message.CustomAttachParser;
+import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.misdk.ScreenUtil;
 import com.android.similarwx.misdk.StorageUtil;
 import com.android.similarwx.misdk.model.RedCustomAttachParser;
@@ -15,7 +18,6 @@ import com.netease.nim.uikit.business.contact.core.query.PinYin;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
-import com.netease.nimlib.sdk.mixpush.NIMPushClient;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.util.NIMUtil;
 
@@ -46,6 +48,8 @@ public class AppApplication extends BaseApplication {
         // 初始化
         NimUIKit.init(this);
 
+        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new CustomAttachParser());
+        NimUIKit.registerMsgItemViewHolder(RedCustomAttachment.class, MsgViewHolderRed.class);
         // 会话窗口的定制: 示例代码可详见demo源码中的SessionHelper类。
         // 1.注册自定义消息附件解析器（可选）
         // 2.注册各种扩展消息类型的显示ViewHolder（可选）
