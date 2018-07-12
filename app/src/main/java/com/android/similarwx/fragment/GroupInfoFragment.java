@@ -71,6 +71,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     @BindView(R.id.group_info_member_ll)
     LinearLayout groupInfoMemberLl;
 
+
     private BaseQuickAdapter groupAdapter;
     private List<GroupUser.ListBean> groupList;
 

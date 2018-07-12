@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,6 +80,8 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     RecyclerView createGroupRuleRv;
     @BindView(R.id.create_group_new_bt)
     Button createGroupNewBt;
+    @BindView(R.id.create_group_lei_ll)
+    LinearLayout creatGroupLeiLl;
 
     private ListPopWindow groupTypePop;
     private List<PopMoreBean> groupTypeList;
@@ -123,23 +126,31 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 
     private void initGroupList() {
         groupTypeList=new ArrayList<>();
+//        PopMoreBean bean=new PopMoreBean();
+//        bean.setId("1");
+//        bean.setName("普通交友群");
+//        PopMoreBean bean2=new PopMoreBean();
+//        bean2.setId("2");
+//        bean2.setName("扫雷游戏群");
+//        groupTypeList.add(bean);
+//        groupTypeList.add(bean2);
+//        PopMoreBean bean3=new PopMoreBean();
+//        bean3.setId("3");
+//        bean3.setName("接龙游戏群");
+//        groupTypeList.add(bean3);
+//        PopMoreBean bean4=new PopMoreBean();
+//        bean4.setId("4");
+//        bean4.setName("牛牛游戏群");
+//        groupTypeList.add(bean4);
+
         PopMoreBean bean=new PopMoreBean();
         bean.setId("1");
-        bean.setName("普通交友群");
+        bean.setName("普通群");
         PopMoreBean bean2=new PopMoreBean();
         bean2.setId("2");
-        bean2.setName("扫雷游戏群");
+        bean2.setName("游戏群");
         groupTypeList.add(bean);
         groupTypeList.add(bean2);
-        PopMoreBean bean3=new PopMoreBean();
-        bean3.setId("3");
-        bean3.setName("接龙游戏群");
-        groupTypeList.add(bean3);
-        PopMoreBean bean4=new PopMoreBean();
-        bean4.setId("4");
-        bean4.setName("牛牛游戏群");
-        groupTypeList.add(bean4);
-
         groupRuleList=new ArrayList<>();
     }
 
@@ -156,6 +167,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                     public void onItemClick(int position) {
                         PopMoreBean bean=groupTypeList.get(position);
                         createGroupSetTv.setText(bean.getName());
+                        if (bean.getId().equals("1"))
+                            creatGroupLeiLl.setVisibility(View.GONE);
+                        else if (bean.getId().equals("2"))
+                            creatGroupLeiLl.setVisibility(View.VISIBLE);
                         reqGroup.setGroupType(bean.getId());
                     }
                 });
