@@ -723,13 +723,19 @@ public class API implements APIConstants {
         Map<String,String> map=new HashMap<>();
         map.put("groupName",reqGroup.getGroupName());
         map.put("groupType",reqGroup.getGroupType());
+        map.put("gameType",reqGroup.getGroupType());
         map.put("createId",reqGroup.getCreateId());
+//        map.put("totalNumber",reqGroup.getCreateId());
+
         map.put("notice",reqGroup.getNotice());
         map.put("requirement",reqGroup.getRequirement());
         map.put("multipleRate",reqGroup.getMultipleRate());
         map.put("startRange",reqGroup.getStartRange());
         map.put("endRange",reqGroup.getEndRange());
         map.put("rewardRules",reqGroup.getRewardRules());
+
+        map.put("hallDisplay",reqGroup.getHallDisplay());
+        map.put("joinmode",reqGroup.getJoinmode());
         Call<RspGroupSave> call=apiService.groupSave(map);
         call.enqueue(new Callback<RspGroupSave>() {
             @Override

@@ -8,11 +8,12 @@ public class User extends BaseBean{
 
 
     /**
-     * inviter : null
      * passwd : 7c4a8d09ca3762af61e59520943dc26494f8941b
+     * inviter : null
      * birth : null
+     * threeLevelCount : 0
      * serviceFlg : 0
-     * threeLevelCount : null
+     * cashFlg : 0
      * state : null
      * adminFlg : 1
      * modifyDate : 2018-07-06 16:48:21
@@ -25,33 +26,35 @@ public class User extends BaseBean{
      * wechatAccount : 15701332721
      * parentInviter : null
      * name : jokehhhhh
-     * paymentPasswd : null
+     * paymentPasswd : 123456
      * gender : 0
      * createDate : 2018-07-06 16:48:21
      * inviterFlg : 0
      * accId : hhltest1
-     * twoLevelCount : null
      * personalitySignature : 魔图
+     * twoLevelCount : 0
      * icon : https://nos.netease.com/nim/NTI1MzE5Mg==/bmltYV8xOTI4NDg0MjYyXzE1Mjk1NTM3MTI3MDZfNWRjNjQwNWQtNDk5NC00MTVmLTgxNWItZGUxNmUzYzk3MWYz
+     * verifyCode : null
+     * totalBalance : 1.0000011122E8
      * systemFlg : 0
-     * totalBalance : 527.88
-     * oneLevelCount : null
+     * oneLevelCount : 0
      * userChildCount : 0
      * birthStr : null
      * passwdStr : null
      * alipay : null
      * email : wangyihanhuailong@163.com
-     * recentLoginTime : 2018-07-08 09:43:49
+     * recentLoginTime : 2018-07-12 16:53:34
      * registIp : null
      * registTime : 2018-07-06 16:48:21
      * mobile : 15701332721
      */
 
-    private String inviter;
     private String passwd;
+    private String inviter;
     private String birth;
+    private int threeLevelCount;
     private int serviceFlg;
-    private String threeLevelCount;
+    private int cashFlg;
     private String state;
     private int adminFlg;
     private String modifyDate;
@@ -69,12 +72,13 @@ public class User extends BaseBean{
     private String createDate;
     private int inviterFlg;
     private String accId;
-    private Object twoLevelCount;
     private String personalitySignature;
+    private int twoLevelCount;
     private String icon;
-    private int systemFlg;
+    private String verifyCode;
     private double totalBalance;
-    private String oneLevelCount;
+    private int systemFlg;
+    private int oneLevelCount;
     private int userChildCount;
     private String birthStr;
     private String passwdStr;
@@ -85,20 +89,20 @@ public class User extends BaseBean{
     private String registTime;
     private String mobile;
 
-    public String getInviter() {
-        return inviter;
-    }
-
-    public void setInviter(String inviter) {
-        this.inviter = inviter;
-    }
-
     public String getPasswd() {
         return passwd;
     }
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
+    }
+
+    public String getInviter() {
+        return inviter;
+    }
+
+    public void setInviter(String inviter) {
+        this.inviter = inviter;
     }
 
     public String getBirth() {
@@ -109,6 +113,14 @@ public class User extends BaseBean{
         this.birth = birth;
     }
 
+    public int getThreeLevelCount() {
+        return threeLevelCount;
+    }
+
+    public void setThreeLevelCount(int threeLevelCount) {
+        this.threeLevelCount = threeLevelCount;
+    }
+
     public int getServiceFlg() {
         return serviceFlg;
     }
@@ -117,12 +129,12 @@ public class User extends BaseBean{
         this.serviceFlg = serviceFlg;
     }
 
-    public String getThreeLevelCount() {
-        return threeLevelCount;
+    public int getCashFlg() {
+        return cashFlg;
     }
 
-    public void setThreeLevelCount(String threeLevelCount) {
-        this.threeLevelCount = threeLevelCount;
+    public void setCashFlg(int cashFlg) {
+        this.cashFlg = cashFlg;
     }
 
     public String getState() {
@@ -261,20 +273,20 @@ public class User extends BaseBean{
         this.accId = accId;
     }
 
-    public Object getTwoLevelCount() {
-        return twoLevelCount;
-    }
-
-    public void setTwoLevelCount(Object twoLevelCount) {
-        this.twoLevelCount = twoLevelCount;
-    }
-
     public String getPersonalitySignature() {
         return personalitySignature;
     }
 
     public void setPersonalitySignature(String personalitySignature) {
         this.personalitySignature = personalitySignature;
+    }
+
+    public int getTwoLevelCount() {
+        return twoLevelCount;
+    }
+
+    public void setTwoLevelCount(int twoLevelCount) {
+        this.twoLevelCount = twoLevelCount;
     }
 
     public String getIcon() {
@@ -285,12 +297,12 @@ public class User extends BaseBean{
         this.icon = icon;
     }
 
-    public int getSystemFlg() {
-        return systemFlg;
+    public String getVerifyCode() {
+        return verifyCode;
     }
 
-    public void setSystemFlg(int systemFlg) {
-        this.systemFlg = systemFlg;
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
     }
 
     public double getTotalBalance() {
@@ -301,11 +313,19 @@ public class User extends BaseBean{
         this.totalBalance = totalBalance;
     }
 
-    public String getOneLevelCount() {
+    public int getSystemFlg() {
+        return systemFlg;
+    }
+
+    public void setSystemFlg(int systemFlg) {
+        this.systemFlg = systemFlg;
+    }
+
+    public int getOneLevelCount() {
         return oneLevelCount;
     }
 
-    public void setOneLevelCount(String oneLevelCount) {
+    public void setOneLevelCount(int oneLevelCount) {
         this.oneLevelCount = oneLevelCount;
     }
 

@@ -98,6 +98,9 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
             @Override
             public void callBack(List<SystemMessage> systemMessages) {
                 if (systemMessages != null && systemMessages.size() > 0) {
+                    List<SystemMessage> list=noticeAdapter.getData();
+                    if (list!=null)
+                        list.clear();
                     noticeAdapter.addData(systemMessages);
                 }
             }
@@ -129,5 +132,6 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
         else if (systemMessage.getType().getValue()== SystemMessageType.TeamInvite.getValue()){
             APIYUNXIN.setSystemMessageStatus(systemMessage.getMessageId(), SystemMessageStatus.passed);
         }
+        fetchData();
     }
 }
