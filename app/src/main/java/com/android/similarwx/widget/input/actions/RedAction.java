@@ -41,6 +41,8 @@ public class RedAction extends BaseAction {
     @Override
     public void onClick() {
         Bundle bundle=new Bundle();
+        String account=getAccount();
+        bundle.putString(AppConstants.TRANSFER_ACCOUNT,account);
         FragmentUtilsV4.navigateToNormalActivityForResult(fromFragment.getActivity(),new SendRedFragment(),bundle, makeRequestCode(AppConstants.SEND_RED_REQUEST));
     }
 

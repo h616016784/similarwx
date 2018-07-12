@@ -1,13 +1,16 @@
 package com.netease.nim.uikit.business.session.viewholder;
 
+import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
+import com.android.similarwx.widget.dialog.RedResultNewDialogFragment;
 import com.netease.nim.uikit.business.chatroom.adapter.ChatRoomMsgAdapter;
 import com.netease.nim.uikit.business.session.module.ModuleProxy;
 import com.netease.nim.uikit.business.session.module.list.MsgAdapter;
@@ -92,5 +95,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
         } else if (adapter instanceof ChatRoomMsgAdapter) {
             proxy = ((ChatRoomMsgAdapter) adapter).getContainer().proxy;
         }
+        message.getFromAccount(); message.getSessionId(); message.getSessionType();
+        RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean());
     }
 }

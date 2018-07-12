@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -97,14 +98,20 @@ public class ChartFragment extends BaseFragment {
                 List<RecentContact> list = baseQuickAdapter.getData();
                 if (list != null && list.size() > 0) {
                     RecentContact recentContact = list.get(position);
-                    if (recentContact != null) {
-                        Bundle bundle = new Bundle();
-                        bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_THREE);
-                        bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
-                        bundle.putString(AppConstants.CHAT_ACCOUNT_ID, recentContact.getContactId());
-                        bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, recentContact.getContactId());
-                        FragmentUtils.navigateToNormalActivity(activity, new MIFragmentNew(), bundle);
+                    if (recentContact.getSessionType()==SessionTypeEnum.P2P){
+                            NimUIKit.startP2PSession(activity, recentContact.getContactId());
+                    }else if (recentContact.getSessionType()==SessionTypeEnum.Team){
+                        // 打开群聊界面
+                        NimUIKit.startTeamSession(activity, recentContact.getContactId());
                     }
+//                    if (recentContact != null) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_THREE);
+//                        bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
+//                        bundle.putString(AppConstants.CHAT_ACCOUNT_ID, recentContact.getContactId());
+//                        bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, recentContact.getContactId());
+//                        FragmentUtils.navigateToNormalActivity(activity, new MIFragmentNew(), bundle);
+//                    }
                 }
             }
         });

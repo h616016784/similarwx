@@ -2,9 +2,14 @@ package com.netease.nim.uikit.impl;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.outbaselibrary.primary.AppContext;
+import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.fragment.GroupInfoFragment;
+import com.android.similarwx.utils.FragmentUtils;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.UIKitInitStateListener;
 import com.netease.nim.uikit.api.UIKitOptions;
@@ -368,8 +373,12 @@ public final class NimUIKitImpl {
             return;
         }
         if (team.getType() == TeamTypeEnum.Advanced) {
-            AdvancedTeamInfoActivity.start(context, teamId); // 启动固定群资料页
+//            AdvancedTeamInfoActivity.start(context, teamId); // 启动固定群资料页
+            Bundle bundle = new Bundle();
+            bundle.putString(AppConstants.TRANSFER_ACCOUNT,teamId);
+            FragmentUtils.navigateToNormalActivity(AppContext.getsActivity(),new GroupInfoFragment(),bundle);
         } else if (team.getType() == TeamTypeEnum.Normal) {
+
             NormalTeamInfoActivity.start(context, teamId); // 启动讨论组资料页
         }
     }

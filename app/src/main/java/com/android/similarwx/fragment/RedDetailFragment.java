@@ -60,7 +60,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
 
     private RedDetailAdapter redDetailAdapter;
     private RedDetailPresent mPresent;
-    SendRed sendRed;
+    SendRed.SendRedBean sendRed;
     RspGrabRed.GrabRedBean grabRedBean;
     String redId;
     String groupId;
@@ -81,15 +81,15 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
         if (bundle!=null){
             redId=bundle.getString(REDID);
             groupId=bundle.getString(GROUPID);
-            sendRed= (SendRed) bundle.getSerializable(SENDRED);
+            sendRed= (SendRed.SendRedBean) bundle.getSerializable(SENDRED);
 //            grabRedBean= (RspGrabRed.GrabRedBean) bundle.getSerializable(GRAB);
             if (sendRed!=null){
-                String textContent=sendRed.getData().getThunder();
-                if (TextUtils.isEmpty(sendRed.getData().getThunder())){
-                    textContent=sendRed.getData().getCount();
+                String textContent=sendRed.getThunder();
+                if (TextUtils.isEmpty(sendRed.getThunder())){
+                    textContent=sendRed.getCount();
                 }
-                redDetailCount.setText(sendRed.getData().getAmount()+"-"+textContent);
-                String accid=sendRed.getData().getMyUserId();//云信的accid
+                redDetailCount.setText(sendRed.getAmount()+"-"+textContent);
+                String accid=sendRed.getMyUserId();//云信的accid
                 List accounts=new ArrayList();
                 accounts.add(accid);
                 NIMClient.getService(UserService.class).fetchUserInfo(accounts)

@@ -17,6 +17,7 @@ import com.android.similarwx.beans.response.RspGetApply;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
+import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.beans.response.RspGroupSave;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspInMoney;
@@ -44,6 +45,7 @@ import com.android.similarwx.present.PhoneVerifyPresent;
 import com.android.similarwx.present.RechargePresent;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.present.RegisterPresent;
+import com.android.similarwx.present.SendRedPresent;
 import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.present.SetPasswordPresent;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
@@ -470,6 +472,30 @@ public class API implements APIConstants {
         });
     }
 
+    public void getGroupByGroupId(String id,String groupId, final SendRedPresent present) {
+        Map<String,String> map=new HashMap<>();
+        if (!TextUtils.isEmpty(groupId))
+            map.put("groupId",groupId);
+        if (!TextUtils.isEmpty(id))
+             map.put("userId",id);
+        Call<RspGroupInfo> call=apiService.getGroupByGroupId(map);
+        call.enqueue(new Callback<RspGroupInfo>() {
+            @Override
+            public void onResponse(Call<RspGroupInfo> call, Response<RspGroupInfo> response) {
+                try {
+                    RspGroupInfo rspGroupInfo=response.body();
+                    present.analyzeRes(rspGroupInfo);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspGroupInfo> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
     //废弃了
     public void getGroupApplyList(String userId) {
         Map<String,String> map=new HashMap<>();

@@ -133,7 +133,7 @@ public class ChatRoomMessageFragment extends TFragment implements ModuleProxy {
     }
 
     private void findViews() {
-        Container container = new Container(getActivity(), roomId, SessionTypeEnum.ChatRoom, this);
+        Container container = new Container(getActivity(), roomId, "",SessionTypeEnum.ChatRoom, this);
         if (messageListPanel == null) {
             messageListPanel = new ChatRoomMsgListPanel(container, rootView);
         } else {

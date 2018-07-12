@@ -19,10 +19,14 @@ import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.RewardRule;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.inteface.GroupInfoViewInterface;
+import com.android.similarwx.inteface.SendRedViewInterface;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.GroupInfoPresent;
+import com.android.similarwx.present.SendRedPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
@@ -44,7 +48,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/3.
  */
 
-public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInterface{
+public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInterface, SendRedViewInterface {
     @BindView(R.id.group_info_member_rv)
     RecyclerView groupInfoMemberRv;
     @BindView(R.id.group_info_member_num_tv)
@@ -72,9 +76,13 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
 
     private BaseQuickAdapter ruleAdapter;
     private List<RewardRule> ruleList;
-    protected GroupMessageBean.ListBean listBean;
     private boolean isHost=false;
     private GroupInfoPresent groupInfoPresent;
+
+    public RspGroupInfo.GroupInfo listBean;
+    private String accountId;
+    private SendRedPresent present;
+    private User mUser;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_group_info;
@@ -85,7 +93,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
         super.onInitView(contentView);
         Bundle bundle=getArguments();
         if (bundle!=null){
-            listBean= (GroupMessageBean.ListBean) bundle.getSerializable(AppConstants.CHAT_GROUP_BEAN);
+            accountId=  bundle.getString(AppConstants.TRANSFER_ACCOUNT);
         }
         mActionbar.setTitle("群信息");
         unbinder = ButterKnife.bind(this, contentView);
@@ -102,7 +110,10 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
         };
         groupInfoRuleRv.setAdapter(ruleAdapter);
 
-        initDataAndView();
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+        present=new SendRedPresent(this);
+        present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
+
         groupInfoMemberRv.setLayoutManager(new GridLayoutManager(activity, 4));
         groupAdapter = new BaseQuickAdapter<GroupUser.ListBean, BaseViewHolder>(R.layout.item_group_member, groupList) {
             @Override
@@ -165,7 +176,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     @Override
     public void onResume() {
         super.onResume();
-        doGroupUserList();
+
     }
 
     @Override
@@ -223,5 +234,14 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     public void refreshDeleteGroup() {
         Toaster.toastShort("群解散成功");
         MainChartrActivity.start(activity);
+    }
+
+    @Override
+    public void reFreshSendRed(RspGroupInfo.GroupInfo groupInfo) {
+        if (groupInfo!=null){
+            listBean=groupInfo;
+            initDataAndView();
+            doGroupUserList();
+        }
     }
 }

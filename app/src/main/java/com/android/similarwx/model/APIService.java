@@ -12,6 +12,7 @@ import com.android.similarwx.beans.response.RspGetApply;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
+import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.beans.response.RspGroupSave;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspInMoney;
@@ -70,6 +71,9 @@ public interface APIService {
 
     @POST("group/getGroupUserList")
     Call<RspGroupUser> getGroupUserList(@QueryMap Map<String,String> map);
+
+    @POST("group/getGroupByGroupId")
+    Call<RspGroupInfo> getGroupByGroupId(@QueryMap Map<String,String> map);
 
     @POST("sys/noticeList")
     Call<RspNotice> getNotices(@QueryMap Map<String, String> map);

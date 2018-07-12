@@ -23,6 +23,9 @@ import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspGroupInfo;
+import com.android.similarwx.inteface.SendRedViewInterface;
+import com.android.similarwx.present.SendRedPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Strings.MD5;
@@ -43,7 +46,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/12.
  */
 
-public class SendRedFragment extends BaseFragment {
+public class SendRedFragment extends BaseFragment implements SendRedViewInterface {
     @BindView(R.id.send_red_count_et)
     EditText sendRedCountEt;
     @BindView(R.id.send_red_sum_et)
@@ -63,9 +66,11 @@ public class SendRedFragment extends BaseFragment {
     @BindView(R.id.send_red_sum_money)
     TextView sumMoneyTv;
     Unbinder unbinder;
-    public GroupMessageBean.ListBean listBean;
+    public RspGroupInfo.GroupInfo listBean;
     private String type = null;
     private User mUser;
+    private String accountId;
+    private SendRedPresent present;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_send_red;
@@ -74,32 +79,16 @@ public class SendRedFragment extends BaseFragment {
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
-        Bundle bundle=getArguments();
-        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
-        if (bundle!=null){
-            listBean= (GroupMessageBean.ListBean) bundle.getSerializable(AppConstants.CHAT_GROUP_BEAN);
-        }
         mActionbar.setTitle("发红包");
         unbinder = ButterKnife.bind(this, contentView);
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+        Bundle bundle=getArguments();
+        accountId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);
+        present=new SendRedPresent(this);
+        present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
         sendRedSumEt.addTextChangedListener(textWatcher);
 
-        if (listBean!=null){
-            String groupType = listBean.getGroupType();
-            if (TextUtils.isEmpty(groupType)){
-                type="MINE";
-            }else {
-                if (groupType.equals("1")){//游戏群
-                    type="MINE";
-                }else if(groupType.equals("2")){//交友群也就是普通群
-                    type="LUCK";
-                    sendRedLeiRl.setVisibility(View.GONE);
-//                    sendRedLeiTv.setText("总数");
-//                    sendRedLeiEt.setHint("请输入总数");
-                    groupHintTv.setText("总数最好不要超过10个");
-                }
-            }
-            groupMoneyTv.setText("红包发布范围： "+listBean.getStartRange()+"-"+listBean.getEndRange()+"元");
-        }
+
     }
 
     @Override
@@ -155,10 +144,6 @@ public class SendRedFragment extends BaseFragment {
             bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无"));
             bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
 
-            type="MINE";
-            bean.setGroupId("499364036");
-            bean.setMyGroupId("7");
-
             bean.setType(type);
             bean.setCotent("领取红包");
             sendRed.setData(bean);
@@ -188,4 +173,31 @@ public class SendRedFragment extends BaseFragment {
 
         }
     };
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void reFreshSendRed(RspGroupInfo.GroupInfo groupInfo) {
+        if (groupInfo!=null){
+            listBean=groupInfo;
+            String groupType = groupInfo.getGroupType();
+            if (TextUtils.isEmpty(groupType)){
+                type="MINE";
+            }else {
+                if (groupType.equals("1")){//游戏群
+                    type="MINE";
+                }else if(groupType.equals("2")){//交友群也就是普通群
+                    type="LUCK";
+                    sendRedLeiRl.setVisibility(View.GONE);
+//                    sendRedLeiTv.setText("总数");
+//                    sendRedLeiEt.setHint("请输入总数");
+                    groupHintTv.setText("总数最好不要超过10个");
+                }
+            }
+            groupMoneyTv.setText("红包发布范围： "+groupInfo.getStartRange()+"-"+groupInfo.getEndRange()+"元");
+        }
+    }
 }

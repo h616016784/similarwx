@@ -1,5 +1,6 @@
 package com.android.outbaselibrary.primary;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -18,6 +19,16 @@ public class AppContext {
     private static Context sContext;
     private static int screenWidth = 0;
     private static int screenHeight = 0;
+
+    public static Activity getsActivity() {
+        return sActivity;
+    }
+
+    public static void setsActivity(Activity sActivity) {
+        AppContext.sActivity = sActivity;
+    }
+
+    private static Activity sActivity;
 
     public static Context getContext() {
         return sContext;

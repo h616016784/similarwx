@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.StringUtil;
 import com.android.similarwx.R;
 import com.android.similarwx.inteface.OnInterceptKeyListener;
@@ -99,7 +100,7 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
                 .statusBarColor(R.color.colorPrimary)
                 .fitsSystemWindows(true).init();
         setContentView();
-
+        AppContext.setsActivity(this);
         mOnInterceptKeyListener = initContentFragment();
 
 //        StatusBarUtil.statusBarLightMode(this);

@@ -15,6 +15,7 @@ import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.inteface.MiViewInterface;
+import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.misdk.model.CustomAttachment;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
@@ -161,7 +162,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         IMMessage anchor = (IMMessage) getArguments().getSerializable(Extras.EXTRA_ANCHOR);
 
         customization = (SessionCustomization) getArguments().getSerializable(Extras.EXTRA_CUSTOMIZATION);
-        Container container = new Container(getActivity(), sessionId, sessionType, this);
+        Container container = new Container(getActivity(), sessionId,"", sessionType, this);
 
         if (messageListPanel == null) {
             messageListPanel = new MessageListPanelEx(container, rootView, anchor, false, false);
@@ -471,11 +472,11 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
      * @return
      */
     protected IMMessage createCustomMessage(SendRed.SendRedBean redDetailBean) {
-        SendRed sendRed=new SendRed();
-        sendRed.setType("7");
-        sendRed.setData(redDetailBean);
-
-        return MessageBuilder.createCustomMessage(sessionId, sessionType, "红包",
-                new CustomAttachment<SendRed>(sendRed));
+        if (redDetailBean!=null){
+            RedCustomAttachment redCustomAttachment=new RedCustomAttachment();
+            redCustomAttachment.setSendRedBean(redDetailBean);
+            return MessageBuilder.createCustomMessage(sessionId, sessionType, "红包",redCustomAttachment);
+        }
+        return null;
     }
 }

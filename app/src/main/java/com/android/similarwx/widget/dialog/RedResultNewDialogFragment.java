@@ -14,21 +14,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
-import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.BaseBean;
-import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
+import com.android.similarwx.inteface.MiViewInterface;
+import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
-import com.android.similarwx.utils.glide.CircleCrop;
 import com.bumptech.glide.Glide;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.uinfo.UserService;
-import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.netease.nimlib.sdk.uinfo.model.UserInfo;
 
 import java.util.ArrayList;
@@ -38,25 +36,17 @@ import java.util.List;
  * Created by Administrator on 2018/4/9.
  */
 
-public class RedResultDialogFragment extends DialogFragment implements View.OnClickListener {
-    public static RedResultDialogFragment newInstance(BaseBean bean,SendRed sendRed) {
-        RedResultDialogFragment redDialogFragment = new RedResultDialogFragment();
+public class RedResultNewDialogFragment extends DialogFragment implements View.OnClickListener, MiViewInterface {
+
+    public static RedResultNewDialogFragment newInstance(SendRed.SendRedBean sendRed) {
+        RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("isGood", bean);
         bundle.putSerializable("info", sendRed);
         redDialogFragment.setArguments(bundle);
         return redDialogFragment;
     }
-
-    public static RedResultDialogFragment newInstance(SendRed.SendRedBean sendRed) {
-        RedResultDialogFragment redDialogFragment = new RedResultDialogFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("infoBean", sendRed);
-        redDialogFragment.setArguments(bundle);
-        return redDialogFragment;
-    }
-    public static RedResultDialogFragment newInstance(String title, String message) {
-        RedResultDialogFragment redDialogFragment = new RedResultDialogFragment();
+    public static RedResultNewDialogFragment newInstance(String title, String message) {
+        RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putString("message", message);
         bundle.putString("title", title);
@@ -71,9 +61,8 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
     private TextView dialog_red_result_name_tv;
     private TextView dialog_red_result_tips_tv;
 
-    private static OnOpenClick mClicker;
-    static SendRed mSendRed;
     static SendRed.SendRedBean mSendRedBean;
+    private MIPresent miPresent;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,10 +87,12 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
 
         Bundle bundle=getArguments();
         if (bundle!=null){
-            BaseBean bean= (BaseBean) bundle.getSerializable("isGood");
-            SendRed sendRed= (SendRed) bundle.getSerializable("info");
-            if (sendRed!=null){
-                String accid=sendRed.getData().getMyUserId();//云信的accid
+            mSendRedBean= (SendRed.SendRedBean) bundle.getSerializable("info");
+            miPresent=new MIPresent(this);
+
+            if (mSendRedBean!=null){
+                miPresent.canGrab(mSendRedBean.getRedPacId(),getActivity());//请求是否能抢红包
+                String accid=mSendRedBean.getMyUserId();//云信的accid
                 List accounts=new ArrayList();
                 accounts.add(accid);
                 NIMClient.getService(UserService.class).fetchUserInfo(accounts)
@@ -131,25 +122,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
                             }
                         });
             }
-            if (bean!=null){
-                String code = bean.getRetCode();
-                if (code.equals("0000")) {
-                    dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
-                    if (sendRed!=null){
-                        String text=null;
-                        if (TextUtils.isEmpty(sendRed.getData().getThunder())){
-                            text=sendRed.getData().getCount();
 
-                        }else {
-                            text=sendRed.getData().getThunder();
-                        }
-                        dialog_red_result_tips_tv.setText(sendRed.getData().getAmount()+"-"+text);
-                    }
-                } else {
-                    dialog_red_result_kai_tv.setVisibility(View.GONE);
-                    dialog_red_result_tips_tv.setText(bean.getRetMsg());
-                }
-            }
 
         }
     }
@@ -159,19 +132,9 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
         dialog_red_result_kai_tv.setOnClickListener(this);
     }
 
-    public static RedResultDialogFragment show(Activity activity, BaseBean bean, SendRed sendRed, OnOpenClick onOpenClick){
-        mClicker=onOpenClick;
-        mSendRed=sendRed;
-        RedResultDialogFragment redResultDialogFragment= RedResultDialogFragment.newInstance(bean,sendRed);
-        FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
-        transaction.add(redResultDialogFragment,"redResultDialog");
-        transaction.addToBackStack(null);
-        transaction.commit();
-        return redResultDialogFragment;
-    }
-    public static RedResultDialogFragment show(Activity activity, SendRed.SendRedBean sendRed){
+    public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed){
         mSendRedBean=sendRed;
-        RedResultDialogFragment redResultDialogFragment= RedResultDialogFragment.newInstance(sendRed);
+        RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed);
         FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
         transaction.add(redResultDialogFragment,"redResultDialogBean");
         transaction.addToBackStack(null);
@@ -180,7 +143,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
     }
     public static void disMiss(Activity activity){
         FragmentManager transaction=activity.getFragmentManager();
-        Fragment prev = transaction.findFragmentByTag("redResultDialog");
+        Fragment prev = transaction.findFragmentByTag("redResultDialogBean");
         if (prev != null) {
             DialogFragment df = (DialogFragment) prev;
             df.dismiss();
@@ -195,26 +158,82 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
                 break;
             case R.id.dialog_red_result_bottom_tv:
                 Bundle bundle=new Bundle();
-                if (mSendRed!=null){
-                    bundle.putString(RedDetailFragment.GROUPID,mSendRed.getData().getGroupId());
-                    bundle.putString(RedDetailFragment.REDID,mSendRed.getData().getRedPacId());
-                    bundle.putSerializable(RedDetailFragment.SENDRED,mSendRed);
+                if (mSendRedBean!=null){
+                    bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
+                    bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
+                    bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
                 }
                 FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
                 dismiss();
                 break;
             case R.id.dialog_red_result_kai_tv://开红包
-                if (mClicker!=null)
-                    mClicker.onOpenClick();
-//                dismiss();
+                miPresent.grabRed(mSendRedBean.getRedPacId(),getActivity());
                 break;
         }
     }
-    public void setErrorText(String text){
+    private void setErrorText(String text){
         dialog_red_result_tips_tv.setText(text);
         dialog_red_result_kai_tv.setVisibility(View.GONE);
     }
-    public interface OnOpenClick{
-        void onOpenClick();
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void reFreshCustemRed(SendRed.SendRedBean data) {
+
+    }
+
+    @Override
+    public void grabRed(RspGrabRed bean) {
+        if (bean!=null) {
+            String result = bean.getResult();
+            if (result.equals("success")) {
+                RspGrabRed.GrabRedBean bena=bean.getData();
+                if (bena!=null){
+                    String code=bena.getRetCode();
+                    if (code.equals("0000")){
+                        Bundle bundle=new Bundle();
+                        if (mSendRedBean!=null){
+
+                            bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
+                            bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
+                            bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
+                            bundle.putSerializable(RedDetailFragment.GRAB,bena);
+                            FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
+                            disMiss(getActivity());
+                        }
+                    }else {
+                        setErrorText(bena.getRetMsg());
+                    }
+                }
+            }else {
+                Toaster.toastShort(bean.getErrorMsg());
+            }
+        }
+    }
+
+    @Override
+    public void canGrab(BaseBean bean) {
+        if (bean!=null){
+            String code = bean.getRetCode();
+            if (code.equals("0000")) {
+                dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
+                if (mSendRedBean!=null){
+                    String text=null;
+                    if (TextUtils.isEmpty(mSendRedBean.getThunder())){
+                        text=mSendRedBean.getCount();
+
+                    }else {
+                        text=mSendRedBean.getThunder();
+                    }
+                    dialog_red_result_tips_tv.setText(mSendRedBean.getAmount()+"-"+text);
+                }
+            } else {
+                setErrorText(bean.getRetMsg());
+            }
+        }
     }
 }
