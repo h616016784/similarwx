@@ -29,6 +29,7 @@ import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
@@ -66,17 +67,20 @@ public class ChartFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chart, container, false);
-        unbinder = ButterKnife.bind(this, view);
+    protected int getLayoutResource() {
+        return R.layout.fragment_chart;
+    }
+
+    @Override
+    protected void onInitView(View contentView) {
+        mActionbar.setTitle("消息");
+        unbinder = ButterKnife.bind(this, contentView);
         chartRv.setLayoutManager(new LinearLayoutManager(activity));
         baseQuickAdapter = new BaseQuickAdapter<RecentContact, BaseViewHolder>(R.layout.item_chart, null) {
             @Override
             protected void convert(BaseViewHolder helper, RecentContact item) {
                 String account=item.getFromAccount();
                 NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(account);//用户详情
-
                 helper.setText(R.id.item_chart_name_tv, user.getName());
                 helper.setText(R.id.item_chart_content_tv, item.getContent());
                 helper.setText(R.id.item_chart_role_tv, TimeUtil.timestampToString(item.getTime(),"yyyy-MM-dd"));
@@ -99,7 +103,7 @@ public class ChartFragment extends BaseFragment {
                 if (list != null && list.size() > 0) {
                     RecentContact recentContact = list.get(position);
                     if (recentContact.getSessionType()==SessionTypeEnum.P2P){
-                            NimUIKit.startP2PSession(activity, recentContact.getContactId());
+                        NimUIKit.startP2PSession(activity, recentContact.getContactId());
                     }else if (recentContact.getSessionType()==SessionTypeEnum.Team){
                         // 打开群聊界面
                         NimUIKit.startTeamSession(activity, recentContact.getContactId());
@@ -117,7 +121,6 @@ public class ChartFragment extends BaseFragment {
         });
         queryRecentContacts();
         querySystemMessages();
-        return view;
     }
 
     private void querySystemMessages() {
@@ -126,7 +129,7 @@ public class ChartFragment extends BaseFragment {
             public void callBack(List<SystemMessage> systemMessages) {
                 Log.e("callBack", systemMessages.size() + "");
                 if (systemMessages != null && systemMessages.size() > 0) {
-
+                    chartLl.setVisibility(View.VISIBLE);
                     SystemMessage message = systemMessages.get(0);
 
 
@@ -143,6 +146,8 @@ public class ChartFragment extends BaseFragment {
                         chartRoleTv.setText(user.getPasswd());
                     }
 
+                }else {
+                    chartLl.setVisibility(View.GONE);
                 }
             }
         });
@@ -156,10 +161,12 @@ public class ChartFragment extends BaseFragment {
                     @Override
                     public void onResult(int code, List<RecentContact> result, Throwable exception) {
                         if (result != null && result.size() > 0) {
-                            baseQuickAdapter.addData(result);
-//                            for (RecentContact recentContact:result){
-//
-//                            }
+                            for (RecentContact recentContact:result){
+                                MsgTypeEnum msgTypeEnum=recentContact.getMsgType();
+                                if (!(msgTypeEnum==MsgTypeEnum.notification)){
+                                    baseQuickAdapter.addData(recentContact);
+                                }
+                            }
                         }
                     }
                 });

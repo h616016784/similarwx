@@ -29,6 +29,7 @@ import com.android.similarwx.widget.dialog.BottomBaseDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.bumptech.glide.Glide;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
@@ -162,7 +163,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                 EasyAlertDialog mDialog= EasyAlertDialogHelper.createOkCancelDiolag(activity,bean.getUserName(),"是否对该成员禁言?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
                     @Override
                     public void doCancelAction() {
-                        APIYUNXIN.muteTeamMember(bean.getGroupId(), bean.getUserId(), true, new YCallBack<Void>() {
+                        APIYUNXIN.muteTeamMember(bean.getGroupId(), bean.getUserId(), false, new YCallBack<Void>() {
                             @Override
                             public void callBack(Void aVoid) {
                                 clientDetailSetTv.setText("否");
@@ -184,14 +185,15 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                 mDialog.show();
                 break;
             case R.id.client_detail_sent_bt:
-                if (bean != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_THREE);
-                    bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
-                    bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getUserId());//
-                    bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getUserName());//
-                    FragmentUtils.navigateToNormalActivity(activity, new MIFragmentNew(), bundle);
-                }
+                NimUIKit.startP2PSession(activity, bean.getUserId());
+//                if (bean != null) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_THREE);
+//                    bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
+//                    bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getUserId());//
+//                    bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getUserName());//
+//                    FragmentUtils.navigateToNormalActivity(activity, new MIFragmentNew(), bundle);
+//                }
                 break;
             case R.id.client_detail_quit_bt:
                 APIYUNXIN.removeMember(bean.getGroupId(), bean.getUserId(), new YCallBack<Void>() {

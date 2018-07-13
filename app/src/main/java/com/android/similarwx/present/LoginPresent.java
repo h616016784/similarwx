@@ -48,6 +48,10 @@ public class LoginPresent extends BasePresent {
         API.getInstance().login(name,password,weixin,mobile,this);
     }
 
+    public void logout(){
+        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"paopaotest1");
+        API.getInstance().logout(userId,this);
+    }
     /**
      * 保存用户信息
      * @param user
@@ -199,5 +203,28 @@ public class LoginPresent extends BasePresent {
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
         }
+    }
+    public void analyzeResLogout(RspUser rspUser) {
+        String result=rspUser.getResult();
+        if (result.equals("success")){
+            clearUserInfo();
+            loginViewInterface.logoutScucces(rspUser.getData());
+        }else {
+            Toaster.toastShort(rspUser.getErrorMsg());
+        }
+    }
+
+    private void clearUserInfo() {
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(),AppConstants.USER_OBJECT,null);
+            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_NICK,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_EMAIL,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PHONE,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_WEIXIN,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_SEX,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,"");
     }
 }

@@ -54,12 +54,16 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
         SendRed.SendRedBean sendRedBean=attachment.getSendRedBean();
         if (sendRedBean!=null){
             amount =sendRedBean.getAmount();
-            title =sendRedBean.getTitle();
+            title =null;
             click=sendRedBean.getClick();
             if (TextUtils.isEmpty(sendRedBean.getThunder()))
                 textContent=amount+"-"+sendRedBean.getCount();
             else
                 textContent=amount+"-"+sendRedBean.getThunder();
+            if (sendRedBean.getType().equals("MINE"))
+                title="扫雷红包";
+            else if (sendRedBean.getType().equals("LUCK"))
+                title="拼手气红包";
         }
 
         if (!isReceivedMessage()) {// 消息方向，自己发送的

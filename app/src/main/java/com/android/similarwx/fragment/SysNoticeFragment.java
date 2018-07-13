@@ -12,6 +12,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupRule;
+import com.android.similarwx.model.API;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.netease.nimlib.sdk.NIMClient;
@@ -60,29 +61,6 @@ public class SysNoticeFragment extends BaseFragment {
             }
         };
         sysNoticeRv.setAdapter(adapter);
-        // 从0条开始，查询100条系统消息
-        NIMClient.getService(SystemMessageService.class).querySystemMessages(0, 100)
-                .setCallback(new RequestCallback<List<SystemMessage>>() {
-                    @Override
-                    public void onSuccess(List<SystemMessage> param) {
-                        // 查询成功
-                        Log.e("onSuccess","onSuccess");
-                        if (param!=null)
-                            adapter.addData(param);
-                    }
-
-                    @Override
-                    public void onFailed(int code) {
-                        // 查询失败
-                        Toaster.toastShort(code+"");
-                    }
-
-                    @Override
-                    public void onException(Throwable exception) {
-                        // error
-                        Toaster.toastShort(exception.toString());
-                    }
-                });
     }
 
     @Override
@@ -93,6 +71,7 @@ public class SysNoticeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        API.getInstance().getNotices("NOTIFY");
     }
 
     @Override

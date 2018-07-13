@@ -146,6 +146,28 @@ public class API implements APIConstants {
         });
     }
 
+
+    public void logout(String userId,LoginPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("userId",userId);
+        Call<RspUser> call=apiService.logout(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                try {
+                    RspUser rspUser=response.body();
+                    present.analyzeResLogout(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
     public void updateUserByNick(String id, String nick, MyBasePresent present){
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
@@ -754,5 +776,20 @@ public class API implements APIConstants {
             }
         });
     }
+    public void getNotices(String type) {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", type);
+        Call<RspNotice> call=apiService.getNotices(map);
+        call.enqueue(new Callback<RspNotice>() {
+            @Override
+            public void onResponse(Call<RspNotice> call, Response<RspNotice> response) {
 
+            }
+
+            @Override
+            public void onFailure(Call<RspNotice> call, Throwable t) {
+
+            }
+        });
+    }
 }

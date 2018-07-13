@@ -130,6 +130,11 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
     }
 
     @Override
+    public void logoutScucces(User user) {
+
+    }
+
+    @Override
     public void showErrorMessage(String err) {
         loginError.setVisibility(View.VISIBLE);
         loginError.setText(err);

@@ -22,7 +22,7 @@ public class ContactAdminAction extends BaseAction {
      * @param titleId   图标标题的string res id
      */
     public ContactAdminAction() {
-        super(R.drawable.demo_reply_bar_shang, R.string.chart_contact_admin);
+        super(R.drawable.demo_reply_bar_shang, R.string.chart_get_pay);
     }
 
     @Override

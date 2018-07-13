@@ -6,6 +6,8 @@ import android.text.TextUtils;
 
 import com.android.outbaselibrary.BaseApplication;
 import com.android.outbaselibrary.utils.LogUtil;
+import com.android.similarwx.config.NimSDKOptionConfig;
+import com.android.similarwx.config.UserPreferences;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRed;
 import com.android.similarwx.inteface.message.CustomAttachParser;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
@@ -37,7 +39,7 @@ public class AppApplication extends BaseApplication {
     }
 
     private void initNIM(AppApplication appApplication) {
-        NIMClient.init(this, loginInfo(), options());
+        NIMClient.init(this, loginInfo(), NimSDKOptionConfig.getSDKOptions(this));
 
         if (NIMUtil.isMainProcess(this)) {
             // 在主进程中初始化UI组件，判断所属进程方法请参见demo源码。
@@ -50,6 +52,8 @@ public class AppApplication extends BaseApplication {
 
         NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new CustomAttachParser());
         NimUIKit.registerMsgItemViewHolder(RedCustomAttachment.class, MsgViewHolderRed.class);
+        // 初始化消息提醒
+        NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
         // 会话窗口的定制: 示例代码可详见demo源码中的SessionHelper类。
         // 1.注册自定义消息附件解析器（可选）
         // 2.注册各种扩展消息类型的显示ViewHolder（可选）

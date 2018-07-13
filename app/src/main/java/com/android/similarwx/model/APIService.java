@@ -50,6 +50,9 @@ public interface APIService {
     @POST("resUsers/login")
     Call<RspUser> login(@QueryMap Map<String,String> map);
 
+    @POST("resUsers/logout")
+    Call<RspUser> logout(@QueryMap Map<String,String> map);
+
     @POST("resUsers/getCustomerServiceUserList")
     Call<RspService> getServices(@QueryMap Map<String, String> map);
 
@@ -124,4 +127,5 @@ public interface APIService {
 
     @POST("group/getGroupApplyList")
     Call<RspGetApply> getGroupApplyList(@QueryMap Map<String,String> map);
+
 }

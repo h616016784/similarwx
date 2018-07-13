@@ -8,11 +8,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.android.similarwx.R;
 import com.android.similarwx.activity.SysNoticeActivity;
+import com.android.similarwx.base.BaseActivity;
+import com.android.similarwx.base.NormalActivity;
+import com.android.similarwx.fragment.NoticeFragment;
 
 /**
  * Created by hanhuailong on 2018/6/21.
@@ -20,24 +24,26 @@ import com.android.similarwx.activity.SysNoticeActivity;
 
 public class NotificationUtil {
     private Activity context;
+    NotificationConfig config;
     private int id = 1;
-    public NotificationUtil(Activity context){
+    public NotificationUtil(Activity context,NotificationConfig config){
         this.context=context;
+        this.config=config;
     }
     private static NotificationUtil mNotificationUtil;
-    public static NotificationUtil getInstance(Activity context){
+    public static NotificationUtil getInstance(Activity context,NotificationConfig config){
         if (mNotificationUtil==null){
-            mNotificationUtil= new NotificationUtil(context);
+            mNotificationUtil= new NotificationUtil(context,config);
         }
         return mNotificationUtil;
     }
     public void notification() {
-        Drawable drawable = ContextCompat.getDrawable(context, R.mipmap.ic_launcher);
+        Drawable drawable = ContextCompat.getDrawable(context, R.mipmap.logal);
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         //设置小图标
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setSmallIcon(R.mipmap.logal);
         //设置大图标
         mBuilder.setLargeIcon(bitmap);
         //设置标题
@@ -46,15 +52,23 @@ public class NotificationUtil {
         mBuilder.setContentText("这是正文，当前ID是：" + id);
         //设置摘要
         mBuilder.setSubText("这是摘要");
+        //通知在状态栏显示时的文本
+        mBuilder.setTicker("在状态栏上显示的文本");
+        if (config!=null){
+            mBuilder.setContentTitle(config.getContentTitle());
+            mBuilder.setContentText(config.getContentText());
+            mBuilder.setSubText(config.getSubText());
+            mBuilder.setTicker(config.getTicker());
+        }
+
         //设置是否点击消息后自动clean
         mBuilder.setAutoCancel(true);
         //显示指定文本
         mBuilder.setContentInfo("Info");
         //与setContentInfo类似，但如果设置了setContentInfo则无效果
         //用于当显示了多个相同ID的Notification时，显示消息总数
-        mBuilder.setNumber(2);
-        //通知在状态栏显示时的文本
-        mBuilder.setTicker("在状态栏上显示的文本");
+        mBuilder.setNumber(1);
+
         //设置优先级
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         //自定义消息时间，以毫秒为单位，当前设置为比系统时间少一小时
@@ -67,7 +81,11 @@ public class NotificationUtil {
         //设置震动方式，延迟零秒，震动一秒，延迟一秒、震动一秒
 //        mBuilder.setVibrate(new long[]{0, 1000, 1000, 1000});
 
-        Intent intent = new Intent(context, SysNoticeActivity.class);
+//        Intent intent = new Intent(context, SysNoticeActivity.class);
+        Intent intent = new Intent(context, NormalActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putString(BaseActivity.ARGUMENT_EXTRA_FRAGMENT_NAME, NoticeFragment.class.getName());
+        intent.putExtras(bundle);
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
         mBuilder.setContentIntent(pIntent);
 
@@ -75,4 +93,44 @@ public class NotificationUtil {
         mNotificationManager.notify(id++, mBuilder.build());
     }
 
+    public static class NotificationConfig{
+        public NotificationConfig(){
+        }
+        private String contentTitle;//标题
+        private String contentText;//正文
+        private String subText;//摘要
+        private String ticker;//状态栏显示的文本
+
+        public String getContentTitle() {
+            return contentTitle;
+        }
+
+        public void setContentTitle(String contentTitle) {
+            this.contentTitle = contentTitle;
+        }
+
+        public String getContentText() {
+            return contentText;
+        }
+
+        public void setContentText(String contentText) {
+            this.contentText = contentText;
+        }
+
+        public String getSubText() {
+            return subText;
+        }
+
+        public void setSubText(String subText) {
+            this.subText = subText;
+        }
+
+        public String getTicker() {
+            return ticker;
+        }
+
+        public void setTicker(String ticker) {
+            this.ticker = ticker;
+        }
+    }
 }

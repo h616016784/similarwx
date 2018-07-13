@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,12 +18,16 @@ import com.android.similarwx.activity.LoginActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.inteface.LoginViewInterface;
+import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.widget.ItemView;
 import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.bumptech.glide.Glide;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.auth.AuthService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +38,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/10.
  */
 
-public class MyFragment extends BaseFragment {
+public class MyFragment extends BaseFragment implements LoginViewInterface {
     @BindView(R.id.my_base_head_iv)
     ImageView myBaseHeadIv;
     @BindView(R.id.my_base_name_tv)
@@ -61,6 +66,7 @@ public class MyFragment extends BaseFragment {
     LinearLayout myBaseLl;
 
     private User mUser;
+    private LoginPresent present;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my;
@@ -71,6 +77,7 @@ public class MyFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.my_title);
         unbinder = ButterKnife.bind(this, contentView);
+        present=new LoginPresent(this);
         init();
     }
 
@@ -100,7 +107,7 @@ public class MyFragment extends BaseFragment {
         myCodeItem.setNameText(R.string.my_code);
         if (mUser!=null){
             myCodeItem.setRightText(mUser.getInvitationCode());
-            myPlayItem.setRightText("推荐:"+mUser.getInviter());
+            myPlayItem.setRightText("推荐: "+mUser.getUserChildCount());
             myBaseNameTv.setText(mUser.getName());
             String url=mUser.getIcon();
             if (url!=null){
@@ -177,10 +184,8 @@ public class MyFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         cancel_dialogBuilder.dismiss();
+                        present.logout();
 
-                        startActivity(new Intent(getActivity(),
-                                LoginActivity.class));
-                        getActivity().finish();
                     }
         }).show();
     }
@@ -199,4 +204,21 @@ public class MyFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void loginScucces(User user) {
+
+    }
+
+    @Override
+    public void logoutScucces(User user) {
+        NIMClient.getService(AuthService.class).logout();
+        startActivity(new Intent(getActivity(),
+                LoginActivity.class));
+        getActivity().finish();
+    }
 }

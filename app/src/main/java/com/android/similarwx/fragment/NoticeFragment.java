@@ -79,6 +79,7 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
                                 @Override
                                 public void callBack(Void aVoid) {
                                     Toaster.toastShort("已拒绝！");
+                                    APIYUNXIN.setSystemMessageStatus(message.getMessageId(), SystemMessageStatus.declined);
                                     fetchData();
                                 }
                             });

@@ -48,7 +48,9 @@ import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 import com.netease.nimlib.sdk.team.model.Team;
 
@@ -131,7 +133,33 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     @Override
                     public void onEvent(SystemMessage message) {
                         // 收到系统通知，可以做相应操作
-                        NotificationUtil.getInstance(MainChartrActivity.this).notification();
+                        if (message!=null){
+                            String account=message.getFromAccount();
+                            String target=message.getTargetId();
+                            NotificationUtil.NotificationConfig config=new NotificationUtil.NotificationConfig();
+                            config.setContentTitle("群组通知");
+                            switch (message.getType().getValue()){
+                                case 0:
+                                    config.setContentText(account+"入群申请");
+                                    break;
+                                case 1:
+                                    config.setContentText(account+"拒绝入群");
+                                    break;
+                                case 2:
+                                    config.setContentText(account+"邀请入群");
+                                    break;
+                                case 3:
+                                    config.setContentText(account+"拒绝邀请");
+                                    break;
+                                case 5:
+                                    config.setContentText(account+"添加好友");
+                                    break;
+                                default:
+                                    config.setContentText("未知");
+                            }
+                            config.setTicker("通知消息");
+                            NotificationUtil.getInstance(MainChartrActivity.this,config).notification();
+                        }
                     }
                 }, true);
     }
@@ -210,8 +238,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
         if (position == 0) {//通知
-
-            FragmentUtils.navigateToNormalActivity(this, new NoticeFragment(), null);
+            startActivity(new Intent(this,SysNoticeActivity.class));
+//            FragmentUtils.navigateToNormalActivity(this, new NoticeFragment(), null);
         } else if (position == 1) {//在线客服
             FragmentUtils.navigateToNormalActivity(this, new ServiceFragment(), null);
         } else {

@@ -113,7 +113,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
 
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
         present=new SendRedPresent(this);
-        present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
+
 
         groupInfoMemberRv.setLayoutManager(new GridLayoutManager(activity, 4));
         groupAdapter = new BaseQuickAdapter<GroupUser.ListBean, BaseViewHolder>(R.layout.item_group_member, groupList) {
@@ -177,7 +177,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     @Override
     public void onResume() {
         super.onResume();
-
+        present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
     }
 
     @Override
@@ -225,6 +225,9 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             if (groupList==null){
                 groupInfoMemberNumTv.setText("0");
             }else {
+                List<GroupUser.ListBean> userList=groupAdapter.getData();
+                if (userList!=null && userList.size()>0)
+                    userList.clear();
                 groupAdapter.addData(groupList);
                 groupInfoMemberNumTv.setText("("+groupList.size()+")");
             }
