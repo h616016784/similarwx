@@ -21,6 +21,10 @@ public class SysNoticePresent {
     public void getNotice(){
         API.getInstance().getNotices("NOTIFY",this);
     }
+
+    public void getMoney(){
+        API.getInstance().getNotices("MONEY",this);
+    }
     public void analyze(RspNotice rspGroupSave) {
         if (rspGroupSave!=null){
             String result=rspGroupSave.getResult();

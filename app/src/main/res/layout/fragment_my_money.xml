@@ -3,19 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <RelativeLayout
-        android:layout_marginTop="@dimen/distance_normal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/head_bg_0"/>
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/my_money_rv"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:layout_weight="8">
 
-    </RelativeLayout>
-
-
+   </android.support.v7.widget.RecyclerView>
     <TextView
         android:layout_marginTop="@dimen/distance_normal"
         android:layout_width="match_parent"
@@ -24,27 +18,28 @@
         android:text="@string/money_share_to"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:orientation="horizontal">
         <RelativeLayout
-        android:id="@+id/my_money_friend_rl"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <ImageView
-            android:id="@+id/my_money_friend_iv"
-            android:layout_width="wrap_content"
+            android:id="@+id/my_money_friend_rl"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ssdk_oks_classic_wechat"/>
-        <TextView
-            android:id="@+id/my_money_friend_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/my_money_friend_iv"
-            android:text="@string/money_share_friend"/>
-    </RelativeLayout>
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/my_money_friend_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ssdk_oks_classic_wechat"/>
+            <TextView
+                android:id="@+id/my_money_friend_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/my_money_friend_iv"
+                android:text="@string/money_share_friend"/>
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/my_money_save_phone_rl"
             android:layout_width="0dp"
