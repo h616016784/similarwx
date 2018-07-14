@@ -11,7 +11,15 @@ public class Notice extends BaseBean {
     private String modifyDate;
     private String type;
     private String createDate;
+    private String remark;
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public String getTitle() {
         return title;

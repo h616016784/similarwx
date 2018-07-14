@@ -48,6 +48,7 @@ import com.android.similarwx.present.RegisterPresent;
 import com.android.similarwx.present.SendRedPresent;
 import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.present.SetPasswordPresent;
+import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 
 import java.util.HashMap;
@@ -776,19 +777,24 @@ public class API implements APIConstants {
             }
         });
     }
-    public void getNotices(String type) {
+    public void getNotices(String type, SysNoticePresent present) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type);
         Call<RspNotice> call=apiService.getNotices(map);
         call.enqueue(new Callback<RspNotice>() {
             @Override
             public void onResponse(Call<RspNotice> call, Response<RspNotice> response) {
-
+                try {
+                    RspNotice rspGroupSave=response.body();
+                    present.analyze(rspGroupSave);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
             }
 
             @Override
             public void onFailure(Call<RspNotice> call, Throwable t) {
-
+                Toaster.toastShort(t.getMessage());
             }
         });
     }
