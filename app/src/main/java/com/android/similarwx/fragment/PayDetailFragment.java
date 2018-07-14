@@ -59,10 +59,10 @@ public class PayDetailFragment extends BaseFragment {
                     mActionbar.setTitle(R.string.pay_detail_title);
             }
             if (inMoneyBean!=null){
-                inMoneyBean.getType();
+                payDetailMoneyTv.setText(inMoneyBean.getMoney());
                 String qRcode=inMoneyBean.getQrcode();
                 if (!TextUtils.isEmpty(qRcode)){
-                    Bitmap bitmap=QRCodeUtil.createQRCode(qRcode, ScreenUtil.screenWidth);
+                    Bitmap bitmap=QRCodeUtil.createQRCode(qRcode, ScreenUtil.screenWidth/2);
                     if (bitmap!=null){
                         payDetailIv.setImageBitmap(bitmap);
                     }

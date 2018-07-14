@@ -84,8 +84,6 @@ public class RechargeFragment extends BaseFragment implements InMoneyViewInterfa
                 }else {
                     mPresent.inputMoney(type,money);
                 }
-
-
                 break;
         }
     }

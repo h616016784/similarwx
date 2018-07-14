@@ -6,6 +6,7 @@ import com.android.similarwx.beans.response.BaseResponse;
 import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
+import com.android.similarwx.beans.response.RspCashUser;
 import com.android.similarwx.beans.response.RspDeleteGroup;
 import com.android.similarwx.beans.response.RspDeleteGroupUser;
 import com.android.similarwx.beans.response.RspGetApply;
@@ -22,6 +23,7 @@ import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
 import com.android.similarwx.beans.response.RspSetPassword;
+import com.android.similarwx.beans.response.RspSubUsers;
 import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUser;
@@ -62,6 +64,9 @@ public interface APIService {
     @POST("resUsers/getMobileVerifyCode")
     Call<BaseResponse> getMobileVerifyCode(@QueryMap Map<String,String> map);
 
+    @POST("resUsers/getCashUser")
+    Call<RspCashUser> getCashUser(@QueryMap Map<String,String> map);
+
     @FormUrlEncoded
     @POST("resUsers/update")
     Call<RspUser> updateUser(@FieldMap Map<String, String> map);
@@ -95,6 +100,8 @@ public interface APIService {
 
     @POST("trade/transfer")
     Call<RspTransfer> transfer(@QueryMap Map<String, String> map);
+    @POST("trade/subUserList")
+    Call<RspSubUsers> subUserList(@QueryMap Map<String, String> map);
 
     @POST("redPac/list")
     Call<RspRedDetail> redDetailList(@QueryMap Map<String, String> map);

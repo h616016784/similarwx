@@ -27,7 +27,7 @@ public class InputMoneyPresent {
         if (transfer!=null){
             String result=transfer.getResult();
             if (result.equals("success")){
-
+                mView.refreshInMoney(transfer.getData());
             }else {
                 Toaster.toastShort(transfer.getErrorMsg());
             }

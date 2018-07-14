@@ -7,6 +7,7 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.fragment.AdiminInfoFragment;
 import com.android.similarwx.fragment.ClientDetailInfoFragment;
 import com.android.similarwx.fragment.MIFragment;
+import com.android.similarwx.fragment.SysNoticeFragment;
 import com.android.similarwx.utils.FragmentUtils;
 import com.netease.nim.uikit.business.session.actions.BaseAction;
 
@@ -27,9 +28,8 @@ public class ContactAdminAction extends BaseAction {
 
     @Override
     public void onClick() {
-        String id=getAccount();//获取群id号码
         Bundle bundle=new Bundle();
-        bundle.putString(AppConstants.TRANSFER_ACCOUNT,id);
-        FragmentUtils.navigateToNormalActivity(getActivity(),new AdiminInfoFragment(),bundle);
+        bundle.putString(AppConstants.TRANSFER_BASE,"contract");
+        FragmentUtils.navigateToNormalActivity(getActivity(),new SysNoticeFragment(),bundle);
     }
 }

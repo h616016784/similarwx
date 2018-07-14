@@ -11,6 +11,7 @@ import com.android.similarwx.beans.response.BaseResponse;
 import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
+import com.android.similarwx.beans.response.RspCashUser;
 import com.android.similarwx.beans.response.RspDeleteGroup;
 import com.android.similarwx.beans.response.RspDeleteGroupUser;
 import com.android.similarwx.beans.response.RspGetApply;
@@ -27,12 +28,14 @@ import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
 import com.android.similarwx.beans.response.RspSetPassword;
+import com.android.similarwx.beans.response.RspSubUsers;
 import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.AcountPresent;
 import com.android.similarwx.present.AddGroupPresent;
+import com.android.similarwx.present.CashPresent;
 import com.android.similarwx.present.ClientDetailInfoPresent;
 import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.GroupPresent;
@@ -48,6 +51,7 @@ import com.android.similarwx.present.RegisterPresent;
 import com.android.similarwx.present.SendRedPresent;
 import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.present.SetPasswordPresent;
+import com.android.similarwx.present.SubUsersPresent;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 
@@ -333,6 +337,27 @@ public class API implements APIConstants {
             }
         });
     }
+    public void getCashUser(CashPresent present){
+        Map<String,String> map=new HashMap<>();
+        Call<RspCashUser> call=apiService.getCashUser(map);
+        call.enqueue(new Callback<RspCashUser>() {
+            @Override
+            public void onResponse(Call<RspCashUser> call, Response<RspCashUser> response) {
+                try {
+                    RspCashUser rspGroup=response.body();
+//                    present.analyzeRes(rspGroup);
+                    present.analyzeRes(rspGroup);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspCashUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
     public void reqGroupList(String userId , final GroupPresent present){
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);
@@ -599,9 +624,9 @@ public class API implements APIConstants {
         });
     }
 
-    public void getServicesList(String userType, ServicePresent present) {
+    public void getServicesList(String serviceFlg, ServicePresent present) {
         Map<String,String> map=new HashMap<>();
-        map.put("userType",userType );
+        map.put("serviceFlg",serviceFlg );
         Call<RspService> call=apiService.getServices(map);
         call.enqueue(new Callback<RspService>() {
             @Override
@@ -694,7 +719,35 @@ public class API implements APIConstants {
             }
         });
     }
+    public void subUserList(String userId, String sordType, String subUserIdenti, String page,String pageSize, SubUsersPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("userId",userId );
+        if (!TextUtils.isEmpty(sordType))
+            map.put("sordType",sordType );
+        if (!TextUtils.isEmpty(subUserIdenti))
+            map.put("subUserIdenti",subUserIdenti );
+        if (!TextUtils.isEmpty(page))
+            map.put("page",page );
+        if (!TextUtils.isEmpty(pageSize))
+            map.put("pageSize",pageSize );
+        Call<RspSubUsers> call=apiService.subUserList(map);
+        call.enqueue(new Callback<RspSubUsers>() {
+            @Override
+            public void onResponse(Call<RspSubUsers> call, Response<RspSubUsers> response) {
+                try {
+                    RspSubUsers transfer=response.body();
+//                    present.analyzeRes(transfer);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<RspSubUsers> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
     public void redDetailList(String redPacId, String groupId,RedDetailPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("redPacId",redPacId );

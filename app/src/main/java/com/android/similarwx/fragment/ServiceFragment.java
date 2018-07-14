@@ -19,6 +19,7 @@ import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import java.util.ArrayList;
@@ -58,16 +59,15 @@ public class ServiceFragment extends BaseFragment implements ServiceViewInterfac
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 RspService.DataBean.ResUsersDetailListBean bean=serviceAdapter.getData().get(position);
-                Bundle bundle=new Bundle();
-                bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
-                bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
-                bundle.putString(AppConstants.CHAT_ACCOUNT_ID,bean.getAccId());
-                bundle.putString(AppConstants.CHAT_ACCOUNT_NAME,bean.getName());
-                FragmentUtils.navigateToNormalActivity(activity,new MIFragmentNew(),bundle);
+//                Bundle bundle=new Bundle();
+//                bundle.putInt(MIFragment.MIFLAG,MIFragment.DELETE_THREE);
+//                bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
+//                bundle.putString(AppConstants.CHAT_ACCOUNT_ID,bean.getAccId());
+//                bundle.putString(AppConstants.CHAT_ACCOUNT_NAME,bean.getName());
+//                FragmentUtils.navigateToNormalActivity(activity,new MIFragmentNew(),bundle);
+                NimUIKit.startP2PSession(activity, bean.getAccId());
             }
         });
-        ImageView imageView=contentView.findViewById(R.id.imageView);
-//        Glide.with(this).load("http://p1.pstatp.com/large/166200019850062839d3").into(imageView);
     }
 
     @Override

@@ -27,6 +27,6 @@ public class ServiceAdapter extends BaseQuickAdapter<RspService.DataBean.ResUser
         helper.setText(R.id.service_item_content_tv,item.getName());
         helper.setText(R.id.service_item_role_tv,item.getMobile());
 //        Glide.with(context).load(item.getImageUrl()).apply(options).into((ImageView) helper.getView(R.id.service_item_iv));
-//        Glide.with(context).load(item.getImageUrl()).into((ImageView) helper.getView(R.id.service_item_iv));
+        Glide.with(context).load(item.getIcon()).into((ImageView) helper.getView(R.id.service_item_iv));
     }
 }

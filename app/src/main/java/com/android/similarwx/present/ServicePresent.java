@@ -17,7 +17,7 @@ public class ServicePresent extends BasePresent {
         this.mView=view;
     }
     public void getServicesList(){
-        API.getInstance().getServicesList(3+"",this);
+        API.getInstance().getServicesList(1+"",this);
     }
     public void analyzeRes(RspService rspService) {
         if (rspService!=null){

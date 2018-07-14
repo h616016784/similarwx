@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupRule;
 import com.android.similarwx.beans.Notice;
@@ -42,6 +43,7 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
     Unbinder unbinder;
     private BaseQuickAdapter adapter;
     private SysNoticePresent present;
+    private String tag;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_sys_notice;
@@ -50,7 +52,15 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
-        mActionbar.setTitle(R.string.sys_notice_title);
+        Bundle bundle=getArguments();
+        if (bundle!=null)
+            tag=bundle.getString(AppConstants.TRANSFER_BASE);
+        if (TextUtils.isEmpty(tag))
+            mActionbar.setTitle(R.string.sys_notice_title);
+        else if(tag.equals("contract")){
+            mActionbar.setTitle("联系群主");
+        }else
+            mActionbar.setTitle(R.string.sys_notice_title);
         unbinder = ButterKnife.bind(this, contentView);
         present=new SysNoticePresent(this);
         init();
@@ -73,7 +83,13 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
             }
         };
         sysNoticeRv.setAdapter(adapter);
-        present.getNotice();
+
+        if (TextUtils.isEmpty(tag))
+            present.getNotice();
+        else if(tag.equals("contract"))
+            present.getContract();
+        else
+            present.getNotice();
     }
 
     @Override
