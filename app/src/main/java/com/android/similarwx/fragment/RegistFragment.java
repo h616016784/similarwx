@@ -3,6 +3,7 @@ package com.android.similarwx.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.BaseFragment;
@@ -112,6 +114,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
             case R.id.register_get_code:
                 String phoneNum = loginPhoneEt.getText().toString();
                 if (registerPresent.isEmpty(phoneNum)) {
+
                 } else {
                     timer.schedule(new TimerTask() {
                         @Override
@@ -135,7 +138,11 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
                 String psd = registerPasswordEt.getText().toString();
                 String confirm = registerConfirmEt.getText().toString();
                 String nick=loginNickEt.getText().toString();
-                registerPresent.register(account,weixinAccount,email,phone, psd, code, confirm,nick);
+                if (TextUtils.isEmpty(code)){
+                    Toaster.toastShort("验证码不能为空！");
+                    return;
+                }
+                registerPresent.register(account,weixinAccount,email,phone, psd, code, confirm,nick,null,null,null,null,code);
                 break;
         }
     }

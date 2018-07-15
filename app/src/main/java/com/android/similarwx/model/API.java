@@ -106,14 +106,32 @@ public class API implements APIConstants {
      * @param nick
      * @param present
      */
-    public void register(String account, String weixinAccount, String email, String name, String password, String nick, final RegisterPresent present){
+    public void register(String account, String weixinAccount, String email, String name, String password, String nick,
+                         String birth,String gender,String alipay,String personalitySignature,String verifyCode,final RegisterPresent present){
         Map<String,String> map=new HashMap<>();
-        map.put("accId",account);
-        map.put("passwdStr",password);
-        map.put("email",email);
-        map.put("mobile",name);
-        map.put("wechatAccount",weixinAccount);
-        map.put("name",nick);
+        if (!TextUtils.isEmpty(account))
+            map.put("accId",account);
+        if (!TextUtils.isEmpty(password))
+            map.put("passwdStr",password);
+        if (!TextUtils.isEmpty(nick))
+            map.put("name",nick);
+        if (!TextUtils.isEmpty(email))
+            map.put("email",email);
+        if (!TextUtils.isEmpty(name))
+            map.put("mobile",name);
+        if (!TextUtils.isEmpty(weixinAccount))
+            map.put("wechatAccount",weixinAccount);
+        if (!TextUtils.isEmpty(birth))
+            map.put("birth",birth);
+        if (!TextUtils.isEmpty(gender))
+            map.put("gender",gender);
+        if (!TextUtils.isEmpty(alipay))
+            map.put("alipay",alipay);
+        if (!TextUtils.isEmpty(personalitySignature))
+            map.put("personalitySignature",personalitySignature);
+        if (!TextUtils.isEmpty(verifyCode))
+            map.put("verifyCode",verifyCode);
+
         Call<RspUser> user=apiService.registe(map);
         user.enqueue(new Callback<RspUser>() {
             @Override

@@ -40,23 +40,11 @@ public class RegisterPresent extends BasePresent {
      * @param confim
      * @param nick
      */
-    public void register(String account,String weixinAccount,String email,String name,String password,String code,String confim,String nick){
-        if(isEmpty(account,weixinAccount,email,name,password,confim,nick)){
-            return;
-        }
-//        User user=new User();
-//        user.setPasswd("7c4a8d09ca3762af61e59520943dc26494f8941b");
-//        user.setLoginFlg(0);
-//        user.setPasswdStr("123456");
-//        user.setInvitationCode("981c2e1b7692c2180557a03ce7a30064436b6da6");
-//        user.setEmail("wangyihanhuailong@163.com");
-//        user.setToken("a170417844a19c6bfebb4ab1a137fc31");
-//        user.setWechatAccount("15701332721");
-//        user.setName("joke1");
-//        user.setMobile("15701332721");
-//        user.setAccId("hhltest1");
-//        saveUser(user);
-        API.getInstance().register(account,weixinAccount,email,name,confim,nick,this);
+    public void register(String account,String weixinAccount,String email,String name,String password,String code,String confim,String nick,String birth,String gender,String alipay,String personalitySignature,String verifyCode){
+//        if(isEmpty(account,weixinAccount,email,name,password,confim,nick)){
+//            return;
+//        }
+        API.getInstance().register(account,weixinAccount,email,name,confim,nick,birth,gender,alipay,personalitySignature,verifyCode,this);
     }
     //解析相应体
     public void analyzeRes(RspUser rspUser){
