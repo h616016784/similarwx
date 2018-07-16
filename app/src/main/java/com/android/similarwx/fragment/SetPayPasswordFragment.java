@@ -94,14 +94,17 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
     }
 
     @Override
-    public void refreshSetPassword() {
-        String password=setPayPasswordEt.getText().toString();
-        if (type.equals(LOG_PSD)){
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);
-        }else {
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,password);
+    public void refreshSetPassword(User user) {
+        if (user!=null){
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_OBJECT,user);
+            String password=setPayPasswordEt.getText().toString();
+            if (type.equals(LOG_PSD)){
+                SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);
+            }else {
+                SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,password);
+            }
+            activity.finish();
         }
-        activity.finish();
     }
 
     @Override

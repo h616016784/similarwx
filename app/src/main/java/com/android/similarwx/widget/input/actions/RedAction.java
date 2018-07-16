@@ -3,16 +3,24 @@ package com.android.similarwx.widget.input.actions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
+import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.fragment.SendRedFragment;
+import com.android.similarwx.fragment.SetPayPasswordFragment;
 import com.android.similarwx.misdk.model.CustomAttachment;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.FragmentUtilsV4;
+import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.netease.nim.uikit.business.session.actions.BaseAction;
 import com.netease.nim.uikit.business.session.fragment.MessageFragment;
 import com.netease.nim.uikit.business.session.module.Container;
@@ -40,6 +48,7 @@ public class RedAction extends BaseAction {
 
     @Override
     public void onClick() {
+
         Bundle bundle=new Bundle();
         String account=getAccount();
         bundle.putString(AppConstants.TRANSFER_ACCOUNT,account);
@@ -58,9 +67,10 @@ public class RedAction extends BaseAction {
 //                        getContainer().proxy.sendMessage(imMessage);
 //                }
             }
-
         }
     }
+
+
     protected IMMessage createCustomMessage(RedDetailBean  redDetailBean) {
         Container container=getContainer();
         String account=container.account;

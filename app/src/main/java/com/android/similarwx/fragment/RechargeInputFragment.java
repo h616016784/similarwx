@@ -14,14 +14,22 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.beans.Transfer;
 import com.android.similarwx.beans.response.RspCashUser;
 import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.inteface.CashViewInterface;
 import com.android.similarwx.inteface.RechargeViewInterface;
+import com.android.similarwx.inteface.message.RedCustomAttachment;
+import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.present.CashPresent;
 import com.android.similarwx.present.RechargePresent;
 import com.android.similarwx.widget.InputPasswordDialog;
 import com.bumptech.glide.Glide;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +51,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     Button transfer;
     private RechargePresent mPresent;
     String account;
+    String accid;
 
     Unbinder unbinder;
     private CashPresent cashPresent;
@@ -85,14 +94,27 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
 //        activity.getFragmentManager().beginTransaction().add(dialog,"inputpassword").commit();
     }
 
+    /**
+     * 创建自定义消息
+     * @param transfer
+     * @return
+     */
+    protected IMMessage createCustomMessage(Transfer transfer) {
+        if (transfer!=null){
+            TransCustomAttachment transCustomAttachment=new TransCustomAttachment();
+            transCustomAttachment.setTransfer(transfer);
+            return MessageBuilder.createCustomMessage(accid, SessionTypeEnum.P2P, "转账",transCustomAttachment);
+        }
+        return null;
+    }
     @Override
     public void showErrorMessage(String err) {
 
     }
 
     @Override
-    public void refreshRecharge(RspTransfer transfer) {
-
+    public void refreshRecharge(Transfer transfer) {
+        NimUIKit.startP2PSession(activity, accid,createCustomMessage(transfer));
     }
 
     @Override
@@ -108,6 +130,10 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             if (!TextUtils.isEmpty(cashUser.getIcon())){
                 Glide.with(activity).load(cashUser.getIcon()).into(rechargeInputIv);
             }
+            account=cashUser.getId();
+            accid=cashUser.getAccId();
         }
     }
+
+
 }

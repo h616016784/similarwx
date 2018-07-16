@@ -11,6 +11,6 @@ public interface CustomAttachmentType {
     int Sticker = 3;
     int RTS = 4;
     int Crops=5;//骰子
-    int Trans=6;//转账
     int Red =7;//红包
+    int Trans =8;//转账
 }

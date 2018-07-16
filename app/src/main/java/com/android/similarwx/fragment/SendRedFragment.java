@@ -1,6 +1,7 @@
 package com.android.similarwx.fragment;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,9 +27,12 @@ import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.inteface.SendRedViewInterface;
 import com.android.similarwx.present.SendRedPresent;
+import com.android.similarwx.utils.DigestUtil;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Strings.MD5;
+import com.android.similarwx.widget.InputPasswordDialog;
+import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.android.similarwx.widget.input.sessions.Extras;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -87,8 +91,6 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
         present=new SendRedPresent(this);
         present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
         sendRedSumEt.addTextChangedListener(textWatcher);
-
-
     }
 
     @Override
@@ -100,58 +102,97 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
     @OnClick(R.id.send_red_bt)
     public void onViewClicked() {
         if (TextUtils.isEmpty(mUser.getPaymentPasswd())){
-            Bundle bundle=new Bundle();
-            bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
-            FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+            showDialog();
         }else {
-            Intent intent=new Intent();
-            SendRed sendRed=new SendRed();
-            SendRed.SendRedBean bean=new SendRed.SendRedBean();
             String money=sendRedSumEt.getText().toString();
-            String lei=sendRedLeiEt.getText().toString();
-            String count=sendRedCountEt.getText().toString();
             if (TextUtils.isEmpty(money)){
                 Toaster.toastShort("金额不能为空！");
                 return;
             }
-
-            if (TextUtils.isEmpty(type)){
-                bean.setCount(count);
-                bean.setTitle("手气红包游戏");
-            }else {
-                if (type.equals("MINE")){//游戏群
-                    if (TextUtils.isEmpty(lei)){
-                        Toaster.toastShort("雷数不能为空！");
-                        return;
-                    }
-                    bean.setThunder(lei);
-                    bean.setTitle("扫雷红包游戏");
-
-                }else {
-                    bean.setCount(count);
-                    bean.setTitle("手气红包游戏");
-                }
-            }
-
-
-            bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
-            bean.setAmount(money);
-            if (listBean!=null){
-                bean.setGroupId(listBean.getGroupId());
-                bean.setMyGroupId(listBean.getId()+"");
-            }
-
-            bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无"));
-            bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
-
-            bean.setType(type);
-            bean.setCotent("领取红包");
-            sendRed.setData(bean);
-            sendRed.setType("7");
-            intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,sendRed);
-            activity.setResult(Activity.RESULT_OK,intent);
-            activity.finish();
+            showInputDialog(money);
         }
+    }
+
+    private void showInputDialog(String money) {
+        InputPasswordDialog dialog=InputPasswordDialog.newInstance("请输入支付密码", money, new InputPasswordDialog.OnInputFinishListener() {
+            @Override
+            public void onInputFinish(String password) {
+                if (DigestUtil.sha1(password).equals(mUser.getPaymentPasswd())){
+                    String money=sendRedSumEt.getText().toString();
+                    String lei=sendRedLeiEt.getText().toString();
+                    String count=sendRedCountEt.getText().toString();
+                    Intent intent=new Intent();
+                    SendRed sendRed=new SendRed();
+                    SendRed.SendRedBean bean=new SendRed.SendRedBean();
+                    if (TextUtils.isEmpty(type)){
+                        bean.setCount(count);
+                        bean.setTitle("手气红包游戏");
+                    }else {
+                        if (type.equals("MINE")){//游戏群
+                            if (TextUtils.isEmpty(lei)){
+                                Toaster.toastShort("雷数不能为空！");
+                                return;
+                            }
+                            bean.setThunder(lei);
+                            bean.setTitle("扫雷红包游戏");
+
+                        }else {
+                            bean.setCount(count);
+                            bean.setTitle("手气红包游戏");
+                        }
+                    }
+
+
+                    bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
+                    bean.setAmount(money);
+                    if (listBean!=null){
+                        bean.setGroupId(listBean.getGroupId());
+                        bean.setMyGroupId(listBean.getId()+"");
+                    }
+
+                    bean.setUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无"));
+                    bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
+
+                    bean.setType(type);
+                    bean.setCotent("领取红包");
+                    sendRed.setData(bean);
+                    sendRed.setType("7");
+                    intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,sendRed);
+                    activity.setResult(Activity.RESULT_OK,intent);
+                    activity.finish();
+                }else
+                    Toaster.toastShort("支付密码不正确！");
+            }
+        });
+        FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
+        transaction.add(dialog,"inputDialog");
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+
+    private void showDialog() {
+        final CancelDialogBuilder cancel_dialogBuilder = CancelDialogBuilder
+                .getInstance(getActivity());
+
+        cancel_dialogBuilder.setTitleText("无支付密码，是否要设置？");
+        cancel_dialogBuilder.setDetermineText("确定");
+
+        cancel_dialogBuilder.isCancelableOnTouchOutside(true)
+                .setButton1Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancel_dialogBuilder.dismiss();
+                    }
+                }).setButton2Click(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel_dialogBuilder.dismiss();
+                Bundle bundle=new Bundle();
+                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE, SetPayPasswordFragment.PAY_PSD);
+                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+            }
+        }).show();
     }
     private TextWatcher textWatcher=new TextWatcher() {
         @Override

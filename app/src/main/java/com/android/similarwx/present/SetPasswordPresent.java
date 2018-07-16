@@ -2,6 +2,7 @@ package com.android.similarwx.present;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspSetPassword;
 import com.android.similarwx.inteface.SetPasswordViewInterface;
@@ -27,7 +28,8 @@ public class SetPasswordPresent {
             String result=rspGroup.getResult();
             if (result.equals("success")){
                 if (rspGroup.getErrorCode().equals("0000")){
-                    mView.refreshSetPassword();
+
+                    mView.refreshSetPassword(rspGroup.getData());
                 }
             }else {
                 Toaster.toastShort(rspGroup.getErrorMsg());

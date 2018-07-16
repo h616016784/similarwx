@@ -1,5 +1,6 @@
 package com.android.similarwx.inteface;
 
+import com.android.similarwx.beans.Transfer;
 import com.android.similarwx.beans.response.RspTransfer;
 
 /**
@@ -7,5 +8,5 @@ import com.android.similarwx.beans.response.RspTransfer;
  */
 
 public interface RechargeViewInterface extends ViewInterface {
-    void refreshRecharge(RspTransfer transfer);
+    void refreshRecharge(Transfer transfer);
 }

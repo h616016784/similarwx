@@ -1,6 +1,8 @@
 package com.android.similarwx.widget;
 
+import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,6 +17,9 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
+import com.android.similarwx.beans.BaseBean;
+import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

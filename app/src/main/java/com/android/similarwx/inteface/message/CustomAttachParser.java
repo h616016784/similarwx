@@ -24,6 +24,9 @@ public class CustomAttachParser implements MsgAttachmentParser {
                 case CustomAttachmentType.Red:
                     attachment = new RedCustomAttachment();
                     break;
+                case CustomAttachmentType.Trans:
+                    attachment = new TransCustomAttachment();
+                    break;
                 default:
                     attachment = new DefaultCustomAttachment();
                     break;
