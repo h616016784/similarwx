@@ -9,42 +9,46 @@
         android:layout_weight="9"
         android:orientation="vertical">
         <RelativeLayout
+            android:id="@+id/create_group_name_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/distance_normal"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"
-            android:padding="@dimen/distance_small"
-            >
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_marginRight="@dimen/distance_small"
+            android:padding="@dimen/distance_small">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="群名称"
                 android:textSize="@dimen/text_content_or_button"
                 android:textColor="@color/black"/>
-            <EditText
+            <TextView
                 android:id="@+id/create_group_name_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/distance_bigger"
                 android:background="@null"
                 android:minWidth="@dimen/distance_bigger"
                 android:textSize="@dimen/text_content_or_button"
                 android:gravity="right"
-                android:hint="请输入群名称"
                 android:layout_alignParentRight="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/distance_normal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/em_right"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen1dp"
-            android:background="@color/gray"
             android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"/>
+            android:background="@color/gray" />
         <RelativeLayout
             android:id="@+id/create_group_set_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_middle"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_marginRight="@dimen/distance_small"
             android:padding="@dimen/distance_small">
             <TextView
                 android:layout_width="wrap_content"
@@ -62,12 +66,11 @@
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_centerVertical="true"
                 android:gravity="right"
-                android:hint="点击选择群类型"
                 android:layout_marginRight="@dimen/distance_bigger"
                 android:layout_alignParentRight="true"/>
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/distance_normal"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/em_right"/>
@@ -76,13 +79,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen1dp"
             android:background="@color/gray"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"/>
+            android:layout_marginLeft="@dimen/distance_normal"/>
         <RelativeLayout
+            android:id="@+id/create_group_notice_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_middle"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_marginRight="@dimen/distance_small"
             android:padding="@dimen/distance_small">
             <TextView
                 android:layout_width="wrap_content"
@@ -91,29 +94,35 @@
                 android:text="群公告"
                 android:textSize="@dimen/text_content_or_button"
                 android:textColor="@color/black"/>
-            <EditText
+            <TextView
                 android:id="@+id/create_group_notice_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/distance_bigger"
                 android:background="@null"
                 android:minWidth="@dimen/distance_bigger"
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_centerVertical="true"
                 android:gravity="right"
-                android:hint="点击输入群公告"
                 android:layout_alignParentRight="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/distance_normal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/em_right"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen1dp"
             android:background="@color/gray"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"/>
+            android:layout_marginLeft="@dimen/distance_normal"/>
         <RelativeLayout
+            android:id="@+id/create_group_must_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_middle"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_marginRight="@dimen/distance_small"
             android:padding="@dimen/distance_small">
             <TextView
                 android:layout_width="wrap_content"
@@ -122,7 +131,7 @@
                 android:text="群须知"
                 android:textSize="@dimen/text_content_or_button"
                 android:textColor="@color/black"/>
-            <EditText
+            <TextView
                 android:id="@+id/create_group_must_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,21 +140,24 @@
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_centerVertical="true"
                 android:gravity="right"
-                android:hint="点击输入群须知"
                 android:layout_alignParentRight="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/distance_normal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/em_right"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen1dp"
-            android:background="@color/gray"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"/>
+            android:layout_height="@dimen/distance_middle"
+            android:background="@color/gray7"/>
         <RelativeLayout
             android:id="@+id/create_group_home_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_middle"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_marginRight="@dimen/distance_small"
             android:padding="@dimen/distance_small">
             <TextView
                 android:layout_width="wrap_content"
@@ -163,12 +175,11 @@
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_centerVertical="true"
                 android:gravity="right"
-                android:hint="点击选择"
                 android:layout_marginRight="@dimen/distance_bigger"
                 android:layout_alignParentRight="true"/>
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/distance_normal"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/em_right"/>
@@ -177,131 +188,14 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen1dp"
             android:background="@color/gray"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_middle"
-            android:padding="@dimen/distance_small">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="红包范围"
-                android:textSize="@dimen/text_content_or_button"
-                android:textColor="@color/black"/>
-            <EditText
-                android:id="@+id/create_group_range_high_et"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:minWidth="@dimen/distance_bigger"
-                android:textSize="@dimen/text_content_or_button"
-                android:layout_centerVertical="true"
-                android:inputType="numberDecimal"
-                android:gravity="right"
-                android:hint="输入最高"
-                android:layout_alignParentRight="true"/>
-            <EditText
-                android:id="@+id/create_group_range_low_et"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/create_group_range_high_et"
-                android:layout_marginRight="@dimen/distance_middle"
-                android:background="@null"
-                android:minWidth="@dimen/distance_bigger"
-                android:textSize="@dimen/text_content_or_button"
-                android:layout_centerVertical="true"
-                android:inputType="numberDecimal"
-                android:gravity="right"
-                android:hint="输入最低"/>
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen1dp"
-            android:background="@color/gray"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_middle"
-            android:padding="@dimen/distance_small">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="红包个数"
-                android:textSize="@dimen/text_content_or_button"
-                android:textColor="@color/black"/>
-            <EditText
-                android:id="@+id/create_group_num_et"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:minWidth="@dimen/distance_bigger"
-                android:textSize="@dimen/text_content_or_button"
-                android:layout_centerVertical="true"
-                android:inputType="numberDecimal"
-                android:gravity="right"
-                android:hint="输入个数"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen1dp"
-            android:background="@color/gray"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"/>
-        <LinearLayout
-            android:id="@+id/create_group_lei_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/distance_normal"
-                android:layout_marginRight="@dimen/distance_normal"
-                android:padding="@dimen/distance_small">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="中雷赔率"
-                    android:textSize="@dimen/text_content_or_button"
-                    android:textColor="@color/black"/>
-                <EditText
-                    android:id="@+id/create_group_lei_et"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:minWidth="@dimen/distance_bigger"
-                    android:textSize="@dimen/text_content_or_button"
-                    android:layout_centerVertical="true"
-                    android:inputType="numberDecimal"
-                    android:gravity="right"
-                    android:hint="输入中雷赔率"
-                    android:layout_alignParentRight="true"/>
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen1dp"
-                android:background="@color/gray"
-                android:layout_marginLeft="@dimen/distance_normal"
-                android:layout_marginRight="@dimen/distance_normal"/>
-
-        </LinearLayout>
+            android:layout_marginLeft="@dimen/distance_normal"/>
 
         <RelativeLayout
             android:id="@+id/create_group_in_set_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_middle"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_marginRight="@dimen/distance_small"
             android:padding="@dimen/distance_small">
             <TextView
                 android:layout_width="wrap_content"
@@ -319,12 +213,49 @@
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_centerVertical="true"
                 android:gravity="right"
-                android:hint="点击选择"
                 android:layout_marginRight="@dimen/distance_bigger"
                 android:layout_alignParentRight="true"/>
             <ImageView
                 android:layout_width="wrap_content"
+                android:layout_height="@dimen/distance_normal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/em_right"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/distance_middle"
+            android:background="@color/gray7"/>
+        <RelativeLayout
+            android:id="@+id/create_group_range_low_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_marginRight="@dimen/distance_small"
+            android:padding="@dimen/distance_small">
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="红包范围低值"
+                android:textSize="@dimen/text_content_or_button"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/create_group_range_low_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/distance_bigger"
+                android:background="@null"
+                android:minWidth="@dimen/distance_bigger"
+                android:textSize="@dimen/text_content_or_button"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:inputType="numberDecimal"
+                android:gravity="right"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/distance_middle"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/em_right"/>
@@ -333,8 +264,127 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen1dp"
             android:background="@color/gray"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"/>
+            android:layout_marginLeft="@dimen/distance_normal"/>
+        <RelativeLayout
+            android:id="@+id/create_group_range_high_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_marginRight="@dimen/distance_small"
+            android:padding="@dimen/distance_small">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="红包范围高值"
+                android:textSize="@dimen/text_content_or_button"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/create_group_range_high_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:minWidth="@dimen/distance_bigger"
+                android:layout_marginRight="@dimen/distance_bigger"
+                android:textSize="@dimen/text_content_or_button"
+                android:layout_centerVertical="true"
+                android:inputType="numberDecimal"
+                android:gravity="right"
+                android:layout_alignParentRight="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/distance_normal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/em_right"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"/>
+        <RelativeLayout
+            android:id="@+id/create_group_num_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_marginRight="@dimen/distance_small"
+            android:padding="@dimen/distance_small">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="红包个数"
+                android:textSize="@dimen/text_content_or_button"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/create_group_num_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:minWidth="@dimen/distance_bigger"
+                android:textSize="@dimen/text_content_or_button"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/distance_bigger"
+                android:inputType="numberDecimal"
+                android:gravity="right"
+                android:layout_alignParentRight="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/distance_normal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/em_right"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/distance_normal"/>
+        <LinearLayout
+            android:id="@+id/create_group_lei_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/distance_small"
+                android:layout_marginRight="@dimen/distance_small"
+                android:padding="@dimen/distance_small">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="中雷赔率"
+                    android:textSize="@dimen/text_content_or_button"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/create_group_lei_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/distance_bigger"
+                    android:background="@null"
+                    android:minWidth="@dimen/distance_bigger"
+                    android:textSize="@dimen/text_content_or_button"
+                    android:layout_centerVertical="true"
+                    android:inputType="numberDecimal"
+                    android:gravity="right"
+                    android:layout_alignParentRight="true"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/distance_normal"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/em_right"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/distance_middle"
+            android:background="@color/gray7"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

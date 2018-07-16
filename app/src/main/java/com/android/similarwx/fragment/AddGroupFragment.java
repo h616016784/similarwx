@@ -49,27 +49,39 @@ import butterknife.Unbinder;
 public class AddGroupFragment extends BaseFragment implements AddGroupViewInterface{
     Unbinder unbinder;
     @BindView(R.id.create_group_name_et)
-    EditText createGroupNameEt;
+    TextView createGroupNameEt;
+    @BindView(R.id.create_group_name_rl)
+    RelativeLayout createGroupNameRl;
     @BindView(R.id.create_group_set_tv)
     TextView createGroupSetTv;
     @BindView(R.id.create_group_set_rl)
     RelativeLayout createGroupSetRl;
     @BindView(R.id.create_group_notice_et)
-    EditText createGroupNoticeEt;
+    TextView createGroupNoticeEt;
+    @BindView(R.id.create_group_notice_rl)
+    RelativeLayout createGroupNoticeRl;
     @BindView(R.id.create_group_must_et)
-    EditText createGroupMustEt;
+    TextView createGroupMustEt;
+    @BindView(R.id.create_group_must_rl)
+    RelativeLayout createGroupMustRl;
     @BindView(R.id.create_group_home_tv)
     TextView createGroupHomeTv;
     @BindView(R.id.create_group_home_rl)
     RelativeLayout createGroupHomeRl;
     @BindView(R.id.create_group_range_high_et)
-    EditText createGroupRangeHighEt;
+    TextView createGroupRangeHighEt;
+    @BindView(R.id.create_group_range_high_rl)
+    RelativeLayout createGroupRangeHighRl;
     @BindView(R.id.create_group_range_low_et)
-    EditText createGroupRangeLowEt;
+    TextView createGroupRangeLowEt;
+    @BindView(R.id.create_group_range_low_rl)
+    RelativeLayout createGroupRangeLowRl;
     @BindView(R.id.create_group_num_et)
-    EditText createGroupNumEt;
+    TextView createGroupNumEt;
+    @BindView(R.id.create_group_num_rl)
+    RelativeLayout createGroupNumRl;
     @BindView(R.id.create_group_lei_et)
-    EditText createGroupLeiEt;
+    TextView createGroupLeiEt;
     @BindView(R.id.create_group_in_set_tv)
     TextView createGroupInSetTv;
     @BindView(R.id.create_group_in_set_rl)
@@ -155,7 +167,8 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     }
 
 
-    @OnClick({R.id.create_group_set_rl, R.id.create_group_home_rl, R.id.create_group_in_set_rl, R.id.create_group_add_rule_iv, R.id.create_group_new_bt})
+    @OnClick({R.id.create_group_set_rl, R.id.create_group_home_rl, R.id.create_group_in_set_rl, R.id.create_group_add_rule_iv, R.id.create_group_new_bt,R.id.create_group_lei_ll
+            ,R.id.create_group_num_rl,R.id.create_group_range_high_rl,R.id.create_group_range_low_rl,R.id.create_group_must_rl,R.id.create_group_notice_rl,R.id.create_group_name_rl})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.create_group_set_rl:
@@ -175,6 +188,20 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                     }
                 });
                 dialog.show();
+                break;
+            case R.id.create_group_lei_ll://雷
+                break;
+            case R.id.create_group_num_rl://红包个数
+                break;
+            case R.id.create_group_range_high_rl://红包上限
+                break;
+            case R.id.create_group_range_low_rl://红包下限
+                break;
+            case R.id.create_group_must_rl://须知
+                break;
+            case R.id.create_group_notice_rl://公告
+                break;
+            case R.id.create_group_name_rl://群名称
                 break;
             case R.id.create_group_home_rl:
                 EasyAlertDialogHelper.createOkCancelDiolag(activity, "提示", "是否大厅显示？","是","否", true, new EasyAlertDialogHelper.OnDialogActionListener() {
