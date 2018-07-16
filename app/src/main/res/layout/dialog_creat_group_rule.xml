@@ -3,76 +3,117 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/dialog_create_group_rule_name_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/distance_normal"
-        android:orientation="horizontal">
+        android:layout_marginLeft="@dimen/distance_small"
+        android:layout_marginRight="@dimen/distance_small"
+        android:padding="@dimen/distance_small">
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="名称"
+            android:text="奖励规则名称"
             android:textSize="@dimen/text_content_or_button"
             android:textColor="@color/black"/>
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/dialog_create_group_rule_name_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/distance_bigger"
+            android:background="@null"
+            android:minWidth="@dimen/distance_bigger"
+            android:textSize="@dimen/text_content_or_button"
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:layout_alignParentRight="true"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/distance_normal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/em_right"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/distance_middle"
+        android:background="@color/gray7"/>
+
+    <RelativeLayout
+        android:id="@+id/dialog_create_group_rule_grab_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/distance_small"
+        android:layout_marginRight="@dimen/distance_small"
+        android:padding="@dimen/distance_small">
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="抢到金额"
+            android:text="奖励数字"
             android:textSize="@dimen/text_content_or_button"
             android:textColor="@color/black"/>
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/dialog_create_group_rule_grab_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/distance_bigger"
+            android:background="@null"
+            android:minWidth="@dimen/distance_bigger"
+            android:textSize="@dimen/text_content_or_button"
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:layout_alignParentRight="true"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/distance_normal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/em_right"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/distance_middle"
+        android:background="@color/gray7"/>
+
+    <RelativeLayout
+        android:id="@+id/dialog_create_group_rule_get_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/distance_small"
+        android:layout_marginRight="@dimen/distance_small"
+        android:padding="@dimen/distance_small">
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="center"
             android:text="奖励金额"
             android:textSize="@dimen/text_content_or_button"
             android:textColor="@color/black"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/distance_small"
-        android:orientation="horizontal">
-        <EditText
-            android:id="@+id/dialog_create_group_rule_name_et"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:hint="输入名称"
-            android:textSize="@dimen/text_content_or_button"
-            android:textColor="@color/gray"/>
-        <EditText
-            android:id="@+id/dialog_create_group_rule_grab_et"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:hint="输入抢到金额"
-            android:textSize="@dimen/text_content_or_button"
-            android:textColor="@color/gray"/>
-        <EditText
+        <TextView
             android:id="@+id/dialog_create_group_rule_get_et"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:hint="输入奖励金额"
+            android:layout_marginRight="@dimen/distance_bigger"
+            android:background="@null"
+            android:minWidth="@dimen/distance_bigger"
             android:textSize="@dimen/text_content_or_button"
-            android:textColor="@color/gray"/>
-    </LinearLayout>
-
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:layout_alignParentRight="true"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/distance_normal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/em_right"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/distance_middle"
+        android:background="@color/gray7"/>
     <Button
         android:id="@+id/dialog_create_group_rule_bt"
         android:layout_width="match_parent"

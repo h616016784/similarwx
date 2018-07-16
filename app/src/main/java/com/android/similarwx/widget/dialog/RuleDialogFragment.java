@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
@@ -23,7 +25,8 @@ import com.android.similarwx.beans.GroupRule;
  */
 
 public class RuleDialogFragment extends DialogFragment implements View.OnClickListener {
-    private EditText dialog_create_group_rule_name_et,dialog_create_group_rule_grab_et,dialog_create_group_rule_get_et;
+    private TextView dialog_create_group_rule_name_et,dialog_create_group_rule_grab_et,dialog_create_group_rule_get_et;
+    private RelativeLayout dialog_create_group_rule_name_rl,dialog_create_group_rule_grab_rl,dialog_create_group_rule_get_rl;
     private Button mCreatGroup;
 
     private OnConfirmClickListener mClickListener;
@@ -42,8 +45,8 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE,0);
-//        setStyle(R.style.,0);
+//        setStyle(DialogFragment.STYLE_NO_TITLE,0);
+        setStyle(R.style.Theme_AppCompat_Light_Dialog_MinWidth,0);
     }
 
     @Override
@@ -57,8 +60,14 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
         dialog_create_group_rule_name_et=view.findViewById(R.id.dialog_create_group_rule_name_et);
         dialog_create_group_rule_grab_et=view.findViewById(R.id.dialog_create_group_rule_grab_et);
         dialog_create_group_rule_get_et=view.findViewById(R.id.dialog_create_group_rule_get_et);
+        dialog_create_group_rule_name_rl=view.findViewById(R.id.dialog_create_group_rule_name_rl);
+        dialog_create_group_rule_grab_rl=view.findViewById(R.id.dialog_create_group_rule_grab_rl);
+        dialog_create_group_rule_get_rl=view.findViewById(R.id.dialog_create_group_rule_get_rl);
         mCreatGroup=view.findViewById(R.id.dialog_create_group_rule_bt);
         mCreatGroup.setOnClickListener(this);
+        dialog_create_group_rule_name_rl.setOnClickListener(this);
+        dialog_create_group_rule_grab_rl.setOnClickListener(this);
+        dialog_create_group_rule_get_rl.setOnClickListener(this);
     }
 
     @Override
@@ -91,6 +100,46 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.dialog_create_group_rule_name_rl:
+                EditDialogSimple simpleName=new EditDialogSimple(getActivity(),"奖励规则名称");
+                simpleName.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                    @Override
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("奖励规则名称不能为空！");
+                        else
+                            dialog_create_group_rule_name_et.setText(text);
+                    }
+                });
+                simpleName.show();
+                break;
+            case R.id.dialog_create_group_rule_grab_rl:
+                EditDialogSimple simpleNum=new EditDialogSimple(getActivity(),"奖励数字");
+                simpleNum.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                    @Override
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("奖励数字不能为空！");
+                        else
+                            dialog_create_group_rule_grab_et.setText(text);
+                    }
+                });
+                simpleNum.show();
+                break;
+            case R.id.dialog_create_group_rule_get_rl:
+                EditDialogSimple simpleAmount=new EditDialogSimple(getActivity(),"奖励金额");
+                simpleAmount.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                    @Override
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("奖励金额不能为空！");
+                        else
+                            dialog_create_group_rule_get_et.setText(text);
+                    }
+                });
+                simpleAmount.show();
+                break;
+
             case R.id.dialog_create_group_rule_bt:
                 String name=dialog_create_group_rule_name_et.getText().toString();
                 String grab=dialog_create_group_rule_grab_et.getText().toString();

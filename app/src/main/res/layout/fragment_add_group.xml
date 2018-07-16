@@ -135,6 +135,7 @@
                 android:id="@+id/create_group_must_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/distance_bigger"
                 android:background="@null"
                 android:minWidth="@dimen/distance_bigger"
                 android:textSize="@dimen/text_content_or_button"

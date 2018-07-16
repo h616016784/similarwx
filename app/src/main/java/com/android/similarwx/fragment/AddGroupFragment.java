@@ -25,10 +25,13 @@ import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.request.ReqGroup;
 import com.android.similarwx.inteface.AddGroupViewInterface;
 import com.android.similarwx.present.AddGroupPresent;
+import com.android.similarwx.utils.DigestUtil;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.ListPopWindow;
 import com.android.similarwx.widget.dialog.BottomBaseDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
+import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.android.similarwx.widget.dialog.RuleDialogFragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -100,6 +103,9 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 
     private BaseQuickAdapter adapter;
     private List<GroupRule> groupRuleList;
+    private List<PopMoreBean> redNumList;
+    private List<PopMoreBean> redHighList;
+    private List<PopMoreBean> redLowList;
     private AddGroupPresent mPresent;
     ReqGroup reqGroup;
     @Override
@@ -164,6 +170,39 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         groupTypeList.add(bean);
         groupTypeList.add(bean2);
         groupRuleList=new ArrayList<>();
+
+        redNumList=new ArrayList<>();
+        PopMoreBean redNumBean=new PopMoreBean();
+        redNumBean.setName("5");
+        redNumList.add(redNumBean);
+        PopMoreBean redNumBean1=new PopMoreBean();
+        redNumBean1.setName("7");
+        redNumList.add(redNumBean1);
+        PopMoreBean redNumBean2=new PopMoreBean();
+        redNumBean2.setName("10");
+        redNumList.add(redNumBean2);
+
+        redHighList=new ArrayList<>();
+        PopMoreBean redHighBean=new PopMoreBean();
+        redHighBean.setName("30");
+        redHighList.add(redHighBean);
+        PopMoreBean redHighBean1=new PopMoreBean();
+        redHighBean1.setName("50");
+        redHighList.add(redHighBean1);
+        PopMoreBean redHighBean2=new PopMoreBean();
+        redHighBean2.setName("100");
+        redHighList.add(redHighBean2);
+
+        redLowList=new ArrayList<>();
+        PopMoreBean redLowBean=new PopMoreBean();
+        redLowBean.setName("10");
+        redLowList.add(redLowBean);
+        PopMoreBean redLowBean1=new PopMoreBean();
+        redLowBean1.setName("20");
+        redLowList.add(redLowBean1);
+        PopMoreBean redLowBean2=new PopMoreBean();
+        redLowBean2.setName("30");
+        redLowList.add(redLowBean2);
     }
 
 
@@ -190,18 +229,95 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 dialog.show();
                 break;
             case R.id.create_group_lei_ll://雷
+                EditDialogSimple simpleLei=new EditDialogSimple(activity,"中雷赔率");
+                simpleLei.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                    @Override
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("中雷赔率不能为空！");
+                        else
+                            createGroupLeiEt.setText(text);
+                    }
+                });
+                simpleLei.show();
                 break;
             case R.id.create_group_num_rl://红包个数
+                BottomBaseDialog dialogRedNum=new BottomBaseDialog(activity);
+                dialogRedNum.setTitle("红包个数");
+                dialogRedNum.setList(redNumList);
+                dialogRedNum.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        PopMoreBean bean=groupTypeList.get(position);
+                        createGroupNumEt.setText(bean.getName());
+                    }
+                });
+                dialogRedNum.show();
                 break;
             case R.id.create_group_range_high_rl://红包上限
+                BottomBaseDialog dialogRedHigh=new BottomBaseDialog(activity);
+                dialogRedHigh.setTitle("红包上限");
+                dialogRedHigh.setList(redHighList);
+                dialogRedHigh.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        PopMoreBean bean=redHighList.get(position);
+                        createGroupRangeHighEt.setText(bean.getName());
+                    }
+                });
+                dialogRedHigh.show();
                 break;
             case R.id.create_group_range_low_rl://红包下限
+                BottomBaseDialog dialogRedLow=new BottomBaseDialog(activity);
+                dialogRedLow.setTitle("红包下线");
+                dialogRedLow.setList(redLowList);
+                dialogRedLow.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        PopMoreBean bean=redLowList.get(position);
+                        createGroupRangeLowEt.setText(bean.getName());
+                    }
+                });
+                dialogRedLow.show();
                 break;
             case R.id.create_group_must_rl://须知
+                EditDialogSimple simpleMust=new EditDialogSimple(activity,"群须知");
+                simpleMust.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                    @Override
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("群须知不能为空！");
+                        else
+                            createGroupMustEt.setText(text);
+                    }
+                });
+                simpleMust.show();
                 break;
             case R.id.create_group_notice_rl://公告
+                EditDialogSimple simpleNotice=new EditDialogSimple(activity,"群公告");
+                simpleNotice.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                    @Override
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("群公告不能为空！");
+                        else
+                            createGroupNoticeEt.setText(text);
+                    }
+                });
+                simpleNotice.show();
                 break;
             case R.id.create_group_name_rl://群名称
+                EditDialogSimple simpleName=new EditDialogSimple(activity,"群名称");
+                simpleName.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                    @Override
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("群名称不能为空！");
+                        else
+                            createGroupNameEt.setText(text);
+                    }
+                });
+                simpleName.show();
                 break;
             case R.id.create_group_home_rl:
                 EasyAlertDialogHelper.createOkCancelDiolag(activity, "提示", "是否大厅显示？","是","否", true, new EasyAlertDialogHelper.OnDialogActionListener() {
