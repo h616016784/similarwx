@@ -17,7 +17,9 @@ import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.inteface.PhoneVerifyViewInterface;
 import com.android.similarwx.inteface.RegisterViewInterface;
+import com.android.similarwx.present.PhoneVerifyPresent;
 import com.android.similarwx.present.RegisterPresent;
 
 import java.util.Timer;
@@ -32,7 +34,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/3/31.
  */
 
-public class RegistFragment extends BaseFragment implements RegisterViewInterface {
+public class RegistFragment extends BaseFragment implements RegisterViewInterface, PhoneVerifyViewInterface {
 
     @BindView(R.id.login_account)
     TextView loginAccount;
@@ -72,6 +74,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
     Button registerComplete;
     Unbinder unbinder;
     private RegisterPresent registerPresent;
+    private PhoneVerifyPresent phoneVerifyPresent;
     Timer timer;
     Integer pos = 60;
 
@@ -88,7 +91,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
                 switch (msg.what) {
                     case 0://结束倒计时
                         registerGetCode.setText(AppContext.getContext().getString(R.string.register_get_code));
-                        destroyTimer();
+                        cancelTimer();
                         break;
                     case 1:
                         registerGetCode.setText(pos + "秒");
@@ -105,6 +108,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
         unbinder = ButterKnife.bind(this, contentView);
         mActionbar.setTitle(R.string.login_bar_registe);
         registerPresent = new RegisterPresent(this);
+        phoneVerifyPresent=new PhoneVerifyPresent(this);
         timer = new Timer();
     }
 
@@ -114,19 +118,20 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
             case R.id.register_get_code:
                 String phoneNum = loginPhoneEt.getText().toString();
                 if (registerPresent.isEmpty(phoneNum)) {
-
+                    Toaster.toastShort("手机号不能为空！");
                 } else {
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
+
                             if (pos == 0) {
                                 mHandler.sendEmptyMessage(0);
                             } else {
                                 mHandler.sendEmptyMessage(1);
-
                             }
                         }
                     }, 50, 1000);
+                    phoneVerifyPresent.getMobileVerifyCode(phoneNum);
                 }
                 break;
             case R.id.register_complete:
@@ -142,7 +147,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
                     Toaster.toastShort("验证码不能为空！");
                     return;
                 }
-                registerPresent.register(account,weixinAccount,email,phone, psd, code, confirm,nick,null,null,null,null,code);
+                registerPresent.register(account,weixinAccount,email,phone, psd, confirm,nick,null,null,null,null,code);
                 break;
         }
     }
@@ -174,14 +179,19 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
     @Override
     public void onDestroy() {
         super.onDestroy();
-        destroyTimer();
+        cancelTimer();
+        timer=null;
     }
 
-    public void destroyTimer() {
+    public void cancelTimer() {
         if (timer != null) {
             timer.cancel();
-            timer = null;
             pos = 60;
         }
+    }
+
+    @Override
+    public void refreshGettMobileVerifyCode() {
+
     }
 }

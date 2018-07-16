@@ -85,12 +85,17 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
                     Toaster.toastShort("手机号不能为空");
                 else
                     present.getMobileVerifyCode(text);
-
                 break;
             case R.id.verify_next:
-                Bundle bundle=new Bundle();
-                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
-                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                String textCode = verifyCodeEt.getText().toString();
+                if (TextUtils.isEmpty(textCode))
+                    Toaster.toastShort("验证码不能为空!");
+                else {
+                    Bundle bundle=new Bundle();
+                    bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
+                    bundle.putString(AppConstants.TRANSFER_VERCODE,textCode);
+                    FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                }
                 break;
         }
     }

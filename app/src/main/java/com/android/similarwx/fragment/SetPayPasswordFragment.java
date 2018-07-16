@@ -38,6 +38,7 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
     User muser;
     SetPasswordPresent present;
     private String type="";
+    private String code="";
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_pay_password;
@@ -49,6 +50,7 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
         present=new SetPasswordPresent(this);
         unbinder = ButterKnife.bind(this, contentView);
         type=getArguments().getString(AppConstants.TRANSFER_PASSWORD_TYPE);
+        code=getArguments().getString(AppConstants.TRANSFER_VERCODE);
         if (!TextUtils.isEmpty(type)){
             if (type.equals(LOG_PSD)){
                 mActionbar.setTitle("设置登录密码");
@@ -68,16 +70,16 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                 String password=setPayPasswordEt.getText().toString();
                 String confirmPassword=setPayPasswordConfirmEt.getText().toString();
                 if (TextUtils.isEmpty(password))
-                    Toaster.toastShort("支付密码不能为空！");
+                    Toaster.toastShort("密码不能为空！");
                 else if (TextUtils.isEmpty(confirmPassword))
                     Toaster.toastShort("确认密码不能为空！");
                 else if (!password.equals(confirmPassword))
                     Toaster.toastShort("密码前后不一致!");
                 else{
                     if (type.equals(LOG_PSD)){
-                        present.setPassword(muser.getId(),"",password);
+                        present.setPassword(muser.getMobile(),"",password,code);
                     }else {
-                        present.setPassword(muser.getId(), password,"");
+                        present.setPassword(muser.getMobile(), password,"",code);
                     }
 
                 }
@@ -95,7 +97,7 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
     public void refreshSetPassword() {
         String password=setPayPasswordEt.getText().toString();
         if (type.equals(LOG_PSD)){
-
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);
         }else {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,password);
         }

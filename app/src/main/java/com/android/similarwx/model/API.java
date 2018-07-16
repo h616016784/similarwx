@@ -309,13 +309,15 @@ public class API implements APIConstants {
         });
     }
 
-    public void setPaymentPasswd(String userId, String paymentPasswd, String passwdStr, SetPasswordPresent present){
+    public void setPaymentPasswd(String mobile, String paymentPasswd, String passwdStr,String verifyCode, SetPasswordPresent present){
         Map<String,String> map=new HashMap<>();
-        map.put("userId",userId);
+        map.put("mobile",mobile);
         if (!TextUtils.isEmpty(paymentPasswd))
             map.put("paymentPasswd",paymentPasswd);
         if (!TextUtils.isEmpty(passwdStr))
             map.put("passwdStr",passwdStr);
+        if (!TextUtils.isEmpty(verifyCode))
+            map.put("verifyCode",verifyCode);
         Call<RspSetPassword> call=apiService.setPaymentPasswd(map);
         call.enqueue(new Callback<RspSetPassword>() {
             @Override

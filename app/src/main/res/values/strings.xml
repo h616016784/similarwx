@@ -164,7 +164,7 @@
     <string name="set_password_title">设置密码</string>
     <string name="set_password_login">登录密码</string>
     <string name="set_password_pay">支付密码</string>
-    <string name="set_password_find">找回密码</string>
+    <string name="set_password_find">找回支付密码</string>
     <string name="set_password_message">为保障您的数据安全，修改密\n码前请填写前密码</string>
 
     <!-- 系统消息通知-->

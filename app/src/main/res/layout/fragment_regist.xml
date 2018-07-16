@@ -47,6 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:visibility="gone"
                 android:padding="@dimen/distance_normal">
                 <TextView
                     android:id="@+id/login_weixn_account"
@@ -75,6 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:visibility="gone"
                 android:padding="@dimen/distance_normal">
                 <TextView
                     android:id="@+id/login_email"

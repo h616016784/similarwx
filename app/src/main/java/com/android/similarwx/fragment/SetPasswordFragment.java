@@ -17,6 +17,7 @@ import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.SetPasswordViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.present.SetPasswordPresent;
+import com.android.similarwx.utils.DigestUtil;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Strings.MD5;
@@ -36,7 +37,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/11.
  */
 
-public class SetPasswordFragment extends BaseFragment implements SetPasswordViewInterface {
+public class SetPasswordFragment extends BaseFragment {
     @BindView(R.id.my_set_password_login_iv)
     BaseItemView mySetPasswordLoginIv;
     @BindView(R.id.my_set_password_pay_iv)
@@ -46,8 +47,8 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordView
     Unbinder unbinder;
 
     EditDialogSimple editDialogSimple;
-    SetPasswordPresent present;
     User muser;
+    private int flag=-1;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_set_password;
@@ -58,7 +59,6 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordView
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.my_base_title);
         unbinder = ButterKnife.bind(this, contentView);
-        present=new SetPasswordPresent(this);
         init();
     }
 
@@ -83,10 +83,12 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordView
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_set_password_login_iv:
-                showEditDialog(0);
+                flag=0;
+                showEditDialog(flag);
                 break;
             case R.id.my_set_password_pay_iv:
-                showEditDialog(1);
+                flag=1;
+                showEditDialog(flag);
                 break;
             case R.id.my_set_password_find_iv:
                 FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),null);
@@ -99,23 +101,28 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordView
         if(editDialogSimple==null)
             editDialogSimple=new EditDialogSimple(activity,"");
         if(flag==0){
-            editDialogSimple.setTitle("请输入新的登录密码");
+            editDialogSimple.setTitle("请输入原登录密码");
             editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                 @Override
                 public void onClickListener(String text) {
                     if (TextUtils.isEmpty(text))
                         Toaster.toastShort("登录密码不能为空");
+                    else if (!DigestUtil.sha1(text).equals(muser.getPasswd()))
+                        Toaster.toastShort("登录密码不正确！");
                     else {
-                        present.setPassword(muser.getId(),"",text);
+                        Bundle bundle=new Bundle();
+                        bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
+                        FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
                     }
                 }
             });
             editDialogSimple.show();
         } else{
             if (TextUtils.isEmpty(muser.getPaymentPasswd())){
-                Bundle bundle=new Bundle();
-                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
-                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+//                Bundle bundle=new Bundle();
+//                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
+//                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),null);
             }else{
                 editDialogSimple.setTitle(AppContext.getResources().getString(R.string.set_password_message));
                 editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
@@ -125,7 +132,7 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordView
                         if (TextUtils.isEmpty(text))
                             Toaster.toastShort("支付密码不能为空");
                         else {
-                            if (text.equals(myPayPassword)){
+                            if (DigestUtil.sha1(text).equals(myPayPassword)){
                                 Bundle bundle=new Bundle();
                                 bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
                                 FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
@@ -137,16 +144,6 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordView
                 editDialogSimple.show();
             }
         }
-
-    }
-
-    @Override
-    public void refreshSetPassword() {
-
-    }
-
-    @Override
-    public void showErrorMessage(String err) {
 
     }
 }

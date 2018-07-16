@@ -36,14 +36,13 @@ public class RegisterPresent extends BasePresent {
      * @param email
      * @param name
      * @param password
-     * @param code
      * @param confim
      * @param nick
      */
-    public void register(String account,String weixinAccount,String email,String name,String password,String code,String confim,String nick,String birth,String gender,String alipay,String personalitySignature,String verifyCode){
-//        if(isEmpty(account,weixinAccount,email,name,password,confim,nick)){
-//            return;
-//        }
+    public void register(String account,String weixinAccount,String email,String name,String password,String confim,String nick,String birth,String gender,String alipay,String personalitySignature,String verifyCode){
+        if(isEmpty(account,name,password,confim,nick)){
+            return;
+        }
         API.getInstance().register(account,weixinAccount,email,name,confim,nick,birth,gender,alipay,personalitySignature,verifyCode,this);
     }
     //解析相应体
@@ -132,6 +131,28 @@ public class RegisterPresent extends BasePresent {
             return true;
         }else if (TextUtils.isEmpty(email)){
             registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_email_notnull));
+            return true;
+        }else if (TextUtils.isEmpty(password)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_notnull));
+            return true;
+        }else if (TextUtils.isEmpty(confirm)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_confirm_notnull));
+            return true;
+        }else if(!password.equals(confirm)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_confirm));
+            return true;
+        }
+        return false;
+    }
+    private boolean isEmpty(String account,String name, String password,String confirm,String nick) {
+        if (TextUtils.isEmpty(name)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_phone_notnull));
+            return true;
+        }else if (TextUtils.isEmpty(nick)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_nick_notnull));
+            return true;
+        }else if (TextUtils.isEmpty(account)){
+            registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_acc_notnull));
             return true;
         }else if (TextUtils.isEmpty(password)){
             registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_notnull));
