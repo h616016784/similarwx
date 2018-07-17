@@ -106,6 +106,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     private List<PopMoreBean> redNumList;
     private List<PopMoreBean> redHighList;
     private List<PopMoreBean> redLowList;
+    private List<PopMoreBean> groupInList;
     private AddGroupPresent mPresent;
     ReqGroup reqGroup;
     @Override
@@ -144,23 +145,6 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 
     private void initGroupList() {
         groupTypeList=new ArrayList<>();
-//        PopMoreBean bean=new PopMoreBean();
-//        bean.setId("1");
-//        bean.setName("普通交友群");
-//        PopMoreBean bean2=new PopMoreBean();
-//        bean2.setId("2");
-//        bean2.setName("扫雷游戏群");
-//        groupTypeList.add(bean);
-//        groupTypeList.add(bean2);
-//        PopMoreBean bean3=new PopMoreBean();
-//        bean3.setId("3");
-//        bean3.setName("接龙游戏群");
-//        groupTypeList.add(bean3);
-//        PopMoreBean bean4=new PopMoreBean();
-//        bean4.setId("4");
-//        bean4.setName("牛牛游戏群");
-//        groupTypeList.add(bean4);
-
         PopMoreBean bean=new PopMoreBean();
         bean.setId("1");
         bean.setName("普通群");
@@ -203,6 +187,20 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         PopMoreBean redLowBean2=new PopMoreBean();
         redLowBean2.setName("30");
         redLowList.add(redLowBean2);
+
+        groupInList=new ArrayList<>();
+        PopMoreBean groupInBean=new PopMoreBean();
+        groupInBean.setId("0");
+        groupInBean.setName("允许任何人");
+        groupInList.add(groupInBean);
+        PopMoreBean groupInBean1=new PopMoreBean();
+        groupInBean1.setId("1");
+        groupInBean1.setName("需要验证");
+        groupInList.add(groupInBean1);
+        PopMoreBean groupInBean2=new PopMoreBean();
+        groupInBean2.setId("2");
+        groupInBean2.setName("拒绝任何人");
+        groupInList.add(groupInBean2);
     }
 
 
@@ -248,7 +246,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 dialogRedNum.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        PopMoreBean bean=groupTypeList.get(position);
+                        PopMoreBean bean=redNumList.get(position);
                         createGroupNumEt.setText(bean.getName());
                     }
                 });
@@ -335,19 +333,32 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 }).show();
                 break;
             case R.id.create_group_in_set_rl:
-                EasyAlertDialogHelper.createOkCancelDiolag(activity, "提示", "是否进群验证？","是","否", true, new EasyAlertDialogHelper.OnDialogActionListener() {
-                    @Override
-                    public void doCancelAction() {
-                        createGroupInSetTv.setText("否");
-                        reqGroup.setJoinmode("0");
-                    }
+//                EasyAlertDialogHelper.createOkCancelDiolag(activity, "提示", "是否进群验证？","是","否", true, new EasyAlertDialogHelper.OnDialogActionListener() {
+//                    @Override
+//                    public void doCancelAction() {
+//                        createGroupInSetTv.setText("否");
+//                        reqGroup.setJoinmode("0");
+//                    }
+//
+//                    @Override
+//                    public void doOkAction() {
+//                        createGroupInSetTv.setText("是");
+//                        reqGroup.setJoinmode("1");
+//                    }
+//                }).show();
 
+                BottomBaseDialog dialogSet=new BottomBaseDialog(activity);
+                dialogSet.setTitle("进群验证");
+                dialogSet.setList(groupInList);
+                dialogSet.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
                     @Override
-                    public void doOkAction() {
-                        createGroupInSetTv.setText("是");
-                        reqGroup.setJoinmode("1");
+                    public void onItemClick(int position) {
+                        PopMoreBean bean=groupInList.get(position);
+                        reqGroup.setJoinmode(bean.getId());
+                        createGroupInSetTv.setText(bean.getName());
                     }
-                }).show();
+                });
+                dialogSet.show();
                 break;
             case R.id.create_group_add_rule_iv:
                 RuleDialogFragment.show(activity, new RuleDialogFragment.OnConfirmClickListener() {

@@ -5,15 +5,33 @@ package com.android.similarwx.beans;
  */
 
 public class Transfer extends BaseBean{
-    private String name;
+    private String fromUserName;
+    private String toUserName;
     private String amount;
+    private boolean success;
 
-    public String getName() {
-        return name;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getFromUserName() {
+        return fromUserName;
+    }
+
+    public void setFromUserName(String fromUserName) {
+        this.fromUserName = fromUserName;
+    }
+
+    public String getToUserName() {
+        return toUserName;
+    }
+
+    public void setToUserName(String toUserName) {
+        this.toUserName = toUserName;
     }
 
     public String getAmount() {

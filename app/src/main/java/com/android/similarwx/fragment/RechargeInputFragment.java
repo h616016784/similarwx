@@ -84,7 +84,8 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             Toaster.toastShort("转账金额不能为空！");
             return;
         }
-        mPresent.transfer(account,money);
+        if (!TextUtils.isEmpty(account))
+            mPresent.transfer(account,money);
 //        InputPasswordDialog dialog=InputPasswordDialog.newInstance("支付", "100", new InputPasswordDialog.OnInputFinishListener() {
 //            @Override
 //            public void onInputFinish(String password) {
@@ -114,7 +115,11 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
 
     @Override
     public void refreshRecharge(Transfer transfer) {
-        NimUIKit.startP2PSession(activity, accid,createCustomMessage(transfer));
+        if (transfer!=null){
+            if (transfer.isSuccess()){
+                NimUIKit.startP2PSession(activity, accid,createCustomMessage(transfer));
+            }
+        }
     }
 
     @Override

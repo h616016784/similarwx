@@ -107,8 +107,10 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
                     public void onClickListener(String text){
                         if (TextUtils.isEmpty(text))
                             Toaster.toastShort("奖励规则名称不能为空！");
-                        else
+                        else{
                             dialog_create_group_rule_name_et.setText(text);
+                        }
+
                     }
                 });
                 simpleName.show();

@@ -24,7 +24,8 @@ import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLo
 public class MsgViewHolderTrans extends MsgViewHolderBase {
     private RelativeLayout sendView, revView;
     private TextView sendContentText, revContentText;    // 红包描述
-    private TextView sendTitleText, revTitleText;    // 红包名称
+    private TextView sendTitleText, revTitleText;
+    private TextView sendTargetText, revTargetText;    // 红包名称
 
     public MsgViewHolderTrans(BaseMultiItemFetchLoadAdapter adapter) {
         super(adapter);
@@ -39,9 +40,12 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
     protected void inflateContentView() {
         sendContentText = findViewById(R.id.tv_bri_mess_send);
         sendTitleText = findViewById(R.id.tv_bri_name_send);
+        sendTargetText = findViewById(R.id.tv_bri_target_send);
         sendView = findViewById(R.id.bri_send);
         revContentText = findViewById(R.id.tv_bri_mess_rev);
         revTitleText = findViewById(R.id.tv_bri_name_rev);
+        revTargetText = findViewById(R.id.tv_bri_target_rev);
+
         revView = findViewById(R.id.bri_rev);
     }
 
@@ -54,19 +58,19 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
 
         if (transfer!=null){
             amount=transfer.getAmount();
-            textContent=transfer.getName();
+            textContent=transfer.getToUserName();
         }
 
         if (!isReceivedMessage()) {// 消息方向，自己发送的
             sendView.setVisibility(View.VISIBLE);
             revView.setVisibility(View.GONE);
             sendContentText.setText("转账给"+textContent);
-            sendTitleText.setText("¥"+amount);
+            sendTargetText.setText("¥"+amount);
         } else {
             sendView.setVisibility(View.GONE);
             revView.setVisibility(View.VISIBLE);
             revContentText.setText("转账给"+textContent);
-            revTitleText.setText("¥"+amount);
+            revTargetText.setText("¥"+amount);
         }
     }
 

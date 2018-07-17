@@ -32,7 +32,7 @@ public class RechargePresent {
         if (transfer!=null){
             String result=transfer.getResult();
             if (result.equals("success")){
-
+                mView.refreshRecharge(transfer.getData());
             }else {
                 Toaster.toastShort(transfer.getErrorMsg());
             }
