@@ -56,7 +56,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     String accid;
 
     Unbinder unbinder;
-    private CashPresent cashPresent;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_recharge_input;
@@ -69,8 +69,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new RechargePresent(this);
         mActionbar.setTitle("转账");
-        cashPresent=new CashPresent(this);
-        cashPresent.getCashUser();
+
     }
 
     @Override

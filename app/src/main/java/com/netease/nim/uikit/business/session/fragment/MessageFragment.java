@@ -19,6 +19,7 @@ import com.android.similarwx.inteface.MiViewInterface;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.misdk.model.CustomAttachment;
+import com.android.similarwx.present.CashPresent;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
@@ -93,6 +94,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
 
     private MIPresent miPresent;
     private Gson gson;
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
