@@ -137,6 +137,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             }
             account=cashUser.getId();
             accid=cashUser.getAccId();
+
         }
     }
 

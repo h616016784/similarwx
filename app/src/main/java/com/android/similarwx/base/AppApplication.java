@@ -5,6 +5,7 @@ import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.android.outbaselibrary.BaseApplication;
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.LogUtil;
 import com.android.similarwx.config.NimSDKOptionConfig;
 import com.android.similarwx.config.UserPreferences;
@@ -24,6 +25,8 @@ import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.util.NIMUtil;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 /**
  * Created by hanhuailong on 2018/3/15.
@@ -39,7 +42,6 @@ public class AppApplication extends BaseApplication {
 //        initYunXinSDK(this);
         initNIM(this);
     }
-
     private void initNIM(AppApplication appApplication) {
         NIMClient.init(this, loginInfo(), NimSDKOptionConfig.getSDKOptions(this));
 

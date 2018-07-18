@@ -22,6 +22,7 @@ import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.RedTakeBean;
 import com.android.similarwx.inteface.AcountViewInterface;
 import com.android.similarwx.present.AcountPresent;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.ListPopWindow;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
@@ -120,7 +121,10 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                Bill.BillDetail billDetail= (Bill.BillDetail) adapter.getData().get(position);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable(AppConstants.TRANSFER_BILL_BEAN,billDetail);
+                FragmentUtils.navigateToNormalActivity(getActivity(),new TransDetailFragment(),bundle);
             }
         });
         //获取bill信息

@@ -147,9 +147,9 @@ public class API implements APIConstants {
     }
     public void login(String name, String password, String weixin, String mobile, final LoginPresent present){
         Map<String,String> map=new HashMap<>();
-        map.put("accId",name);
+//        map.put("accId",name);
         map.put("mobile",mobile);
-        map.put("wechatAccount",weixin);
+//        map.put("wechatAccount",weixin);
         map.put("passwdStr",password);
         Call<RspUser> user=apiService.login(map);
         user.enqueue(new Callback<RspUser>() {

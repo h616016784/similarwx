@@ -4,8 +4,10 @@ buildscript {
     ext.kotlin_version = '1.2.0'//支持kotlin
     repositories {
         google()
-        jcenter()
         mavenCentral() // add repository
+        jcenter {
+            url "http://jcenter.bintray.com/"
+        }
 
     }
     dependencies {

@@ -27,7 +27,7 @@ public class Bill extends BaseBean {
         this.accountDetailList = accountDetailList;
     }
 
-    public class BillDetail{
+    public class BillDetail extends BaseBean{
           /*
           * 			"id": "1806112337241447839",
 			"amount": 50,

@@ -1,5 +1,6 @@
 package com.android.similarwx.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.fragment.PhoneVerifyFragment;
@@ -19,10 +21,16 @@ import com.android.similarwx.fragment.RegistFragment;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.utils.FragmentUtils;
-import com.ftxad.ftxsdk.Utils;
-import com.ftxad.ftxsdk.widget.PerformDialogFragment;
+import com.android.similarwx.utils.WXUtil;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +43,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class LoginActivity extends BaseActivity implements LoginViewInterface {
+    private IWXAPI api;
 
     @BindView(R.id.regist)
     TextView regist;
@@ -56,6 +65,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
     ImageView loginWxIv;
     private LoginPresent loginPresent;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +73,10 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         //初始化butterKnife
         ButterKnife.bind(this);
         loginPresent = new LoginPresent(this);
+        initPerssion();
+
+        
+        api= WXUtil.getInstance(this).getApi();
         //防止抖动
         RxView.clicks(loginLogin).throttleFirst(1,TimeUnit.SECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -94,6 +108,26 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                 });
     }
 
+    private void initPerssion() {
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions
+                .requestEach(Manifest.permission.CAMERA,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO)
+                .subscribe(permission -> { // will emit 2 Permission objects
+                    if (permission.granted) {
+                        // `permission.name` is granted !
+                    } else if (permission.shouldShowRequestPermissionRationale) {
+                        // Denied permission without ask never again
+                    } else {
+                        // Denied permission with ask never again
+                        // Need to go to the settings
+                    }
+                });
+    }
+
     @OnClick({R.id.login, R.id.regist, R.id.login_forget_password, R.id.login_wx_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -107,7 +141,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                 FragmentUtils.navigateToNormalActivity(this, new PhoneVerifyFragment(), null);
                 break;
             case R.id.login_wx_iv://微信登录
-
+                sendLoginWx("weixin");
                 break;
             case R.id.login_login://登录
 //                Log.e("消息信息","文本："+MsgTypeEnum.text.getValue()+"图片："+MsgTypeEnum.image.getValue()+"视频："+ MsgTypeEnum.audio.getValue()
@@ -134,6 +168,22 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
     }
 
+    private void sendLoginWx(String text){
+//        WXTextObject textObject=new WXTextObject();
+//        textObject.text=text;
+//        WXMediaMessage msg=new WXMediaMessage();
+//        msg.mediaObject=textObject;
+//        msg.description=text;
+//        //构造一个Rep
+//        SendMessageToWX.Req req=new SendMessageToWX.Req();
+//        req.transaction=String.valueOf(System.currentTimeMillis());
+//        req.message=msg;
+        SendAuth.Req req=new SendAuth.Req();
+        req.state="similarwx_login";
+        req.scope="snsapi_userinfo";
+
+        api.sendReq(req);
+    }
     @Override
     public void showErrorMessage(String err) {
         loginError.setVisibility(View.VISIBLE);

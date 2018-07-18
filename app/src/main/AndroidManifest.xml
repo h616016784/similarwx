@@ -32,19 +32,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.netease.nim.uikit.support.glide.NIMGlideModule"
-            android:value="GlideModule"/>
+            android:value="GlideModule" />
 
-
-        <activity android:name=".activity.LoginActivity">
-        </activity>
+        <activity android:name=".activity.LoginActivity"></activity>
         <activity android:name=".activity.MIActivity" />
-        <activity android:name=".activity.MainChartrActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".base.NormalActivity">
-        </activity>
+        <activity
+            android:name=".activity.MainChartrActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".base.NormalActivity"></activity>
         <activity android:name=".activity.SysNoticeActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
@@ -60,11 +57,10 @@
         <activity android:name=".misdk.activity.PickImageActivity" />
         <activity android:name=".misdk.activity.PreviewImageFromCameraActivity" />
         <activity android:name=".misdk.activity.PreviewImageFromLocalActivity" />
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
 
         <!--
    APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
@@ -110,11 +106,11 @@
             android:exported="false"
             android:process=":core" />
 
-
-
         <!-- 会话窗口 -->
-        <!-- UI组件中包含了语音选文字功能，该界面是全屏显示，为了视觉上的美观，该界面主题ActionBar使用Overlay模式。
-             如果开发者不需要该功能或效果，使用普通主题即可。 同时，还需要将message_activity.xml这个layout中的根节点的paddingTop去掉。 -->
+        <!--
+             UI组件中包含了语音选文字功能，该界面是全屏显示，为了视觉上的美观，该界面主题ActionBar使用Overlay模式。
+             如果开发者不需要该功能或效果，使用普通主题即可。 同时，还需要将message_activity.xml这个layout中的根节点的paddingTop去掉。
+        -->
         <activity
             android:name="com.netease.nim.uikit.business.session.activity.P2PMessageActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -188,9 +184,10 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- @ 选择器 -->
-        <activity android:name="com.netease.nim.uikit.business.ait.selector.AitContactSelectorActivity"
+        <activity
+            android:name="com.netease.nim.uikit.business.ait.selector.AitContactSelectorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 照片选择 -->
         <activity
@@ -200,7 +197,7 @@
         <activity
             android:name="com.netease.nim.uikit.common.media.picker.activity.CropImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.netease.nim.uikit.common.media.picker.activity.PickerAlbumActivity"
             android:screenOrientation="portrait"
@@ -213,8 +210,8 @@
             android:name="com.netease.nim.uikit.common.media.picker.activity.PreviewImageFromLocalActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="com.netease.nim.uikit.common.media.picker.activity.PreviewImageFromCameraActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -228,9 +225,8 @@
             android:name="com.netease.nim.uikit.business.session.activity.CaptureVideoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="com.netease.nim.uikit.business.session.activity.WatchVideoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -241,12 +237,11 @@
         <activity
             android:name="com.netease.nim.uikit.business.session.activity.WatchMessagePictureActivity"
             android:configChanges="keyboardHidden"
-            android:theme="@style/DarkTheme"/>
-
-        <activity android:name="com.netease.nim.uikit.business.session.activity.WatchPicAndVideoMenuActivity"
+            android:theme="@style/DarkTheme" />
+        <activity
+            android:name="com.netease.nim.uikit.business.session.activity.WatchPicAndVideoMenuActivity"
             android:configChanges="keyboardHidden"
-            android:theme="@style/DarkTheme"/>
-
+            android:theme="@style/DarkTheme" />
 
         <provider
             android:name="com.netease.nim.uikit.common.media.picker.model.GenericFileProvider"
@@ -255,10 +250,14 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
-
+       <!-- 微信-->
+        <activity android:name=".wechat.WXEntryActivity"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:launchMode="singleTop"></activity>
     </application>
 
 </manifest>

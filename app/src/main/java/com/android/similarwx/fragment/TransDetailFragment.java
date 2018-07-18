@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.Bill;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +35,7 @@ public class TransDetailFragment extends BaseFragment {
     TextView transDetailTime;
     Unbinder unbinder;
 
+    private Bill.BillDetail billDetail=null;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_trans_detail;
@@ -43,6 +46,10 @@ public class TransDetailFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.trans_detail_title);
         unbinder = ButterKnife.bind(this, contentView);
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            billDetail= (Bill.BillDetail) bundle.getSerializable(AppConstants.TRANSFER_BILL_BEAN);
+        }
     }
 
     @Override

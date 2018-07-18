@@ -153,13 +153,21 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
+    // 权限
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     //rxbinding
     compile 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     compile 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.1.1'
     compile 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
     compile 'com.jakewharton.rxbinding2:rxbinding-design:2.1.1'
     compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.1.1'
-    compile(name: 'app-debug', ext: 'aar')
+//    compile(name: 'app-debug', ext: 'aar')
+
+    /**
+     * 微信
+     */
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
 //    compile project(path: ':uikit')
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
@@ -182,3 +190,5 @@ dependencies {
     api 'jp.wasabeef:glide-transformations:3.0.1'
     //api 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1' // if you want to use the Glide GPU Filters
 }
+
+apply plugin: 'kotlin-android-extensions'

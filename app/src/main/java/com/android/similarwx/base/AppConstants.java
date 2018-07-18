@@ -57,6 +57,7 @@ public class AppConstants extends BaseConstants {
     public static final String TRANSFER_GROUP_USER_ROLE= "groupUserRole";
     public static final String TRANSFER_PASSWORD_TYPE= "passwordType";
     public static final String TRANSFER_VERCODE= "vercode";
+    public static final String TRANSFER_BILL_BEAN= "billBean";
     /**
      * 更多中选择标示
      */
@@ -88,4 +89,8 @@ public class AppConstants extends BaseConstants {
     public final static int RESULT_USER_SIGN = 10;//
 
 
+    /**
+     * 微信
+     */
+    public static final String WX_APP_ID="wxef17710e91048981";
 }
