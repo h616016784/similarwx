@@ -1,5 +1,7 @@
 package com.android.similarwx.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -95,19 +97,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
 //        activity.getFragmentManager().beginTransaction().add(dialog,"inputpassword").commit();
     }
 
-    /**
-     * 创建自定义消息
-     * @param transfer
-     * @return
-     */
-    protected IMMessage createCustomMessage(Transfer transfer) {
-        if (transfer!=null){
-            TransCustomAttachment transCustomAttachment=new TransCustomAttachment();
-            transCustomAttachment.setTransfer(transfer);
-            return MessageBuilder.createCustomMessage(accid, SessionTypeEnum.P2P, "转账",transCustomAttachment);
-        }
-        return null;
-    }
+
     @Override
     public void showErrorMessage(String err) {
 
@@ -117,7 +107,10 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     public void refreshRecharge(Transfer transfer) {
         if (transfer!=null){
             if (transfer.isSuccess()){
-                NimUIKit.startP2PSession(activity, accid,createCustomMessage(transfer));
+                Intent intent=new Intent();
+                intent.putExtra(AppConstants.TRANSFER_CHAT_TRANS,transfer);
+                activity.setResult(Activity.RESULT_OK,intent);
+                activity.finish();
             }
         }
     }

@@ -53,6 +53,7 @@ public class AppConstants extends BaseConstants {
     public static final String TRANSFER_AWARDRULE = "rewardRule";
     public static final String TRANSFER_BASE = "tag";
     public static final String TRANSFER_CHAT_REDENTITY= "redDetail";
+    public static final String TRANSFER_CHAT_TRANS= "tran";
     public static final String TRANSFER_ISHOST= "isHost";
     public static final String TRANSFER_GROUP_USER_ROLE= "groupUserRole";
     public static final String TRANSFER_PASSWORD_TYPE= "passwordType";
@@ -68,7 +69,8 @@ public class AppConstants extends BaseConstants {
     public final static int PICKER_IMAGE_PREVIEW = 5;
     public final static int PREVIEW_IMAGE_FROM_CAMERA = 6;
     public final static int GET_LOCAL_IMAGE = 7;// 相册
-    public final static int SEND_RED_REQUEST = 8;// 相册
+    public final static int SEND_RED_REQUEST = 8;// 红包 
+    public final static int SEND_TRAN_REQUEST = 9;// 转账
 
     /**
      * 用户基本信息

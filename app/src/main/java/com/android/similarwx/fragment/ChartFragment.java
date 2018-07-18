@@ -162,9 +162,12 @@ public class ChartFragment extends BaseFragment {
                     public void onResult(int code, List<RecentContact> result, Throwable exception) {
                         if (result != null && result.size() > 0) {
                             for (RecentContact recentContact:result){
-                                MsgTypeEnum msgTypeEnum=recentContact.getMsgType();
-                                if (!(msgTypeEnum==MsgTypeEnum.notification)){
-                                    baseQuickAdapter.addData(recentContact);
+                                SessionTypeEnum sessionTypeEnum=recentContact.getSessionType();
+                                if (sessionTypeEnum==SessionTypeEnum.P2P){
+                                    MsgTypeEnum msgTypeEnum=recentContact.getMsgType();
+                                    if (!(msgTypeEnum==MsgTypeEnum.notification)){
+                                        baseQuickAdapter.addData(recentContact);
+                                    }
                                 }
                             }
                         }

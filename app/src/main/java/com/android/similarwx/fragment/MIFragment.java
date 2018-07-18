@@ -274,7 +274,7 @@ public class MIFragment extends BaseFragment implements ModuleProxy {
         }else if (flag==DELETE_THREE){
             actions.add(new ImageAction());
 //            actions.add(new RedAction());
-            actions.add(new TransferAciton());
+//            actions.add(new TransferAciton(this));
         }
 
         if (customization != null && customization.actions != null) {

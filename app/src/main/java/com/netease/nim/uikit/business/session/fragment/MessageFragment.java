@@ -12,10 +12,12 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.BaseBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.beans.Transfer;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.inteface.MiViewInterface;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
+import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.misdk.model.CustomAttachment;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
@@ -411,7 +413,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         }else if (sessionType==SessionTypeEnum.P2P){
             actions.add(new ImageAction());
 //            actions.add(new RedAction());
-            actions.add(new TransferAciton());
+            actions.add(new TransferAciton(this));
         }
 
         if (customization != null && customization.actions != null) {
@@ -440,6 +442,12 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     public void senCustemRed(SendRed data) {
         if (data!=null){
             miPresent.sendRed(data);
+        }
+    }
+
+    public void senCustemTran(Transfer data) {
+        if (data!=null){
+           sendMessage(createCustomMessage(data));
         }
     }
 
@@ -476,6 +484,20 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             RedCustomAttachment redCustomAttachment=new RedCustomAttachment();
             redCustomAttachment.setSendRedBean(redDetailBean);
             return MessageBuilder.createCustomMessage(sessionId, sessionType, "红包",redCustomAttachment);
+        }
+        return null;
+    }
+
+    /**
+     * 创建自定义消息
+     * @param transfer
+     * @return
+     */
+    protected IMMessage createCustomMessage(Transfer transfer) {
+        if (transfer!=null){
+            TransCustomAttachment transCustomAttachment=new TransCustomAttachment();
+            transCustomAttachment.setTransfer(transfer);
+            return MessageBuilder.createCustomMessage(sessionId, sessionType, "转账",transCustomAttachment);
         }
         return null;
     }
