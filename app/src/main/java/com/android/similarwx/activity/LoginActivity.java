@@ -170,15 +170,6 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
     }
 
     private void sendLoginWx(String text){
-//        WXTextObject textObject=new WXTextObject();
-//        textObject.text=text;
-//        WXMediaMessage msg=new WXMediaMessage();
-//        msg.mediaObject=textObject;
-//        msg.description=text;
-//        //构造一个Rep
-//        SendMessageToWX.Req req=new SendMessageToWX.Req();
-//        req.transaction=String.valueOf(System.currentTimeMillis());
-//        req.message=msg;
         final SendAuth.Req req=new SendAuth.Req();
         req.scope="snsapi_userinfo";
         req.state="paopao_get_code";

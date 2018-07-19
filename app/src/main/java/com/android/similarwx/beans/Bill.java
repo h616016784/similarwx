@@ -9,6 +9,34 @@ import java.util.List;
 public class Bill extends BaseBean {
 
     private  String count;
+    private  String freezeAmount;
+    private  String totalAmount;
+    private  String sumAmount;
+
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getSumAmount() {
+        return sumAmount;
+    }
+
+    public void setSumAmount(String sumAmount) {
+        this.sumAmount = sumAmount;
+    }
+
+    public String getFreezeAmount() {
+        return freezeAmount;
+    }
+
+    public void setFreezeAmount(String freezeAmount) {
+        this.freezeAmount = freezeAmount;
+    }
+
     private List<BillDetail> accountDetailList;
 
     public String getCount() {
@@ -28,24 +56,29 @@ public class Bill extends BaseBean {
     }
 
     public class BillDetail extends BaseBean{
-          /*
-          * 			"id": "1806112337241447839",
-			"amount": 50,
-			"tradeType": "SEND_PACKAGE",
-			"userId": "28",
-			"refId": "1806112337245791242",
-			"isSyncAccount": true,
-			"rebateLevel": null,
-			"modifyDate": null,
-			"createDate": "2018-06-11 23:37:25",
-			"rebateUserId": null,
-			"version": "0"*/
+
+        /**
+         * id : 1807190935059965853
+         * amount : -10
+         * tradeType : TRANSFER
+         * balance : 1.0000001229E8
+         * userId : 28
+         * refId : 1807190935051103103
+         * isSyncAccount : true
+         * rebateLevel : null
+         * modifyDate : null
+         * createDate : 2018-07-19 09:35:05
+         * rebateUserId : null
+         * version : 0
+         */
+
         private String id;
-        private String amount;
+        private double amount;
         private String tradeType;
+        private double balance;
         private String userId;
         private String refId;
-        private String isSyncAccount;
+        private boolean isSyncAccount;
         private String rebateLevel;
         private String modifyDate;
         private String createDate;
@@ -60,11 +93,11 @@ public class Bill extends BaseBean {
             this.id = id;
         }
 
-        public String getAmount() {
+        public double getAmount() {
             return amount;
         }
 
-        public void setAmount(String amount) {
+        public void setAmount(double amount) {
             this.amount = amount;
         }
 
@@ -74,6 +107,14 @@ public class Bill extends BaseBean {
 
         public void setTradeType(String tradeType) {
             this.tradeType = tradeType;
+        }
+
+        public double getBalance() {
+            return balance;
+        }
+
+        public void setBalance(double balance) {
+            this.balance = balance;
         }
 
         public String getUserId() {
@@ -92,12 +133,12 @@ public class Bill extends BaseBean {
             this.refId = refId;
         }
 
-        public String getIsSyncAccount() {
+        public boolean isSyncAccount() {
             return isSyncAccount;
         }
 
-        public void setIsSyncAccount(String isSyncAccount) {
-            this.isSyncAccount = isSyncAccount;
+        public void setSyncAccount(boolean syncAccount) {
+            isSyncAccount = syncAccount;
         }
 
         public String getRebateLevel() {

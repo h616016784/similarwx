@@ -114,7 +114,15 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 String name=name(type);
                 helper.setText(R.id.item_my_detail_name_tv,name);
                 helper.setText(R.id.item_my_detail_time_tv,item.getCreateDate());
-                helper.setText(R.id.item_my_detail_money_tv,item.getAmount());
+                double amount=item.getAmount();
+                if (amount>0){
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimary));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+item.getAmount());
+                }else {
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
+                    helper.setText(R.id.item_my_detail_money_tv,item.getAmount()+"");
+                }
+
             }
         };
         myDetailRv.setAdapter(adapter);
@@ -136,7 +144,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         mStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(starTime);
         myDetailStartTv.setText(mStart);
         myDetailEndTv.setText(mEnd);
-        mPresent.getAcountList(userId, BillType.SEND_PACKAGE.toString(),mStart,mEnd);
+        mPresent.getAcountList(userId, "".toString(),mStart,mEnd);
 
         listPopWindow=new ListPopWindow(activity,moreList);
         listPopWindow.setOnClickItem(new ListPopWindow.OnItemClickListener() {
@@ -192,12 +200,12 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         moreList.add(bean);
         PopMoreBean bean2=new PopMoreBean();
         bean2.setId("0");
-        bean2.setName("发红包");
+        bean2.setName("红包发布");
         bean2.setContent("SEND_PACKAGE");
         moreList.add(bean2);
         PopMoreBean bean3=new PopMoreBean();
         bean3.setId("1");
-        bean3.setName("抢红包");
+        bean3.setName("红包领取");
         bean3.setContent("GRAP_PACKAGE");
         moreList.add(bean3);
         PopMoreBean bean4=new PopMoreBean();
@@ -212,27 +220,27 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         moreList.add(bean5);
         PopMoreBean bean6=new PopMoreBean();
         bean6.setId("4");
-        bean6.setName("雷包扣款");
+        bean6.setName("中了雷包");
         bean6.setContent("THUNDER_PACKAGE");
         moreList.add(bean6);
         PopMoreBean bean7=new PopMoreBean();
         bean7.setId("5");
-        bean7.setName("雷包奖励");
+        bean7.setName("收到雷包");
         bean7.setContent("THUNDER_REWARD");
         moreList.add(bean7);
         PopMoreBean bean8=new PopMoreBean();
         bean8.setId("6");
-        bean8.setName("红包退回");
+        bean8.setName("红包积分结算");
         bean8.setContent("PACKAGE_RETURN");
         moreList.add(bean8);
         PopMoreBean bean9=new PopMoreBean();
         bean9.setId("7");
-        bean9.setName("在线充值");
+        bean9.setName("充值");
         bean9.setContent("RECHARGE");
         moreList.add(bean9);
         PopMoreBean bean10=new PopMoreBean();
         bean10.setId("8");
-        bean10.setName("提现");
+        bean10.setName("扣除");
         bean10.setContent("WITHDRAW");
         moreList.add(bean10);
         PopMoreBean bean11=new PopMoreBean();
@@ -242,7 +250,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         moreList.add(bean11);
         PopMoreBean bean12=new PopMoreBean();
         bean12.setId("10");
-        bean12.setName("线下充值");
+        bean12.setName("增加");
         bean12.setContent("OFFLINE_RECHARGE");
         moreList.add(bean12);
 
@@ -291,6 +299,9 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
     @Override
     public void refreshBill(Bill bill) {
         if (bill!=null){
+            myDetailZongTv.setText(bill.getTotalAmount());
+            myDetailFreezeTv.setText(bill.getFreezeAmount());
+            myDetailSumTv.setText(bill.getSumAmount());
             adapter.addData(bill.getAccountDetailList());
         }
     }

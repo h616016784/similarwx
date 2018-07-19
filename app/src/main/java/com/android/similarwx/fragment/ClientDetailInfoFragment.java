@@ -166,6 +166,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                         APIYUNXIN.muteTeamMember(bean.getGroupId(), bean.getUserId(), false, new YCallBack<Void>() {
                             @Override
                             public void callBack(Void aVoid) {
+                                mPresent.doUpdateGroupUserStatus(bean.getGroupId(), bean.getUserId(),"1");
                                 clientDetailSetTv.setText("否");
                                 Toaster.toastShort("该用户已解禁");
                             }
@@ -176,6 +177,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                         APIYUNXIN.muteTeamMember(bean.getGroupId(), bean.getUserId(), true, new YCallBack<Void>() {
                             @Override
                             public void callBack(Void aVoid) {
+                                mPresent.doUpdateGroupUserStatus(bean.getGroupId(), bean.getUserId(),"3");
                                 clientDetailSetTv.setText("是");
                                 Toaster.toastShort("该用户已禁言");
                             }
@@ -231,6 +233,11 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     @Override
     public void refreshUpdateUser() {
         Toaster.toastShort("本地设置为管理员成功");
+    }
+
+    @Override
+    public void refreshUpdateUserStatus() {
+
     }
 
     //剔除成员成功的回调

@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:textSize="@dimen/text_sub_title"
-            android:textColor="@color/green_4DC0A4"
+            android:textColor="@color/sky_blue"
             android:text="点击查看"/>
     </RelativeLayout>
 </LinearLayout>

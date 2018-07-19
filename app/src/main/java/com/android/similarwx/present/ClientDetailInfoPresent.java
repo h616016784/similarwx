@@ -4,6 +4,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspDeleteGroupUser;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
+import com.android.similarwx.beans.response.RspUpdateUserStatus;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.inteface.ClientDetailInfoViewInterface;
 import com.android.similarwx.model.API;
@@ -29,7 +30,9 @@ public class ClientDetailInfoPresent {
         API.getInstance().doDeleteGroupUser(groupId,userId,this);
     }
 
-
+    public void doUpdateGroupUserStatus(String groupId,String userId,String userStatus){
+        API.getInstance().doUpdateGroupUserStatus(groupId,userId,userStatus,this);
+    }
 
     public void analyzeRes(RspUser rspUser) {
         String result=rspUser.getResult();
@@ -56,6 +59,15 @@ public class ClientDetailInfoPresent {
         String result=rspDeleteGroupUser.getResult();
         if (result.equals("success")){
             mView.refreshDeleteUser();
+        }else {
+            Toaster.toastShort(rspDeleteGroupUser.getErrorMsg());
+        }
+    }
+
+    public void analyzeUpdateGroupUserStatus(RspUpdateUserStatus rspDeleteGroupUser) {
+        String result=rspDeleteGroupUser.getResult();
+        if (result.equals("success")){
+            mView.refreshUpdateUserStatus();
         }else {
             Toaster.toastShort(rspDeleteGroupUser.getErrorMsg());
         }

@@ -28,6 +28,7 @@ import com.android.similarwx.beans.response.RspSetPassword;
 import com.android.similarwx.beans.response.RspSubUsers;
 import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
+import com.android.similarwx.beans.response.RspUpdateUserStatus;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.beans.response.RspWXCode;
 
@@ -131,6 +132,10 @@ public interface APIService {
     //任命或者取消任命管理员
     @POST("group/doUpdateGroupUser")
     Call<RspUpdateGroupUser>  doUpdateGroupUser(@QueryMap Map<String, String> map);
+
+    //禁言/解禁群组用户
+    @POST("group/doUpdateGroupUserStatus")
+    Call<RspUpdateUserStatus>  doUpdateGroupUserStatus(@QueryMap Map<String, String> map);
 
     @POST("resUsers/getUserInfoByParams")
     Call<RspUser>  getUserInfoByParams(@QueryMap Map<String, String> map);

@@ -141,6 +141,11 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     }
 
     @Override
+    public void refreshUpdateUserStatus() {
+
+    }
+
+    @Override
     public void refreshDeleteUser() {
 
     }

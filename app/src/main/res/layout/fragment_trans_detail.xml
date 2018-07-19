@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/distance_big"
+        android:padding="@dimen/distance_normal"
         android:background="@color/white"
         android:orientation="horizontal"
         >
@@ -21,10 +21,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/distance_small"
-            android:textSize="30sp"
+            android:textSize="26sp"
             android:textColor="@color/black"
             android:layout_alignParentRight="true"
-            android:text="全民红包游戏支付"/>
+            android:text="泡泡红包支付"/>
     </LinearLayout>
 
     <LinearLayout
@@ -50,7 +50,7 @@
                 android:id="@+id/trans_detail_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_big_title"
+                android:textSize="@dimen/text_sub_title"
                 android:textColor="@color/colorPrimary"
                 android:layout_alignParentRight="true"
                 android:text="10.02元"/>
@@ -70,13 +70,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/trans_detail_turn"
-                android:textSize="@dimen/text_sub_title"
+                android:textSize="@dimen/text_content_or_button"
                 />
             <TextView
                 android:id="@+id/trans_detail_turn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_sub_title"
+                android:textSize="@dimen/text_content_or_button"
                 android:layout_alignParentRight="true"
                 android:text="红包领取"/>
         </RelativeLayout>
@@ -90,13 +90,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/trans_detail_state"
-                android:textSize="@dimen/text_sub_title"
+                android:textSize="@dimen/text_content_or_button"
                 />
             <TextView
                 android:id="@+id/trans_detail_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_sub_title"
+                android:textSize="@dimen/text_content_or_button"
                 android:layout_alignParentRight="true"
                 android:text="你领取了阿飞的红吧"/>
         </RelativeLayout>
@@ -110,13 +110,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/trans_detail_time"
-                android:textSize="@dimen/text_sub_title"
+                android:textSize="@dimen/text_content_or_button"
                 />
             <TextView
                 android:id="@+id/trans_detail_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_sub_title"
+                android:textSize="@dimen/text_content_or_button"
                 android:layout_alignParentRight="true"
                 android:text="2018_01_23 18:39:46"/>
         </RelativeLayout>

@@ -31,6 +31,7 @@ import com.android.similarwx.beans.response.RspSetPassword;
 import com.android.similarwx.beans.response.RspSubUsers;
 import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
+import com.android.similarwx.beans.response.RspUpdateUserStatus;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.AcountPresent;
@@ -518,6 +519,31 @@ public class API implements APIConstants {
         });
     }
 
+
+    //禁言/解禁群组用户
+    public void doUpdateGroupUserStatus(String grouId,String userId,String userStatus,ClientDetailInfoPresent present){
+        Map<String,String> map=new HashMap<>();
+        map.put("groupId",grouId);
+        map.put("userId",userId);
+        map.put("userStatus",userStatus);
+        Call<RspUpdateUserStatus> call=apiService.doUpdateGroupUserStatus(map);
+        call.enqueue(new Callback<RspUpdateUserStatus>() {
+            @Override
+            public void onResponse(Call<RspUpdateUserStatus> call, Response<RspUpdateUserStatus> response) {
+                try {
+                    RspUpdateUserStatus rspUpdateGroupUser=response.body();
+                    present.analyzeUpdateGroupUserStatus(rspUpdateGroupUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUpdateUserStatus> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
     public void GroupInfoPresent(String groupId, final GroupInfoPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("groupId",groupId);
@@ -669,7 +695,8 @@ public class API implements APIConstants {
     public void getBill(String userId,String type,String startDate,String endDate,AcountPresent present){
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
-        map.put("type",type );
+        if (!TextUtils.isEmpty(type))
+            map.put("type",type );
         map.put("startDate",startDate );
         map.put("endDate",endDate );
 
