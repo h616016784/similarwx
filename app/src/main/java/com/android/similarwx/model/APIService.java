@@ -1,7 +1,9 @@
 package com.android.similarwx.model;
 
+import com.android.similarwx.beans.AccToken;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.UserInfoWX;
 import com.android.similarwx.beans.response.BaseResponse;
 import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
@@ -27,6 +29,7 @@ import com.android.similarwx.beans.response.RspSubUsers;
 import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUser;
+import com.android.similarwx.beans.response.RspWXCode;
 
 import java.util.List;
 import java.util.Map;
@@ -134,5 +137,11 @@ public interface APIService {
 
     @POST("group/getGroupApplyList")
     Call<RspGetApply> getGroupApplyList(@QueryMap Map<String,String> map);
+
+    @GET("sns/oauth2/access_token")
+    Call<AccToken> accessToken(@QueryMap Map<String,String> map);
+
+    @GET("sns/userinfo")
+    Call<UserInfoWX> userInfoWX(@QueryMap Map<String,String> map);
 
 }

@@ -3,26 +3,29 @@
     package="com.android.similarwx">
 
     <!-- 访问网络状态 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 外置存储存取权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- 多媒体相关 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <permission
         android:name="com.android.similarwx.permission.RECEIVE_MSG"
         android:protectionLevel="signature" />
     <!-- 接收 SDK 消息广播权限， -->
     <uses-permission android:name="com.android.similarwx.permission.RECEIVE_MSG" />
+
+    <!--微信必须-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:name=".base.AppApplication"
@@ -254,10 +257,16 @@
         </provider>
 
        <!-- 微信-->
-        <activity android:name=".wechat.WXEntryActivity"
+        <activity android:name=".wxapi.WXEntryActivity"
             android:label="@string/app_name"
             android:exported="true"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="paopao"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

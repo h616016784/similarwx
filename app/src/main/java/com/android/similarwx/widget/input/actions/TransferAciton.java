@@ -39,7 +39,7 @@ public class TransferAciton extends BaseAction {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode==AppConstants.SEND_TRAN_REQUEST){//发红包回调请求
+        if (requestCode==AppConstants.SEND_TRAN_REQUEST){//发送转账
             if(data!=null){
                 Transfer transfer= (Transfer) data.getSerializableExtra(AppConstants.TRANSFER_CHAT_TRANS);
                 fromFragment.senCustemTran(transfer);

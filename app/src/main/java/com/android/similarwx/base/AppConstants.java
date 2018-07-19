@@ -95,4 +95,5 @@ public class AppConstants extends BaseConstants {
      * 微信
      */
     public static final String WX_APP_ID="wxef17710e91048981";
+    public static final String WX_APP_SECRET="98f4497389ebc0387e1cd4f9e131b2ef";
 }

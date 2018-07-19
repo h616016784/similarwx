@@ -22,6 +22,7 @@ import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.WXUtil;
+import com.android.similarwx.wxapi.WXEntryActivity;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -178,10 +179,9 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 //        SendMessageToWX.Req req=new SendMessageToWX.Req();
 //        req.transaction=String.valueOf(System.currentTimeMillis());
 //        req.message=msg;
-        SendAuth.Req req=new SendAuth.Req();
-        req.state="similarwx_login";
+        final SendAuth.Req req=new SendAuth.Req();
         req.scope="snsapi_userinfo";
-
+        req.state="paopao_get_code";
         api.sendReq(req);
     }
     @Override

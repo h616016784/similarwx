@@ -24,4 +24,8 @@ public interface APIConstants {
     String DOMAIN_RELEASE = "http://www.qiakey.com/api"+File.separator;
     String DOMAIN = BuildConfig.DEBUG ? DOMAIN_DEBUG : DOMAIN_RELEASE;
 
+    String DOMAIN_DEBUG_WX = "https://api.weixin.qq.com"+File.separator;
+    String DOMAIN_RELEASE_WX = "https://api.weixin.qq.com"+File.separator;
+    String DOMAIN_WX = BuildConfig.DEBUG ? DOMAIN_DEBUG_WX : DOMAIN_RELEASE_WX;
+
 }

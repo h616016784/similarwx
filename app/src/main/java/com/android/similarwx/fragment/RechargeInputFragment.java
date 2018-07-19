@@ -18,13 +18,16 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.Transfer;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspCashUser;
 import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.inteface.CashViewInterface;
+import com.android.similarwx.inteface.ClientDetailInfoViewInterface;
 import com.android.similarwx.inteface.RechargeViewInterface;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.present.CashPresent;
+import com.android.similarwx.present.ClientDetailInfoPresent;
 import com.android.similarwx.present.RechargePresent;
 import com.android.similarwx.widget.InputPasswordDialog;
 import com.bumptech.glide.Glide;
@@ -42,7 +45,7 @@ import butterknife.Unbinder;
  * Created by hanhuailong on 2018/4/13.
  */
 
-public class RechargeInputFragment extends BaseFragment implements RechargeViewInterface, CashViewInterface {
+public class RechargeInputFragment extends BaseFragment implements RechargeViewInterface, ClientDetailInfoViewInterface {
     @BindView(R.id.recharge_input_iv)
     ImageView rechargeInputIv;
     @BindView(R.id.recharge_input_tv)
@@ -52,9 +55,9 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     @BindView(R.id.transfer)
     Button transfer;
     private RechargePresent mPresent;
-    String account;
-    String accid;
-
+    String account;//就是accid
+    String id;
+    ClientDetailInfoPresent present;
     Unbinder unbinder;
 
     @Override
@@ -68,8 +71,9 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
         account= getArguments().getString(AppConstants.TRANSFER_ACCOUNT);
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new RechargePresent(this);
+        present=new ClientDetailInfoPresent(this);
+        present.getUserInfoByParams("",account);
         mActionbar.setTitle("转账");
-
     }
 
     @Override
@@ -85,8 +89,8 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             Toaster.toastShort("转账金额不能为空！");
             return;
         }
-        if (!TextUtils.isEmpty(account))
-            mPresent.transfer(account,money);
+        if (!TextUtils.isEmpty(id))
+            mPresent.transfer(id,money);
 //        InputPasswordDialog dialog=InputPasswordDialog.newInstance("支付", "100", new InputPasswordDialog.OnInputFinishListener() {
 //            @Override
 //            public void onInputFinish(String password) {
@@ -115,23 +119,29 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     }
 
     @Override
-    public void refreshCash(RspCashUser.CashUser cashUser) {
-        if (cashUser!=null){
+    public void refreshUserInfo(User user) {
+        if (user!=null){
             String logFlag="";
-            if (cashUser.getLoginFlg()==1){
+            if (user.getLoginFlg()==1){
                 logFlag="在线";
             }else{
                 logFlag="离线";
             }
-            rechargeInputTv.setText(cashUser.getName()+"("+logFlag+")");
-            if (!TextUtils.isEmpty(cashUser.getIcon())){
-                Glide.with(activity).load(cashUser.getIcon()).into(rechargeInputIv);
+            rechargeInputTv.setText(user.getName()+"("+logFlag+")");
+            if (!TextUtils.isEmpty(user.getIcon())){
+                Glide.with(activity).load(user.getIcon()).into(rechargeInputIv);
             }
-            account=cashUser.getId();
-            accid=cashUser.getAccId();
-
+            id=user.getId();
         }
     }
 
+    @Override
+    public void refreshUpdateUser() {
 
+    }
+
+    @Override
+    public void refreshDeleteUser() {
+
+    }
 }

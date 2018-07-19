@@ -30,8 +30,6 @@ public class CashAction extends BaseAction implements CashViewInterface {
     @Override
     public void onClick() {
         cashPresent.getCashUser();
-        String accid=getAccount();
-        NimUIKit.startP2PSession(getActivity(), accid);
     }
 
     @Override
@@ -41,6 +39,9 @@ public class CashAction extends BaseAction implements CashViewInterface {
 
     @Override
     public void refreshCash(RspCashUser.CashUser cashUser) {
-
+        if (cashUser!=null){
+            String accid=cashUser.getAccId();
+            NimUIKit.startP2PSession(getActivity(), accid);
+        }
     }
 }

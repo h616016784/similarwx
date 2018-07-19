@@ -455,4 +455,12 @@
     <string name="nim_status_bar_custom_message">%1$s: 自定义消息</string>
     <string name="nim_status_bar_unsupported_message">%1$s: 无法显示该内容</string>
     <string name="nim_status_bar_hidden_msg_content">你收到一条新消息</string>
+
+    <!--weixin-->
+    <string name="errcode_success">发送成功</string>
+    <string name="errcode_cancel">发送取消</string>
+    <string name="errcode_deny">发送被拒绝</string>
+    <string name="errcode_unsupported">不支持错误</string>
+    <string name="errcode_unknown">发送返回</string>
+
 </resources>
