@@ -1,11 +1,8 @@
 package com.android.similarwx.present;
 
-import android.text.TextUtils;
-
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.Toaster;
-import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspUser;
@@ -21,7 +18,6 @@ import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +47,10 @@ public class LoginPresent extends BasePresent {
     public void logout(){
         String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"paopaotest1");
         API.getInstance().logout(userId,this);
+    }
+    public void getTotalBalance(){
+        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"paopaotest1");
+        API.getInstance().getTotalBalance(userId,this);
     }
     /**
      * 保存用户信息
@@ -222,6 +222,15 @@ public class LoginPresent extends BasePresent {
         }
     }
 
+    public void analyzeTotalBalance(RspUser rspUser) {
+        String result=rspUser.getResult();
+        if (result.equals("success")){
+            loginViewInterface.refreshTotalBalance(rspUser.getData());
+        }else {
+            Toaster.toastShort(rspUser.getErrorMsg());
+        }
+    }
+
     private void clearUserInfo() {
             SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(),AppConstants.USER_OBJECT,null);
             SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,"");
@@ -236,4 +245,5 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,"");
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,"");
     }
+
 }

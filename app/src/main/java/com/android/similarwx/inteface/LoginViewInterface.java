@@ -9,4 +9,5 @@ import com.android.similarwx.beans.User;
 public interface LoginViewInterface extends ViewInterface{
     void loginScucces(User user);
     void logoutScucces(User user);
+    void refreshTotalBalance(User user);
 }

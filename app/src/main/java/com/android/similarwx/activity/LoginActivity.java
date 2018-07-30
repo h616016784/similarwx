@@ -169,6 +169,11 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
     }
 
+    @Override
+    public void refreshTotalBalance(User user) {
+
+    }
+
     private void sendLoginWx(String text){
         final SendAuth.Req req=new SendAuth.Req();
         req.scope="snsapi_userinfo";

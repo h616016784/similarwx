@@ -3,9 +3,7 @@ package com.android.similarwx.model;
 import android.app.Activity;
 import android.text.TextUtils;
 
-import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
-import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.request.ReqGroup;
 import com.android.similarwx.beans.response.BaseResponse;
 import com.android.similarwx.beans.response.RspAddGroupUser;
@@ -24,7 +22,6 @@ import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspInMoney;
 import com.android.similarwx.beans.response.RspMoney;
 import com.android.similarwx.beans.response.RspNotice;
-import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
@@ -61,9 +58,7 @@ import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -209,6 +204,27 @@ public class API implements APIConstants {
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeResLogout(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+    public void getTotalBalance(String userId,LoginPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("id",userId);
+        Call<RspUser> call=apiService.getTotalBalance(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                try {
+                    RspUser rspUser=response.body();
+                    present.analyzeTotalBalance(rspUser);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
                 }

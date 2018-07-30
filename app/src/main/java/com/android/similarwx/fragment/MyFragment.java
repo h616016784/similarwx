@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.LoginActivity;
 import com.android.similarwx.base.AppConstants;
@@ -133,6 +134,7 @@ public class MyFragment extends BaseFragment implements LoginViewInterface {
                     myBaseNameIv.setImageResource(R.drawable.icon_sex_male);
             }
         }
+        present.getTotalBalance();
     }
 
     @Override
@@ -220,5 +222,15 @@ public class MyFragment extends BaseFragment implements LoginViewInterface {
         startActivity(new Intent(getActivity(),
                 LoginActivity.class));
         getActivity().finish();
+    }
+
+    @Override
+    public void refreshTotalBalance(User user) {
+        if (user!=null){
+            myPlayItem.setRightText("推荐: "+user.getUserChildCount());
+            myBaseFenTv.setText(user.getTotalBalance()+"");
+
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
+        }
     }
 }

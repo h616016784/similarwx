@@ -1,8 +1,6 @@
 package com.android.similarwx.model;
 
 import com.android.similarwx.beans.AccToken;
-import com.android.similarwx.beans.GroupMessageBean;
-import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.UserInfoWX;
 import com.android.similarwx.beans.response.BaseResponse;
 import com.android.similarwx.beans.response.RspAddGroupUser;
@@ -21,7 +19,6 @@ import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspInMoney;
 import com.android.similarwx.beans.response.RspMoney;
 import com.android.similarwx.beans.response.RspNotice;
-import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.beans.response.RspSendRed;
 import com.android.similarwx.beans.response.RspService;
@@ -31,9 +28,7 @@ import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUpdateUserStatus;
 import com.android.similarwx.beans.response.RspUser;
-import com.android.similarwx.beans.response.RspWXCode;
 
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -42,7 +37,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
@@ -62,6 +56,9 @@ public interface APIService {
 
     @POST("resUsers/logout")
     Call<RspUser> logout(@QueryMap Map<String,String> map);
+
+    @POST("resUsers/getTotalBalance")
+    Call<RspUser> getTotalBalance(@QueryMap Map<String,String> map);
 
     @POST("resUsers/getCustomerServiceUserList")
     Call<RspService> getServices(@QueryMap Map<String, String> map);

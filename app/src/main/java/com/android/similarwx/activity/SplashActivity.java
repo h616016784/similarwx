@@ -105,4 +105,9 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface {
     public void logoutScucces(User user) {
 
     }
+
+    @Override
+    public void refreshTotalBalance(User user) {
+
+    }
 }
