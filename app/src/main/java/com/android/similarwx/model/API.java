@@ -22,6 +22,7 @@ import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.beans.response.RspGroupSave;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspInMoney;
+import com.android.similarwx.beans.response.RspMoney;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspRedDetail;
@@ -33,6 +34,7 @@ import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUpdateUserStatus;
 import com.android.similarwx.beans.response.RspUser;
+import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.AcountPresent;
 import com.android.similarwx.present.AddGroupPresent;
@@ -54,6 +56,7 @@ import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.present.SetPasswordPresent;
 import com.android.similarwx.present.SubUsersPresent;
 import com.android.similarwx.present.SysNoticePresent;
+import com.android.similarwx.present.WxPresent;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 
 import java.util.HashMap;
@@ -73,7 +76,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class API implements APIConstants {
     private static API sInstance;
-    private static APIService apiService;
+    public static APIService apiService;
     private API() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new LogInterceptor())
@@ -148,10 +151,14 @@ public class API implements APIConstants {
     }
     public void login(String name, String password, String weixin, String mobile, final LoginPresent present){
         Map<String,String> map=new HashMap<>();
-//        map.put("accId",name);
-        map.put("mobile",mobile);
-//        map.put("wechatAccount",weixin);
-        map.put("passwdStr",password);
+        if (!TextUtils.isEmpty(name))
+            map.put("accId",name);
+        if (!TextUtils.isEmpty(mobile))
+            map.put("mobile",mobile);
+        if (!TextUtils.isEmpty(weixin))
+            map.put("wechatAccount",weixin);
+        if (!TextUtils.isEmpty(password))
+            map.put("passwdStr",password);
         Call<RspUser> user=apiService.login(map);
         user.enqueue(new Callback<RspUser>() {
             @Override
@@ -171,6 +178,27 @@ public class API implements APIConstants {
     }
 
 
+    public void WxLogin(String unionid, WxPresent present) {
+        Map<String,String> map=new HashMap<>();
+        map.put("unionid",unionid);
+        Call<RspUser> call=apiService.WxLogin(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                try {
+                    RspUser rspUser=response.body();
+                    present.analyzeRes(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
     public void logout(String userId,LoginPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);
@@ -273,6 +301,30 @@ public class API implements APIConstants {
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+    public void updateUserByWX(String name, String url, String gender, YCallBack callBack){
+        Map<String,String> map=new HashMap<>();
+        map.put("name",name);
+        map.put("icon",url);
+        map.put("gender",gender);
+
+        Call<RspUser> call=apiService.updateUser(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                try {
+                    RspUser rspUser=response.body();
+                    callBack.callBack(rspUser);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
                 }
@@ -898,4 +950,27 @@ public class API implements APIConstants {
             }
         });
     }
+
+    public void getMoney(String type, SysNoticePresent present) {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", type);
+        Call<RspMoney> call=apiService.getMoneyPic(map);
+        call.enqueue(new Callback<RspMoney>() {
+            @Override
+            public void onResponse(Call<RspMoney> call, Response<RspMoney> response) {
+                try {
+                    RspMoney rspMoney=response.body();
+                    present.analyzeMoney(rspMoney);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspMoney> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
 }

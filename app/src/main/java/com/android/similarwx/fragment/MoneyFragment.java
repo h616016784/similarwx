@@ -17,6 +17,7 @@ import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.Notice;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.present.SysNoticePresent;
+import com.android.similarwx.utils.glide.NetImageUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -38,11 +39,11 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
     RelativeLayout myMoneySavePhoneRl;
     @BindView(R.id.my_money_share_circle_rl)
     RelativeLayout myMoneyShareCircleRl;
-    @BindView(R.id.my_money_rv)
-    RecyclerView myMoneyRv;
+    @BindView(R.id.my_money_iv)
+    ImageView myMoneyIv;
     Unbinder unbinder;
 
-    private BaseQuickAdapter adapter;
+//    private BaseQuickAdapter adapter;
     private SysNoticePresent present;
     @Override
     protected int getLayoutResource() {
@@ -58,22 +59,22 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
         init();
     }
     private void init() {
-        myMoneyRv.setLayoutManager(new LinearLayoutManager(activity));
-        adapter=new BaseQuickAdapter<Notice,BaseViewHolder>(R.layout.item_notice,null){
-
-            @Override
-            protected void convert(BaseViewHolder helper, Notice item) {
-                String content=item.getContent();
-                helper.setText(R.id.notice_item_title,item.getTitle());
-                helper.setText(R.id.notice_item_time,item.getModifyDate());
-                helper.setText(R.id.notice_item_content,item.getRemark());
-                if (!TextUtils.isEmpty(content)){
-                    String text= Html.fromHtml(content).toString();
-                    helper.setText(R.id.notice_item_content_detail,text);
-                }
-            }
-        };
-        myMoneyRv.setAdapter(adapter);
+//        myMoneyRv.setLayoutManager(new LinearLayoutManager(activity));
+//        adapter=new BaseQuickAdapter<Notice,BaseViewHolder>(R.layout.item_notice,null){
+//
+//            @Override
+//            protected void convert(BaseViewHolder helper, Notice item) {
+//                String content=item.getContent();
+//                helper.setText(R.id.notice_item_title,item.getTitle());
+//                helper.setText(R.id.notice_item_time,item.getModifyDate());
+//                helper.setText(R.id.notice_item_content,item.getRemark());
+//                if (!TextUtils.isEmpty(content)){
+//                    String text= Html.fromHtml(content).toString();
+//                    helper.setText(R.id.notice_item_content_detail,text);
+//                }
+//            }
+//        };
+//        myMoneyRv.setAdapter(adapter);
         present.getMoney();
     }
 
@@ -102,8 +103,10 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
 
     @Override
     public void refreshSysNotice(List<Notice> list) {
-        if (list!=null){
-            adapter.addData(list);
-        }
+    }
+
+    @Override
+    public void refreshSysMoney(String url) {
+        NetImageUtil.glideImageNormal(activity,url,myMoneyIv);
     }
 }

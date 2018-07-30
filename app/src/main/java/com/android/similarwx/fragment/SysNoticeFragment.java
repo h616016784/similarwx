@@ -122,6 +122,11 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
     }
 
     @Override
+    public void refreshSysMoney(String url) {
+
+    }
+
+    @Override
     public void showErrorMessage(String err) {
 
     }

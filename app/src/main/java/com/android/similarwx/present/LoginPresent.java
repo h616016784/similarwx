@@ -178,13 +178,13 @@ public class LoginPresent extends BasePresent {
 
 
     private boolean isEmpty(String name, String password,String weixin,String mobile) {
-        if (TextUtils.isEmpty(mobile)){
-            loginViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_phone_notnull));
-            return true;
-        }else if (TextUtils.isEmpty(password)){
-            loginViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_notnull));
-            return true;
-        }
+//        if (TextUtils.isEmpty(mobile)){
+//            loginViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_phone_notnull));
+//            return true;
+//        }else if (TextUtils.isEmpty(password)){
+//            loginViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_notnull));
+//            return true;
+//        }
 //        if (TextUtils.isEmpty(name)){
 //            loginViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_acc_notnull));
 //            return true;

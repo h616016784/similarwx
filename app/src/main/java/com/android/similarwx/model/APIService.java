@@ -19,6 +19,7 @@ import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.beans.response.RspGroupSave;
 import com.android.similarwx.beans.response.RspGroupUser;
 import com.android.similarwx.beans.response.RspInMoney;
+import com.android.similarwx.beans.response.RspMoney;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.beans.response.RspRed;
 import com.android.similarwx.beans.response.RspRedDetail;
@@ -56,6 +57,9 @@ public interface APIService {
     @POST("resUsers/login")
     Call<RspUser> login(@QueryMap Map<String,String> map);
 
+    @POST("resUsers/weChatLogin")
+    Call<RspUser> WxLogin(@QueryMap Map<String, String> map);
+
     @POST("resUsers/logout")
     Call<RspUser> logout(@QueryMap Map<String,String> map);
 
@@ -89,6 +93,9 @@ public interface APIService {
 
     @POST("sys/noticeList")
     Call<RspNotice> getNotices(@QueryMap Map<String, String> map);
+
+    @POST("sys/moneyPic")
+    Call<RspMoney> getMoneyPic(@QueryMap Map<String, String> map);
 
     @POST("redPac/send")
     Call<RspSendRed> sendRed(@QueryMap Map<String, String> map);
@@ -148,5 +155,6 @@ public interface APIService {
 
     @GET("sns/userinfo")
     Call<UserInfoWX> userInfoWX(@QueryMap Map<String,String> map);
+
 
 }
