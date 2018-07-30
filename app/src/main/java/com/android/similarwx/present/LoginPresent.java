@@ -52,6 +52,11 @@ public class LoginPresent extends BasePresent {
         String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"paopaotest1");
         API.getInstance().getTotalBalance(userId,this);
     }
+
+    public void setInvitationCode(String invitationCode) {
+        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"paopaotest1");
+        API.getInstance().setInvitationCode(userId,invitationCode,this);
+    }
     /**
      * 保存用户信息
      * @param user
@@ -245,5 +250,4 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,"");
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,"");
     }
-
 }

@@ -86,6 +86,7 @@ public class EditDialogBuilder {
     }
 
     public EditDialogBuilder setConfirmButton(final ButtonClicker onClickListener) {
+        this.buttonClicker=onClickListener;
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

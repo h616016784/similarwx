@@ -89,7 +89,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private HomeAdapter adapter;
     private List<GroupMessageBean.ListBean> mListData;
     GroupPresent groupPresent;
-    private EditDialogSimple editDialogSimple;
     private ListPopWindowHelper listPopWindowHelper=null;
     private List<PopMoreBean> listMore=null;
 
@@ -105,6 +104,9 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
         groupPresent = new GroupPresent(this);
+        //判断是否有填写邀请码
+
+
         initYunXinSystemMsgListener();
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
         if (mUser!=null){
@@ -115,7 +117,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 }
             }
         }
-        editDialogSimple = new EditDialogSimple(this, null);
         initLoacalData();
 
         adapter = new HomeAdapter(R.layout.item_group, this, mListData);

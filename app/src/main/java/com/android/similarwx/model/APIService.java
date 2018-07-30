@@ -60,6 +60,9 @@ public interface APIService {
     @POST("resUsers/getTotalBalance")
     Call<RspUser> getTotalBalance(@QueryMap Map<String,String> map);
 
+    @POST("resUsers/setInvitationCode")
+    Call<RspUser> setInvitationCode(@QueryMap Map<String, String> map);
+
     @POST("resUsers/getCustomerServiceUserList")
     Call<RspService> getServices(@QueryMap Map<String, String> map);
 

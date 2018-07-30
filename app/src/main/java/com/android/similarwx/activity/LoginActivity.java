@@ -3,6 +3,7 @@ package com.android.similarwx.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -11,17 +12,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
+import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.fragment.PhoneVerifyFragment;
 import com.android.similarwx.fragment.RegistFragment;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.WXUtil;
+import com.android.similarwx.widget.dialog.EditDialogBuilder;
 import com.android.similarwx.wxapi.WXEntryActivity;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -159,9 +164,29 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
     @Override
     public void loginScucces(User user) {
-        //之后跳转界面
-        startActivity(new Intent(this, MainChartrActivity.class));
-        finish();
+        //判断是否有邀请码
+        String inviter=user.getInviter();
+        if (TextUtils.isEmpty(inviter)){
+            BaseDialog dialog=new  EditDialogBuilder(this)
+                    .setMessage("请输入邀请码")
+                    .setConfirmButton(new EditDialogBuilder.ButtonClicker() {
+                        @Override
+                        public void onButtonClick(String str) {
+                            if (TextUtils.isEmpty(str))
+                                Toaster.toastShort("邀请码不能为空！");
+                            else
+                                doInputInviter(str);
+                        }
+                    })
+                    .create();
+            dialog.show();
+        }
+
+
+    }
+
+    private void doInputInviter(String invitationCode) {
+        loginPresent.setInvitationCode(invitationCode);
     }
 
     @Override
@@ -171,7 +196,12 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
     @Override
     public void refreshTotalBalance(User user) {
-
+        if (user!=null){
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
+            //之后跳转界面
+            startActivity(new Intent(this, MainChartrActivity.class));
+            finish();
+        }
     }
 
     private void sendLoginWx(String text){
