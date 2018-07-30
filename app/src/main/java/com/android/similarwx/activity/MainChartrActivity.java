@@ -19,6 +19,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
+import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.User;
@@ -30,10 +31,12 @@ import com.android.similarwx.fragment.MIFragmentNew;
 import com.android.similarwx.fragment.MyFragment;
 import com.android.similarwx.fragment.NoticeFragment;
 import com.android.similarwx.fragment.ServiceFragment;
+import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.MainGroupView;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.GroupPresent;
+import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.notification.NotificationUtil;
@@ -41,6 +44,7 @@ import com.android.similarwx.widget.ListPopWindow;
 import com.android.similarwx.widget.ListPopWindowHelper;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
+import com.android.similarwx.widget.dialog.EditDialogBuilder;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
@@ -68,7 +72,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/1.
  */
 
-public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView {
+public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, LoginViewInterface {
 
     Unbinder unbinder;
     @BindView(R.id.main_search_iv)
@@ -93,6 +97,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private List<PopMoreBean> listMore=null;
 
     private User mUser;
+    private LoginPresent loginPresent;
     public static void start(Activity context) {
         Intent intent = new Intent(context, MainChartrActivity.class);
         context.startActivity(intent);
@@ -104,12 +109,28 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
         groupPresent = new GroupPresent(this);
-        //判断是否有填写邀请码
-
-
+        loginPresent = new LoginPresent(this);
         initYunXinSystemMsgListener();
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
+
         if (mUser!=null){
+            //判断是否有填写邀请码
+            String inviter=mUser.getInviter();
+            if (TextUtils.isEmpty(inviter)){
+                BaseDialog dialog=new EditDialogBuilder(this)
+                        .setMessage("请输入邀请码")
+                        .setConfirmButton(new EditDialogBuilder.ButtonClicker() {
+                            @Override
+                            public void onButtonClick(String str) {
+                                if (TextUtils.isEmpty(str))
+                                    Toaster.toastShort("邀请码不能为空！");
+                                else
+                                    doInputInviter(str);
+                            }
+                        })
+                        .create();
+                dialog.show();
+            }
             String userType=mUser.getUserType();
             if (!TextUtils.isEmpty(userType)){
                 if (userType.equals("1")){
@@ -126,6 +147,10 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         recyclerView.requestFocus();
         adapter.setOnItemClickListener(this);
         hideKeyboard();
+    }
+
+    private void doInputInviter(String invitationCode) {
+        loginPresent.setInvitationCode(invitationCode);
     }
 
     private void initYunXinSystemMsgListener() {
@@ -370,4 +395,22 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     }
 
 
+    @Override
+    public void loginScucces(User user) {
+
+    }
+
+    @Override
+    public void logoutScucces(User user) {
+
+    }
+
+    @Override
+    public void refreshTotalBalance(User user) {
+        if (user!=null){
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
+        }else {
+            finish();
+        }
+    }
 }

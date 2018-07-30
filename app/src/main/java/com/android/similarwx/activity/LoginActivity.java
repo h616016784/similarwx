@@ -181,8 +181,6 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                     .create();
             dialog.show();
         }
-
-
     }
 
     private void doInputInviter(String invitationCode) {
