@@ -41,8 +41,8 @@ public abstract class UI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.statusBarDarkFont(true, 0.2f)
-                .statusBarColor(R.color.color_green_00d3a9)
+        mImmersionBar.statusBarDarkFont(false, 0.2f)
+                .statusBarColor(R.color.colorPrimary)
                 .fitsSystemWindows(true).init();
         LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
     }

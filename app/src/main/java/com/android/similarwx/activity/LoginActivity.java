@@ -19,6 +19,8 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.fragment.AddGroupFragment;
+import com.android.similarwx.fragment.DealFragment;
 import com.android.similarwx.fragment.PhoneVerifyFragment;
 import com.android.similarwx.fragment.RegistFragment;
 import com.android.similarwx.inteface.LoginViewInterface;
@@ -67,6 +69,8 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
     Button loginLogin;
     @BindView(R.id.login_forget_password)
     TextView loginForgetPassword;
+    @BindView(R.id.login_deal_tv)
+    TextView loginDealTv;
     @BindView(R.id.login_wx_iv)
     ImageView loginWxIv;
     private LoginPresent loginPresent;
@@ -134,7 +138,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                 });
     }
 
-    @OnClick({R.id.login, R.id.regist, R.id.login_forget_password, R.id.login_wx_iv})
+    @OnClick({R.id.login, R.id.regist, R.id.login_forget_password, R.id.login_wx_iv,R.id.login_deal_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login://
@@ -158,6 +162,9 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 //                String password = loginPassword.getText().toString();
 //                String weixin = loginWeixinEt.getText().toString();
 //                loginPresent.login(name, password, weixin,mobile,null);
+                break;
+            case R.id.login_deal_tv:
+                FragmentUtils.navigateToNormalActivity(this, new DealFragment(), null);
                 break;
         }
     }

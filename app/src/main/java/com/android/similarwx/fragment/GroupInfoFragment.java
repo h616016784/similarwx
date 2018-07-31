@@ -29,6 +29,7 @@ import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.SendRedPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -121,7 +122,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             protected void convert(BaseViewHolder helper, GroupUser.ListBean item) {
                 String icon=item.getUserIcon();
                 if (!TextUtils.isEmpty(icon)){
-                    Glide.with(activity).load(icon).into((ImageView) helper.getView(R.id.item_group_member_iv));
+                    NetImageUtil.glideImageNormal(activity,icon,(ImageView) helper.getView(R.id.item_group_member_iv));
                 }
                 helper.setText(R.id.item_group_member_tv, item.getUserName());
             }
@@ -177,7 +178,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     @Override
     public void onResume() {
         super.onResume();
-        present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
+        present.getGroupByIdOrGroupId(mUser.getId(),accountId);
     }
 
     @Override

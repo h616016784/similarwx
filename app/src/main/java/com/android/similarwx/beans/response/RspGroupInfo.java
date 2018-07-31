@@ -73,7 +73,7 @@ public class RspGroupInfo extends BaseResponse{
         private String requirement;
         private int grabBagNumber;
         private String updateTime;
-        private int multipleRate;
+        private double multipleRate;
         private String attr;
         private String attrValue;
         private String updateUserId;
@@ -251,11 +251,11 @@ public class RspGroupInfo extends BaseResponse{
             this.updateTime = updateTime;
         }
 
-        public int getMultipleRate() {
+        public double getMultipleRate() {
             return multipleRate;
         }
 
-        public void setMultipleRate(int multipleRate) {
+        public void setMultipleRate(double multipleRate) {
             this.multipleRate = multipleRate;
         }
 
