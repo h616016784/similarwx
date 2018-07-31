@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/distance_smallest"
+    android:layout_marginBottom="@dimen/distance_smallest"
     android:orientation="horizontal">
     <ImageView
         android:id="@+id/item_chart_iv"
@@ -33,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="消息内容"
             android:maxLines="1"
-            android:textSize="@dimen/text_sub_title"
+            android:textSize="@dimen/text_tip"
             />
     </LinearLayout>
 
@@ -45,5 +47,6 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="@string/service_item_role"
+        android:textSize="@dimen/text_tip"
         />
 </LinearLayout>

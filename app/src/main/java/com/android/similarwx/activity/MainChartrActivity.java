@@ -57,6 +57,8 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 import com.netease.nimlib.sdk.team.model.Team;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import org.w3c.dom.Text;
 
@@ -98,6 +100,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
     private User mUser;
     private LoginPresent loginPresent;
+    private long tempMsgId=-1;
     public static void start(Activity context) {
         Intent intent = new Intent(context, MainChartrActivity.class);
         context.startActivity(intent);
@@ -160,31 +163,40 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     public void onEvent(SystemMessage message) {
                         // 收到系统通知，可以做相应操作
                         if (message!=null){
+                            if (!(tempMsgId==-1)){
+                                if (tempMsgId==message.getMessageId()){
+                                    return;
+                                }
+                            }
                             String account=message.getFromAccount();
                             String target=message.getTargetId();
+                            NimUserInfo fromUser = NIMClient.getService(UserService.class).getUserInfo(account);//发来群消息的用户信息
+
                             NotificationUtil.NotificationConfig config=new NotificationUtil.NotificationConfig();
                             config.setContentTitle("群组通知");
                             switch (message.getType().getValue()){
                                 case 0:
-                                    config.setContentText(account+"入群申请");
+                                    config.setContentText(fromUser.getName()+" 入群申请");
                                     break;
                                 case 1:
-                                    config.setContentText(account+"拒绝入群");
+                                    config.setContentText(fromUser.getName()+" 拒绝入群");
                                     break;
                                 case 2:
-                                    config.setContentText(account+"邀请入群");
+                                    config.setContentText(fromUser.getName()+" 邀请入群");
                                     break;
                                 case 3:
-                                    config.setContentText(account+"拒绝邀请");
+                                    config.setContentText(fromUser.getName()+" 拒绝邀请");
                                     break;
                                 case 5:
-                                    config.setContentText(account+"添加好友");
+                                    config.setContentText(fromUser.getName()+" 添加好友");
                                     break;
                                 default:
                                     config.setContentText("未知");
                             }
                             config.setTicker("通知消息");
                             NotificationUtil.getInstance(MainChartrActivity.this,config).notification();
+
+                            tempMsgId=message.getMessageId();
                         }
                     }
                 }, true);

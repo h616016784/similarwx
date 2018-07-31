@@ -28,5 +28,22 @@ public class NetImageUtil {
                 .into(imageView);
     }
 
+    public static void glideImageCircle(Context context, String url, ImageView imageView){
+        glideImageCircle(context,url,imageView,120,120);
+    }
+    public static void glideImageCircle(Context context, String url, ImageView imageView,int width,int height){
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.nim_default_img_failed)
+                .error(R.drawable.nim_default_img_failed)
+                .transform(new CircleCrop(context))
+                .override(width,height)
+                .priority(Priority.HIGH);
+//                .diskCacheStrategy(DiskCacheStrategy.NONE);
 
+        Glide.with(context)
+                .load(url)
+                .apply(options)
+                .into(imageView);
+    }
 }
