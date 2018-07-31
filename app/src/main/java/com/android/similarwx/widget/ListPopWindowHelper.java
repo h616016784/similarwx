@@ -57,7 +57,10 @@ public class ListPopWindowHelper {
         pop_client_more_rv.setAdapter(adapter);
     }
     public void show(View view){
-        popupWindow.showAsDropDown(view);
+        show(view,0,0);
+    }
+    public void show(View view,int xoff, int yoff){
+        popupWindow.showAsDropDown(view,xoff,yoff);
     }
     public void dismiss(){
         if(popupWindow!=null){

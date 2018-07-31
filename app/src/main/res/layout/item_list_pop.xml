@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/dark_gray"
+    android:paddingTop="@dimen/distance_normal"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/item_list_pop_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/tooltip_icon_f"
             android:layout_marginLeft="@dimen/distance_normal"
             android:layout_centerVertical="true"/>
@@ -31,6 +32,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen1dp"
-        android:layout_marginTop="@dimen/distance_smaller"
+        android:layout_marginTop="@dimen/distance_normal"
         android:background="@color/white"/>
 </LinearLayout>

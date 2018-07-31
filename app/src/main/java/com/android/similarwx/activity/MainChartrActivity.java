@@ -30,6 +30,7 @@ import com.android.similarwx.fragment.MIFragment;
 import com.android.similarwx.fragment.MIFragmentNew;
 import com.android.similarwx.fragment.MyFragment;
 import com.android.similarwx.fragment.NoticeFragment;
+import com.android.similarwx.fragment.SearchFragment;
 import com.android.similarwx.fragment.ServiceFragment;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.MainGroupView;
@@ -206,17 +207,17 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         listMore=new ArrayList<>();
         PopMoreBean bean=new PopMoreBean();
         bean.setName("创建群组");
-        bean.setImage(R.drawable.tooltip_icon_f);
+        bean.setImage(R.drawable.icon_top_add);
         listMore.add(bean);
 
         PopMoreBean bean1=new PopMoreBean();
         bean1.setName("查找用户");
-        bean1.setImage(R.drawable.tooltip_icon_f);
+        bean1.setImage(R.drawable.icon_top_search);
         listMore.add(bean1);
 
         PopMoreBean bean2=new PopMoreBean();
         bean2.setName("查找群组");
-        bean2.setImage(R.drawable.tooltip_icon_f);
+        bean2.setImage(R.drawable.icon_top_search);
         listMore.add(bean2);
     }
 
@@ -240,12 +241,14 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 break;
             case R.id.create_group_iv:
                 listPopWindowHelper=new ListPopWindowHelper(MainChartrActivity.this,listMore);
-                listPopWindowHelper.show(createGroupIv);
+                listPopWindowHelper.show(createGroupIv,0,24);
                 listPopWindowHelper.setOnClickItem(new ListPopWindow.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         if (position==0){
                             FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new AddGroupFragment(), null);
+                        }else {
+                            FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new SearchFragment(), null);
                         }
                     }
                 });

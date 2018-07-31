@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import com.android.similarwx.R;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -36,10 +37,7 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
         }else{
             String groupIcon =item.getGroupIcon();
             if (!TextUtils.isEmpty(groupIcon)){
-                Glide.with(context).load(groupIcon)
-//                        .error(R.drawable.ease_default_image)
-//                        .placeholder(R.drawable.ease_default_image)
-                        .into((ImageView) helper.getView(R.id.item_group_iv));
+                NetImageUtil.glideImageNormal(context,groupIcon,(ImageView) helper.getView(R.id.item_group_iv));
             }
         }
     }
