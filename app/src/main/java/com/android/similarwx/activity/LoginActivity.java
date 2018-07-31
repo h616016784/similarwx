@@ -180,6 +180,10 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                     })
                     .create();
             dialog.show();
+        }else {
+            //之后跳转界面
+            startActivity(new Intent(this, MainChartrActivity.class));
+            finish();
         }
     }
 

@@ -19,8 +19,8 @@ public class NetImageUtil {
                 .centerCrop()
                 .placeholder(R.drawable.nim_default_img_failed)
                 .error(R.drawable.nim_default_img_failed)
-                .priority(Priority.HIGH)
-                .diskCacheStrategy(DiskCacheStrategy.NONE);
+                .priority(Priority.HIGH);
+//                .diskCacheStrategy(DiskCacheStrategy.NONE);
 
         Glide.with(context)
                 .load(url)

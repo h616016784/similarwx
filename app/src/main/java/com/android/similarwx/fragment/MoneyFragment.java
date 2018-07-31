@@ -1,5 +1,9 @@
 package com.android.similarwx.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +21,11 @@ import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.Notice;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.present.SysNoticePresent;
+import com.android.similarwx.utils.WXUtil;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 
 import java.util.List;
 
@@ -88,10 +94,21 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_money_friend_rl://分享好友
+//                WXUtil.getInstance(activity).WxShareText("测试分享", SendMessageToWX.Req.WXSceneSession);
+                Drawable drawable=myMoneyIv.getDrawable();
+                if (drawable!=null){
+                    Bitmap bitmap = getBitmap(drawable);
+                    WXUtil.getInstance(activity).WxShareImage("图片分享", bitmap,SendMessageToWX.Req.WXSceneSession);
+                }
                 break;
             case R.id.my_money_save_phone_rl://保存手机
                 break;
             case R.id.my_money_share_circle_rl://分享朋友圈
+                Drawable drawable1=myMoneyIv.getDrawable();
+                if (drawable1!=null){
+                    Bitmap bitmap = getBitmap(drawable1);
+                    WXUtil.getInstance(activity).WxShareImage("图片分享", bitmap,SendMessageToWX.Req.WXSceneTimeline);
+                }
                 break;
         }
     }
@@ -109,4 +126,18 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
     public void refreshSysMoney(String url) {
         NetImageUtil.glideImageNormal(activity,url,myMoneyIv);
     }
-}
+
+
+    private Bitmap getBitmap(Drawable drawable) {
+        Bitmap bitmap = Bitmap.createBitmap(
+                drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(),
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                        : Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        //canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return bitmap;
+        }
+    }
