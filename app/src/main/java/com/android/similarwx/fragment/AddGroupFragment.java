@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,14 +37,19 @@ import com.android.similarwx.widget.dialog.RuleDialogFragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by hanhuailong on 2018/6/13.
@@ -140,6 +146,69 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
             }
         };
         createGroupRuleRv.setAdapter(adapter);
+
+        RxView.clicks(createGroupNewBt).throttleFirst(1, TimeUnit.SECONDS)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(Object value) {//反之抖动   添加群组
+                        String groupName=createGroupNameEt.getText().toString();
+                        String notice=createGroupNoticeEt.getText().toString();
+                        String must=createGroupMustEt.getText().toString();
+                        String leilv=createGroupLeiEt.getText().toString();
+                        String low=createGroupRangeLowEt.getText().toString();
+                        String high=createGroupRangeHighEt.getText().toString();
+
+                        if (TextUtils.isEmpty(groupName)){
+                            Toaster.toastShort("群名称不能为空！");
+                            return;
+                        }
+                        if (TextUtils.isEmpty(notice)){
+                            Toaster.toastShort("群公告不能为空！");
+                            return;
+                        }
+                        if (TextUtils.isEmpty(must)){
+                            Toaster.toastShort("群须知不能为空！");
+                            return;
+                        }
+                        if (TextUtils.isEmpty(low)){
+                            Toaster.toastShort("最低值不能为空！");
+                            return;
+                        }
+                        if (TextUtils.isEmpty(high)){
+                            Toaster.toastShort("最高值不能为空！");
+                            return;
+                        }
+                        String id=SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"无");
+                        reqGroup.setGroupName(groupName);
+                        reqGroup.setCreateId(id);
+                        reqGroup.setNotice(notice);
+                        reqGroup.setRequirement(must);
+                        reqGroup.setMultipleRate(leilv);
+                        reqGroup.setStartRange(low);
+                        reqGroup.setEndRange(high);
+
+                        List<GroupRule> list=adapter.getData();
+                        Gson gson=new Gson();
+                        String rules=gson.toJson(list);
+                        reqGroup.setRewardRules(rules);
+                        mPresent.addGroup(reqGroup);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toaster.toastShort(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("onComplete","点击了！");
+                    }
+                });
         hideKeyboard();
     }
 
@@ -204,7 +273,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     }
 
 
-    @OnClick({R.id.create_group_set_rl, R.id.create_group_home_rl, R.id.create_group_in_set_rl, R.id.create_group_add_rule_iv, R.id.create_group_new_bt,R.id.create_group_lei_ll
+    @OnClick({R.id.create_group_set_rl, R.id.create_group_home_rl, R.id.create_group_in_set_rl, R.id.create_group_add_rule_iv,R.id.create_group_lei_ll
             ,R.id.create_group_num_rl,R.id.create_group_range_high_rl,R.id.create_group_range_low_rl,R.id.create_group_must_rl,R.id.create_group_notice_rl,R.id.create_group_name_rl})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -369,49 +438,6 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                         }
                     }
                 });
-                break;
-            case R.id.create_group_new_bt:
-                String groupName=createGroupNameEt.getText().toString();
-                String notice=createGroupNoticeEt.getText().toString();
-                String must=createGroupMustEt.getText().toString();
-                String leilv=createGroupLeiEt.getText().toString();
-                String low=createGroupRangeLowEt.getText().toString();
-                String high=createGroupRangeHighEt.getText().toString();
-
-                if (TextUtils.isEmpty(groupName)){
-                    Toaster.toastShort("群名称不能为空！");
-                    return;
-                }
-                if (TextUtils.isEmpty(notice)){
-                    Toaster.toastShort("群公告不能为空！");
-                    return;
-                }
-                if (TextUtils.isEmpty(must)){
-                    Toaster.toastShort("群须知不能为空！");
-                    return;
-                }
-                if (TextUtils.isEmpty(low)){
-                    Toaster.toastShort("最低值不能为空！");
-                    return;
-                }
-                if (TextUtils.isEmpty(high)){
-                    Toaster.toastShort("最高值不能为空！");
-                    return;
-                }
-                String id=SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"无");
-                reqGroup.setGroupName(groupName);
-                reqGroup.setCreateId(id);
-                reqGroup.setNotice(notice);
-                reqGroup.setRequirement(must);
-                reqGroup.setMultipleRate(leilv);
-                reqGroup.setStartRange(low);
-                reqGroup.setEndRange(high);
-
-                List<GroupRule> list=adapter.getData();
-                Gson gson=new Gson();
-                String rules=gson.toJson(list);
-                reqGroup.setRewardRules(rules);
-                mPresent.addGroup(reqGroup);
                 break;
         }
     }
