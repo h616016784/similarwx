@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:text="未填写"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_appbar" />
+                    android:textSize="@dimen/text_sub_title" />
 
                 <ImageView
                     android:id="@+id/my_base_name_iv"

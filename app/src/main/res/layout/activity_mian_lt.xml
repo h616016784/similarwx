@@ -5,13 +5,13 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen37dp"
-        android:background="@color/actionbar_green">
+        android:layout_height="@dimen/dimen42dp"
+        android:background="@color/colorBlackTitle">
         <TextView
             android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/distance_smaller"
             android:layout_marginLeft="@dimen/distance_normal"
             android:text="@string/main_title"
@@ -22,7 +22,7 @@
             android:id="@+id/create_group_iv"
             android:layout_width="@dimen/distance_big"
             android:layout_height="@dimen/distance_big"
-            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/distance_smaller"
             android:layout_marginRight="@dimen/distance_normal"

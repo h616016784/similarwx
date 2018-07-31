@@ -45,7 +45,7 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
         present=new SubUsersPresent(this);
 
         myPlayerRv.setLayoutManager(new LinearLayoutManager(activity));
-        adapter=new BaseQuickAdapter<SubUser,BaseViewHolder>(R.layout.item_notice,null){
+        adapter=new BaseQuickAdapter<SubUser,BaseViewHolder>(R.layout.item_my_player,null){
             @Override
             protected void convert(BaseViewHolder helper, SubUser item) {
 

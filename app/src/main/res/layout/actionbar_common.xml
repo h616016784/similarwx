@@ -3,7 +3,7 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/actionbar_green"
+    android:background="@color/colorBlackTitle"
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/layout_ll"

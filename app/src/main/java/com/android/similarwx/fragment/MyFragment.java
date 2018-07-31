@@ -24,6 +24,7 @@ import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.glide.CircleCrop;
+import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.ItemView;
 import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.bumptech.glide.Glide;
@@ -112,13 +113,7 @@ public class MyFragment extends BaseFragment implements LoginViewInterface {
             myBaseNameTv.setText(mUser.getName());
             String url=mUser.getIcon();
             if (url!=null){
-                Glide.with(activity)
-                        .load(url)
-//                        .override(120,120)
-//                        .transform(new CircleCrop(activity))
-//                        .placeholder(R.drawable.rp_avatar)
-//                        .error(R.drawable.rp_avatar)
-                        .into(myBaseHeadIv);
+                NetImageUtil.glideImageNormalWithSize(activity,url,myBaseHeadIv,240,240);
             }
             myBaseAccountTv.setText(mUser.getAccId());
             //性别
