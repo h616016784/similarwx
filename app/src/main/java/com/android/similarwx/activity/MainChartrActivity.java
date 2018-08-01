@@ -57,6 +57,7 @@ import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
+import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
@@ -172,24 +173,27 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                             String account=message.getFromAccount();
                             String target=message.getTargetId();
                             NimUserInfo fromUser = NIMClient.getService(UserService.class).getUserInfo(account);//发来群消息的用户信息
-
+                            Team team=NIMClient.getService(TeamService.class).queryTeamBlock(target);
+                            String teamName=team.getName();
+                            if (TextUtils.isEmpty(teamName))
+                                teamName="";
                             NotificationUtil.NotificationConfig config=new NotificationUtil.NotificationConfig();
                             config.setContentTitle("群组通知");
                             switch (message.getType().getValue()){
                                 case 0:
-                                    config.setContentText(fromUser.getName()+" 入群申请");
+                                    config.setContentText(fromUser.getName()+" 入群申请 "+teamName);
                                     break;
                                 case 1:
-                                    config.setContentText(fromUser.getName()+" 拒绝入群");
+                                    config.setContentText(fromUser.getName()+" 拒绝入群 "+teamName);
                                     break;
                                 case 2:
-                                    config.setContentText(fromUser.getName()+" 邀请入群");
+                                    config.setContentText(fromUser.getName()+" 邀请入群 "+teamName );
                                     break;
                                 case 3:
-                                    config.setContentText(fromUser.getName()+" 拒绝邀请");
+                                    config.setContentText(fromUser.getName()+" 拒绝邀请 "+teamName);
                                     break;
                                 case 5:
-                                    config.setContentText(fromUser.getName()+" 添加好友");
+                                    config.setContentText(fromUser.getName()+" 添加好友 "+teamName);
                                     break;
                                 default:
                                     config.setContentText("未知");
@@ -301,8 +305,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                                 Gson gson=new Gson();
                                 mUser.setPasswd("申请加入该群");
                                 mUser.setPasswdStr(bean.getGroupName());
-                                String detail=gson.toJson(mUser);
-                                APIYUNXIN.applyJoinTeam(bean.getGroupId(), detail, new YCallBack<Team>() {
+//                                String detail=gson.toJson(mUser);
+                                APIYUNXIN.applyJoinTeam(bean.getGroupId(), "", new YCallBack<Team>() {
                                     @Override
                                     public void callBack(Team team) {
                                         Toaster.toastShort("申请成功，等待群主审批");
@@ -326,8 +330,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                             Gson gson=new Gson();
                             mUser.setPasswd("申请加入该群");
                             mUser.setPasswdStr(bean.getGroupName());
-                            String detail=gson.toJson(mUser);
-                            APIYUNXIN.applyJoinTeam(bean.getGroupId(), detail, new YCallBack<Team>() {
+//                            String detail=gson.toJson(mUser);
+                            APIYUNXIN.applyJoinTeam(bean.getGroupId(), "", new YCallBack<Team>() {
                                 @Override
                                 public void callBack(Team team) {
                                     Toaster.toastShort("申请成功，等待群主审批");

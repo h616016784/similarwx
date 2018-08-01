@@ -84,7 +84,7 @@ public class ChartFragment extends BaseFragment {
                 NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(account);//用户详情
                 helper.setText(R.id.item_chart_name_tv, user.getName());
                 helper.setText(R.id.item_chart_content_tv, item.getContent());
-                helper.setText(R.id.item_chart_role_tv, TimeUtil.timestampToString(item.getTime(),"yyyy-MM-dd"));
+                helper.setText(R.id.item_chart_role_tv, TimeUtil.timestampToString(item.getTime()));
                 String icon =user.getAvatar();
                 if (!TextUtils.isEmpty(icon)) {
                     NetImageUtil.glideImageCircle(activity,icon,(ImageView) helper.getView(R.id.item_chart_iv));
@@ -128,18 +128,36 @@ public class ChartFragment extends BaseFragment {
                     chartLl.setVisibility(View.VISIBLE);
                     SystemMessage message = systemMessages.get(0);
 
-
-                    Gson gson=new Gson();
-                    User user = null;
-                    String content=message.getContent();
-                    try {
-                        user =gson.fromJson(content, User.class);
-                    }catch (Exception e){
-
-                    }
+                    NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(message.getFromAccount());//用户详情
+//                    Gson gson=new Gson();
+//                    User user = null;
+//                    String content=message.getContent();
+//                    try {
+//                        user =gson.fromJson(content, User.class);
+//                    }catch (Exception e){
+//
+//                    }
                     if (user!=null){
-                        chartContentTv.setText(user.getName());
-                        chartRoleTv.setText(user.getPasswd());
+                        switch (message.getType().getValue()){
+                            case 0:
+                                chartContentTv.setText(user.getName()+" 入群申请");
+                                break;
+                            case 1:
+                                chartContentTv.setText(user.getName()+" 拒绝入群");
+                                break;
+                            case 2:
+                                chartContentTv.setText(user.getName()+" 邀请入群");
+                                break;
+                            case 3:
+                                chartContentTv.setText(user.getName()+" 拒绝邀请");
+                                break;
+                            case 5:
+                                chartContentTv.setText(user.getName()+" 入群申请");
+                                break;
+                            default:
+                                chartContentTv.setText("未知");
+                        }
+                        chartRoleTv.setText(TimeUtil.timestampToString(message.getTime()));
                     }
 
                 }else {

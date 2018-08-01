@@ -77,10 +77,9 @@ public class NotificationUtil {
 //        mBuilder.setOngoing(true);
         //设置消息的提醒方式，震动提醒：DEFAULT_VIBRATE     声音提醒：NotificationCompat.DEFAULT_SOUND
         //三色灯提醒NotificationCompat.DEFAULT_LIGHTS     以上三种方式一起：DEFAULT_ALL
-        mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);
+        mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
         //设置震动方式，延迟零秒，震动一秒，延迟一秒、震动一秒
 //        mBuilder.setVibrate(new long[]{0, 1000, 1000, 1000});
-
 //        Intent intent = new Intent(context, SysNoticeActivity.class);
         Intent intent = new Intent(context, NormalActivity.class);
         Bundle bundle=new Bundle();
