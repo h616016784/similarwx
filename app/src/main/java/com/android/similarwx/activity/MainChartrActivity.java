@@ -251,8 +251,14 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     public void onItemClick(int position) {
                         if (position==0){
                             FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new AddGroupFragment(), null);
+                        }else if (position==1){
+                            Bundle bundle=new Bundle();
+                            bundle.putInt(AppConstants.TRANSFER_BASE,1);
+                            FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new SearchFragment(), bundle);
                         }else {
-                            FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new SearchFragment(), null);
+                            Bundle bundle=new Bundle();
+                            bundle.putInt(AppConstants.TRANSFER_BASE,2);
+                            FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new SearchFragment(), bundle);
                         }
                     }
                 });

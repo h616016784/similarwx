@@ -48,6 +48,7 @@ import com.android.similarwx.present.PhoneVerifyPresent;
 import com.android.similarwx.present.RechargePresent;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.present.RegisterPresent;
+import com.android.similarwx.present.SearchPresent;
 import com.android.similarwx.present.SendRedPresent;
 import com.android.similarwx.present.ServicePresent;
 import com.android.similarwx.present.SetPasswordPresent;
@@ -638,6 +639,31 @@ public class API implements APIConstants {
     public void GroupInfoPresent(String groupId, final GroupInfoPresent present) {
         Map<String,String> map=new HashMap<>();
         map.put("groupId",groupId);
+        Call<RspGroupUser> call=apiService.getGroupUserList(map);
+        call.enqueue(new Callback<RspGroupUser>() {
+            @Override
+            public void onResponse(Call<RspGroupUser> call, Response<RspGroupUser> response) {
+                try {
+                    RspGroupUser rspGroupUser=response.body();
+                    present.analyzeRes(rspGroupUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspGroupUser> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
+
+    public void getSearchUser(String groupId, String userName,final SearchPresent present) {
+        Map<String,String> map=new HashMap<>();
+        if (!TextUtils.isEmpty(groupId))
+             map.put("groupId",groupId);
+        if (!TextUtils.isEmpty(userName))
+            map.put("userName",userName);
         Call<RspGroupUser> call=apiService.getGroupUserList(map);
         call.enqueue(new Callback<RspGroupUser>() {
             @Override
