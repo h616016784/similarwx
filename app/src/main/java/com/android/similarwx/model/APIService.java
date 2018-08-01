@@ -127,6 +127,12 @@ public interface APIService {
     @POST("group/save")
     Call<RspGroupSave>  groupSave(@FieldMap Map<String, String> map);
 
+    //更新群组信息
+    @FormUrlEncoded
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
+    @POST("group/update")
+    Call<RspGroupSave>  groupUpdate(@FieldMap Map<String, String> map);
+
     //添加群组成员
     @POST("group/doAddGroupUser")
     Call<RspAddGroupUser>  doAddGroupUser(@QueryMap Map<String, String> map);

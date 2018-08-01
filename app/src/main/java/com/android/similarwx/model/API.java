@@ -933,24 +933,39 @@ public class API implements APIConstants {
         });
     }
 
-    public void groupSave(ReqGroup reqGroup, AddGroupPresent present) {
+    public void groupSave(RspGroupInfo.GroupInfo reqGroup, AddGroupPresent present,String updateUser,int flag) {
         Map<String,String> map=new HashMap<>();
-        map.put("groupName",reqGroup.getGroupName());
-        map.put("groupType",reqGroup.getGroupType());
-        map.put("gameType",reqGroup.getGroupType());
-        map.put("createId",reqGroup.getCreateId());
+        if (!TextUtils.isEmpty(reqGroup.getGroupName()))
+             map.put("groupName",reqGroup.getGroupName());
+        if (!TextUtils.isEmpty(reqGroup.getGroupId()))
+            map.put("groupId",reqGroup.getGroupId());
+        if (!TextUtils.isEmpty(reqGroup.getGroupType()))
+            map.put("groupType",reqGroup.getGroupType());
+        if (!TextUtils.isEmpty(reqGroup.getGameType()))
+            map.put("gameType",reqGroup.getGameType());
+        if (!TextUtils.isEmpty(reqGroup.getCreateId()))
+            map.put("createId",reqGroup.getCreateId());
 //        map.put("totalNumber",reqGroup.getCreateId());
-
-        map.put("notice",reqGroup.getNotice());
-        map.put("requirement",reqGroup.getRequirement());
-        map.put("multipleRate",reqGroup.getMultipleRate());
-        map.put("startRange",reqGroup.getStartRange());
-        map.put("endRange",reqGroup.getEndRange());
-        map.put("rewardRules",reqGroup.getRewardRules());
-
-        map.put("hallDisplay",reqGroup.getHallDisplay());
-        map.put("joinmode",reqGroup.getJoinmode());
-        Call<RspGroupSave> call=apiService.groupSave(map);
+        if (!TextUtils.isEmpty(reqGroup.getNotice()))
+            map.put("notice",reqGroup.getNotice());
+        if (!TextUtils.isEmpty(reqGroup.getRequirement()))
+            map.put("requirement",reqGroup.getRequirement());
+        map.put("multipleRate",reqGroup.getMultipleRate()+"");
+        map.put("startRange",reqGroup.getStartRange()+"");
+        map.put("endRange",reqGroup.getEndRange()+"");
+        if (!TextUtils.isEmpty(reqGroup.getRewardRules()))
+            map.put("rewardRules",reqGroup.getRewardRules());
+        if (!TextUtils.isEmpty(reqGroup.getHallDisplay()))
+             map.put("hallDisplay",reqGroup.getHallDisplay());
+        if (!TextUtils.isEmpty(reqGroup.getJoinmode()))
+            map.put("joinmode",reqGroup.getJoinmode());
+        if (!TextUtils.isEmpty(updateUser))
+            map.put("updateUserId",updateUser);
+        Call<RspGroupSave> call=null;
+        if (flag==0)
+            call=apiService.groupSave(map);
+        else if(flag==1)
+            call=apiService.groupUpdate(map);
         call.enqueue(new Callback<RspGroupSave>() {
             @Override
             public void onResponse(Call<RspGroupSave> call, Response<RspGroupSave> response) {

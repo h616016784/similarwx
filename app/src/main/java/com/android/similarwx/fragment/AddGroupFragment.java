@@ -23,7 +23,9 @@ import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupRule;
 import com.android.similarwx.beans.Notice;
 import com.android.similarwx.beans.PopMoreBean;
+import com.android.similarwx.beans.RewardRule;
 import com.android.similarwx.beans.request.ReqGroup;
+import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.inteface.AddGroupViewInterface;
 import com.android.similarwx.present.AddGroupPresent;
 import com.android.similarwx.utils.DigestUtil;
@@ -37,6 +39,7 @@ import com.android.similarwx.widget.dialog.RuleDialogFragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
@@ -114,7 +117,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     private List<PopMoreBean> redLowList;
     private List<PopMoreBean> groupInList;
     private AddGroupPresent mPresent;
-    ReqGroup reqGroup;
+    RspGroupInfo.GroupInfo reqGroup;
+    public RspGroupInfo.GroupInfo groupInfo;
+    private int editType=0;//0为增加，1为编辑
+    private List<GroupRule> ruleList;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_add_group;
@@ -125,7 +131,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         super.onInitView(contentView);
         mActionbar.setTitle("创建群组");
         unbinder = ButterKnife.bind(this, contentView);
-        reqGroup=new ReqGroup();
+        reqGroup=new RspGroupInfo.GroupInfo();
         mPresent=new AddGroupPresent(this);
         initGroupList();
 //        groupTypePop=new ListPopWindow(activity,groupTypeList);
@@ -146,7 +152,16 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
             }
         };
         createGroupRuleRv.setAdapter(adapter);
-
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            groupInfo= (RspGroupInfo.GroupInfo) bundle.getSerializable(AppConstants.TRANSFER_GROUP_INFO);
+            if (groupInfo!=null){
+                editType=1;
+                mActionbar.setTitle("编辑群组");
+                createGroupNewBt.setText("编辑群组");
+                initOriView(groupInfo);//初始化原群组信息
+            }
+        }
         RxView.clicks(createGroupNewBt).throttleFirst(1, TimeUnit.SECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Object>() {
@@ -183,20 +198,28 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                             Toaster.toastShort("最高值不能为空！");
                             return;
                         }
-                        String id=SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"无");
+                        String id=SharePreferenceUtil.getString(activity, AppConstants.USER_ID,"无");
                         reqGroup.setGroupName(groupName);
                         reqGroup.setCreateId(id);
                         reqGroup.setNotice(notice);
                         reqGroup.setRequirement(must);
-                        reqGroup.setMultipleRate(leilv);
-                        reqGroup.setStartRange(low);
-                        reqGroup.setEndRange(high);
+                        if (!TextUtils.isEmpty(leilv))
+                            reqGroup.setMultipleRate(Double.parseDouble(leilv));
+                        if (!TextUtils.isEmpty(low))
+                            reqGroup.setStartRange(Integer.parseInt(low));
+                        if (!TextUtils.isEmpty(high))
+                            reqGroup.setEndRange(Integer.parseInt(high));
 
                         List<GroupRule> list=adapter.getData();
                         Gson gson=new Gson();
                         String rules=gson.toJson(list);
                         reqGroup.setRewardRules(rules);
-                        mPresent.addGroup(reqGroup);
+                        if (editType==0)
+                            mPresent.addGroup(reqGroup);
+                        else{
+                            String userId=SharePreferenceUtil.getString(activity, AppConstants.USER_ID,"无");
+                            mPresent.updateGroup(reqGroup,userId);
+                        }
                     }
 
                     @Override
@@ -209,17 +232,65 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                         Log.e("onComplete","点击了！");
                     }
                 });
-        hideKeyboard();
+    }
+
+    private void initOriView(RspGroupInfo.GroupInfo groupInfo) {
+        reqGroup=groupInfo;
+        createGroupNameEt.setText(groupInfo.getGroupName());
+        createGroupNoticeEt.setText(groupInfo.getNotice());
+        createGroupMustEt.setText(groupInfo.getRequirement());
+        if (TextUtils.isEmpty(groupInfo.getThunderNumber())){
+            createGroupLeiEt.setText("");
+        }else {
+            createGroupLeiEt.setText(groupInfo.getThunderNumber()+"");
+        }
+        createGroupRangeLowEt.setText(groupInfo.getStartRange()+"");
+        createGroupRangeHighEt.setText(groupInfo.getEndRange()+"");
+
+        String hall=groupInfo.getHallDisplay();
+        if (!TextUtils.isEmpty(hall)){
+            if (hall.equals("0")){
+                createGroupHomeTv.setText("否");
+            }else {
+                createGroupHomeTv.setText("是");
+            }
+        }
+        String groupType=groupInfo.getGroupType();
+        if (!TextUtils.isEmpty(groupType)){
+            if (groupType.equals("1")){
+                createGroupSetTv.setText("游戏群");
+            }else {
+                createGroupSetTv.setText("普通群");
+            }
+        }
+        String joinMode=groupInfo.getJoinmode();
+        if (!TextUtils.isEmpty(joinMode)){
+            if (joinMode.equals("0")){
+                createGroupInSetTv.setText("允许任何人");
+            }else if (joinMode.equals("1")){
+                createGroupInSetTv.setText("需要验证");
+            }else {
+                createGroupInSetTv.setText("拒绝任何人");
+            }
+        }
+        String rules=groupInfo.getRewardRules();
+        if (!TextUtils.isEmpty(rules)){
+            Gson gson=new Gson();
+            ruleList=gson.fromJson(rules,new TypeToken<List<GroupRule>>() {
+            }.getType());
+            if (ruleList!=null)
+                adapter.addData(ruleList);
+        }
     }
 
     private void initGroupList() {
         groupTypeList=new ArrayList<>();
         PopMoreBean bean=new PopMoreBean();
         bean.setId("1");
-        bean.setName("普通群");
+        bean.setName("游戏群");
         PopMoreBean bean2=new PopMoreBean();
         bean2.setId("2");
-        bean2.setName("游戏群");
+        bean2.setName("普通群");
         groupTypeList.add(bean);
         groupTypeList.add(bean2);
         groupRuleList=new ArrayList<>();
@@ -287,9 +358,9 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                         PopMoreBean bean=groupTypeList.get(position);
                         createGroupSetTv.setText(bean.getName());
                         if (bean.getId().equals("1"))
-                            creatGroupLeiLl.setVisibility(View.GONE);
-                        else if (bean.getId().equals("2"))
                             creatGroupLeiLl.setVisibility(View.VISIBLE);
+                        else if (bean.getId().equals("2"))
+                            creatGroupLeiLl.setVisibility(View.GONE);
                         reqGroup.setGroupType(bean.getId());
                     }
                 });
@@ -450,7 +521,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 
     @Override
     public void refreshAddGroup() {
-        Toaster.toastShort("创建群组成功！");
+        if (editType==0)
+            Toaster.toastShort("创建群组成功！");
+        else
+            Toaster.toastShort("编辑群组成功！");
         activity.finish();
     }
 

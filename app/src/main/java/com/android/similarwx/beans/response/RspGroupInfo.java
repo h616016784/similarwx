@@ -18,7 +18,7 @@ public class RspGroupInfo extends BaseResponse{
 
     private GroupInfo data;
 
-    public class GroupInfo extends BaseBean{
+    public static class GroupInfo extends BaseBean{
         /**
          * createTime : null
          * groupName : 测试群001

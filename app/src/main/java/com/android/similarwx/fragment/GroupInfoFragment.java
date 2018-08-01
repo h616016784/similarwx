@@ -17,6 +17,7 @@ import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.beans.GroupRule;
 import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.RewardRule;
 import com.android.similarwx.beans.User;
@@ -77,7 +78,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     private List<GroupUser.ListBean> groupList;
 
     private BaseQuickAdapter ruleAdapter;
-    private List<RewardRule> ruleList;
+    private List<GroupRule> ruleList;
     private boolean isHost=false;
     private GroupInfoPresent groupInfoPresent;
 
@@ -102,9 +103,9 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
         groupInfoPresent=new GroupInfoPresent(this);
 
         groupInfoRuleRv.setLayoutManager(new LinearLayoutManager(activity));
-        ruleAdapter = new BaseQuickAdapter<RewardRule, BaseViewHolder>(R.layout.item_group_info_rule, ruleList) {
+        ruleAdapter = new BaseQuickAdapter<GroupRule, BaseViewHolder>(R.layout.item_group_info_rule, ruleList) {
             @Override
-            protected void convert(BaseViewHolder helper, RewardRule item) {
+            protected void convert(BaseViewHolder helper, GroupRule item) {
                 helper.setText(R.id.item_group_rule_name_tv, item.getRewardName());
                 helper.setText(R.id.item_group_rule_num1_tv, item.getRewardValue());
                 helper.setText(R.id.item_group_rule_num2_tv, item.getAmountReward());
@@ -145,6 +146,23 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
 
     private void initDataAndView() {
         if (listBean!=null){
+            String groupUserRule= listBean.getGroupUserRule();
+            if (!TextUtils.isEmpty(groupUserRule)){
+                if (groupUserRule.equals("2") || groupUserRule.equals("3")){//群组或者管理员
+                    mActionbar.setRightText("编辑");
+                    mActionbar.setRightOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle bundle=new Bundle();
+                            bundle.putSerializable(AppConstants.TRANSFER_GROUP_INFO,listBean);
+                            FragmentUtils.navigateToNormalActivity(activity, new AddGroupFragment(), bundle);
+                        }
+                    });
+                }else {
+                    mActionbar.setRightText("");
+                }
+            }
+
             groupInfoCodeIv.setText(listBean.getGroupId());
             groupInfoMemberNumTv.setText(""+listBean.getPx());
             groupInfoNameTv.setText(listBean.getGroupName());
@@ -162,7 +180,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             }
             String rules=listBean.getRewardRules();
             Gson gson=new Gson();
-            ruleList=gson.fromJson(rules,new TypeToken<List<RewardRule>>() {
+            ruleList=gson.fromJson(rules,new TypeToken<List<GroupRule>>() {
             }.getType());
             if (ruleList!=null)
                 ruleAdapter.addData(ruleList);
@@ -178,7 +196,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     @Override
     public void onResume() {
         super.onResume();
-        present.getGroupByIdOrGroupId(mUser.getId(),accountId);
+        present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
     }
 
     @Override

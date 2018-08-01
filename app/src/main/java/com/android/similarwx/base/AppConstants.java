@@ -56,6 +56,7 @@ public class AppConstants extends BaseConstants {
     public static final String TRANSFER_CHAT_TRANS= "tran";
     public static final String TRANSFER_ISHOST= "isHost";
     public static final String TRANSFER_GROUP_USER_ROLE= "groupUserRole";
+    public static final String TRANSFER_GROUP_INFO= "groupInfo";
     public static final String TRANSFER_PASSWORD_TYPE= "passwordType";
     public static final String TRANSFER_VERCODE= "vercode";
     public static final String TRANSFER_BILL_BEAN= "billBean";
