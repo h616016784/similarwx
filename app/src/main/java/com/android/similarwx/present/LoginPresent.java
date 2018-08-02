@@ -208,11 +208,14 @@ public class LoginPresent extends BasePresent {
     public void analyzeRes(RspUser rspUser) {
         String result=rspUser.getResult();
         if (result.equals("success")){
-            User user=rspUser.getData();
-            if (user!=null)
-                saveUser(user);
-            else
-                Toaster.toastShort("数据解析异常");
+            if (rspUser.getErrorCode().equals("0000")){
+                User user=rspUser.getData();
+                if (user!=null)
+                    saveUser(user);
+                else
+                    Toaster.toastShort("数据解析异常");
+            }else
+                Toaster.toastShort(rspUser.getErrorMsg());
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
         }

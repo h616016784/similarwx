@@ -18,6 +18,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
 
 /**
  * Created by Administrator on 2018/6/19.
@@ -54,6 +55,38 @@ public class QRCodeUtil {
         }
     }
 
+    //生成二维码图片（不带图片）
+    public static Bitmap createQRCodeN(String url, int widthAndHeight) {
+        try {
+            Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
+            hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+            BitMatrix matrix = new MultiFormatWriter().encode(url,
+                    BarcodeFormat.QR_CODE, widthAndHeight, widthAndHeight);
+
+            int width = matrix.getWidth();
+            int height = matrix.getHeight();
+            int[] pixels = new int[width * height];
+            //画黑点
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if (matrix.get(x, y)) {
+                        pixels[y * width + x] = BLACK;
+                    }else{
+                        pixels[y * width + x] = WHITE;//其中WHILTE是我自己定义的一个静态变量，值为0xffffffff（即白色）
+
+//和BLACK（0xff000000黑色）一样。这样就可以使得图片黑白分明了。
+                    }
+                }
+            }
+            Bitmap bitmap = Bitmap.createBitmap(width, height,
+                    Bitmap.Config.ARGB_8888);
+            bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+            return bitmap;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     /*带图片的二维码*/
     public static Bitmap createQRImage(String content, int heightPix, Bitmap logoBm) {
         try {
