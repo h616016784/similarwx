@@ -29,7 +29,10 @@ public class AddGroupPresent {
         if (rspGroupSave!=null){
             String result=rspGroupSave.getResult();
             if (result.equals("success")){
-                mView.refreshAddGroup();
+                if (rspGroupSave.getErrorCode().equals("0000"))
+                    mView.refreshAddGroup();
+                else
+                    Toaster.toastShort(rspGroupSave.getErrorMsg());
             }else {
                 Toaster.toastShort(rspGroupSave.getErrorMsg());
             }

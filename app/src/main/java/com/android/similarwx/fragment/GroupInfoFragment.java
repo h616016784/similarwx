@@ -167,7 +167,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             groupInfoMemberNumTv.setText(""+listBean.getPx());
             groupInfoNameTv.setText(listBean.getGroupName());
             groupInfoNoticeTv.setText(listBean.getNotice());
-            groupInfoKnowTv.setText(listBean.getDescription());
+            groupInfoKnowTv.setText(listBean.getRequirement());
 
             String id= SharePreferenceUtil.getString(activity,AppConstants.USER_ACCID,"无");
             String hostId=listBean.getCreateId();

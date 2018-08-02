@@ -219,7 +219,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                         if (editType==0)
                             mPresent.addGroup(reqGroup);
                         else{
-                            String userId=SharePreferenceUtil.getString(activity, AppConstants.USER_ID,"无");
+                            String userId=SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"无");
                             mPresent.updateGroup(reqGroup,userId);
                         }
                     }
