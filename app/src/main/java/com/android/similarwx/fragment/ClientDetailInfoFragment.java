@@ -101,7 +101,16 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                     clientDetailIdRl.setVisibility(View.VISIBLE);
                     clientDetailSetRl.setVisibility(View.VISIBLE);
                     clientDetailQuitBt.setVisibility(View.VISIBLE);
-                    clientDetailIdTv.setText("管理员");
+                    if (rule.equals("2")){
+                        clientDetailIdTv.setText("管理员");
+                    }else if (rule.equals("3")){
+                        clientDetailIdTv.setText("群主");
+                    }else if (rule.equals("4")){
+                        clientDetailIdTv.setText("系统用户");
+                    }else if (rule.equals("1")){
+                        clientDetailIdTv.setText("普通用户");
+                    }
+
                 }
             }
         }

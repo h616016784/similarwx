@@ -16,17 +16,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.Notice;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.present.SysNoticePresent;
+import com.android.similarwx.utils.BitmapUtil;
+import com.android.similarwx.utils.FileUtils;
 import com.android.similarwx.utils.WXUtil;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -102,6 +106,16 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
                 }
                 break;
             case R.id.my_money_save_phone_rl://保存手机
+
+                Drawable drawablePhone=myMoneyIv.getDrawable();
+                if (drawablePhone!=null){
+                    Bitmap bitmap = BitmapUtil.getBitmap(drawablePhone);
+                    File file = FileUtils.createFileInSD("moneyPic");
+                    if (file!=null){
+                        BitmapUtil.saveBitmap(bitmap,file);
+                        Toaster.toastShort("保存图片成功");
+                    }
+                }
                 break;
             case R.id.my_money_share_circle_rl://分享朋友圈
                 Drawable drawable1=myMoneyIv.getDrawable();
