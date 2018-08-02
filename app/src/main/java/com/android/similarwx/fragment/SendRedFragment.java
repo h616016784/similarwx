@@ -67,6 +67,8 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
     TextView sendRedLeiTv;
     @BindView(R.id.send_red_lei_rl)
     RelativeLayout sendRedLeiRl;
+    @BindView(R.id.send_red_count_rl)
+    RelativeLayout sendRedCountRl;
     @BindView(R.id.send_red_sum_money)
     TextView sumMoneyTv;
     Unbinder unbinder;
@@ -91,6 +93,17 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
         present=new SendRedPresent(this);
         present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
         sendRedSumEt.addTextChangedListener(textWatcher);
+
+        if (TextUtils.isEmpty(type)){//普通
+
+        }else {
+            if (type.equals("MINE")){//游戏群
+
+
+            }else {//普通
+
+            }
+        }
     }
 
     @Override
@@ -141,7 +154,6 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
                             bean.setTitle("手气红包游戏");
                         }
                     }
-
 
                     bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
                     bean.setAmount(money);
@@ -227,9 +239,11 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
             String groupType = groupInfo.getGroupType();
             if (TextUtils.isEmpty(groupType)){
                 type="MINE";
+                sendRedCountRl.setVisibility(View.GONE);
             }else {
                 if (groupType.equals("1")){//游戏群
                     type="MINE";
+                    sendRedCountRl.setVisibility(View.GONE);
                 }else if(groupType.equals("2")){//交友群也就是普通群
                     type="LUCK";
                     sendRedLeiRl.setVisibility(View.GONE);

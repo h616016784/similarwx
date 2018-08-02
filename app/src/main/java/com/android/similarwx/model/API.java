@@ -985,6 +985,7 @@ public class API implements APIConstants {
              map.put("hallDisplay",reqGroup.getHallDisplay());
         if (!TextUtils.isEmpty(reqGroup.getJoinmode()))
             map.put("joinmode",reqGroup.getJoinmode());
+        map.put("grabBagNumber",reqGroup.getGrabBagNumber()+"");
         if (!TextUtils.isEmpty(updateUser))
             map.put("updateUserId",updateUser);
         Call<RspGroupSave> call=null;

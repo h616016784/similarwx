@@ -17,7 +17,11 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.inteface.SearchViewInterface;
+import com.android.similarwx.inteface.YCallBack;
+import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.SearchPresent;
+import com.netease.nimlib.sdk.team.model.Team;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.List;
 
@@ -84,9 +88,24 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface 
             return;
         }
         if (tag==1){
-            present.searchUser(content);
-        }else if (tag==2){
+//            present.searchUser(content);
+            APIYUNXIN.searchTeam(content, new YCallBack<Team>() {
+                @Override
+                public void callBack(Team team) {
+                    if (team!=null){
 
+                    }
+                }
+            });
+        }else if (tag==2){
+            APIYUNXIN.searchUser(content, new YCallBack<List<NimUserInfo>>() {
+                @Override
+                public void callBack(List<NimUserInfo> nimUserInfos) {
+                    if (nimUserInfos!=null){
+
+                    }
+                }
+            });
         }
 
     }

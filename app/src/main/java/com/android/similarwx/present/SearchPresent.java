@@ -15,8 +15,8 @@ public class SearchPresent extends BasePresent {
     public SearchPresent(SearchViewInterface view){
         this.view=view;
     }
-    public void searchUser(String username){
-        API.getInstance().getSearchUser("",username,this);
+    public void searchUser(String groupId,String username){
+        API.getInstance().getSearchUser(groupId,username,this);
     }
     public void searchTeam(){
 

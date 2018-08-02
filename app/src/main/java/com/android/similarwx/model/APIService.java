@@ -85,8 +85,10 @@ public interface APIService {
     @POST("group/doGroupApply")
     Call<RspGroupApply> doGroupAppley(@QueryMap Map<String,String> map);
 
+    @FormUrlEncoded
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     @POST("group/getGroupUserList")
-    Call<RspGroupUser> getGroupUserList(@QueryMap Map<String,String> map);
+    Call<RspGroupUser> getGroupUserList(@FieldMap Map<String,String> map);
 
     @POST("group/getGroupByGroupId")
     Call<RspGroupInfo> getGroupByGroupId(@QueryMap Map<String,String> map);

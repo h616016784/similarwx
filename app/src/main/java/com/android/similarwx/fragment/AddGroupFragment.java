@@ -177,6 +177,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                         String leilv=createGroupLeiEt.getText().toString();
                         String low=createGroupRangeLowEt.getText().toString();
                         String high=createGroupRangeHighEt.getText().toString();
+                        String redNum=createGroupNumEt.getText().toString();
 
                         if (TextUtils.isEmpty(groupName)){
                             Toaster.toastShort("群名称不能为空！");
@@ -198,11 +199,12 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                             Toaster.toastShort("最高值不能为空！");
                             return;
                         }
-                        String id=SharePreferenceUtil.getString(activity, AppConstants.USER_ID,"无");
+                        String id=SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"无");
                         reqGroup.setGroupName(groupName);
                         reqGroup.setCreateId(id);
                         reqGroup.setNotice(notice);
                         reqGroup.setRequirement(must);
+                        reqGroup.setGrabBagNumber(Integer.parseInt(redNum));
                         if (!TextUtils.isEmpty(leilv))
                             reqGroup.setMultipleRate(Double.parseDouble(leilv));
                         if (!TextUtils.isEmpty(low))
@@ -246,7 +248,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         }
         createGroupRangeLowEt.setText(groupInfo.getStartRange()+"");
         createGroupRangeHighEt.setText(groupInfo.getEndRange()+"");
-
+        createGroupNumEt.setText(groupInfo.getGrabBagNumber()+"");
         String hall=groupInfo.getHallDisplay();
         if (!TextUtils.isEmpty(hall)){
             if (hall.equals("0")){

@@ -10,7 +10,10 @@ import com.netease.nimlib.sdk.msg.model.SystemMessage;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -251,5 +254,54 @@ public class APIYUNXIN {
     public static void setSystemMessageStatus(long messageId,SystemMessageStatus status){
         NIMClient.getService(SystemMessageService.class)
                 .setSystemMessageStatus(messageId, status);
+    }
+
+    /**
+     * 查询指点id的群组
+     * @param teamId
+     * @param callBack
+     */
+    public static void searchTeam(String teamId,YCallBack<Team> callBack){
+        NIMClient.getService(TeamService.class).queryTeam(teamId).setCallback(new RequestCallback<Team>() {
+            @Override
+            public void onSuccess(Team team) {
+                // 查询成功
+                if (callBack!=null)
+                    callBack.callBack(team);
+            }
+
+            @Override
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
+    }
+    public static void searchUser(String account,YCallBack<List<NimUserInfo>> callBack){
+        List<String> accounts=new ArrayList<>();
+        accounts.add(account);
+        NIMClient.getService(UserService.class).fetchUserInfo(accounts)
+                .setCallback(new RequestCallback<List<NimUserInfo>>() {
+                    @Override
+                    public void onSuccess(List<NimUserInfo> nimUserInfos) {
+                        // 查询成功
+                        if (callBack!=null)
+                            callBack.callBack(nimUserInfos);
+                    }
+
+                    @Override
+                    public void onFailed(int i) {
+
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+
+                    }
+                });
     }
 }
