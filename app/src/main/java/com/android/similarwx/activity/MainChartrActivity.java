@@ -407,16 +407,16 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         GroupMessageBean.ListBean bean1 = new GroupMessageBean.ListBean();
         bean1.setGroupName(AppContext.getString(R.string.main_online_answer));
         mListData.add(bean1);
-//        if (data!=null){
-//            for (GroupMessageBean.ListBean listBean:data){
-//                String hallDisplay=listBean.getHallDisplay();
-//                if (!TextUtils.isEmpty(hallDisplay)){
-//                    if (listBean.getHallDisplay().equals("1"))//正式的要加上这个过滤
-//                        mListData.add(listBean);
-//                }
-//            }
-//        }
-        mListData.addAll(data);//正式要去掉这个
+        if (data!=null){
+            for (GroupMessageBean.ListBean listBean:data){
+                String hallDisplay=listBean.getHallDisplay();
+                if (!TextUtils.isEmpty(hallDisplay)){
+                    if (listBean.getHallDisplay().equals("1"))//正式的要加上这个过滤
+                        mListData.add(listBean);
+                }
+            }
+        }
+//        mListData.addAll(data);//正式要去掉这个
         adapter.addData(mListData);
     }
 
