@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.text.TextUtils;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.Toaster;
@@ -26,6 +28,7 @@ import java.util.Map;
  */
 
 public class LoginPresent extends BasePresent {
+    private String password;
     private LoginViewInterface loginViewInterface;
     public LoginPresent(LoginViewInterface loginViewInterface){
         this.loginViewInterface=loginViewInterface;
@@ -38,6 +41,7 @@ public class LoginPresent extends BasePresent {
      * @param code
      */
     public void login(String name, String password,String weixin,String mobile,String code) {
+        this.password=password;
         if(isEmpty(name,password,weixin,mobile)){
             return;
         }
@@ -85,8 +89,8 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
         if (user.getPaymentPasswd()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,user.getPaymentPasswd());
-        if (user.getPasswd()!=null)
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,user.getPasswd());
+        if (!TextUtils.isEmpty(password))
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);
         //云信登录
 
         String accid=user.getAccId();
@@ -252,5 +256,6 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,"");
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,"");
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_WX_UNIONID,"");
     }
 }

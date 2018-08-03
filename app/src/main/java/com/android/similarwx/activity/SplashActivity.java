@@ -8,25 +8,29 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.LoginViewInterface;
+import com.android.similarwx.inteface.WxViewInterface;
 import com.android.similarwx.present.LoginPresent;
+import com.android.similarwx.present.WxPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SplashActivity extends BaseActivity implements LoginViewInterface {
+public class SplashActivity extends BaseActivity implements LoginViewInterface, WxViewInterface {
 
     @BindView(R.id.splash_iv)
     ImageView splashIv;
 
     Animator animator;
     private LoginPresent present;
+    private WxPresent presentWx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         present=new LoginPresent(this);
+        presentWx=new WxPresent(this);
         animator  = AnimatorInflater.loadAnimator(SplashActivity.this, R.animator.alpha_splash);
         animator.setTarget(splashIv);
         mHandler.postDelayed(new Runnable() {
@@ -54,19 +59,26 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface {
                 String accid;
                 String token;
                 String password;
-//                try {
-//                    accid=(String) SharePreferenceUtil.getObject(SplashActivity.this, AppConstants.USER_ACCID,"无");
-//                    token=(String) SharePreferenceUtil.getObject(SplashActivity.this,AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
-//                    password=(String) SharePreferenceUtil.getObject(SplashActivity.this,AppConstants.USER_LOGIN_PASSWORD,"a170417844a19c6bfebb4ab1a137fc31");
-//                    if (!TextUtils.isEmpty(accid)&&!TextUtils.isEmpty(token)){
-//                        present.login(accid,password,"","","");
-//                    }else {
+                String unionId;
+                try {
+                    unionId=SharePreferenceUtil.getString(SplashActivity.this, AppConstants.USER_WX_UNIONID,"");
+                    if (TextUtils.isEmpty(unionId)){
+                        accid= SharePreferenceUtil.getString(SplashActivity.this, AppConstants.USER_ACCID,"");
+                        token=SharePreferenceUtil.getString(SplashActivity.this,AppConstants.USER_TOKEN,"");
+                        password= SharePreferenceUtil.getString(SplashActivity.this,AppConstants.USER_LOGIN_PASSWORD,"");
+                        if (!TextUtils.isEmpty(accid)&&!TextUtils.isEmpty(password)){
+                            present.login(accid,password,"","","");
+                        }else {
+                            startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                            finish();
+                        }
+                    }else {
+                        doServiceLogin(unionId);
+                    }
+
+                }catch (Exception e){
+                }
 //                        startActivity(new Intent(SplashActivity.this,LoginActivity.class));
-//                        finish();
-//                    }
-//                }catch (Exception e){
-//                }
-                startActivity(new Intent(SplashActivity.this,LoginActivity.class));
                 finish();
             }
 
@@ -80,6 +92,45 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface {
 
             }
         });
+    }
+    /**
+     * 根据微信的id来进行登录操作
+     * @param unionId
+     */
+    private void doServiceLogin(String unionId) {
+        presentWx.WxLogin(unionId);
+    }
+
+    /**
+     * 保存用户信息
+     * @param user
+     */
+    public void saveUser(User user){
+        if (user!=null){
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
+        }
+        if (user.getAccId()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccId());
+        if (user.getToken()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,user.getToken());
+        else
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
+        if (user.getName()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_NICK,user.getName());
+        if (user.getEmail()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_EMAIL,user.getEmail());
+        if (user.getMobile()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PHONE,user.getMobile());
+        if (user.getWechatAccount()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_WEIXIN,user.getWechatAccount());
+        if (user.getGender()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_SEX,user.getGender());
+        if (user.getId()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
+        if (user.getPaymentPasswd()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,user.getPaymentPasswd());
+        if (user.getPasswd()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,user.getPasswd());
     }
 
     @Override
@@ -108,6 +159,19 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface {
 
     @Override
     public void refreshTotalBalance(User user) {
+
+    }
+
+    @Override
+    public void refreshWxLogin(User user) {
+        if (user!=null){
+            saveUser(user);
+            MainChartrActivity.start(this);
+        }
+    }
+
+    @Override
+    public void refreshWxUpdate(User user) {
 
     }
 }

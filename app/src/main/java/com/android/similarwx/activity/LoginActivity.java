@@ -103,7 +103,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                         String mobile = loginMobileEt.getText().toString();
                         String password = loginPassword.getText().toString();
                         String weixin = loginWeixinEt.getText().toString();
-                        loginPresent.login(name, password, weixin,mobile,null);
+                        loginPresent.login(mobile, password, weixin,"",null);
                     }
 
                     @Override

@@ -77,6 +77,7 @@ public class AppConstants extends BaseConstants {
     /**
      * 用户基本信息
      */
+    public static final String USER_WX_UNIONID = "unionId";
     public static final String USER_OBJECT = "userObj";
     public static final String USER_ACCID = "accId";
     public static final String USER_TOKEN = "token";

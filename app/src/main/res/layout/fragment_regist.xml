@@ -16,6 +16,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:layout_marginTop="@dimen/distance_bigger"
+                android:visibility="gone"
                 android:padding="@dimen/distance_normal">
                 <TextView
                     android:id="@+id/login_account"
@@ -104,6 +105,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_bigger"
                 android:background="@color/white"
                 android:padding="@dimen/distance_normal">
                 <TextView

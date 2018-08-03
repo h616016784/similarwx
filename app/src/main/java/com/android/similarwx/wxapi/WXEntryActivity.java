@@ -36,6 +36,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
     private WxPresent present;
     private UserInfoWX userInfoWXTemp;
 
+    private String unionId;
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -107,6 +108,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
      * @param unionId
      */
     private void doServiceLogin(String unionId) {
+        this.unionId=unionId;
         present.WxLogin(unionId);
     }
 
@@ -117,6 +119,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
     public void saveUser(User user){
         if (user!=null){
             SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
+            if (!TextUtils.isEmpty(unionId))
+                SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_WX_UNIONID,unionId);
         }
         if (user.getAccId()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccId());

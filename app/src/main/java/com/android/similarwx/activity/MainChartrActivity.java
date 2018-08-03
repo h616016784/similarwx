@@ -124,6 +124,12 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             if (TextUtils.isEmpty(inviter)){
                 BaseDialog dialog=new EditDialogBuilder(this)
                         .setMessage("请输入邀请码")
+                        .setCancelButton(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                finish();
+                            }
+                        })
                         .setConfirmButton(new EditDialogBuilder.ButtonClicker() {
                             @Override
                             public void onButtonClick(String str) {

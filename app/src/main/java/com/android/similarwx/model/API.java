@@ -109,16 +109,19 @@ public class API implements APIConstants {
     public void register(String account, String weixinAccount, String email, String name, String password, String nick,
                          String birth,String gender,String alipay,String personalitySignature,String verifyCode,final RegisterPresent present){
         Map<String,String> map=new HashMap<>();
-        if (!TextUtils.isEmpty(account))
-            map.put("accId",account);
+//        if (!TextUtils.isEmpty(account))
+//            map.put("accId",account);
         if (!TextUtils.isEmpty(password))
             map.put("passwdStr",password);
         if (!TextUtils.isEmpty(nick))
             map.put("name",nick);
         if (!TextUtils.isEmpty(email))
             map.put("email",email);
-        if (!TextUtils.isEmpty(name))
+        if (!TextUtils.isEmpty(name)){
+            map.put("accId",name);
             map.put("mobile",name);
+        }
+
         if (!TextUtils.isEmpty(weixinAccount))
             map.put("wechatAccount",weixinAccount);
         if (!TextUtils.isEmpty(birth))

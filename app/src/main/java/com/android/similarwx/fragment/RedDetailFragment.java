@@ -23,6 +23,7 @@ import com.android.similarwx.inteface.RedDetailViewInterface;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.glide.CircleCrop;
+import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -101,11 +102,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
                                     String imageUrl=userInfo.getAvatar();
                                     redDetailName.setText(userInfo.getName());
                                     if (!TextUtils.isEmpty(imageUrl)){
-                                        Glide.with(getActivity()).load(imageUrl)
-//                                                .override(120,120).transform(new CircleCrop(getActivity()))
-//                                                .placeholder(R.drawable.rp_avatar)
-//                                                .error(R.drawable.rp_avatar)
-                                                .into(redDetailHeadIv);
+                                        NetImageUtil.glideImageCircle(getActivity(),imageUrl,redDetailHeadIv);
                                     }
                                 }
                             }
