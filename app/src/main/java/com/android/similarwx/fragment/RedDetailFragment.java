@@ -53,6 +53,8 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     TextView redDetailCount;
     @BindView(R.id.red_detail_acount_tv)
     TextView redDetailAcountTv;
+    @BindView(R.id.red_detail_take_tv)
+    TextView redDetailTakeTv;
     @BindView(R.id.red_detail_head_iv)
     ImageView redDetailHeadIv;
     @BindView(R.id.red_detail_rv)
@@ -167,5 +169,6 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             }
         }
         redDetailAdapter.addData(list);
+        redDetailTakeTv.setText(list.size()+"/"+sendRed.getCount());
     }
 }

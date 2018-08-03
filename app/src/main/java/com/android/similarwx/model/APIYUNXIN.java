@@ -199,6 +199,29 @@ public class APIYUNXIN {
             }
         });
     }
+    public static void removeManagers(String teamId,List<String> accountList,YCallBack<List<TeamMember>> callBack){
+        // teamId 操作的群id， accountList为待提升为管理员的用户帐号列表
+        NIMClient.getService(TeamService.class).removeManagers(teamId, accountList).setCallback(new RequestCallback<List<TeamMember>>() {
+            @Override
+            public void onSuccess(List<TeamMember> managers) {
+                // 添加群管理员成功
+                if (callBack!=null)
+                    callBack.callBack(managers);
+            }
+
+            @Override
+            public void onFailed(int code) {
+                // 添加群管理员失败
+                Toaster.toastShort(code+"");
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                // 错误
+                Toaster.toastShort(exception.toString());
+            }
+        });
+    }
 
     /**
      * 禁言

@@ -50,7 +50,29 @@
             />
 
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/distance_small"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已领取"/>
+        <TextView
+            android:id="@+id/red_detail_take_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_smallest"
+            android:layout_marginRight="@dimen/distance_smallest"
+            android:text="0/0"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个"/>
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="@dimen/distance_smaller"
         android:id="@+id/red_detail_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"

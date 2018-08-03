@@ -35,6 +35,7 @@ import com.android.similarwx.widget.ListPopWindow;
 import com.android.similarwx.widget.dialog.BottomBaseDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
+import com.android.similarwx.widget.dialog.GroupTypeDialogFragment;
 import com.android.similarwx.widget.dialog.RuleDialogFragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -351,22 +352,47 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.create_group_set_rl:
-                BottomBaseDialog dialog=new BottomBaseDialog(activity);
-                dialog.setTitle("群类型设置");
-                dialog.setList(groupTypeList);
-                dialog.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+                GroupTypeDialogFragment.show(activity, new GroupTypeDialogFragment.OnGroupTypeListener() {
                     @Override
-                    public void onItemClick(int position) {
-                        PopMoreBean bean=groupTypeList.get(position);
-                        createGroupSetTv.setText(bean.getName());
-                        if (bean.getId().equals("1"))
-                            creatGroupLeiLl.setVisibility(View.VISIBLE);
-                        else if (bean.getId().equals("2"))
-                            creatGroupLeiLl.setVisibility(View.GONE);
-                        reqGroup.setGroupType(bean.getId());
+                    public void onGroupTypeClick(String groupType, String gameType) {
+                        if (!TextUtils.isEmpty(groupType)){
+                            if (groupType.equals("1")){
+                                createGroupSetTv.setText("游戏群");
+                                creatGroupLeiLl.setVisibility(View.VISIBLE);
+                                if (!TextUtils.isEmpty(gameType)){
+                                    if (gameType.equals("1")){
+
+                                    }else  if (gameType.equals("2")){
+                                        reqGroup.setGameType(gameType);
+                                    }else  if (gameType.equals("3")){
+
+                                    }
+                                }
+                            }else  if (groupType.equals("2")){
+                                createGroupSetTv.setText("普通交友群");
+                                creatGroupLeiLl.setVisibility(View.GONE);
+                            }
+                            reqGroup.setGroupType(groupType);
+                        }
                     }
                 });
-                dialog.show();
+
+//                BottomBaseDialog dialog=new BottomBaseDialog(activity);
+//                dialog.setTitle("群类型设置");
+//                dialog.setList(groupTypeList);
+//                dialog.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(int position) {
+//                        PopMoreBean bean=groupTypeList.get(position);
+//                        createGroupSetTv.setText(bean.getName());
+//                        if (bean.getId().equals("1"))
+//                            creatGroupLeiLl.setVisibility(View.VISIBLE);
+//                        else if (bean.getId().equals("2"))
+//                            creatGroupLeiLl.setVisibility(View.GONE);
+//                        reqGroup.setGroupType(bean.getId());
+//                    }
+//                });
+//                dialog.show();
                 break;
             case R.id.create_group_lei_ll://雷
                 EditDialogSimple simpleLei=new EditDialogSimple(activity,"中雷赔率");

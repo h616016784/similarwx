@@ -30,7 +30,7 @@
             android:layout_marginLeft="48dp"
             android:layout_marginTop="34dp"
             android:gravity="center|left"
-            android:text="@string/check_rp"
+            android:text="@string/open_rp"
             android:textColor="@color/white"
             android:textSize="11sp"/>
 

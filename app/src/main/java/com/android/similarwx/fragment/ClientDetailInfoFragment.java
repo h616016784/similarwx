@@ -25,6 +25,7 @@ import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.ClientDetailInfoPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.glide.CircleCrop;
+import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.dialog.BottomBaseDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
@@ -71,6 +72,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     private List<PopMoreBean> list;
 
     ClientDetailInfoPresent mPresent;
+    String rule;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_client_detail_info;
@@ -91,12 +93,12 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                 clientDetailAccountTv.setText(bean.getUserId());
             }
             String groupUserType = bundle.getString(AppConstants.TRANSFER_GROUP_USER_ROLE);
-            String rule=bean.getGroupUserRule();
+            rule=bean.getGroupUserRule();
             if (TextUtils.isEmpty(groupUserType)){
                 clientDetailIdTv.setText("普通用户");
             }else {
                 if(groupUserType.equals("1")){
-                    clientDetailIdTv.setText("普通用户");
+//                    clientDetailIdTv.setText("普通用户");
                 }else{
                     clientDetailIdRl.setVisibility(View.VISIBLE);
                     clientDetailSetRl.setVisibility(View.VISIBLE);
@@ -119,11 +121,6 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
 
     private void initData() {
         list=new ArrayList<>();
-        PopMoreBean beanPop=new PopMoreBean();
-        beanPop.setId("1");
-        beanPop.setName("设为管理员");
-        list.add(beanPop);
-
         //获取用户信息
         mPresent.getUserInfoByParams("",bean.getUserId());
     }
@@ -148,25 +145,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.client_detail_id_rl:
-                BottomBaseDialog dialog=new BottomBaseDialog(activity);
-                dialog.setTitle("管理员操作");
-                dialog.setList(list);
-                dialog.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-//                        PopMoreBean bean= list.get(position);
-                        List<String> myList=new ArrayList<>();
-                        myList.add(bean.getUserId());
-                        APIYUNXIN.addManagers(bean.getGroupId(), myList, new YCallBack<List<TeamMember>>() {
-                            @Override
-                            public void callBack(List<TeamMember> teamMembers) {
-                                Toaster.toastShort("已提升为管理员");
-                                mPresent.doUpdateGroupUser(bean.getGroupId(),bean.getUserId(),"2");
-                            }
-                        });
-                    }
-                });
-                dialog.show();
+                doAdiminOpterator();
                 break;
             case R.id.client_detail_set_rl:
                 EasyAlertDialog mDialog= EasyAlertDialogHelper.createOkCancelDiolag(activity,bean.getUserName(),"是否对该成员禁言?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
@@ -218,6 +197,96 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
         }
     }
 
+    /**
+     * 进行管理员和取消管理员的操作
+     */
+    private void doAdiminOpterator() {
+        if (TextUtils.isEmpty(rule)){
+            clientDetailIdTv.setText("普通用户");
+            list.clear();
+            PopMoreBean beanPop=new PopMoreBean();
+            beanPop.setId("1");
+            beanPop.setName("设为管理员");
+            list.add(beanPop);
+
+            BottomBaseDialog dialog=new BottomBaseDialog(activity);
+            dialog.setTitle("管理员操作");
+            dialog.setList(list);
+            dialog.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+//                        PopMoreBean bean= list.get(position);
+                    List<String> myList=new ArrayList<>();
+                    myList.add(bean.getUserId());
+                    APIYUNXIN.addManagers(bean.getGroupId(), myList, new YCallBack<List<TeamMember>>() {
+                        @Override
+                        public void callBack(List<TeamMember> teamMembers) {
+//                            Toaster.toastShort("已提升为管理员");
+                            mPresent.doUpdateGroupUser(bean.getGroupId(),bean.getUserId(),"2");
+                        }
+                    });
+                }
+            });
+            dialog.show();
+        }else {
+            if (rule.equals("1")){
+                clientDetailIdTv.setText("普通用户");
+                list.clear();
+                PopMoreBean beanPop=new PopMoreBean();
+                beanPop.setId("1");
+                beanPop.setName("设为管理员");
+                list.add(beanPop);
+
+                BottomBaseDialog dialog=new BottomBaseDialog(activity);
+                dialog.setTitle("管理员操作");
+                dialog.setList(list);
+                dialog.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+//                        PopMoreBean bean= list.get(position);
+                        List<String> myList=new ArrayList<>();
+                        myList.add(bean.getUserId());
+                        APIYUNXIN.addManagers(bean.getGroupId(), myList, new YCallBack<List<TeamMember>>() {
+                            @Override
+                            public void callBack(List<TeamMember> teamMembers) {
+//                                Toaster.toastShort("已提升为管理员");
+                                mPresent.doUpdateGroupUser(bean.getGroupId(),bean.getUserId(),"2");
+                            }
+                        });
+                    }
+                });
+                dialog.show();
+            }else if (rule.equals("2")){
+                clientDetailIdTv.setText("管理员");
+                list.clear();
+                PopMoreBean beanPop=new PopMoreBean();
+                beanPop.setId("-1");
+                beanPop.setName("取消管理员");
+                list.add(beanPop);
+
+                BottomBaseDialog dialog=new BottomBaseDialog(activity);
+                dialog.setTitle("管理员操作");
+                dialog.setList(list);
+                dialog.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+//                        PopMoreBean bean= list.get(position);
+                        List<String> myList=new ArrayList<>();
+                        myList.add(bean.getUserId());
+                        APIYUNXIN.removeManagers(bean.getGroupId(), myList, new YCallBack<List<TeamMember>>() {
+                            @Override
+                            public void callBack(List<TeamMember> teamMembers) {
+//                                Toaster.toastShort("取消管理员");
+                                mPresent.doUpdateGroupUser(bean.getGroupId(),bean.getUserId(),"1");
+                            }
+                        });
+                    }
+                });
+                dialog.show();
+            }
+        }
+    }
+
     @Override
     public void showErrorMessage(String err) {
 
@@ -228,25 +297,19 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
         if (user!=null){
             String icon=user.getIcon();
             if (!TextUtils.isEmpty(icon)){
-                Glide.with(activity)
-                        .load(icon)
-//                        .override(120,120)
-//                        .transform(new CircleCrop(activity))
-//                        .placeholder(R.drawable.rp_avatar)
-//                        .error(R.drawable.rp_avatar)
-                        .into(clientDetailAccountIv);
+                NetImageUtil.glideImageNormal(activity,icon,clientDetailAccountIv);
             }
         }
     }
     //设置管理员成功的回调
     @Override
     public void refreshUpdateUser() {
-        Toaster.toastShort("本地设置为管理员成功");
+        Toaster.toastShort("操作成功！");
     }
 
     @Override
     public void refreshUpdateUserStatus() {
-
+        Toaster.toastShort("操作成功！");
     }
 
     //剔除成员成功的回调

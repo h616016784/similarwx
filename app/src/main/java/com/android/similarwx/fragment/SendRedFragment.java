@@ -69,8 +69,14 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
     RelativeLayout sendRedLeiRl;
     @BindView(R.id.send_red_count_rl)
     RelativeLayout sendRedCountRl;
+    @BindView(R.id.send_red_count_read_rl)
+    RelativeLayout sendRedCountReadRl;
+    @BindView(R.id.send_red_count_read_tv)
+    TextView sendRedCountReadTv;
     @BindView(R.id.send_red_sum_money)
     TextView sumMoneyTv;
+    @BindView(R.id.send_red_descript_tv)
+    TextView sendRedDescripTv;
     Unbinder unbinder;
     public RspGroupInfo.GroupInfo listBean;
     private String type = null;
@@ -147,6 +153,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
                                 return;
                             }
                             bean.setThunder(lei);
+                            bean.setCount(sendRedCountReadTv.getText().toString());
                             bean.setTitle("扫雷红包游戏");
 
                         }else {
@@ -216,9 +223,12 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (TextUtils.isEmpty(s)){
                 sumMoneyTv.setText("¥0.0");
+                sendRedBt.setEnabled(false);
             }else {
                 sumMoneyTv.setText("¥"+s);
+                sendRedBt.setEnabled(true);
             }
+
         }
 
         @Override
@@ -237,19 +247,34 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
         if (groupInfo!=null){
             listBean=groupInfo;
             String groupType = groupInfo.getGroupType();
+            String gameType = groupInfo.getGameType();
             if (TextUtils.isEmpty(groupType)){
-                type="MINE";
-                sendRedCountRl.setVisibility(View.GONE);
+                type="LUCK";
+                sendRedCountReadRl.setVisibility(View.GONE);
+                sendRedLeiRl.setVisibility(View.GONE);
+//                    sendRedLeiTv.setText("总数");
+//                    sendRedLeiEt.setHint("请输入总数");
+                groupHintTv.setText("总数最好不要超过10个");
+                sendRedDescripTv.setVisibility(View.VISIBLE);
             }else {
                 if (groupType.equals("1")){//游戏群
-                    type="MINE";
-                    sendRedCountRl.setVisibility(View.GONE);
+                    if (!TextUtils.isEmpty(gameType)){
+                        if (gameType.equals("2")){
+                            type="MINE";
+                            sendRedCountRl.setVisibility(View.GONE);
+                            sendRedCountReadRl.setVisibility(View.VISIBLE);
+                            sendRedDescripTv.setVisibility(View.GONE);
+                            sendRedCountReadTv.setText(groupInfo.getGrabBagNumber()+"");
+                        }
+                    }
                 }else if(groupType.equals("2")){//交友群也就是普通群
                     type="LUCK";
+                    sendRedCountReadRl.setVisibility(View.GONE);
                     sendRedLeiRl.setVisibility(View.GONE);
 //                    sendRedLeiTv.setText("总数");
 //                    sendRedLeiEt.setHint("请输入总数");
                     groupHintTv.setText("总数最好不要超过10个");
+                    sendRedDescripTv.setVisibility(View.VISIBLE);
                 }
             }
             groupMoneyTv.setText("红包发布范围： "+groupInfo.getStartRange()+"-"+groupInfo.getEndRange()+"元");

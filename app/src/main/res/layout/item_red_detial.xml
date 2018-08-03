@@ -24,7 +24,7 @@
                 android:id="@+id/item_red_detail_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/distance_smallest"
+                android:layout_margin="@dimen/distance_smaller"
                 android:text="唐僧哥哥"
                 android:textSize="@dimen/text_tip"
                 />
@@ -32,7 +32,7 @@
                 android:id="@+id/item_red_detail_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/distance_smallest"
+                android:layout_margin="@dimen/distance_smaller"
                 android:textSize="@dimen/text_tip"
                 android:text="11：25"/>
         </LinearLayout>
@@ -46,7 +46,7 @@
                 android:id="@+id/item_red_detail_money_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/distance_smallest"
+                android:layout_margin="@dimen/distance_smaller"
                 android:text="11元"
                 android:textSize="@dimen/text_tip"
                 />
@@ -55,7 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/distance_smallest"
-                android:textSize="@dimen/text_tip"
+                android:textSize="@dimen/text_content_or_button"
+                android:textColor="@color/light_orange"
                 android:text="最佳手气"/>
         </LinearLayout>
     </RelativeLayout>

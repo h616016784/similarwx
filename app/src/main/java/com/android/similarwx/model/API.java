@@ -740,11 +740,18 @@ public class API implements APIConstants {
         map.put("groupId",groupId);
         map.put("amount",amount);
         map.put("type",type);
-        if (type.equals("MINE"))
-            map.put("thunder",thunder);
-        else {
+        if (TextUtils.isEmpty(type)){
             map.put("count",count);
+        }else {
+            if (type.equals("MINE")){
+                map.put("thunder",thunder);
+                map.put("count",count);
+            }
+            else {
+                map.put("count",count);
+            }
         }
+
         Call<RspSendRed> rspRedCall=apiService.sendRed(map);
         rspRedCall.enqueue(new Callback<RspSendRed>() {
             @Override

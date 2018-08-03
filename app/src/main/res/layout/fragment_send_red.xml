@@ -2,12 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_f5"
     android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/send_red_count_read_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/distance_normal"
+        android:background="@color/white"
+        android:padding="@dimen/distance_small"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="红包个数"
+            android:textSize="@dimen/text_content_or_button"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/send_red_count_read_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="@dimen/distance_bigger"
+            android:textSize="@dimen/text_content_or_button"
+            android:inputType="numberDecimal"
+            android:gravity="right"
+            android:text="0"
+            android:textColor="@color/black"
+            android:layout_marginRight="@dimen/distance_bigger"
+            android:layout_alignParentRight="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="个"
+            android:textSize="@dimen/text_content_or_button"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/send_red_count_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/distance_normal"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginRight="@dimen/distance_normal"
+        android:background="@color/white"
         android:padding="@dimen/distance_small"
         >
         <TextView
@@ -38,11 +77,14 @@
     </RelativeLayout>
 
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/distance_normal"
-    android:padding="@dimen/distance_small"
-    >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_normal"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginRight="@dimen/distance_normal"
+        android:background="@color/white"
+        android:padding="@dimen/distance_small"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,7 +118,7 @@
         android:layout_marginLeft="@dimen/distance_normal"
         android:layout_marginRight="@dimen/distance_normal"
         android:padding="@dimen/distance_small"
-        android:text="红包发布范围：25.00-55.00元"
+        android:text="红包发布范围：0-9999元"
         android:background="@null"
         android:textSize="@dimen/text_content_or_button"
         />
@@ -84,7 +126,10 @@
         android:id="@+id/send_red_lei_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/distance_normal"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/distance_normal"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginRight="@dimen/distance_normal"
         android:padding="@dimen/distance_small"
         >
         <TextView
@@ -117,7 +162,18 @@
         android:background="@null"
         android:textSize="@dimen/text_content_or_button"
         />
-
+    <TextView
+        android:id="@+id/send_red_descript_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/dimen52dp"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginRight="@dimen/distance_normal"
+        android:padding="@dimen/distance_small"
+        android:text="恭喜发财 大吉大利"
+        android:background="@color/white"
+        android:textSize="@dimen/text_content_or_button"
+        />
     <TextView
         android:id="@+id/send_red_sum_money"
         android:layout_width="match_parent"
@@ -141,7 +197,8 @@
         android:layout_marginLeft="@dimen/distance_normal"
         android:layout_marginRight="@dimen/distance_normal"
         android:textColor="@color/white"
-        android:background="@drawable/selector_normal_bg"
+        android:enabled="false"
+        android:background="@drawable/selector_red_bg"
         android:text="塞钱进红包"/>
 
     <TextView
