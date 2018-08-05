@@ -10,6 +10,7 @@ import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
 import com.android.similarwx.beans.response.RspCashUser;
+import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.beans.response.RspDeleteGroup;
 import com.android.similarwx.beans.response.RspDeleteGroupUser;
 import com.android.similarwx.beans.response.RspGetApply;
@@ -1063,5 +1064,25 @@ public class API implements APIConstants {
             }
         });
     }
+    public void getConfig(String key, SysNoticePresent present) {
+        Map<String, String> map = new HashMap<>();
+        map.put("key", key);
+        Call<RspConfig> call=apiService.getConfig(map);
+        call.enqueue(new Callback<RspConfig>() {
+            @Override
+            public void onResponse(Call<RspConfig> call, Response<RspConfig> response) {
+                try {
+                    RspConfig rspMoney=response.body();
+                    present.analyzeConfig(rspMoney);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<RspConfig> call, Throwable t) {
+                Toaster.toastShort(t.getMessage());
+            }
+        });
+    }
 }

@@ -7,6 +7,7 @@ import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
 import com.android.similarwx.beans.response.RspCashUser;
+import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.beans.response.RspDeleteGroup;
 import com.android.similarwx.beans.response.RspDeleteGroupUser;
 import com.android.similarwx.beans.response.RspGetApply;
@@ -98,6 +99,8 @@ public interface APIService {
 
     @POST("sys/moneyPic")
     Call<RspMoney> getMoneyPic(@QueryMap Map<String, String> map);
+    @POST("sys/config")
+    Call<RspConfig> getConfig(@QueryMap Map<String, String> map);
 
     @POST("redPac/send")
     Call<RspSendRed> sendRed(@QueryMap Map<String, String> map);

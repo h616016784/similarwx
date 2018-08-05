@@ -11,4 +11,5 @@ import java.util.List;
 public interface SysNoticeViewInterface extends ViewInterface {
     void refreshSysNotice(List<Notice> list);
     void refreshSysMoney(String url);
+    void refreshSysConfig();
 }

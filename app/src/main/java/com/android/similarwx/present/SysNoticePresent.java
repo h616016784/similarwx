@@ -2,6 +2,7 @@ package com.android.similarwx.present;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.Notice;
+import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.beans.response.RspMoney;
 import com.android.similarwx.beans.response.RspNotice;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
@@ -28,6 +29,10 @@ public class SysNoticePresent {
     public void getContract(){
         API.getInstance().getNotices("CONTACT",this);
     }
+
+    public void getConfig(){
+        API.getInstance().getConfig("",this);
+    }
     public void analyze(RspNotice rspGroupSave) {
         if (rspGroupSave!=null){
             String result=rspGroupSave.getResult();
@@ -45,6 +50,17 @@ public class SysNoticePresent {
             String result=rspMoney.getResult();
             if (result.equals("success")){
                 view.refreshSysMoney(rspMoney.getData());
+            }else {
+                Toaster.toastShort(rspMoney.getErrorMsg());
+            }
+        }
+    }
+
+    public void analyzeConfig(RspConfig rspMoney) {
+        if (rspMoney!=null){
+            String result=rspMoney.getResult();
+            if (result.equals("success")){
+                view.refreshSysConfig();
             }else {
                 Toaster.toastShort(rspMoney.getErrorMsg());
             }
