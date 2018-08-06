@@ -227,7 +227,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         Map<String, Object> content = new HashMap<>(1);
         content.put("content", "成功创建高级群");
 // 创建tip消息，teamId需要开发者已经存在的team的teamId
-        IMMessage msg = MessageBuilder.createTipMessage(mSendRedBean.getGroupId(), SessionTypeEnum.Team);
+        IMMessage msg = MessageBuilder.createTipMessage(mSendRedBean.getMyGroupId(), SessionTypeEnum.Team);
         msg.setRemoteExtension(content);
 // 自定义消息配置选项
         CustomMessageConfig config = new CustomMessageConfig();
