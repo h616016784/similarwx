@@ -27,11 +27,19 @@ import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.UserInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/4/9.
@@ -195,6 +203,9 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         Bundle bundle=new Bundle();
                         if (mSendRedBean!=null){
 
+                            //抢包成功、发送一个提示消息
+                            doYunXinTip(bena);
+
                             bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
                             bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
                             bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
@@ -210,6 +221,23 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 Toaster.toastShort(bean.getErrorMsg());
             }
         }
+    }
+
+    private void doYunXinTip(RspGrabRed.GrabRedBean bena) {
+        Map<String, Object> content = new HashMap<>(1);
+        content.put("content", "成功创建高级群");
+// 创建tip消息，teamId需要开发者已经存在的team的teamId
+        IMMessage msg = MessageBuilder.createTipMessage(mSendRedBean.getGroupId(), SessionTypeEnum.Team);
+        msg.setRemoteExtension(content);
+// 自定义消息配置选项
+        CustomMessageConfig config = new CustomMessageConfig();
+// 消息不计入未读
+        config.enableUnreadCount = false;
+        msg.setConfig(config);
+// 消息发送状态设置为success
+        msg.setStatus(MsgStatusEnum.success);
+// 保存消息到本地数据库，但不发送到服务器
+        NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
     }
 
     @Override

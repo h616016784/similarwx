@@ -19,6 +19,7 @@ import com.android.similarwx.misdk.model.RedCustomAttachParser;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.business.contact.core.query.PinYin;
+import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRedTip;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderTrans;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
@@ -57,6 +58,7 @@ public class AppApplication extends BaseApplication {
         NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new CustomAttachParser());
         NimUIKit.registerMsgItemViewHolder(RedCustomAttachment.class, MsgViewHolderRed.class);//红包
         NimUIKit.registerMsgItemViewHolder(TransCustomAttachment.class, MsgViewHolderTrans.class);//转账
+        NimUIKit.registerTipMsgViewHolder(MsgViewHolderRedTip.class);//红包提示
         // 初始化消息提醒
         NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
         // 会话窗口的定制: 示例代码可详见demo源码中的SessionHelper类。
