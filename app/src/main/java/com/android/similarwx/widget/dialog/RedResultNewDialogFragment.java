@@ -239,7 +239,8 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 // 消息发送状态设置为success
         msg.setStatus(MsgStatusEnum.success);
 // 保存消息到本地数据库，但不发送到服务器
-        NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
+//        NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
+        NIMClient.getService(MsgService.class).sendMessage(msg, true);
     }
 
     @Override
