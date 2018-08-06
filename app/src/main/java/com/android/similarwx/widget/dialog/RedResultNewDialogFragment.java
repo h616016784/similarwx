@@ -47,10 +47,11 @@ import java.util.Map;
 
 public class RedResultNewDialogFragment extends DialogFragment implements View.OnClickListener, MiViewInterface {
 
-    public static RedResultNewDialogFragment newInstance(SendRed.SendRedBean sendRed) {
+    public static RedResultNewDialogFragment newInstance(SendRed.SendRedBean sendRed,IMMessage message) {
         RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("info", sendRed);
+        bundle.putSerializable("message", message);
         redDialogFragment.setArguments(bundle);
         return redDialogFragment;
     }
@@ -70,8 +71,9 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
     private TextView dialog_red_result_name_tv;
     private TextView dialog_red_result_tips_tv;
 
-    static SendRed.SendRedBean mSendRedBean;
+    SendRed.SendRedBean mSendRedBean;
     private MIPresent miPresent;
+    IMMessage message;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         Bundle bundle=getArguments();
         if (bundle!=null){
             mSendRedBean= (SendRed.SendRedBean) bundle.getSerializable("info");
+            message= (IMMessage) bundle.getSerializable("message");
             miPresent=new MIPresent(this);
 
             if (mSendRedBean!=null){
@@ -137,9 +140,8 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         dialog_red_result_kai_tv.setOnClickListener(this);
     }
 
-    public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed){
-        mSendRedBean=sendRed;
-        RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed);
+    public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,IMMessage imMessage){
+        RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed,imMessage);
         FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
         transaction.add(redResultDialogFragment,"redResultDialogBean");
         transaction.addToBackStack(null);
@@ -204,7 +206,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         if (mSendRedBean!=null){
 
                             //抢包成功、发送一个提示消息
-                            doYunXinTip(bena);
+                            doYunXinTip(message);
 
                             bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
                             bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
@@ -223,11 +225,11 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         }
     }
 
-    private void doYunXinTip(RspGrabRed.GrabRedBean bena) {
+    private void doYunXinTip(IMMessage bena) {
         Map<String, Object> content = new HashMap<>(1);
         content.put("content", "成功创建高级群");
 // 创建tip消息，teamId需要开发者已经存在的team的teamId
-        IMMessage msg = MessageBuilder.createTipMessage(mSendRedBean.getMyGroupId(), SessionTypeEnum.Team);
+        IMMessage msg = MessageBuilder.createTipMessage(bena.getSessionId(), SessionTypeEnum.Team);
         msg.setRemoteExtension(content);
 // 自定义消息配置选项
         CustomMessageConfig config = new CustomMessageConfig();
