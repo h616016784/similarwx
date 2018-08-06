@@ -14,15 +14,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.primary.Log;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.LoginActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.Notice;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.inteface.LoginViewInterface;
+import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.present.LoginPresent;
+import com.android.similarwx.present.NoticePresent;
+import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.UpgradeUIBuilder;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.ItemView;
@@ -30,6 +37,8 @@ import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.bumptech.glide.Glide;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.AuthService;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +49,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/10.
  */
 
-public class MyFragment extends BaseFragment implements LoginViewInterface {
+public class MyFragment extends BaseFragment implements LoginViewInterface, SysNoticeViewInterface {
     @BindView(R.id.my_base_head_iv)
     ImageView myBaseHeadIv;
     @BindView(R.id.my_base_name_tv)
@@ -69,6 +78,7 @@ public class MyFragment extends BaseFragment implements LoginViewInterface {
 
     private User mUser;
     private LoginPresent present;
+    private SysNoticePresent sysNoticePresent;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my;
@@ -80,6 +90,7 @@ public class MyFragment extends BaseFragment implements LoginViewInterface {
         mActionbar.setTitle(R.string.my_title);
         unbinder = ButterKnife.bind(this, contentView);
         present=new LoginPresent(this);
+        sysNoticePresent=new SysNoticePresent(this);
         init();
     }
 
@@ -153,7 +164,8 @@ public class MyFragment extends BaseFragment implements LoginViewInterface {
             case R.id.my_set_item:
                 FragmentUtils.navigateToNormalActivity(activity, new SetFragment(), null);
                 break;
-            case R.id.my_version_item:
+            case R.id.my_version_item://版本
+                sysNoticePresent.getConfig();
                 break;
             case R.id.my_quit_item:
                 showQuitDialog();
@@ -200,7 +212,19 @@ public class MyFragment extends BaseFragment implements LoginViewInterface {
             return null;
         }
     }
-
+    private int getVersionCode() {
+        try {
+            // 获取packagemanager的实例
+            PackageManager packageManager = activity.getPackageManager();
+            // getPackageName()是你当前类的包名，0代表是获取版本信息
+            PackageInfo packInfo = packageManager.getPackageInfo(activity.getPackageName(), 0);
+            int code = packInfo.versionCode;
+            return code;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
     @Override
     public void showErrorMessage(String err) {
 
@@ -226,6 +250,33 @@ public class MyFragment extends BaseFragment implements LoginViewInterface {
             myBaseFenTv.setText(user.getTotalBalance()+"");
 
             SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
+        }
+    }
+
+    @Override
+    public void refreshSysNotice(List<Notice> list) {
+
+    }
+
+    @Override
+    public void refreshSysMoney(String url) {
+
+    }
+
+    @Override
+    public void refreshSysConfig(RspConfig.ConfigBean bean) {
+        if (bean!=null){
+           String url= bean.getAndroidDownloadUrl();
+           String appVersion= bean.getAppVersion();
+           if (!TextUtils.isEmpty(appVersion)){
+               if (getVersionCode()<Integer.parseInt(appVersion)){
+
+               }
+           }
+           if (!TextUtils.isEmpty(url)){
+               UpgradeUIBuilder upgradeUIBuilder=new UpgradeUIBuilder(activity,url);
+               upgradeUIBuilder.downloadNewAppNew();
+           }
         }
     }
 }

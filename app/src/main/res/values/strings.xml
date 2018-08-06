@@ -108,6 +108,7 @@
     <string name="chart_get_pay">赚取佣金</string>
     <string name="chart_bill">账单</string>
     <string name="chart_recharge">充值</string>
+    <string name="chart_recharge_paopao">泡泡红包</string>
     <string name="chart_transfer">转账</string>
     <string name="chart_cash">提现</string>
     <string name="chart_service">在线客服</string>

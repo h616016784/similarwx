@@ -60,7 +60,7 @@ public class SysNoticePresent {
         if (rspMoney!=null){
             String result=rspMoney.getResult();
             if (result.equals("success")){
-                view.refreshSysConfig();
+                view.refreshSysConfig(rspMoney.getData());
             }else {
                 Toaster.toastShort(rspMoney.getErrorMsg());
             }

@@ -99,17 +99,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
         present=new SendRedPresent(this);
         present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
         sendRedSumEt.addTextChangedListener(textWatcher);
-
-        if (TextUtils.isEmpty(type)){//普通
-
-        }else {
-            if (type.equals("MINE")){//游戏群
-
-
-            }else {//普通
-
-            }
-        }
+        sendRedLeiEt.addTextChangedListener(leiWatcher);
     }
 
     @Override
@@ -120,14 +110,24 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
 
     @OnClick(R.id.send_red_bt)
     public void onViewClicked() {
+        String money=sendRedSumEt.getText().toString();
+        if (TextUtils.isEmpty(money)){
+            Toaster.toastShort("金额不能为空！");
+            return;
+        }else {
+            if (listBean!=null){
+                double dMoney=Double.parseDouble(money);
+                if (dMoney>listBean.getStartRange() && dMoney<listBean.getEndRange()){}
+                else{
+                    Toaster.toastShort("金额超出了范围！");
+                    return;
+                }
+            }
+        }
+
         if (TextUtils.isEmpty(mUser.getPaymentPasswd())){
             showDialog();
         }else {
-            String money=sendRedSumEt.getText().toString();
-            if (TextUtils.isEmpty(money)){
-                Toaster.toastShort("金额不能为空！");
-                return;
-            }
             showInputDialog(money);
         }
     }
@@ -227,6 +227,28 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
             }else {
                 sumMoneyTv.setText("¥"+s);
                 sendRedBt.setEnabled(true);
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    private TextWatcher leiWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (!TextUtils.isEmpty(s)){
+                if (s.length()>1){
+                    sendRedLeiEt.setText(s.subSequence(0,1));
+                }
             }
 
         }

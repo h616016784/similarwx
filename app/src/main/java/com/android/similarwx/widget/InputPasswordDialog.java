@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +15,25 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
 import com.android.similarwx.beans.BaseBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.fragment.MyDetailFragment;
+import com.android.similarwx.fragment.RechargeFragment;
+import com.android.similarwx.inteface.LoginViewInterface;
+import com.android.similarwx.present.LoginPresent;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class InputPasswordDialog extends DialogFragment implements View.OnClickListener {
+public class InputPasswordDialog extends DialogFragment implements View.OnClickListener, LoginViewInterface {
+    LoginPresent loginPresent;
 
     private OnInputFinishListener onInputFinishListener;
     private View v;
@@ -32,6 +41,10 @@ public class InputPasswordDialog extends DialogFragment implements View.OnClickL
     private TextView[] passwordTvs;
     private StringBuilder password = new StringBuilder();
     private int index;
+
+    private TextView view_input_recharge_tv,view_input_money_tv;
+    private RelativeLayout view_input_rl;
+    String money;
 
     public static InputPasswordDialog newInstance(String title, String money, OnInputFinishListener onInputFinishListener) {
         Bundle bundle = new Bundle();
@@ -58,11 +71,18 @@ public class InputPasswordDialog extends DialogFragment implements View.OnClickL
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         //设置背景颜色
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loginPresent=new LoginPresent(this);
         //接收参数
-        String money = getArguments().getString("money");
+        money = getArguments().getString("money");
         String title = getArguments().getString("title");
         //布局
         v = inflater.inflate(R.layout.dialog_pay_input_password, container, false);
+        view_input_rl=v.findViewById(R.id.view_input_rl);
+        view_input_recharge_tv=v.findViewById(R.id.view_input_recharge_tv);
+        view_input_money_tv=v.findViewById(R.id.view_input_money_tv);
+        view_input_rl.setOnClickListener(this);
+        view_input_recharge_tv.setOnClickListener(this);
+
         //字符串
         pointStr = getString(R.string.eml_point);
         //遮盖的黑点
@@ -107,6 +127,8 @@ public class InputPasswordDialog extends DialogFragment implements View.OnClickL
         TranslateAnimation ta = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0);
         ta.setDuration(200);
         v.startAnimation(ta);
+
+        loginPresent.getTotalBalance();
         return v;
     }
 
@@ -142,6 +164,14 @@ public class InputPasswordDialog extends DialogFragment implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.view_input_rl://余额
+                Bundle bundle=new Bundle();
+                FragmentUtils.navigateToNormalActivity(getActivity(),new MyDetailFragment(),bundle);
+                break;
+            case R.id.view_input_recharge_tv://充值
+                Bundle bundle1=new Bundle();
+                FragmentUtils.navigateToNormalActivity(getActivity(),new RechargeFragment(),bundle1);
+                break;
             case R.id.tv_num1:
                 addNum(1);
                 break;
@@ -199,6 +229,35 @@ public class InputPasswordDialog extends DialogFragment implements View.OnClickL
             passwordTvs[index].setText("");
             password.deleteCharAt(password.length() - 1);
         }
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void loginScucces(User user) {
+
+    }
+
+    @Override
+    public void logoutScucces(User user) {
+
+    }
+
+    @Override
+    public void refreshTotalBalance(User user) {
+        if (!TextUtils.isEmpty(money)){
+            if (Double.parseDouble(money)>user.getTotalBalance()){//余额不足
+                view_input_recharge_tv.setVisibility(View.VISIBLE);
+                view_input_money_tv.setText("剩余 ¥("+user.getTotalBalance()+") 余额不足！");
+            }else {
+                view_input_recharge_tv.setVisibility(View.GONE);
+                view_input_money_tv.setText("剩余 ¥("+user.getTotalBalance()+")");
+            }
+        }
+
     }
 
     public interface OnInputFinishListener {

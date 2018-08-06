@@ -34,10 +34,12 @@ import com.android.similarwx.fragment.SearchFragment;
 import com.android.similarwx.fragment.ServiceFragment;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.MainGroupView;
+import com.android.similarwx.inteface.NoticeViewInterface;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.present.LoginPresent;
+import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.notification.NotificationUtil;
@@ -76,7 +78,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/1.
  */
 
-public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, LoginViewInterface {
+public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, LoginViewInterface, NoticeViewInterface {
 
     Unbinder unbinder;
     @BindView(R.id.main_search_iv)
@@ -102,6 +104,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
     private User mUser;
     private LoginPresent loginPresent;
+    private NoticePresent noticePresent;
     private long tempMsgId=-1;
     public static void start(Activity context) {
         Intent intent = new Intent(context, MainChartrActivity.class);
@@ -115,6 +118,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         unbinder = ButterKnife.bind(this);
         groupPresent = new GroupPresent(this);
         loginPresent = new LoginPresent(this);
+        noticePresent=new NoticePresent(this);
         initYunXinSystemMsgListener();
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
 
@@ -368,9 +372,9 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 //        bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getGroupName());//群name
 //        bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,bean);
 //        FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
+        String accid=SharePreferenceUtil.getString(this,AppConstants.USER_ACCID,"");
+        noticePresent.doAddGroupUser(bean.getGroupId(),accid);
 
-        // 打开群聊界面
-        NimUIKit.startTeamSession(this, bean.getGroupId());
 
 //        NimUIKit.startP2PSession(this, bean.getGroupId());
     }
@@ -442,6 +446,23 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
         }else {
             finish();
+        }
+    }
+
+    @Override
+    public void aggreeView(SystemMessage systemMessage) {
+
+    }
+
+    @Override
+    public void aggreeView(String code,String groupId) {
+        if (!TextUtils.isEmpty(code)){
+            if (code.equals("0000") || code.equals("2045")){//添加成功或者以在群里了
+                // 打开群聊界面
+                NimUIKit.startTeamSession(this, groupId);
+            }else {
+                Toaster.toastShort("异常操作!!");
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.android.similarwx.inteface;
 
 import com.android.similarwx.beans.Notice;
+import com.android.similarwx.beans.response.RspConfig;
 
 import java.util.List;
 
@@ -11,5 +12,5 @@ import java.util.List;
 public interface SysNoticeViewInterface extends ViewInterface {
     void refreshSysNotice(List<Notice> list);
     void refreshSysMoney(String url);
-    void refreshSysConfig();
+    void refreshSysConfig(RspConfig.ConfigBean bean);
 }

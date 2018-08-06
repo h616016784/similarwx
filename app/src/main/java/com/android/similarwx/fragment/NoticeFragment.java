@@ -138,4 +138,9 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
         }
         fetchData();
     }
+
+    @Override
+    public void aggreeView(String code,String groupId) {
+
+    }
 }

@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface NoticeViewInterface extends ViewInterface {
     void aggreeView(SystemMessage systemMessage);
+    void aggreeView(String code,String groupId);
 }

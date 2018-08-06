@@ -16,6 +16,7 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupRule;
 import com.android.similarwx.beans.Notice;
+import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.present.SysNoticePresent;
@@ -123,6 +124,11 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
 
     @Override
     public void refreshSysMoney(String url) {
+
+    }
+
+    @Override
+    public void refreshSysConfig(RspConfig.ConfigBean bean) {
 
     }
 

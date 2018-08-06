@@ -20,6 +20,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.Notice;
+import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.utils.BitmapUtil;
@@ -139,6 +140,11 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
     @Override
     public void refreshSysMoney(String url) {
         NetImageUtil.glideImageNormal(activity,url,myMoneyIv);
+    }
+
+    @Override
+    public void refreshSysConfig(RspConfig.ConfigBean bean) {
+
     }
 
 

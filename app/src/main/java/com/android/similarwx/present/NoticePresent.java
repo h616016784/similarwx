@@ -17,18 +17,31 @@ import java.util.List;
 public class NoticePresent extends BasePresent {
     private NoticeViewInterface mView;
     private SystemMessage mMessage;
+    private String groupId;
+    private int tag=0;
     public NoticePresent(NoticeViewInterface mView) {
         this.mView = mView;
     }
 
     public void doAddGroupUser(SystemMessage message){
+        tag=0;
         mMessage=message;
+        groupId=message.getTargetId();
         API.getInstance().doAddGroupUser(message.getTargetId(),message.getFromAccount(),this);
+    }
+    public void doAddGroupUser(String groupId,String accid){
+        tag=1;
+        this.groupId=groupId;
+        API.getInstance().doAddGroupUser(groupId,accid,this);
     }
     public void analyzeRes(RspAddGroupUser rspNotice) {
         String result=rspNotice.getResult();
         if (result.equals("success")){
-            mView.aggreeView(mMessage);
+            if (tag==0)
+                mView.aggreeView(mMessage);
+            else if (tag==1){
+                mView.aggreeView(rspNotice.getErrorCode(),groupId);
+            }
         }else {
             Toaster.toastShort(rspNotice.getErrorMsg());
         }
