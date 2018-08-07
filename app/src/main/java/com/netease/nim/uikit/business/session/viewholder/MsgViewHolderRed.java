@@ -35,6 +35,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
     private RelativeLayout sendView, revView;
     private TextView sendContentText, revContentText;    // 红包描述
     private TextView sendTitleText, revTitleText;    // 红包名称
+    private TextView tv_bri_target_send, tv_bri_target_rev;    // 红包change
 
     public MsgViewHolderRed(BaseMultiItemFetchLoadAdapter adapter) {
         super(adapter);
@@ -52,6 +53,8 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
         sendView = findViewById(R.id.bri_send);
         revContentText = findViewById(R.id.tv_bri_mess_rev);
         revTitleText = findViewById(R.id.tv_bri_name_rev);
+        tv_bri_target_rev = findViewById(R.id.tv_bri_target_rev);
+        tv_bri_target_send = findViewById(R.id.tv_bri_target_send);
         revView = findViewById(R.id.bri_rev);
     }
     SendRed.SendRedBean sendRedBean;
@@ -86,8 +89,10 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
 
             if (message.getStatus()==MsgStatusEnum.read){//已读
                 sendView.setBackgroundResource(R.drawable.red_packet_send_press);
+                tv_bri_target_send.setText("红包已领取");
             }else{
                 sendView.setBackgroundResource(R.drawable.red_packet_send_bg);
+                tv_bri_target_send.setText("领取红包");
             }
         } else {
             sendView.setVisibility(View.GONE);
@@ -97,8 +102,10 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
 
             if (message.getStatus()==MsgStatusEnum.read){//已读
                 revView.setBackgroundResource(R.drawable.red_packet_rev_press);
+                tv_bri_target_rev.setText("红包已领取");
             }else{
                 sendView.setBackgroundResource(R.drawable.red_packet_rev_bg);
+                tv_bri_target_rev.setText("领取红包");
             }
         }
     }

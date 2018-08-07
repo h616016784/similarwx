@@ -127,7 +127,7 @@
                     android:textSize="@dimen/text_content_or_button"
                     android:hint="@string/register_phone_hint"
                     android:inputType="text"
-                    android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+                    android:digits="1234567890."
                     android:lines="1"
                     />
             </RelativeLayout>
@@ -197,6 +197,7 @@
                     android:padding="@dimen/distance_smaller"
                     android:layout_marginLeft="@dimen/distance_normal"
                     android:text="@string/register_get_code"
+                    android:digits="1234567890."
                     android:textColor="@color/white"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/shape_normal_bg"

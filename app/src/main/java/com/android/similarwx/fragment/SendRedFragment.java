@@ -117,7 +117,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
         }else {
             if (listBean!=null){
                 double dMoney=Double.parseDouble(money);
-                if (dMoney>listBean.getStartRange() && dMoney<listBean.getEndRange()){}
+                if (dMoney>=listBean.getStartRange() && dMoney<=listBean.getEndRange()){}
                 else{
                     Toaster.toastShort("金额超出了范围！");
                     return;
