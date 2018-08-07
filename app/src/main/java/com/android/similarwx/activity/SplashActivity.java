@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.primary.Log;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
@@ -77,6 +78,8 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
                     }
 
                 }catch (Exception e){
+                    e.printStackTrace();
+                    Log.e("splash login","自动登录异常");
                 }
 //                        startActivity(new Intent(SplashActivity.this,LoginActivity.class));
                 finish();
