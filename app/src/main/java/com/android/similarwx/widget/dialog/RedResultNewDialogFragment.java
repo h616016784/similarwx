@@ -227,7 +227,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
     private void doYunXinTip(IMMessage bena) {
         Map<String, Object> content = new HashMap<>(1);
-        content.put("content", "成功创建高级群");
+        content.put("accId", mSendRedBean.getMyUserId());
 // 创建tip消息，teamId需要开发者已经存在的team的teamId
         IMMessage msg = MessageBuilder.createTipMessage(bena.getSessionId(), SessionTypeEnum.Team);
         msg.setRemoteExtension(content);
@@ -238,9 +238,24 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         msg.setConfig(config);
 // 消息发送状态设置为success
         msg.setStatus(MsgStatusEnum.success);
-// 保存消息到本地数据库，但不发送到服务器
-//        NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
-        NIMClient.getService(MsgService.class).sendMessage(msg, true);
+
+        NIMClient.getService(MsgService.class).sendMessage(msg, true).setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // 保存消息到本地数据库，但不发送到服务器
+                NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
+            }
+
+            @Override
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
     }
 
     @Override

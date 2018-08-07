@@ -36,7 +36,8 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase {
     }
     protected String getDisplayText() {
         String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),message.getFromAccount());
-        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),message.getFromAccount());
+        String accid= (String) message.getRemoteExtension().get("accId");
+        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
         return from+" 领取了 "+to+" 的红包";
 //        return TeamNotificationHelper.getTeamNotificationText(message, message.getSessionId());
     }
