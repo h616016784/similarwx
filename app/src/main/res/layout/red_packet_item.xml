@@ -64,7 +64,8 @@
             android:singleLine="true"
             android:text="恭喜发财，大吉大利"
             android:textColor="@color/white"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/tv_bri_target_rev"
             android:layout_width="wrap_content"
@@ -74,7 +75,8 @@
             android:gravity="center|left"
             android:text="@string/open_rp"
             android:textColor="@color/white"
-            android:textSize="11sp"/>
+            android:textSize="11sp" />
+
         <TextView
             android:id="@+id/tv_bri_name_rev"
             android:layout_width="wrap_content"
@@ -85,7 +87,7 @@
             android:paddingLeft="14dp"
             android:text="@string/red_packet"
             android:textColor="@color/color_999"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
     </RelativeLayout>
 
 </FrameLayout>

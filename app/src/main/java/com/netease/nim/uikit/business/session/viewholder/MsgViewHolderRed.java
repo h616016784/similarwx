@@ -54,7 +54,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
         revTitleText = findViewById(R.id.tv_bri_name_rev);
         revView = findViewById(R.id.bri_rev);
     }
-
+    SendRed.SendRedBean sendRedBean;
     @Override
     protected void bindContentView() {
         RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
@@ -62,7 +62,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
         String title=null;
         String click=null;
         String textContent=null;
-        SendRed.SendRedBean sendRedBean=attachment.getSendRedBean();
+        sendRedBean=attachment.getSendRedBean();
         if (sendRedBean!=null){
             amount =sendRedBean.getAmount();
             title =null;
@@ -77,16 +77,29 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
                 title="拼手气红包";
         }
 
+
         if (!isReceivedMessage()) {// 消息方向，自己发送的
             sendView.setVisibility(View.VISIBLE);
             revView.setVisibility(View.GONE);
             sendContentText.setText(textContent);
             sendTitleText.setText(title);
+
+            if (message.getStatus()==MsgStatusEnum.read){//已读
+                sendView.setBackgroundResource(R.drawable.red_packet_send_press);
+            }else{
+                sendView.setBackgroundResource(R.drawable.red_packet_send_bg);
+            }
         } else {
             sendView.setVisibility(View.GONE);
             revView.setVisibility(View.VISIBLE);
             revContentText.setText(textContent);
             revTitleText.setText(title);
+
+            if (message.getStatus()==MsgStatusEnum.read){//已读
+                revView.setBackgroundResource(R.drawable.red_packet_rev_press);
+            }else{
+                sendView.setBackgroundResource(R.drawable.red_packet_rev_bg);
+            }
         }
     }
 
@@ -102,6 +115,11 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
 
     @Override
     protected void onItemClick() {
+        if (sendRedBean!=null){
+            message.setStatus(MsgStatusEnum.read);
+            NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+        }
+
         RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
         BaseMultiItemFetchLoadAdapter adapter = getAdapter();
         ModuleProxy proxy = null;
