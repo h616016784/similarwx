@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.outbaselibrary.primary.Log;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
@@ -19,6 +20,7 @@ import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.TimeUtil;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.utils.glide.NetImageUtil;
@@ -28,16 +30,22 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,20 +106,19 @@ public class ChartFragment extends BaseFragment {
                 List<RecentContact> list = baseQuickAdapter.getData();
                 if (list != null && list.size() > 0) {
                     RecentContact recentContact = list.get(position);
-                    if (recentContact.getSessionType()==SessionTypeEnum.P2P){
-                        NimUIKit.startP2PSession(activity, recentContact.getContactId());
-                    }else if (recentContact.getSessionType()==SessionTypeEnum.Team){
-                        // 打开群聊界面
-                        NimUIKit.startTeamSession(activity, recentContact.getContactId());
+                    if (TextUtils.isEmpty(NimUIKit.getAccount())){
+                        String accid= SharePreferenceUtil.getString(activity,AppConstants.USER_ACCID,"");
+                        String token=SharePreferenceUtil.getString(activity,AppConstants.USER_TOKEN,"");
+                        LoginInfo loginInfo=new LoginInfo(accid,token);
+                        doNimLogin(loginInfo,recentContact);
+                    }else {
+                        if (recentContact.getSessionType()==SessionTypeEnum.P2P){
+                            NimUIKit.startP2PSession(activity, recentContact.getContactId());
+                        }else if (recentContact.getSessionType()==SessionTypeEnum.Team){
+                            // 打开群聊界面
+                            NimUIKit.startTeamSession(activity, recentContact.getContactId());
+                        }
                     }
-//                    if (recentContact != null) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_THREE);
-//                        bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.P2P);
-//                        bundle.putString(AppConstants.CHAT_ACCOUNT_ID, recentContact.getContactId());
-//                        bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, recentContact.getContactId());
-//                        FragmentUtils.navigateToNormalActivity(activity, new MIFragmentNew(), bundle);
-//                    }
                 }
             }
         });
@@ -189,6 +196,34 @@ public class ChartFragment extends BaseFragment {
                 });
     }
 
+    private void doNimLogin(LoginInfo loginInfo,RecentContact recentContact) {
+        NimUIKit.login(loginInfo, new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo param) {
+                if (recentContact.getSessionType()==SessionTypeEnum.P2P){
+                    NimUIKit.startP2PSession(activity, recentContact.getContactId());
+                }else if (recentContact.getSessionType()==SessionTypeEnum.Team){
+                    // 打开群聊界面
+                    NimUIKit.startTeamSession(activity, recentContact.getContactId());
+                }
+                NIMClient.getService(AuthService.class).openLocalCache(loginInfo.getAccount());
+            }
+
+            @Override
+            public void onFailed(int code) {
+                if (code == 302 || code == 404) {
+                    Toaster.toastShort("登录失败");
+                } else {
+                    Toaster.toastShort("登录失败");
+                }
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                Toaster.toastShort("登录异常");
+            }
+        });
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

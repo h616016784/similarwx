@@ -64,6 +64,8 @@ public class TransDetailFragment extends BaseFragment {
             String tradeType=billDetail.getTradeType();
             if (!TextUtils.isEmpty(tradeType))
                 transDetailTurn.setText(name(tradeType));
+
+            transDetailState.setText("");
         }
     }
 

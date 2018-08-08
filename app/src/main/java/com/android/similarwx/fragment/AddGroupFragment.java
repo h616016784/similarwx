@@ -359,6 +359,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                             if (groupType.equals("1")){
                                 createGroupSetTv.setText("游戏群");
                                 creatGroupLeiLl.setVisibility(View.VISIBLE);
+                                createGroupNumRl.setVisibility(View.VISIBLE);
                                 if (!TextUtils.isEmpty(gameType)){
                                     if (gameType.equals("1")){
 
@@ -370,7 +371,9 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                                 }
                             }else  if (groupType.equals("2")){
                                 createGroupSetTv.setText("普通交友群");
+                                reqGroup.setGameType("1");
                                 creatGroupLeiLl.setVisibility(View.GONE);
+                                createGroupNumRl.setVisibility(View.GONE);
                             }
                             reqGroup.setGroupType(groupType);
                         }

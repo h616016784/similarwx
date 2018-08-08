@@ -287,14 +287,20 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
                             sendRedCountReadRl.setVisibility(View.VISIBLE);
                             sendRedDescripTv.setVisibility(View.GONE);
                             sendRedCountReadTv.setText(groupInfo.getGrabBagNumber()+"");
+                        }else {
+                            type="LUCK";
+                            sendRedCountReadRl.setVisibility(View.GONE);
+                            sendRedLeiRl.setVisibility(View.GONE);
+//                    sendRedLeiTv.setText("总数");
+//                    sendRedLeiEt.setHint("请输入总数");
+                            groupHintTv.setText("总数最好不要超过10个");
+                            sendRedDescripTv.setVisibility(View.VISIBLE);
                         }
                     }
                 }else if(groupType.equals("2")){//交友群也就是普通群
                     type="LUCK";
                     sendRedCountReadRl.setVisibility(View.GONE);
                     sendRedLeiRl.setVisibility(View.GONE);
-//                    sendRedLeiTv.setText("总数");
-//                    sendRedLeiEt.setHint("请输入总数");
                     groupHintTv.setText("总数最好不要超过10个");
                     sendRedDescripTv.setVisibility(View.VISIBLE);
                 }

@@ -1,21 +1,30 @@
 package com.netease.nim.uikit.business.session.viewholder;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
+import com.android.similarwx.activity.MainChartrActivity;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.Transfer;
+import com.android.similarwx.fragment.SearchFragment;
+import com.android.similarwx.fragment.TranferAdminFragment;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.inteface.message.TransCustomAttachment;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.dialog.RedResultNewDialogFragment;
 import com.netease.nim.uikit.business.chatroom.adapter.ChatRoomMsgAdapter;
 import com.netease.nim.uikit.business.session.module.ModuleProxy;
 import com.netease.nim.uikit.business.session.module.list.MsgAdapter;
 import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLoadAdapter;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 
 /**
  * Created by hanhuailong on 2018/7/11.
@@ -64,13 +73,25 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
         if (!isReceivedMessage()) {// 消息方向，自己发送的
             sendView.setVisibility(View.VISIBLE);
             revView.setVisibility(View.GONE);
-            sendContentText.setText("转账给"+textContent);
+            sendContentText.setText("转账给 "+textContent);
             sendTargetText.setText("¥"+amount);
+
+            if (message.getStatus()== MsgStatusEnum.read){//已读
+                sendView.setBackgroundResource(R.drawable.red_packet_send_press);
+            }else{
+                sendView.setBackgroundResource(R.drawable.red_packet_send_bg);
+            }
         } else {
             sendView.setVisibility(View.GONE);
             revView.setVisibility(View.VISIBLE);
-            revContentText.setText("转账给"+textContent);
+            revContentText.setText("转账给 "+textContent);
             revTargetText.setText("¥"+amount);
+
+            if (message.getStatus()==MsgStatusEnum.read){//已读
+                revView.setBackgroundResource(R.drawable.red_packet_rev_press);
+            }else{
+                sendView.setBackgroundResource(R.drawable.red_packet_rev_bg);
+            }
         }
     }
 
@@ -86,15 +107,11 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
 
     @Override
     protected void onItemClick() {
-//        RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
-//        BaseMultiItemFetchLoadAdapter adapter = getAdapter();
-//        ModuleProxy proxy = null;
-//        if (adapter instanceof MsgAdapter) {
-//            proxy = ((MsgAdapter) adapter).getContainer().proxy;
-//        } else if (adapter instanceof ChatRoomMsgAdapter) {
-//            proxy = ((ChatRoomMsgAdapter) adapter).getContainer().proxy;
-//        }
-//        message.getFromAccount(); message.getSessionId(); message.getSessionType();
-//        RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean());
+        message.setStatus(MsgStatusEnum.read);
+        NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+        adapter.notifyDataSetChanged();
+        Bundle bundle=new Bundle();
+        bundle.putSerializable(AppConstants.USER_OBJECT,message);
+        FragmentUtils.navigateToNormalActivity(((MsgAdapter) adapter).getContainer().activity, new TranferAdminFragment(), bundle);
     }
 }

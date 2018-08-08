@@ -1,9 +1,11 @@
 package com.android.similarwx.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,8 @@ import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.present.SysNoticePresent;
+import com.android.similarwx.utils.InputStreamUtil;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.netease.nimlib.sdk.NIMClient;
@@ -27,11 +31,18 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.SystemMessageService;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/4/10.
@@ -77,9 +88,59 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
                 helper.setText(R.id.notice_item_title,item.getTitle());
                 helper.setText(R.id.notice_item_time,item.getModifyDate());
                 helper.setText(R.id.notice_item_content,item.getRemark());
+//                if (!TextUtils.isEmpty(content)){
+//                    String text=Html.fromHtml(content).toString();
+//                    helper.setText(R.id.notice_item_content_detail,text);
+//                }
                 if (!TextUtils.isEmpty(content)){
-                    String text=Html.fromHtml(content).toString();
-                    helper.setText(R.id.notice_item_content_detail,text);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Spanned sp=Html.fromHtml(content, new Html.ImageGetter() {
+                                @Override
+                                public Drawable getDrawable(String source) {
+
+                                    Drawable drawable = null;
+                                    OkHttpClient okHttpClient = new OkHttpClient();
+                                    Request request = new Request.Builder()
+                                            .url(source)
+                                            .build();
+
+                                    Call call = okHttpClient.newCall(request);
+                                    try {
+                                        Response response=call.execute();
+                                        //得到从网上获取资源，转换成我们想要的类型
+                                        byte[] Picture_bt = response.body().bytes();
+                                        InputStream ins= null;
+                                        try {
+                                            ins = InputStreamUtil.byteTOInputStream(Picture_bt);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            return null;
+                                        }
+                                        drawable=Drawable.createFromStream(ins,"");
+
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        return null;
+                                    }
+                                    if (drawable!=null)
+                                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+
+                                    return drawable;
+                                }
+                            },null);
+
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    helper.setText(R.id.notice_item_content_detail,sp);
+                                }
+                            });
+                        }
+                    }).start();
+
+
                 }
             }
         };
