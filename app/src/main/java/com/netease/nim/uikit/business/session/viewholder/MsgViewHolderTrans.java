@@ -61,35 +61,35 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
     @Override
     protected void bindContentView() {
         TransCustomAttachment attachment = (TransCustomAttachment) message.getAttachment();
-        Transfer transfer=attachment.getTransfer();
-        String amount=null;
-        String textContent=null;
+        Transfer transfer = attachment.getTransfer();
+        String amount = null;
+        String textContent = null;
 
-        if (transfer!=null){
-            amount=transfer.getAmount();
-            textContent=transfer.getToUserName();
+        if (transfer != null) {
+            amount = transfer.getAmount();
+            textContent = transfer.getToUserName();
         }
 
         if (!isReceivedMessage()) {// 消息方向，自己发送的
             sendView.setVisibility(View.VISIBLE);
             revView.setVisibility(View.GONE);
-            sendContentText.setText("转账给 "+textContent);
-            sendTargetText.setText("¥"+amount);
+            sendContentText.setText("转账给 " + textContent);
+            sendTargetText.setText("¥" + amount);
 
-            if (message.getStatus()== MsgStatusEnum.read){//已读
+            if (message.getStatus() == MsgStatusEnum.read) {//已读
                 sendView.setBackgroundResource(R.drawable.red_packet_send_press);
-            }else{
+            } else {
                 sendView.setBackgroundResource(R.drawable.red_packet_send_bg);
             }
         } else {
             sendView.setVisibility(View.GONE);
             revView.setVisibility(View.VISIBLE);
-            revContentText.setText("转账给 "+textContent);
-            revTargetText.setText("¥"+amount);
+            revContentText.setText("转账给 " + textContent);
+            revTargetText.setText("¥" + amount);
 
-            if (message.getStatus()==MsgStatusEnum.read){//已读
+            if (message.getStatus() == MsgStatusEnum.read) {//已读
                 revView.setBackgroundResource(R.drawable.red_packet_rev_press);
-            }else{
+            } else {
                 sendView.setBackgroundResource(R.drawable.red_packet_rev_bg);
             }
         }
@@ -110,8 +110,8 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
         message.setStatus(MsgStatusEnum.read);
         NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
         adapter.notifyDataSetChanged();
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(AppConstants.USER_OBJECT,message);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(AppConstants.USER_OBJECT, message);
         FragmentUtils.navigateToNormalActivity(((MsgAdapter) adapter).getContainer().activity, new TranferAdminFragment(), bundle);
     }
 }
