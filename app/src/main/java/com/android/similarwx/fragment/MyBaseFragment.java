@@ -29,6 +29,7 @@ import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Strings.StringUtil;
 import com.android.similarwx.utils.glide.CircleCrop;
+import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.BaseItemView;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.bumptech.glide.Glide;
@@ -120,14 +121,9 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
             myBaseSignBv.setRightText(mUser.getPersonalitySignature()==null?"":mUser.getPersonalitySignature());
             //头像
             String icon= mUser.getIcon();
+
             if (!TextUtils.isEmpty(icon)){
-                Glide.with(activity)
-                        .load(icon)
-//                        .override(120,120)
-//                        .transform(new CircleCrop(activity))
-//                        .placeholder(R.drawable.rp_avatar)
-//                        .error(R.drawable.rp_avatar)
-                        .into(myBaseHeadBv.getRightImageView());
+                NetImageUtil.glideImageNormalWithSize(activity,icon,myBaseHeadBv.getRightImageView(),240,240);
             }
         }
     }

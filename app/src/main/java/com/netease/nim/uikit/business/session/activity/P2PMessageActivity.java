@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.contact.ContactChangedObserver;
 import com.netease.nim.uikit.api.model.main.OnlineStateChangeObserver;
@@ -68,6 +69,8 @@ public class P2PMessageActivity extends BaseMessageActivity {
         super.onDestroy();
         registerObservers(false);
         registerOnlineStateChangeListener(false);
+        AppConstants.USER_PERSON_CHAT="";
+        AppConstants.USER_TRANSFER="";
     }
 
     @Override

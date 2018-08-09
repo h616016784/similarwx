@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/message_item_tips_ll"
     android:orientation="horizontal">
     <RelativeLayout
         android:layout_width="match_parent"

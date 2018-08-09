@@ -88,6 +88,7 @@ public class AppConstants extends BaseConstants {
     public final static String USER_SEX= "sex";//
     public final static String USER_SIGN = "sign";//
     public final static String USER_CONTENT = "content";//
+
     public final static String USER_PAYPASSWORD = "payPassword";//
     public final static String USER_LOGIN_PASSWORD = "loginPassword";//
     public final static int RESULT_USER_NICK = 9;//
@@ -99,4 +100,11 @@ public class AppConstants extends BaseConstants {
      */
     public static final String WX_APP_ID="wxef17710e91048981";
     public static final String WX_APP_SECRET="98f4497389ebc0387e1cd4f9e131b2ef";
+
+    /**
+     * 暂时保存
+     */
+
+    public static String USER_PERSON_CHAT = "";//
+    public static String USER_TRANSFER = "";//
 }

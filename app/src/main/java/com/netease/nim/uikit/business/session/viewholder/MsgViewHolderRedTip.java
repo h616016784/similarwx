@@ -1,7 +1,10 @@
 package com.netease.nim.uikit.business.session.viewholder;
 
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
@@ -20,6 +23,7 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase {
     }
 
     private TextView message_item_tips_label;
+    private LinearLayout message_item_tips_ll;
     @Override
     protected int getContentResId() {
         return R.layout.item_msg_red_tips;
@@ -28,6 +32,7 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase {
     @Override
     protected void inflateContentView() {
         message_item_tips_label=view.findViewById(R.id.message_item_tips_label);
+        message_item_tips_ll=view.findViewById(R.id.message_item_tips_ll);
     }
 
     @Override
@@ -38,7 +43,17 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase {
         String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),message.getFromAccount());
         String accid= (String) message.getRemoteExtension().get("accId");
         String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
+        if (!TextUtils.isEmpty(from) && !TextUtils.isEmpty(to)){
+            if (from.equals("我")||from.equals("你")){
+
+            }else if (to.equals("我")||to.equals("你")){
+
+            }else {
+                message_item_tips_ll.setVisibility(View.GONE);
+            }
+        }
         return from+" 领取了 "+to+" 的红包";
+
 //        return TeamNotificationHelper.getTeamNotificationText(message, message.getSessionId());
     }
 

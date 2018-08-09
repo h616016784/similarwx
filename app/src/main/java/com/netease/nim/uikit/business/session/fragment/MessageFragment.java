@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.BaseBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.Transfer;
@@ -22,6 +23,7 @@ import com.android.similarwx.misdk.model.CustomAttachment;
 import com.android.similarwx.present.CashPresent;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 import com.android.similarwx.widget.input.actions.BillAciton;
 import com.android.similarwx.widget.input.actions.CashAction;
@@ -253,7 +255,26 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         if (!isAllowSendMessage(message)) {
             return false;
         }
-
+        if (sessionType == SessionTypeEnum.P2P){
+            String transfer= AppConstants.USER_TRANSFER;
+            if (!TextUtils.isEmpty(transfer)){
+                if (transfer.equals("1")){
+                    if (message.getMsgType()==MsgTypeEnum.custom){
+                        Toaster.toastShort("已禁止转账！");
+                        return false;
+                    }
+                }
+            }
+            String personChat= AppConstants.USER_PERSON_CHAT;
+            if (!TextUtils.isEmpty(personChat)){
+                if (personChat.equals("1")){
+                    if (!(message.getMsgType()==MsgTypeEnum.custom)){
+                        Toaster.toastShort("已禁言！");
+                        return false;
+                    }
+                }
+            }
+        }
         appendTeamMemberPush(message);
         message = changeToRobotMsg(message);
         final IMMessage msg = message;

@@ -10,20 +10,26 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupUser;
+import com.android.similarwx.beans.Notice;
 import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.inteface.ClientDetailInfoViewInterface;
+import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.API;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.ClientDetailInfoPresent;
+import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.dialog.BottomBaseDialog;
@@ -47,7 +53,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/11.
  */
 
-public class ClientDetailInfoFragment extends BaseFragment implements ClientDetailInfoViewInterface {
+public class ClientDetailInfoFragment extends BaseFragment implements ClientDetailInfoViewInterface, SysNoticeViewInterface {
 
     @BindView(R.id.client_detail_account_iv)
     ImageView clientDetailAccountIv;
@@ -72,6 +78,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     private List<PopMoreBean> list;
 
     ClientDetailInfoPresent mPresent;
+    SysNoticePresent sysNoticePresent;
     String rule;
     @Override
     protected int getLayoutResource() {
@@ -84,6 +91,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
         mPresent=new ClientDetailInfoPresent(this);
         mActionbar.setTitle("群名片");
         unbinder = ButterKnife.bind(this, contentView);
+        sysNoticePresent=new SysNoticePresent(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
             String accid = bundle.getString(AppConstants.TRANSFER_ACCOUNT);
@@ -99,6 +107,10 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
             }else {
                 if(groupUserType.equals("1")){
 //                    clientDetailIdTv.setText("普通用户");
+                    if (rule.equals("1")){//两个都是普通用户
+                        //获取禁言和转账标示
+                        sysNoticePresent.getConfig();
+                    }
                 }else{
                     clientDetailIdRl.setVisibility(View.VISIBLE);
                     clientDetailSetRl.setVisibility(View.VISIBLE);
@@ -316,5 +328,25 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     @Override
     public void refreshDeleteUser() {
         activity.finish();
+    }
+
+
+
+    @Override
+    public void refreshSysNotice(List<Notice> list) {
+
+    }
+
+    @Override
+    public void refreshSysMoney(String url) {
+
+    }
+
+    @Override
+    public void refreshSysConfig(RspConfig.ConfigBean bean) {
+        String personChat=bean.getPersonChat();
+        String transfer=bean.getTransfer();
+        AppConstants.USER_PERSON_CHAT=personChat;
+        AppConstants.USER_TRANSFER=transfer;
     }
 }

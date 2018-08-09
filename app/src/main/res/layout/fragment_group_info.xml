@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/distance_smaller"
-                android:text="(120)"
+                android:text="(0)"
                 android:textColor="@color/black"/>
         </LinearLayout>
         <LinearLayout
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_marginLeft="@dimen/distance_normal"
-                android:text="微友娱乐新群"
+                android:text=""
                 android:textSize="@dimen/text_content_or_button"
                 />
         </LinearLayout>
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_marginLeft="@dimen/distance_normal"
-                android:text="123456"
+                android:text=""
                 android:textSize="@dimen/text_content_or_button"
                 />
         </RelativeLayout>
@@ -114,7 +114,7 @@
                 android:id="@+id/group_info_notice_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="每天晚上八点1200-2588双重福利"
+                android:text=""
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_alignParentRight="true"
                 />
@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/distance_small"
-                android:text="单尾扫雷25-55/7包/1.6倍"
+                android:text=""
                 android:textSize="@dimen/text_content_or_button"
                 />
         </LinearLayout>

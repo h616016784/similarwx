@@ -12,8 +12,13 @@ import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.Transfer;
+import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.inteface.message.TransCustomAttachment;
+import com.android.similarwx.model.APIYUNXIN;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +56,16 @@ public class TranferAdminFragment extends BaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             message = (IMMessage) bundle.getSerializable(AppConstants.USER_OBJECT);
+            APIYUNXIN.searchUser(message.getSessionId(), new YCallBack<List<NimUserInfo>>() {
+                @Override
+                public void callBack(List<NimUserInfo> nimUserInfos) {
+                    if (nimUserInfos!=null && nimUserInfos.size()>0){
+                        transferAdminNameTv.setText("转账给 "+nimUserInfos.get(0).getName());
+                    }
+                }
+            });
         }
+
         if (message != null) {
             TransCustomAttachment attachment = (TransCustomAttachment) message.getAttachment();
             if (attachment!=null){

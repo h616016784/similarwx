@@ -123,7 +123,7 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
             myPlayItem.setRightText("推荐: "+mUser.getUserChildCount());
             myBaseNameTv.setText(mUser.getName());
             String url=mUser.getIcon();
-            if (url!=null){
+            if (!TextUtils.isEmpty(url)){
                 NetImageUtil.glideImageNormalWithSize(activity,url,myBaseHeadIv,240,240);
             }
             myBaseAccountTv.setText(mUser.getAccId());
