@@ -127,6 +127,14 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
 
                 }
             }
+
+            //设置用户是否禁言
+            String state=bean.getUserStatus();
+            if (!TextUtils.isEmpty(state)){
+                if (state.equals("3")){
+                    clientDetailSetTv.setText("禁言");
+                }
+            }
         }
         initData();
     }
@@ -163,25 +171,25 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                 EasyAlertDialog mDialog= EasyAlertDialogHelper.createOkCancelDiolag(activity,bean.getUserName(),"是否对该成员禁言?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
                     @Override
                     public void doCancelAction() {
-                        APIYUNXIN.muteTeamMember(bean.getGroupId(), bean.getUserId(), false, new YCallBack<Void>() {
-                            @Override
-                            public void callBack(Void aVoid) {
-                                mPresent.doUpdateGroupUserStatus(bean.getGroupId(), bean.getUserId(),"1");
-                                clientDetailSetTv.setText("否");
-                                Toaster.toastShort("该用户已解禁");
-                            }
-                        });
+                        mPresent.doUpdateGroupUserStatus(bean.getGroupId(), bean.getUserId(),"1");
+                        clientDetailSetTv.setText("否");
+//                        APIYUNXIN.muteTeamMember(bean.getGroupId(), bean.getUserId(), false, new YCallBack<Void>() {
+//                            @Override
+//                            public void callBack(Void aVoid) {
+//
+//                            }
+//                        });
                     }
                     @Override
                     public void doOkAction() {
-                        APIYUNXIN.muteTeamMember(bean.getGroupId(), bean.getUserId(), true, new YCallBack<Void>() {
-                            @Override
-                            public void callBack(Void aVoid) {
-                                mPresent.doUpdateGroupUserStatus(bean.getGroupId(), bean.getUserId(),"3");
-                                clientDetailSetTv.setText("是");
-                                Toaster.toastShort("该用户已禁言");
-                            }
-                        });
+                        mPresent.doUpdateGroupUserStatus(bean.getGroupId(), bean.getUserId(),"3");
+                        clientDetailSetTv.setText("是");
+//                        APIYUNXIN.muteTeamMember(bean.getGroupId(), bean.getUserId(), true, new YCallBack<Void>() {
+//                            @Override
+//                            public void callBack(Void aVoid) {
+//
+//                            }
+//                        });
                     }
                 });
                 mDialog.show();

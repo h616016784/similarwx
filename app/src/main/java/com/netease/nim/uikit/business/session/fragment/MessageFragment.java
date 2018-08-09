@@ -255,7 +255,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         if (!isAllowSendMessage(message)) {
             return false;
         }
-        if (sessionType == SessionTypeEnum.P2P){
+        if (sessionType == SessionTypeEnum.P2P){//单聊
             String transfer= AppConstants.USER_TRANSFER;
             if (!TextUtils.isEmpty(transfer)){
                 if (transfer.equals("1")){
@@ -268,6 +268,16 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             String personChat= AppConstants.USER_PERSON_CHAT;
             if (!TextUtils.isEmpty(personChat)){
                 if (personChat.equals("1")){
+                    if (!(message.getMsgType()==MsgTypeEnum.custom)){
+                        Toaster.toastShort("已禁言！");
+                        return false;
+                    }
+                }
+            }
+        }else if (sessionType == SessionTypeEnum.Team){ //群聊
+            String isMut=AppConstants.USER_TEAM_IS_MUT;
+            if (!TextUtils.isEmpty(isMut)){
+                if (isMut.equals("3")){
                     if (!(message.getMsgType()==MsgTypeEnum.custom)){
                         Toaster.toastShort("已禁言！");
                         return false;

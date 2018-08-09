@@ -91,6 +91,9 @@ public interface APIService {
     @POST("group/getGroupUserList")
     Call<RspGroupUser> getGroupUserList(@FieldMap Map<String,String> map);
 
+    @POST("group/getGroupUser")
+    Call<RspGroupUser> getGroupUser(@QueryMap Map<String,String> map);
+
     @POST("group/getGroupByGroupId")
     Call<RspGroupInfo> getGroupByGroupId(@QueryMap Map<String,String> map);
 

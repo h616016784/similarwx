@@ -10,6 +10,7 @@ import com.android.outbaselibrary.utils.LogUtil;
 import com.android.similarwx.config.NimSDKOptionConfig;
 import com.android.similarwx.config.UserPreferences;
 import com.android.similarwx.inteface.message.TransCustomAttachment;
+import com.android.similarwx.service.mipush.DemoMixPushMessageHandler;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRed;
 import com.android.similarwx.inteface.message.CustomAttachParser;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
@@ -24,6 +25,7 @@ import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderTrans;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.mixpush.NIMPushClient;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.util.NIMUtil;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -72,7 +74,7 @@ public class AppApplication extends BaseApplication {
 //        ContactHelper.init();
 
         // 注册自定义推送消息处理，这个是可选项
-//        NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
+        NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
         // init pinyin
         PinYin.init(this);
         PinYin.validate();

@@ -100,7 +100,7 @@
             android:textSize="@dimen/text_content_or_button"
             android:layout_centerVertical="true"
             android:gravity="right"
-            android:hint="否"
+            android:text="否"
             android:layout_marginRight="@dimen/distance_bigger"
             android:layout_alignParentRight="true"/>
         <ImageView

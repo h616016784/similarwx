@@ -9,6 +9,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.beans.GroupUser;
+import com.android.similarwx.inteface.GroupInfoViewInterface;
+import com.android.similarwx.present.GroupInfoPresent;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.SimpleCallback;
 import com.netease.nim.uikit.api.model.contact.ContactChangedObserver;
@@ -33,7 +38,7 @@ import java.util.List;
  * <p/>
  * Created by huangjun on 2015/3/5.
  */
-public class TeamMessageActivity extends BaseMessageActivity {
+public class TeamMessageActivity extends BaseMessageActivity implements GroupInfoViewInterface {
 
     // model
     private Team team;
@@ -45,6 +50,8 @@ public class TeamMessageActivity extends BaseMessageActivity {
     private TeamMessageFragment fragment;
 
     private Class<? extends Activity> backToClass;
+
+    private GroupInfoPresent groupInfoPresent;
 
     public static void start(Context context, String tid, SessionCustomization customization,
                              Class<? extends Activity> backToClass, IMMessage anchor) {
@@ -79,7 +86,7 @@ public class TeamMessageActivity extends BaseMessageActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        AppConstants.USER_TEAM_IS_MUT="";
         registerTeamUpdateObserver(false);
     }
 
@@ -219,7 +226,11 @@ public class TeamMessageActivity extends BaseMessageActivity {
         fragment = new TeamMessageFragment();
         fragment.setArguments(arguments);
         fragment.setContainerId(R.id.message_fragment_container);
+        String userId= SharePreferenceUtil.getString(this,AppConstants.USER_ACCID,"");
+        groupInfoPresent=new GroupInfoPresent(this);
+        groupInfoPresent.getGroupUser(sessionId,userId);
         return fragment;
+
     }
 
     @Override
@@ -244,5 +255,25 @@ public class TeamMessageActivity extends BaseMessageActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void refreshUserlist(GroupUser groupUser) {
+        if (groupUser!=null){
+            List<GroupUser.ListBean> list=groupUser.getList();
+            if (list!=null || list.size()>0){
+                AppConstants.USER_TEAM_IS_MUT=list.get(0).getUserStatus();
+            }
+        }
+    }
+
+    @Override
+    public void refreshDeleteGroup() {
+
     }
 }

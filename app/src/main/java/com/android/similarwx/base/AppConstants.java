@@ -107,4 +107,5 @@ public class AppConstants extends BaseConstants {
 
     public static String USER_PERSON_CHAT = "";//
     public static String USER_TRANSFER = "";//
+    public static String USER_TEAM_IS_MUT = "";//
 }

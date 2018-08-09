@@ -26,6 +26,10 @@ public class GroupInfoPresent extends BasePresent {
     public void doDeleteGroup(String groupId){
         API.getInstance().doDeleteGroup(groupId,this);
     }
+
+    public void getGroupUser(String groupId,String userId){
+        API.getInstance().getGroupUser(groupId,userId,this);
+    }
     public void analyzeRes(RspGroupUser rspGroup) {
         String result=rspGroup.getResult();
         if (result.equals("success")){

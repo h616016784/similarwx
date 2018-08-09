@@ -40,6 +40,8 @@ import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.NoticePresent;
+import com.android.similarwx.service.reminder.ReminderItem;
+import com.android.similarwx.service.reminder.ReminderManager;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.notification.NotificationUtil;
@@ -55,6 +57,7 @@ import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
+import com.netease.nimlib.sdk.msg.SystemMessageService;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
@@ -78,7 +81,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/1.
  */
 
-public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, LoginViewInterface, NoticeViewInterface {
+public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, LoginViewInterface, NoticeViewInterface, ReminderManager.UnreadNumChangedCallback {
 
     Unbinder unbinder;
     @BindView(R.id.main_search_iv)
@@ -120,6 +123,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         loginPresent = new LoginPresent(this);
         noticePresent=new NoticePresent(this);
         initYunXinSystemMsgListener();
+        registerMsgUnreadInfoObserver(true);
+        requestSystemMessageUnreadCount();
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
 
         if (mUser!=null){
@@ -385,7 +390,29 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private void doGroupApply(String groupId) {
         groupPresent.doGroupAppley(groupId);
     }
+    /**
+     * 查询系统消息未读数
+     */
+    private void requestSystemMessageUnreadCount() {
+        int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
+        ReminderManager.getInstance().updateContactUnreadNum(unread);
+    }
+    /**
+     * 注册未读消息数量观察者
+     */
+    private void registerMsgUnreadInfoObserver(boolean register) {
+        if (register) {
+            ReminderManager.getInstance().registerUnreadNumChangedCallback(this);
+        } else {
+            ReminderManager.getInstance().unregisterUnreadNumChangedCallback(this);
+        }
+    }
 
+
+    @Override
+    public void onUnreadNumChanged(ReminderItem item) {
+
+    }
     @Override
     public void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE); //得到InputMethodManager的实例
@@ -465,4 +492,5 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             }
         }
     }
+
 }
