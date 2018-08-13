@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.adapter.HomeAdapter;
@@ -54,13 +55,19 @@ import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.business.recent.TeamMemberAitHelper;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.SystemMessageService;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.model.Team;
@@ -70,7 +77,11 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -124,7 +135,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         noticePresent=new NoticePresent(this);
         initYunXinSystemMsgListener();
         registerMsgUnreadInfoObserver(true);
-        requestSystemMessageUnreadCount();
+//        requestSystemMessageUnreadCount();
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
 
         if (mUser!=null){
@@ -166,6 +177,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         recyclerView.setAdapter(adapter);
         recyclerView.requestFocus();
         adapter.setOnItemClickListener(this);
+
+
         hideKeyboard();
     }
 
@@ -239,6 +252,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         bean2.setImage(R.drawable.icon_top_search);
         listMore.add(bean2);
     }
+
 
     @Override
     protected void onResume() {
@@ -391,7 +405,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         groupPresent.doGroupAppley(groupId);
     }
     /**
-     * 查询系统消息未读数
+     * 查询系统消息未读数,这个项目没有用到
      */
     private void requestSystemMessageUnreadCount() {
         int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
@@ -401,14 +415,54 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
      * 注册未读消息数量观察者
      */
     private void registerMsgUnreadInfoObserver(boolean register) {
-        if (register) {
-            ReminderManager.getInstance().registerUnreadNumChangedCallback(this);
-        } else {
-            ReminderManager.getInstance().unregisterUnreadNumChangedCallback(this);
-        }
+//        if (register) {
+//            ReminderManager.getInstance().registerUnreadNumChangedCallback(this);
+//        } else {
+//            ReminderManager.getInstance().unregisterUnreadNumChangedCallback(this);
+//        }
+        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
+        service.observeReceiveMessage(messageReceiverObserver, register);
     }
 
+    // 暂存消息，当RecentContact 监听回来时使用，结束后清掉
+    private Map<String, Set<IMMessage>> cacheMessages = new HashMap<>();
 
+    //监听在线消息中是否有@我
+    private Observer<List<IMMessage>> messageReceiverObserver = new Observer<List<IMMessage>>() {
+        @Override
+        public void onEvent(List<IMMessage> imMessages) {
+            if (imMessages != null) {
+                boolean isTeam=false;
+                for (IMMessage imMessage : imMessages) {
+//                    if (!TeamMemberAitHelper.isAitMessage(imMessage)) {
+//                        continue;
+//                    }
+//                    Set<IMMessage> cacheMessageSet = cacheMessages.get(imMessage.getSessionId());
+//                    if (cacheMessageSet == null) {
+//                        cacheMessageSet = new HashSet<>();
+//                        cacheMessages.put(imMessage.getSessionId(), cacheMessageSet);
+//                    }
+//                    cacheMessageSet.add(imMessage);
+                    if (imMessage.getSessionType()==SessionTypeEnum.Team){
+                        isTeam=true;
+                    }
+                }
+                if (isTeam){
+                    //查询最近联系人已获取未读数
+                    NIMClient.getService(MsgService.class).queryRecentContacts()
+                            .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
+                                @Override
+                                public void onResult(int code, List<RecentContact> recents, Throwable e) {
+                                    // recents参数即为最近联系人列表（最近会话列表）
+                                    adapter.setRecentContacts(recents);
+                                    adapter.addData(mListData);
+                                }
+                            });
+                    isTeam=false;
+                }
+            }
+        }
+    };
     @Override
     public void onUnreadNumChanged(ReminderItem item) {
 
@@ -448,7 +502,16 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             }
         }
 //        mListData.addAll(data);//正式要去掉这个
-        adapter.addData(mListData);
+        //查询最近联系人已获取未读数
+        NIMClient.getService(MsgService.class).queryRecentContacts()
+                .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
+                    @Override
+                    public void onResult(int code, List<RecentContact> recents, Throwable e) {
+                        // recents参数即为最近联系人列表（最近会话列表）
+                        adapter.setRecentContacts(recents);
+                        adapter.addData(mListData);
+                    }
+                });
     }
 
     @Override

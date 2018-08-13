@@ -23,9 +23,9 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_mini"
                 android:layout_alignParentRight="true"
-                android:visibility="gone"
                 android:gravity="center"
-                android:background="@drawable/count_bg"
+                android:visibility="gone"
+                android:background="@drawable/nim_main_tab_new_message_notify"
                 />
     </RelativeLayout>
 
