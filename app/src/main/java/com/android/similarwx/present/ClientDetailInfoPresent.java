@@ -37,11 +37,15 @@ public class ClientDetailInfoPresent {
     public void analyzeRes(RspUser rspUser) {
         String result=rspUser.getResult();
         if (result.equals("success")){
-            User user=rspUser.getData();
-            if (user!=null){
-                mView.refreshUserInfo(user);
-            }else
-                Toaster.toastShort("数据解析异常");
+            if (rspUser.getErrorCode().equals("0000")){
+                User user=rspUser.getData();
+                if (user!=null){
+                    mView.refreshUserInfo(user);
+                }else
+                    Toaster.toastShort("数据解析异常");
+            }else {
+                Toaster.toastShort(rspUser.getErrorMsg());
+            }
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
         }
@@ -49,7 +53,10 @@ public class ClientDetailInfoPresent {
     public void analyzeUpdateGroupUser(RspUpdateGroupUser rspUser) {
         String result=rspUser.getResult();
         if (result.equals("success")){
-            mView.refreshUpdateUser();
+            if (rspUser.getErrorCode().equals("0000")){
+                mView.refreshUpdateUser();
+            }else
+                Toaster.toastShort(rspUser.getErrorMsg());
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
         }
@@ -58,7 +65,10 @@ public class ClientDetailInfoPresent {
     public void analyzeDeleteGroupUser(RspDeleteGroupUser rspDeleteGroupUser) {
         String result=rspDeleteGroupUser.getResult();
         if (result.equals("success")){
-            mView.refreshDeleteUser();
+            if (rspDeleteGroupUser.getErrorCode().equals("0000")){
+                mView.refreshDeleteUser();
+            }else
+                Toaster.toastShort(rspDeleteGroupUser.getErrorMsg());
         }else {
             Toaster.toastShort(rspDeleteGroupUser.getErrorMsg());
         }
@@ -67,7 +77,10 @@ public class ClientDetailInfoPresent {
     public void analyzeUpdateGroupUserStatus(RspUpdateUserStatus rspDeleteGroupUser) {
         String result=rspDeleteGroupUser.getResult();
         if (result.equals("success")){
-            mView.refreshUpdateUserStatus();
+            if (rspDeleteGroupUser.getErrorCode().equals("0000")){
+                mView.refreshUpdateUserStatus();
+            }else
+                Toaster.toastShort(rspDeleteGroupUser.getErrorMsg());
         }else {
             Toaster.toastShort(rspDeleteGroupUser.getErrorMsg());
         }

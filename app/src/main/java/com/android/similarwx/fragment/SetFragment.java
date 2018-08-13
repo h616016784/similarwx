@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
@@ -11,6 +12,7 @@ import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.BaseItemView;
+import com.android.similarwx.widget.toggle.ToggleButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +30,10 @@ public class SetFragment extends BaseFragment {
     BaseItemView mySetPhoneBv;
     @BindView(R.id.my_set_password_bv)
     BaseItemView mySetPasswordBv;
+    @BindView(R.id.my_set_sound_set_rl)
+    RelativeLayout mySetSoundSetRl;
+    @BindView(R.id.my_set_sound_set_tg)
+    ToggleButton mySetSoundSetTg;
     Unbinder unbinder;
 
     @Override

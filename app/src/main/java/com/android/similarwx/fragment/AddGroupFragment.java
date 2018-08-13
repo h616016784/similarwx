@@ -205,7 +205,8 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                         reqGroup.setCreateId(id);
                         reqGroup.setNotice(notice);
                         reqGroup.setRequirement(must);
-                        reqGroup.setGrabBagNumber(Integer.parseInt(redNum));
+                        if (!TextUtils.isEmpty(redNum))
+                            reqGroup.setGrabBagNumber(Integer.parseInt(redNum));
                         if (!TextUtils.isEmpty(leilv))
                             reqGroup.setMultipleRate(Double.parseDouble(leilv));
                         if (!TextUtils.isEmpty(low))

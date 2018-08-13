@@ -328,7 +328,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 String joinmode=bean.getJoinmode();
                 if (!TextUtils.isEmpty(joinmode)){
                     if (joinmode.equals("0")){//允许任何人加入
-                        doInGroup(bean);
+                        doInGroupByAnyOne(bean);
                     }else if (joinmode.equals("1")){
                         EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
                             @Override
@@ -378,24 +378,14 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     mDialog.show();
                 }
             }else {//在群里  直接进入
-                doInGroup(bean);
+                NimUIKit.startTeamSession(this, bean.getGroupId());
             }
         }
     }
 
-    public void doInGroup(GroupMessageBean.ListBean bean){
-//        Bundle bundle = new Bundle();
-//        bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_GROUP_EIGHT);
-//        bundle.putSerializable(AppConstants.CHAT_TYPE, SessionTypeEnum.Team);
-//        bundle.putString(AppConstants.CHAT_ACCOUNT_ID, bean.getGroupId());//群id号
-//        bundle.putString(AppConstants.CHAT_ACCOUNT_NAME, bean.getGroupName());//群name
-//        bundle.putSerializable(AppConstants.CHAT_GROUP_BEAN,bean);
-//        FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new MIFragmentNew(), bundle);
+    private void doInGroupByAnyOne(GroupMessageBean.ListBean bean) {
         String accid=SharePreferenceUtil.getString(this,AppConstants.USER_ACCID,"");
         noticePresent.doAddGroupUser(bean.getGroupId(),accid);
-
-
-//        NimUIKit.startP2PSession(this, bean.getGroupId());
     }
 
     /**
@@ -409,7 +399,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
      */
     private void requestSystemMessageUnreadCount() {
         int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
-        ReminderManager.getInstance().updateSessionUnreadNum(unread);
+        ReminderManager.getInstance().updateContactUnreadNum(unread);
     }
     /**
      * 注册未读消息数量观察者
@@ -434,15 +424,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             if (imMessages != null) {
                 boolean isTeam=false;
                 for (IMMessage imMessage : imMessages) {
-//                    if (!TeamMemberAitHelper.isAitMessage(imMessage)) {
-//                        continue;
-//                    }
-//                    Set<IMMessage> cacheMessageSet = cacheMessages.get(imMessage.getSessionId());
-//                    if (cacheMessageSet == null) {
-//                        cacheMessageSet = new HashSet<>();
-//                        cacheMessages.put(imMessage.getSessionId(), cacheMessageSet);
-//                    }
-//                    cacheMessageSet.add(imMessage);
                     if (imMessage.getSessionType()==SessionTypeEnum.Team){
                         isTeam=true;
                     }

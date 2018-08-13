@@ -14,6 +14,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <RelativeLayout
+        android:id="@+id/my_set_sound_set_rl"
+        android:layout_marginTop="@dimen/distance_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/distance_small"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/view_base_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_sub_title"
+
+            android:layout_marginLeft="@dimen/distance_small"
+            android:text="声音"/>
+
+        <com.android.similarwx.widget.toggle.ToggleButton
+            android:id="@+id/my_set_sound_set_tg"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/distance_big"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
     <com.android.similarwx.widget.BaseItemView
         android:layout_marginTop="@dimen/distance_normal"
         android:id="@+id/my_set_password_bv"
