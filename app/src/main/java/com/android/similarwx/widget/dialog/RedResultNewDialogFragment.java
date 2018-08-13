@@ -21,10 +21,12 @@ import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.inteface.MiViewInterface;
+import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
@@ -55,6 +57,14 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         redDialogFragment.setArguments(bundle);
         return redDialogFragment;
     }
+    public static RedResultNewDialogFragment newInstance(SendRed.SendRedBean sendRed,String sessionId) {
+        RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("info", sendRed);
+        bundle.putSerializable("sessionId", sessionId);
+        redDialogFragment.setArguments(bundle);
+        return redDialogFragment;
+    }
     public static RedResultNewDialogFragment newInstance(String title, String message) {
         RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
         Bundle bundle = new Bundle();
@@ -73,7 +83,8 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
     SendRed.SendRedBean mSendRedBean;
     private MIPresent miPresent;
-    IMMessage message;
+//    IMMessage message;
+    private String sessionId;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +110,8 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         Bundle bundle=getArguments();
         if (bundle!=null){
             mSendRedBean= (SendRed.SendRedBean) bundle.getSerializable("info");
-            message= (IMMessage) bundle.getSerializable("message");
+//            message= (IMMessage) bundle.getSerializable("message");
+            sessionId= bundle.getString("sessionId");
             miPresent=new MIPresent(this);
 
             if (mSendRedBean!=null){
@@ -142,6 +154,14 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
     public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,IMMessage imMessage){
         RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed,imMessage);
+        FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
+        transaction.add(redResultDialogFragment,"redResultDialogBean");
+        transaction.addToBackStack(null);
+        transaction.commit();
+        return redResultDialogFragment;
+    }
+    public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,String sessionId){
+        RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed,sessionId);
         FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
         transaction.add(redResultDialogFragment,"redResultDialogBean");
         transaction.addToBackStack(null);
@@ -206,7 +226,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         if (mSendRedBean!=null){
 
                             //抢包成功、发送一个提示消息
-                            doYunXinTip(message);
+                            doYunXinTip(sessionId);
 
                             bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
                             bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
@@ -225,11 +245,13 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         }
     }
 
-    private void doYunXinTip(IMMessage bena) {
+    private void doYunXinTip(String sessionId) {
         Map<String, Object> content = new HashMap<>(1);
         content.put("accId", mSendRedBean.getMyUserId());
+        Gson gson=new Gson();
+        content.put("sendRedBean", gson.toJson(mSendRedBean));
 // 创建tip消息，teamId需要开发者已经存在的team的teamId
-        IMMessage msg = MessageBuilder.createTipMessage(bena.getSessionId(), SessionTypeEnum.Team);
+        IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team);
         msg.setRemoteExtension(content);
 // 自定义消息配置选项
         CustomMessageConfig config = new CustomMessageConfig();

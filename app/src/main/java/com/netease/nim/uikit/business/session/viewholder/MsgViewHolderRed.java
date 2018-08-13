@@ -135,7 +135,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
         } else if (adapter instanceof ChatRoomMsgAdapter) {
             proxy = ((ChatRoomMsgAdapter) adapter).getContainer().proxy;
         }
-        message.getFromAccount(); message.getSessionId(); message.getSessionType();
-        RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean(),message);
+//        message.getFromAccount(); message.getSessionId(); message.getSessionType();
+        RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean(),message.getSessionId());
     }
 }
