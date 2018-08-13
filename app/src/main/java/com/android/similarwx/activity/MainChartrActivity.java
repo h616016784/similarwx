@@ -409,7 +409,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
      */
     private void requestSystemMessageUnreadCount() {
         int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
-        ReminderManager.getInstance().updateContactUnreadNum(unread);
+        ReminderManager.getInstance().updateSessionUnreadNum(unread);
     }
     /**
      * 注册未读消息数量观察者
