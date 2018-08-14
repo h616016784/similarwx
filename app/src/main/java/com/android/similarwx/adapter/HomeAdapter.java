@@ -29,6 +29,7 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
 
     @Override
     protected void convert(BaseViewHolder helper, GroupMessageBean.ListBean item) {
+        helper.setGone(R.id.item_group_count_tv,false);//隐藏这个控件
         helper.setText(R.id.item_group_tv,item.getGroupName());
         if(helper.getLayoutPosition()==0){
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_notice);
@@ -37,7 +38,7 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
 //            helper.setGone(R.id.item_group_count_tv,true);
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
         }else{
-//            helper.setGone(R.id.item_group_count_tv,false);//隐藏这个控件
+
             String groupIcon =item.getGroupIcon();
             if (!TextUtils.isEmpty(groupIcon)){
                 NetImageUtil.glideImageNormal(context,groupIcon,(ImageView) helper.getView(R.id.item_group_iv));

@@ -36,6 +36,7 @@ public class SetFragment extends BaseFragment {
     ToggleButton mySetSoundSetTg;
     Unbinder unbinder;
 
+    private int isClose=0;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_set;
@@ -55,6 +56,10 @@ public class SetFragment extends BaseFragment {
         mySetAccountBv.setNameText(R.string.set_account);mySetAccountBv.setRightText(account);
         mySetPhoneBv.setNameText(R.string.set_phone);mySetPhoneBv.setRightText(mobile);
         mySetPasswordBv.setNameText(R.string.set_password);mySetPasswordBv.setRightText("");mySetPasswordBv.setImageView(R.drawable.em_right);
+        isClose=SharePreferenceUtil.getInt(activity,AppConstants.USER_SOUND_SET);
+        if (isClose==1){
+            mySetSoundSetTg.setToggleOn();
+        }
     }
 
     @Override
@@ -63,8 +68,23 @@ public class SetFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.my_set_password_bv)
-    public void onViewClicked() {
-        FragmentUtils.navigateToNormalActivity(activity, new SetPasswordFragment(), null);
+    @OnClick({R.id.my_set_password_bv,R.id.my_set_sound_set_tg})
+    public void onViewClicked(View view) {
+        switch (view.getId()){
+            case R.id.my_set_password_bv:
+                FragmentUtils.navigateToNormalActivity(activity, new SetPasswordFragment(), null);
+                break;
+            case R.id.my_set_sound_set_tg://声音设置
+                if (isClose==0){
+                    isClose=1;
+                    mySetSoundSetTg.setToggleOn();
+                }else if (isClose==1){
+                    isClose=0;
+                    mySetSoundSetTg.setToggleOff();
+                }
+                SharePreferenceUtil.putObject(activity,AppConstants.USER_SOUND_SET,isClose);
+                break;
+        }
+
     }
 }

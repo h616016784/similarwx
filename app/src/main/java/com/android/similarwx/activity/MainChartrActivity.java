@@ -528,10 +528,19 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     @Override
     public void aggreeView(String code,String groupId) {
         if (!TextUtils.isEmpty(code)){
-            if (code.equals("0000") || code.equals("2045")){//添加成功或者以在群里了
+            if (code.equals("0000") ){//添加成功或者
+                APIYUNXIN.applyJoinTeam(groupId, "", new YCallBack<Team>() {
+                    @Override
+                    public void callBack(Team team) {
+                        // 打开群聊界面
+                        NimUIKit.startTeamSession(MainChartrActivity.this, groupId);
+                    }
+                });
+            }else if (code.equals("2045")){//以在群里了
                 // 打开群聊界面
                 NimUIKit.startTeamSession(this, groupId);
-            }else {
+            }
+            else {
                 Toaster.toastShort("异常操作!!");
             }
         }
