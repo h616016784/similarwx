@@ -204,7 +204,7 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
             case R.id.dialog_red_result_kai_tv://开红包
                 if (mClicker!=null){
                     mClicker.onOpenClick();
-                    MediaManager.playSendMessageSound(getActivity(),null);
+                    MediaManager.playSendMessageSoundDefault(getActivity(),null);
                 }
 //                dismiss();
                 break;

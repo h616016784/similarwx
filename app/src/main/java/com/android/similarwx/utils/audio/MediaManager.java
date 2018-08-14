@@ -16,16 +16,52 @@ public class MediaManager {
     private static MediaPlayer mPlayer;
     private static boolean isPause;
 
-    public static boolean playSendMessageSound(Context context,MediaPlayer.OnCompletionListener onCompletionListener) {
+    public static void playSendMessageSoundDefault(Context context,MediaPlayer.OnCompletionListener onCompletionListener){
         AssetManager am = context.getAssets();
         try {
             AssetFileDescriptor afd = am.openFd("sent_message.mp3");
-            return playSound(afd.getFileDescriptor().toString(),onCompletionListener);
+            playSendMessageSound(context,afd,onCompletionListener);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
     }
+    public static boolean playSendMessageSound(Context context,AssetFileDescriptor afd ,MediaPlayer.OnCompletionListener onCompletionListener) {
+        if (mPlayer == null) {
+            mPlayer = new MediaPlayer();
+            // 保险起见，设置报错监听
+            mPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    mPlayer.reset();
+                    return false;
+                }
+            });
+        } else {
+            mPlayer.reset();// 就回复
+        }
+
+        try {
+            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mPlayer.setOnCompletionListener(onCompletionListener);
+            mPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(), afd.getLength());
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
     public static boolean playSound(String filePathString,
                                     MediaPlayer.OnCompletionListener onCompletionListener) {
         if (mPlayer == null) {

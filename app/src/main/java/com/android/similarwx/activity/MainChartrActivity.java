@@ -55,6 +55,7 @@ import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.api.model.SimpleCallback;
 import com.netease.nim.uikit.business.recent.TeamMemberAitHelper;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -162,11 +163,13 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                         .create();
                 dialog.show();
             }
-            String userType=mUser.getUserType();
-            if (!TextUtils.isEmpty(userType)){
-                if (userType.equals("1")){
-                    createGroupIv.setVisibility(View.VISIBLE);
-                }
+            int systemFlg=mUser.getSystemFlg();
+            int adminFlg=mUser.getAdminFlg();
+            int serviceFlg=mUser.getServiceFlg();
+            if (systemFlg==0 && adminFlg==0 && serviceFlg==0 ){
+                createGroupIv.setVisibility(View.GONE);
+            }else {
+                createGroupIv.setVisibility(View.VISIBLE);
             }
         }
         initLoacalData();
@@ -325,58 +328,73 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         } else {
             final GroupMessageBean.ListBean bean=mListData.get(position);
             if (bean.getUserExists().equals("0")){//不在群里
-                String joinmode=bean.getJoinmode();
-                if (!TextUtils.isEmpty(joinmode)){
-                    if (joinmode.equals("0")){//允许任何人加入
-                        doInGroupByAnyOne(bean);
-                    }else if (joinmode.equals("1")){
-                        EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
-                            @Override
-                            public void doCancelAction() {
+                //先调用云信的判断
+                NimUIKit.getTeamProvider().fetchTeamById(bean.getGroupId(), new SimpleCallback<Team>() {
+                    @Override
+                    public void onResult(boolean success, Team result, int code) {
+                        if (success && result != null) {
+                            if (result.isMyTeam()){//在群里面
+                                NimUIKit.startTeamSession(MainChartrActivity.this, bean.getGroupId());
+                            }else {
+                                //这回真的不在群里面了
+                                String joinmode=bean.getJoinmode();
+                                if (!TextUtils.isEmpty(joinmode)){
+                                    if (joinmode.equals("0")){//允许任何人加入
+                                        doInGroupByAnyOne(bean);
+                                    }else if (joinmode.equals("1")){
+                                        EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
+                                            @Override
+                                            public void doCancelAction() {
 
-                            }
-                            @Override
-                            public void doOkAction() {
-                                Gson gson=new Gson();
-                                mUser.setPasswd("申请加入该群");
-                                mUser.setPasswdStr(bean.getGroupName());
+                                            }
+                                            @Override
+                                            public void doOkAction() {
+                                                Gson gson=new Gson();
+                                                mUser.setPasswd("申请加入该群");
+                                                mUser.setPasswdStr(bean.getGroupName());
 //                                String detail=gson.toJson(mUser);
-                                APIYUNXIN.applyJoinTeam(bean.getGroupId(), "", new YCallBack<Team>() {
-                                    @Override
-                                    public void callBack(Team team) {
-                                        Toaster.toastShort("申请成功，等待群主审批");
+                                                APIYUNXIN.applyJoinTeam(bean.getGroupId(), "", new YCallBack<Team>() {
+                                                    @Override
+                                                    public void callBack(Team team) {
+                                                        Toaster.toastShort("申请成功，等待群主审批");
+                                                    }
+                                                });
+//                        doGroupApply(bean.getGroupId());
+                                            }
+                                        });
+                                        mDialog.show();
+                                    }else {
+
                                     }
-                                });
-//                        doGroupApply(bean.getGroupId());
-                            }
-                        });
-                        mDialog.show();
-                    }else {
+                                }else {
+                                    EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
+                                        @Override
+                                        public void doCancelAction() {
 
-                    }
-                }else {
-                    EasyAlertDialog  mDialog=EasyAlertDialogHelper.createOkCancelDiolag(MainChartrActivity.this,bean.getGroupName(),"是否加入该群?","是","否",true, new EasyAlertDialogHelper.OnDialogActionListener() {
-                        @Override
-                        public void doCancelAction() {
-
-                        }
-                        @Override
-                        public void doOkAction() {
-                            Gson gson=new Gson();
-                            mUser.setPasswd("申请加入该群");
-                            mUser.setPasswdStr(bean.getGroupName());
+                                        }
+                                        @Override
+                                        public void doOkAction() {
+                                            Gson gson=new Gson();
+                                            mUser.setPasswd("申请加入该群");
+                                            mUser.setPasswdStr(bean.getGroupName());
 //                            String detail=gson.toJson(mUser);
-                            APIYUNXIN.applyJoinTeam(bean.getGroupId(), "", new YCallBack<Team>() {
-                                @Override
-                                public void callBack(Team team) {
-                                    Toaster.toastShort("申请成功，等待群主审批");
-                                }
-                            });
+                                            APIYUNXIN.applyJoinTeam(bean.getGroupId(), "", new YCallBack<Team>() {
+                                                @Override
+                                                public void callBack(Team team) {
+                                                    Toaster.toastShort("申请成功，等待群主审批");
+                                                }
+                                            });
 //                        doGroupApply(bean.getGroupId());
+                                        }
+                                    });
+                                    mDialog.show();
+                                }
+                            }
+                        }else {
+                            Toaster.toastShort("获取群组信息失败!");
                         }
-                    });
-                    mDialog.show();
-                }
+                    }
+                });
             }else {//在群里  直接进入
                 NimUIKit.startTeamSession(this, bean.getGroupId());
             }

@@ -317,7 +317,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         }
         //发送的声音
         if (sound==1)
-            MediaManager.playSendMessageSound(getActivity(),null);
+            MediaManager.playSendMessageSoundDefault(getActivity(),null);
         return true;
     }
 
