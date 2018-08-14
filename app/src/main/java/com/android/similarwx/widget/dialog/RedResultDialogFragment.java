@@ -22,6 +22,7 @@ import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.audio.MediaManager;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
@@ -201,8 +202,10 @@ public class RedResultDialogFragment extends DialogFragment implements View.OnCl
                 dismiss();
                 break;
             case R.id.dialog_red_result_kai_tv://开红包
-                if (mClicker!=null)
+                if (mClicker!=null){
                     mClicker.onOpenClick();
+                    MediaManager.playSendMessageSound(getActivity(),null);
+                }
 //                dismiss();
                 break;
         }

@@ -14,9 +14,11 @@ import android.support.v4.content.ContextCompat;
 
 import com.android.similarwx.R;
 import com.android.similarwx.activity.SysNoticeActivity;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.base.NormalActivity;
 import com.android.similarwx.fragment.NoticeFragment;
+import com.android.similarwx.utils.SharePreferenceUtil;
 
 /**
  * Created by hanhuailong on 2018/6/21.
@@ -77,7 +79,11 @@ public class NotificationUtil {
 //        mBuilder.setOngoing(true);
         //设置消息的提醒方式，震动提醒：DEFAULT_VIBRATE     声音提醒：NotificationCompat.DEFAULT_SOUND
         //三色灯提醒NotificationCompat.DEFAULT_LIGHTS     以上三种方式一起：DEFAULT_ALL
-        mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        int sound= SharePreferenceUtil.getInt(context, AppConstants.USER_SOUND_SET);
+        if (sound==1)
+            mBuilder.setDefaults(NotificationCompat.DEFAULT_VIBRATE);
+        else
+            mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
         //设置震动方式，延迟零秒，震动一秒，延迟一秒、震动一秒
 //        mBuilder.setVibrate(new long[]{0, 1000, 1000, 1000});
 //        Intent intent = new Intent(context, SysNoticeActivity.class);

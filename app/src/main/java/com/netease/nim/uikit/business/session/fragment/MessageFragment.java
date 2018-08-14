@@ -24,6 +24,8 @@ import com.android.similarwx.present.CashPresent;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.audio.AudioPlayer;
+import com.android.similarwx.utils.audio.MediaManager;
 import com.android.similarwx.widget.dialog.RedResultDialogFragment;
 import com.android.similarwx.widget.input.actions.BillAciton;
 import com.android.similarwx.widget.input.actions.CashAction;
@@ -96,7 +98,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
 
     private MIPresent miPresent;
     private Gson gson;
-
+    private int sound=0;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -108,6 +110,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         miPresent=new MIPresent(this);
         gson=new Gson();
+        sound=SharePreferenceUtil.getInt(getActivity(),AppConstants.USER_SOUND_SET);
         rootView = inflater.inflate(R.layout.nim_message_fragment_hhl, container, false);
         return rootView;
     }
@@ -312,6 +315,9 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         if (aitManager != null) {
             aitManager.reset();
         }
+        //发送的声音
+        if (sound==1)
+            MediaManager.playSendMessageSound(getActivity(),null);
         return true;
     }
 
