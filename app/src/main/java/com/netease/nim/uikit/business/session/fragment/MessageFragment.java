@@ -538,7 +538,12 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         if (transfer!=null){
             TransCustomAttachment transCustomAttachment=new TransCustomAttachment();
             transCustomAttachment.setTransfer(transfer);
-            return MessageBuilder.createCustomMessage(sessionId, sessionType, "转账",transCustomAttachment);
+
+            // 自定义消息配置选项
+            CustomMessageConfig config = new CustomMessageConfig();
+// 消息不计入未读
+            config.enableUnreadCount = false;
+            return MessageBuilder.createCustomMessage(sessionId, sessionType, "转账",transCustomAttachment,config);
         }
         return null;
     }
