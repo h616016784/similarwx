@@ -125,7 +125,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
         }
 
         redDetailRv.setLayoutManager(new LinearLayoutManager(activity));
-        redDetailAdapter=new RedDetailAdapter(R.layout.item_red_detial,activity);
+        redDetailAdapter=new RedDetailAdapter(R.layout.item_red_detial,activity,sendRed.getType());
         redDetailRv.setAdapter(redDetailAdapter);
     }
 

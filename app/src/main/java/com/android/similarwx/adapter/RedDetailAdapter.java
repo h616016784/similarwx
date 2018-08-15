@@ -26,18 +26,30 @@ import java.util.List;
 
 public class RedDetailAdapter extends BaseQuickAdapter<RedDetialBean,BaseViewHolder> {
     private Context mContext;
-    public RedDetailAdapter(int layoutResId,Context context) {
+    private String type="LUCK";
+    public RedDetailAdapter(int layoutResId,Context context,String type) {
         super(layoutResId);
         this.mContext=context;
+        this.type=type;
     }
+    public void setType(){
 
+    }
     @Override
     protected void convert(BaseViewHolder helper, RedDetialBean item) {
         int pos=helper.getLayoutPosition();
         if (pos==this.getData().size()-1){
-            String am=String.format("%.2f", item.getAmount());
-            String amNew=am.substring(0,am.length()-1);
-            helper.setText(R.id.item_red_detail_money_tv,amNew+"*"+" 元");
+            if (TextUtils.isEmpty(type)){//默认是luck
+                helper.setText(R.id.item_red_detail_money_tv,String.format("%.2f", item.getAmount())+" 元");
+            }else {
+                if (type.equals("LUCK")){
+                    helper.setText(R.id.item_red_detail_money_tv,String.format("%.2f", item.getAmount())+" 元");
+                }else {
+                    String am=String.format("%.2f", item.getAmount());
+                    String amNew=am.substring(0,am.length()-1);
+                    helper.setText(R.id.item_red_detail_money_tv,amNew+"*"+" 元");
+                }
+            }
         }else {
             helper.setText(R.id.item_red_detail_money_tv,String.format("%.2f", item.getAmount())+" 元");
         }

@@ -17,12 +17,15 @@ import android.widget.TextView;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.BaseBean;
+import com.android.similarwx.beans.RedDetialBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.inteface.MiViewInterface;
+import com.android.similarwx.inteface.RedDetailViewInterface;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.present.MIPresent;
+import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
@@ -47,7 +50,7 @@ import java.util.Map;
  * Created by Administrator on 2018/4/9.
  */
 
-public class RedResultNewDialogFragment extends DialogFragment implements View.OnClickListener, MiViewInterface {
+public class RedResultNewDialogFragment extends DialogFragment implements View.OnClickListener, MiViewInterface, RedDetailViewInterface {
 
     public static RedResultNewDialogFragment newInstance(SendRed.SendRedBean sendRed,IMMessage message) {
         RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
@@ -83,6 +86,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
     SendRed.SendRedBean mSendRedBean;
     private MIPresent miPresent;
+    private RedDetailPresent mPresent;
 //    IMMessage message;
     private String sessionId;
     @Override
@@ -113,7 +117,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 //            message= (IMMessage) bundle.getSerializable("message");
             sessionId= bundle.getString("sessionId");
             miPresent=new MIPresent(this);
-
+            mPresent=new RedDetailPresent(this);
             if (mSendRedBean!=null){
                 miPresent.canGrab(mSendRedBean.getRedPacId(),getActivity());//请求是否能抢红包
                 String accid=mSendRedBean.getMyUserId();//云信的accid
@@ -174,6 +178,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         if (prev != null) {
             DialogFragment df = (DialogFragment) prev;
             df.dismiss();
+            transaction.popBackStack();
         }
     }
 
@@ -225,8 +230,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         Bundle bundle=new Bundle();
                         if (mSendRedBean!=null){
 
-                            //抢包成功、发送一个提示消息
-                            doYunXinTip(sessionId);
+                            mPresent.redDetailList(mSendRedBean.getRedPacId(),mSendRedBean.getGroupId());
 
                             bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
                             bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
@@ -245,9 +249,10 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         }
     }
 
-    private void doYunXinTip(String sessionId) {
+    private void doYunXinTip(String sessionId,int finishFlag) {
         Map<String, Object> content = new HashMap<>(1);
         content.put("accId", mSendRedBean.getMyUserId());
+        content.put("finishFlag",finishFlag);
         Gson gson=new Gson();
         content.put("sendRedBean", gson.toJson(mSendRedBean));
 // 创建tip消息，teamId需要开发者已经存在的team的teamId
@@ -265,7 +270,6 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             @Override
             public void onSuccess(Void aVoid) {
                 // 保存消息到本地数据库，但不发送到服务器
-                NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
             }
 
             @Override
@@ -300,5 +304,22 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 setErrorText(bean.getRetMsg());
             }
         }
+    }
+
+    @Override
+    public void refreshRedDetail(List<RedDetialBean> list) {
+        int flag=0;
+        if (list!=null && mSendRedBean!=null){
+            String count=mSendRedBean.getCount();
+            if (!TextUtils.isEmpty(count)){
+                if (list.size()==Integer.parseInt(count)){
+                    flag=1;
+                }else {
+                    flag=0;
+                }
+            }
+        }
+        //抢包成功、发送一个提示消息
+        doYunXinTip(sessionId,flag);
     }
 }

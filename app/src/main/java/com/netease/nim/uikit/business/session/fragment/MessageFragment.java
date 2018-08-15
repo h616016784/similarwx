@@ -99,7 +99,8 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     private MIPresent miPresent;
     private Gson gson;
     private int sound=0;
-
+    Container container;
+    IMMessage anchor;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -132,6 +133,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     @Override
     public void onResume() {
         super.onResume();
+        messageListPanel.reload(container, anchor);
         messageListPanel.onResume();
         NIMClient.getService(MsgService.class).setChattingAccount(sessionId, sessionType);
         getActivity().setVolumeControlStream(AudioManager.STREAM_VOICE_CALL); // 默认使用听筒播放
@@ -168,10 +170,10 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     private void parseIntent() {
         sessionId = getArguments().getString(Extras.EXTRA_ACCOUNT);
         sessionType = (SessionTypeEnum) getArguments().getSerializable(Extras.EXTRA_TYPE);
-        IMMessage anchor = (IMMessage) getArguments().getSerializable(Extras.EXTRA_ANCHOR);
+        anchor = (IMMessage) getArguments().getSerializable(Extras.EXTRA_ANCHOR);
 
         customization = (SessionCustomization) getArguments().getSerializable(Extras.EXTRA_CUSTOMIZATION);
-        Container container = new Container(getActivity(), sessionId,"", sessionType, this);
+        container = new Container(getActivity(), sessionId,"", sessionType, this);
 
         if (messageListPanel == null) {
             messageListPanel = new MessageListPanelEx(container, rootView, anchor, false, false);

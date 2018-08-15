@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.primary.Log;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
@@ -19,7 +20,17 @@ import com.android.similarwx.inteface.WxViewInterface;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.WxPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +43,7 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
     Animator animator;
     private LoginPresent present;
     private WxPresent presentWx;
-
+    String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +70,7 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
             public void onAnimationEnd(Animator animation) {
                 String accid;
                 String token;
-                String password;
+
                 String unionId;
                 try {
                     unionId=SharePreferenceUtil.getString(SplashActivity.this, AppConstants.USER_WX_UNIONID,"");
@@ -133,9 +144,53 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
         if (user.getPaymentPasswd()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,user.getPaymentPasswd());
         if (user.getPasswd()!=null)
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,user.getPasswd());
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);
     }
+    private void doUpdateLocalYunxin(User user) {
+        Map<UserInfoFieldEnum, Object> fields = new HashMap<>(1);
+        fields.put(UserInfoFieldEnum.Name, user.getName());//昵称
+        fields.put(UserInfoFieldEnum.AVATAR, user.getIcon());//头像
+        fields.put(UserInfoFieldEnum.SIGNATURE, user.getPersonalitySignature());//签名
+        fields.put(UserInfoFieldEnum.GENDER, user.getGender());//性别
+        fields.put(UserInfoFieldEnum.EMAIL, user.getEmail());//电子邮箱
+        fields.put(UserInfoFieldEnum.BIRTHDAY, user.getBirth());//生日
+        fields.put(UserInfoFieldEnum.MOBILE, user.getMobile());//手机
+        NIMClient.getService(UserService.class).updateUserInfo(fields)
+                .setCallback(new RequestCallbackWrapper<Void>() {
+                    @Override
+                    public void onResult(int code, Void result, Throwable exception) {
+                        Log.e("UserService.class","保存本地用户信息");
+                    }
+                });
+    }
+    private void doNimLogin(LoginInfo loginInfo, User user) {
+        NimUIKit.login(loginInfo, new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo param) {
 
+                NIMClient.getService(AuthService.class).openLocalCache(loginInfo.getAccount());
+                //跟新本地用户资料
+                doUpdateLocalYunxin(user);
+                MainChartrActivity.start(SplashActivity.this);
+            }
+
+            @Override
+            public void onFailed(int code) {
+                if (code == 302 || code == 404) {
+                    Toaster.toastShort("登录失败");
+                } else {
+                    Toaster.toastShort("登录失败");
+                }
+                startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                Toaster.toastShort("登录异常");
+                startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+            }
+        });
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -151,8 +206,16 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
 
     @Override
     public void loginScucces(User user) {
-        MainChartrActivity.start(SplashActivity.this);
-        finish();
+        if (user!=null){
+            saveUser(user);
+
+            String accid=user.getAccId();
+            String token=user.getToken();
+            LoginInfo loginInfo=new LoginInfo(accid,token);
+
+            doNimLogin(loginInfo,user);
+
+        }
     }
 
     @Override
