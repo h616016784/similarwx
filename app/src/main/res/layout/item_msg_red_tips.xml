@@ -38,5 +38,16 @@
             android:textColor="@color/colorRed2"
             android:text="红包"
             android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/message_item_tips_red_finish_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/message_item_tips_red_tv"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:text="  你的红包已被领完  "
+            android:visibility="gone"
+            android:textSize="12sp"/>
     </RelativeLayout>
 </LinearLayout>

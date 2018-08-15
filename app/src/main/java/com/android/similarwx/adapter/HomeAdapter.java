@@ -43,24 +43,30 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
             if (!TextUtils.isEmpty(groupIcon)){
                 NetImageUtil.glideImageNormal(context,groupIcon,(ImageView) helper.getView(R.id.item_group_iv));
             }
-            if (recents!=null){
-                for (RecentContact recentContact:recents){
-                    if (recentContact.getSessionType()== SessionTypeEnum.Team){
-                        if (recentContact.getContactId().equals(item.getGroupId())){
-                            int unReadCount=recentContact.getUnreadCount();
-                            if (unReadCount>0){
-                                helper.setGone(R.id.item_group_count_tv,true);
-                                if (unReadCount>=100)
-                                    helper.setText(R.id.item_group_count_tv,"99+");
-                                else
-                                    helper.setText(R.id.item_group_count_tv,unReadCount+"");
-                            }else {
-                                helper.setGone(R.id.item_group_count_tv,false);
+            String joinmode=item.getHallDisplay();
+            if (!TextUtils.isEmpty(joinmode)){
+                if (Integer.parseInt(joinmode)==1){
+                    if (recents!=null){
+                        for (RecentContact recentContact:recents){
+                            if (recentContact.getSessionType()== SessionTypeEnum.Team){
+                                if (recentContact.getContactId().equals(item.getGroupId())){
+                                    int unReadCount=recentContact.getUnreadCount();
+                                    if (unReadCount>0){
+                                        helper.setGone(R.id.item_group_count_tv,true);
+                                        if (unReadCount>=100)
+                                            helper.setText(R.id.item_group_count_tv,"99+");
+                                        else
+                                            helper.setText(R.id.item_group_count_tv,unReadCount+"");
+                                    }else {
+                                        helper.setGone(R.id.item_group_count_tv,false);
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
+
         }
 
     }

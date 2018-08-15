@@ -184,14 +184,14 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                             Toaster.toastShort("群名称不能为空！");
                             return;
                         }
-                        if (TextUtils.isEmpty(notice)){
-                            Toaster.toastShort("群公告不能为空！");
-                            return;
-                        }
-                        if (TextUtils.isEmpty(must)){
-                            Toaster.toastShort("群须知不能为空！");
-                            return;
-                        }
+//                        if (TextUtils.isEmpty(notice)){
+//                            Toaster.toastShort("群公告不能为空！");
+//                            return;
+//                        }
+//                        if (TextUtils.isEmpty(must)){
+//                            Toaster.toastShort("群须知不能为空！");
+//                            return;
+//                        }
                         if (TextUtils.isEmpty(low)){
                             Toaster.toastShort("最低值不能为空！");
                             return;
@@ -399,7 +399,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 //                dialog.show();
                 break;
             case R.id.create_group_lei_ll://雷
-                EditDialogSimple simpleLei=new EditDialogSimple(activity,"中雷赔率");
+                EditDialogSimple simpleLei=new EditDialogSimple(activity,"中雷赔率",1);
                 simpleLei.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
                     public void onClickListener(String text){
@@ -425,27 +425,49 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 dialogRedNum.show();
                 break;
             case R.id.create_group_range_high_rl://红包上限
-                BottomBaseDialog dialogRedHigh=new BottomBaseDialog(activity);
-                dialogRedHigh.setTitle("红包上限");
-                dialogRedHigh.setList(redHighList);
-                dialogRedHigh.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+//                BottomBaseDialog dialogRedHigh=new BottomBaseDialog(activity);
+//                dialogRedHigh.setTitle("红包上限");
+//                dialogRedHigh.setList(redHighList);
+//                dialogRedHigh.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(int position) {
+//                        PopMoreBean bean=redHighList.get(position);
+//                        createGroupRangeHighEt.setText(bean.getName());
+//                    }
+//                });
+//                dialogRedHigh.show();
+                EditDialogSimple dialogRedHigh=new EditDialogSimple(activity,"红包上限",1);
+                dialogRedHigh.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
-                    public void onItemClick(int position) {
-                        PopMoreBean bean=redHighList.get(position);
-                        createGroupRangeHighEt.setText(bean.getName());
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("红包上限不能为空！");
+                        else
+                            createGroupRangeHighEt.setText(text);
                     }
                 });
                 dialogRedHigh.show();
                 break;
             case R.id.create_group_range_low_rl://红包下限
-                BottomBaseDialog dialogRedLow=new BottomBaseDialog(activity);
-                dialogRedLow.setTitle("红包下线");
-                dialogRedLow.setList(redLowList);
-                dialogRedLow.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+//                BottomBaseDialog dialogRedLow=new BottomBaseDialog(activity);
+//                dialogRedLow.setTitle("红包下线");
+//                dialogRedLow.setList(redLowList);
+//                dialogRedLow.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(int position) {
+//                        PopMoreBean bean=redLowList.get(position);
+//                        createGroupRangeLowEt.setText(bean.getName());
+//                    }
+//                });
+//                dialogRedLow.show();
+                EditDialogSimple dialogRedLow=new EditDialogSimple(activity,"红包下线",1);
+                dialogRedLow.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
-                    public void onItemClick(int position) {
-                        PopMoreBean bean=redLowList.get(position);
-                        createGroupRangeLowEt.setText(bean.getName());
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("红包下限不能为空！");
+                        else
+                            createGroupRangeLowEt.setText(text);
                     }
                 });
                 dialogRedLow.show();

@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/distance_middle"
+        android:background="@color/gray7"/>
     <RelativeLayout
         android:id="@+id/dialog_create_group_rule_name_rl"
         android:layout_width="match_parent"
@@ -27,6 +30,7 @@
             android:minWidth="@dimen/distance_bigger"
             android:textSize="@dimen/text_content_or_button"
             android:layout_centerVertical="true"
+            android:text="奖励"
             android:gravity="right"
             android:layout_alignParentRight="true"/>
         <ImageView

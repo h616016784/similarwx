@@ -2,6 +2,7 @@ package com.android.similarwx.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -23,6 +24,18 @@ public class EditDialogSimple {
     private String title;
     private ConfirmClickListener mOnConfirmClickListener;
     private Dialog mDialog;
+    private int inputType=0;//0是默认 ，1是纯数字
+    public EditDialogSimple(Context context,String title,int inputType){
+        this.inputType=inputType;
+        this.title=title;
+        mDialog = new Dialog(context);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView     = inflater.inflate(R.layout.dialog_fragment_edit, null);
+        mDialog.setContentView(dialogView);
+        mDialog.setCancelable(false);
+        initDialogView(dialogView);
+    }
     public EditDialogSimple(Context context,String title){
         this.title=title;
         //1.创建一个Dialog对象，如果是AlertDialog对象的话，弹出的自定义布局四周会有一些阴影，效果不好
@@ -57,6 +70,8 @@ public class EditDialogSimple {
         mConfirm=dialogView.findViewById(R.id.dialog_edit_confirm);
         mCancel=dialogView.findViewById(R.id.dialog_edit_cancel);
         mEditText=dialogView.findViewById(R.id.dialog_edit_in_et);
+        if (inputType==1)
+            mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
         mTitle.setText(title);
         addListener();
     }
