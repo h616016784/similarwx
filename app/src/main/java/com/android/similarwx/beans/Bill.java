@@ -103,7 +103,7 @@ public class Bill extends BaseBean {
             this.refId = refId;
         }
 
-        public Object getRebateLevel() {
+        public String getRebateLevel() {
             return rebateLevel;
         }
 

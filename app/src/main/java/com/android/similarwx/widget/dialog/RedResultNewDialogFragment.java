@@ -298,7 +298,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                     }else {
                         text=mSendRedBean.getThunder();
                     }
-                    dialog_red_result_tips_tv.setText(mSendRedBean.getAmount()+"-"+text);
+                    dialog_red_result_tips_tv.setText(String.format("%.2s", mSendRedBean.getAmount())+"-"+text);
                 }
             } else {
                 setErrorText(bean.getRetMsg());

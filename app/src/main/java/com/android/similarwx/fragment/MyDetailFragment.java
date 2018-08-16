@@ -116,7 +116,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             protected void convert(BaseViewHolder helper, Bill.BillDetail item) {
                 String type=item.getTradeType();
                 helper.setText(R.id.item_my_detail_time_tv,item.getCreateDate());
-                double amount=item.getAmount();
+                double amount=Double.parseDouble(String.format("%.2f", item.getAmount()));
                 if (type.equals(BillType.ALL.toString())){
                     helper.setText(R.id.item_my_detail_name_tv,BillType.ALL.toName());
                 }else if (type.equals(BillType.GRAP_PACKAGE.toString())){ //红包领取

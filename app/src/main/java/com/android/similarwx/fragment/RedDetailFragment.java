@@ -91,7 +91,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
                 if (TextUtils.isEmpty(sendRed.getThunder())){
                     textContent=sendRed.getCount();
                 }
-                redDetailCount.setText(sendRed.getAmount()+"-"+textContent);
+                redDetailCount.setText(String.format("%.2s", sendRed.getAmount())+"-"+textContent);
                 String accid=sendRed.getMyUserId();//云信的accid
                 List accounts=new ArrayList();
                 accounts.add(accid);

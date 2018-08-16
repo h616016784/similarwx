@@ -54,7 +54,7 @@ public class TransDetailFragment extends BaseFragment {
             billDetail= (Bill.BillDetail) bundle.getSerializable(AppConstants.TRANSFER_BILL_BEAN);
             transDetailTime.setText(billDetail.getCreateDate());
             String type=billDetail.getTradeType();
-            double amount=billDetail.getAmount();
+            double amount=Double.parseDouble(String.format("%.2f", billDetail.getAmount()));
             if (type.equals(BillType.ALL.toString())){
                 transDetailTurn.setText(BillType.ALL.toName());
                 transDetailState.setText("");
