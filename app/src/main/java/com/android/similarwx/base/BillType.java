@@ -27,17 +27,17 @@ public enum BillType {
      */
     PACKAGE_REWARD("红包奖励","PACKAGE_REWARD"),
     /**
-     * 雷包扣款
+     * 中了雷包
      */
-    THUNDER_PACKAGE("雷包扣款","THUNDER_PACKAGE"),
+    THUNDER_PACKAGE("中了雷包","THUNDER_PACKAGE"),
     /**
-     * 雷包奖励
+     * 收到雷包
      */
-    THUNDER_REWARD("雷包奖励","THUNDER_REWARD"),
+    THUNDER_REWARD("收到雷包","THUNDER_REWARD"),
     /**
-     * 红包奖励结算
+     * 红包积分结算
      */
-    PACKAGE_RETURN("红包奖励结算","PACKAGE_RETURN"),
+    PACKAGE_RETURN("红包积分结算","PACKAGE_RETURN"),
     /**
      * 充值
      */
