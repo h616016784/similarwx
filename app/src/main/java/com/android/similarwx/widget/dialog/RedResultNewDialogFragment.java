@@ -186,7 +186,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.dialog_red_result_cancel_iv:
-                dismiss();
+                disMiss(getActivity());
                 break;
             case R.id.dialog_red_result_bottom_tv:
                 Bundle bundle=new Bundle();
@@ -196,7 +196,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                     bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
                 }
                 FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
-                dismiss();
+                disMiss(getActivity());
                 break;
             case R.id.dialog_red_result_kai_tv://开红包
                 miPresent.grabRed(mSendRedBean.getRedPacId(),getActivity());

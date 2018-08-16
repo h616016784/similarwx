@@ -58,32 +58,82 @@ public class Bill extends BaseBean {
     public class BillDetail extends BaseBean{
 
         /**
-         * id : 1807190935059965853
-         * amount : -10
-         * tradeType : TRANSFER
-         * balance : 1.0000001229E8
-         * userId : 28
-         * refId : 1807190935051103103
-         * isSyncAccount : true
+         * tradeType : GRAP_PACKAGE
+         * refId : 1808152240065127556
          * rebateLevel : null
          * modifyDate : null
-         * createDate : 2018-07-19 09:35:05
          * rebateUserId : null
          * version : 0
+         * id : 1808152240066069820
+         * amount : 0.36
+         * balance : 9.999956699E7
+         * nickName : jokehhhhh
+         * userId : 28
+         * isSyncAccount : true
+         * createDate : 2018-08-15 22:40:07
          */
 
-        private String id;
-        private double amount;
         private String tradeType;
-        private double balance;
-        private String userId;
         private String refId;
-        private boolean isSyncAccount;
         private String rebateLevel;
         private String modifyDate;
-        private String createDate;
         private String rebateUserId;
         private String version;
+        private String id;
+        private double amount;
+        private double balance;
+        private String nickName;
+        private String userId;
+        private boolean isSyncAccount;
+        private String createDate;
+
+        public String getTradeType() {
+            return tradeType;
+        }
+
+        public void setTradeType(String tradeType) {
+            this.tradeType = tradeType;
+        }
+
+        public String getRefId() {
+            return refId;
+        }
+
+        public void setRefId(String refId) {
+            this.refId = refId;
+        }
+
+        public Object getRebateLevel() {
+            return rebateLevel;
+        }
+
+        public void setRebateLevel(String rebateLevel) {
+            this.rebateLevel = rebateLevel;
+        }
+
+        public String getModifyDate() {
+            return modifyDate;
+        }
+
+        public void setModifyDate(String modifyDate) {
+            this.modifyDate = modifyDate;
+        }
+
+        public String getRebateUserId() {
+            return rebateUserId;
+        }
+
+        public void setRebateUserId(String rebateUserId) {
+            this.rebateUserId = rebateUserId;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
+        }
 
         public String getId() {
             return id;
@@ -101,20 +151,20 @@ public class Bill extends BaseBean {
             this.amount = amount;
         }
 
-        public String getTradeType() {
-            return tradeType;
-        }
-
-        public void setTradeType(String tradeType) {
-            this.tradeType = tradeType;
-        }
-
         public double getBalance() {
             return balance;
         }
 
         public void setBalance(double balance) {
             this.balance = balance;
+        }
+
+        public String getNickName() {
+            return nickName;
+        }
+
+        public void setNickName(String nickName) {
+            this.nickName = nickName;
         }
 
         public String getUserId() {
@@ -125,36 +175,12 @@ public class Bill extends BaseBean {
             this.userId = userId;
         }
 
-        public String getRefId() {
-            return refId;
-        }
-
-        public void setRefId(String refId) {
-            this.refId = refId;
-        }
-
-        public boolean isSyncAccount() {
+        public boolean isIsSyncAccount() {
             return isSyncAccount;
         }
 
-        public void setSyncAccount(boolean syncAccount) {
-            isSyncAccount = syncAccount;
-        }
-
-        public String getRebateLevel() {
-            return rebateLevel;
-        }
-
-        public void setRebateLevel(String rebateLevel) {
-            this.rebateLevel = rebateLevel;
-        }
-
-        public String getModifyDate() {
-            return modifyDate;
-        }
-
-        public void setModifyDate(String modifyDate) {
-            this.modifyDate = modifyDate;
+        public void setIsSyncAccount(boolean isSyncAccount) {
+            this.isSyncAccount = isSyncAccount;
         }
 
         public String getCreateDate() {
@@ -163,22 +189,6 @@ public class Bill extends BaseBean {
 
         public void setCreateDate(String createDate) {
             this.createDate = createDate;
-        }
-
-        public String getRebateUserId() {
-            return rebateUserId;
-        }
-
-        public void setRebateUserId(String rebateUserId) {
-            this.rebateUserId = rebateUserId;
-        }
-
-        public String getVersion() {
-            return version;
-        }
-
-        public void setVersion(String version) {
-            this.version = version;
         }
     }
 }

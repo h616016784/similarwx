@@ -52,49 +52,89 @@ public class TransDetailFragment extends BaseFragment {
         Bundle bundle=getArguments();
         if (bundle!=null){
             billDetail= (Bill.BillDetail) bundle.getSerializable(AppConstants.TRANSFER_BILL_BEAN);
-            double amount=billDetail.getAmount();
-            if (amount>0){
-                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimary));
-                transDetailMoney.setText("+"+amount);
-            }else {
-                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
-                transDetailMoney.setText(amount+"");
-            }
             transDetailTime.setText(billDetail.getCreateDate());
-            String tradeType=billDetail.getTradeType();
-            if (!TextUtils.isEmpty(tradeType))
-                transDetailTurn.setText(name(tradeType));
+            String type=billDetail.getTradeType();
+            double amount=billDetail.getAmount();
+            if (type.equals(BillType.ALL.toString())){
+                transDetailTurn.setText(BillType.ALL.toName());
+                transDetailState.setText("");
+            }else if (type.equals(BillType.GRAP_PACKAGE.toString())){ //红包领取
+                transDetailTurn.setText(BillType.GRAP_PACKAGE.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                transDetailMoney.setText("+"+amount);
+                transDetailState.setText("你领取了"+billDetail.getNickName()+"的红包");
+            }else if (type.equals(BillType.OFFLINE_RECHARGE.toString())){ //增加
+                transDetailTurn.setText(BillType.OFFLINE_RECHARGE.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                transDetailMoney.setText("+"+amount);
+                transDetailState.setText("系统增加");
+            }else if (type.equals(BillType.PACKAGE_REBATE.toString())){ //推荐返点
+                transDetailTurn.setText(BillType.PACKAGE_REBATE.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                transDetailMoney.setText("+"+amount);
+                transDetailState.setText("获得"+billDetail.getNickName()+"的游戏返佣");
+            }else if (type.equals(BillType.PACKAGE_RETURN.toString())){ //红包奖励结算
+                transDetailTurn.setText(BillType.PACKAGE_RETURN.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                transDetailMoney.setText("+"+amount);
+                transDetailState.setText("超时红包退回");
+            }else if (type.equals(BillType.PACKAGE_REWARD.toString())){ //红包奖励
+                transDetailTurn.setText(BillType.PACKAGE_REWARD.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                transDetailMoney.setText("+"+amount);
+                transDetailState.setText("抢到幸运数字（**.**）");
+            }else if (type.equals(BillType.RECHARGE.toString())){ //充值
+                transDetailTurn.setText(BillType.RECHARGE.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                transDetailMoney.setText("+"+amount);
+                transDetailState.setText("充值成功");
+            }else if (type.equals(BillType.SEND_PACKAGE.toString())){ //红包发布
+                transDetailTurn.setText(BillType.SEND_PACKAGE.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
+                transDetailMoney.setText("-"+amount+"");
+                transDetailState.setText("你发了红包");
+            }else if (type.equals(BillType.THUNDER_PACKAGE.toString())){ //雷包扣款
+                transDetailTurn.setText(BillType.THUNDER_PACKAGE.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
+                transDetailMoney.setText("-"+amount+"");
+                transDetailState.setText("你踩了"+billDetail.getNickName()+"的红包地雷");
+            }else if (type.equals(BillType.THUNDER_REWARD.toString())){ //雷包奖励
+                transDetailTurn.setText(BillType.THUNDER_REWARD.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                transDetailMoney.setText("+"+amount);
+                transDetailState.setText(billDetail.getNickName()+"踩中了你埋的雷包");
+            }else if (type.equals(BillType.TRANSFER.toString())){ //转账
+                if (amount>0){
+                    transDetailTurn.setText(BillType.TRANSFER.toName());
+                    transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    transDetailMoney.setText("+"+amount);
+                    transDetailState.setText("你收到"+billDetail.getNickName()+"的转账");
+                }else {
+                    transDetailTurn.setText(BillType.TRANSFER.toName());
+                    transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
+                    transDetailMoney.setText(amount+"");
+                    transDetailState.setText("你转账给"+billDetail.getNickName());
+                }
+            }else if (type.equals(BillType.WITHDRAW.toString())){ //扣除
+                transDetailTurn.setText(BillType.WITHDRAW.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
+                transDetailMoney.setText("-"+amount+"");
+                transDetailState.setText("系统扣除");
+            }else if (type.equals(BillType.FREEZE.toString())){ //冻结
+                transDetailTurn.setText(BillType.FREEZE.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
+                transDetailMoney.setText("-"+amount+"");
+                transDetailState.setText("积分冻结");
+            } else if (type.equals(BillType.UNFREEZE.toString())){ //解冻
+                transDetailTurn.setText(BillType.UNFREEZE.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                transDetailMoney.setText("+"+amount);
+                transDetailState.setText("积分解冻");
+            }
 
-            transDetailState.setText("");
         }
     }
 
-    private String name(String type){
-        if (BillType.GRAP_PACKAGE.toString().equals(type)){
-            return BillType.GRAP_PACKAGE.toName();
-        }else if (BillType.OFFLINE_RECHARGE.toString().equals(type)){
-            return BillType.OFFLINE_RECHARGE.toName();
-        }else if (BillType.PACKAGE_REBATE.toString().equals(type)){
-            return BillType.PACKAGE_REBATE.toName();
-        }else if (BillType.PACKAGE_RETURN.toString().equals(type)){
-            return BillType.PACKAGE_RETURN.toName();
-        }else if (BillType.PACKAGE_REWARD.toString().equals(type)){
-            return BillType.PACKAGE_REWARD.toName();
-        }else if (BillType.RECHARGE.toString().equals(type)){
-            return BillType.RECHARGE.toName();
-        }else if (BillType.SEND_PACKAGE.toString().equals(type)){
-            return BillType.SEND_PACKAGE.toName();
-        }else if (BillType.THUNDER_PACKAGE.toString().equals(type)){
-            return BillType.THUNDER_PACKAGE.toName();
-        } else if (BillType.THUNDER_REWARD.toString().equals(type)){
-            return BillType.THUNDER_REWARD.toName();
-        }else if (BillType.TRANSFER.toString().equals(type)){
-            return BillType.TRANSFER.toName();
-        } else if (BillType.WITHDRAW.toString().equals(type)){
-            return BillType.WITHDRAW.toName();
-        }
-        return "发红包";
-    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

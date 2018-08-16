@@ -1,5 +1,7 @@
 package com.android.similarwx.fragment;
 
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
@@ -7,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,8 +77,8 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
     private BaseQuickAdapter adapter;
     private List<Bill.BillDetail> list;
     private TimePickerView pvTime;
-    private ListPopWindow listPopWindow;
-    private List<PopMoreBean> moreList;
+    ListPopupWindow listPopupWindow;
+    private List<BillType> billTypeList;
 
 //    public GroupMessageBean.ListBean listBean;
     private AcountPresent mPresent;
@@ -95,7 +99,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new AcountPresent(this);
         userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
-        mType=BillType.SEND_PACKAGE.toString();
+        mType=BillType.ALL.toString();
 //        Bundle bundle=getArguments();
 //        if (bundle!=null){
 //            listBean= (GroupMessageBean.ListBean) bundle.getSerializable(AppConstants.CHAT_GROUP_BEAN);
@@ -111,16 +115,68 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             @Override
             protected void convert(BaseViewHolder helper, Bill.BillDetail item) {
                 String type=item.getTradeType();
-                String name=name(type);
-                helper.setText(R.id.item_my_detail_name_tv,name);
                 helper.setText(R.id.item_my_detail_time_tv,item.getCreateDate());
                 double amount=item.getAmount();
-                if (amount>0){
-                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimary));
-                    helper.setText(R.id.item_my_detail_money_tv,"+"+item.getAmount());
-                }else {
+                if (type.equals(BillType.ALL.toString())){
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.ALL.toName());
+                }else if (type.equals(BillType.GRAP_PACKAGE.toString())){ //红包领取
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.GRAP_PACKAGE.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                }else if (type.equals(BillType.OFFLINE_RECHARGE.toString())){ //增加
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.OFFLINE_RECHARGE.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                }else if (type.equals(BillType.PACKAGE_REBATE.toString())){ //推荐返点
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.PACKAGE_REBATE.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                }else if (type.equals(BillType.PACKAGE_RETURN.toString())){ //红包奖励结算
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.PACKAGE_RETURN.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                }else if (type.equals(BillType.PACKAGE_REWARD.toString())){ //红包奖励
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.PACKAGE_REWARD.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                }else if (type.equals(BillType.RECHARGE.toString())){ //充值
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.RECHARGE.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                }else if (type.equals(BillType.SEND_PACKAGE.toString())){ //红包发布
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.SEND_PACKAGE.toName());
                     helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
-                    helper.setText(R.id.item_my_detail_money_tv,item.getAmount()+"");
+                    helper.setText(R.id.item_my_detail_money_tv,"-"+amount+"");
+                }else if (type.equals(BillType.THUNDER_PACKAGE.toString())){ //雷包扣款
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.THUNDER_PACKAGE.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
+                    helper.setText(R.id.item_my_detail_money_tv,"-"+amount+"");
+                }else if (type.equals(BillType.THUNDER_REWARD.toString())){ //雷包奖励
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.THUNDER_REWARD.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                }else if (type.equals(BillType.TRANSFER.toString())){ //转账
+                    if (amount>0){
+                        helper.setText(R.id.item_my_detail_name_tv,BillType.TRANSFER.toName());
+                        helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                        helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                    }else {
+                        helper.setText(R.id.item_my_detail_name_tv,BillType.TRANSFER.toName());
+                        helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
+                        helper.setText(R.id.item_my_detail_money_tv,amount+"");
+                    }
+                }else if (type.equals(BillType.WITHDRAW.toString())){ //扣除
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.WITHDRAW.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
+                    helper.setText(R.id.item_my_detail_money_tv,"-"+amount+"");
+                } else if (type.equals(BillType.FREEZE.toString())){ //冻结
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.FREEZE.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
+                    helper.setText(R.id.item_my_detail_money_tv,"-"+amount+"");
+                } else if (type.equals(BillType.UNFREEZE.toString())){ //解冻
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.UNFREEZE.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
                 }
 
             }
@@ -146,15 +202,6 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         myDetailEndTv.setText(mEnd);
         mPresent.getAcountList(userId, "".toString(),mStart,mEnd);
 
-        listPopWindow=new ListPopWindow(activity,moreList);
-        listPopWindow.setOnClickItem(new ListPopWindow.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                adapter.getData().clear();
-                mType=moreList.get(position).getContent();
-                mPresent.getAcountList(userId,mType.toString(),mStart,mEnd);
-            }
-        });
         pvTime=new TimePickerBuilder(activity, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -169,6 +216,25 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 mPresent.getAcountList(userId,mType,mStart,mEnd);
             }
         }).build();
+        //展示类别list
+        listPopupWindow=new ListPopupWindow(activity);
+        listPopupWindow.setWidth(ListPopupWindow.WRAP_CONTENT);//设置宽度
+        listPopupWindow.setHeight(ListPopupWindow.WRAP_CONTENT);//设置高度
+        listPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));//设置背景色
+        listPopupWindow.setModal(true);//设置为true响应物理键listPopupWindow.setHorizontalOffset(100);//垂直间距listPopupWindow.setVerticalOffset(100);//水平间距
+        listPopupWindow.setAdapter(new PopupWindowAdapter(activity));
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                myDetailClassTv.setText(billTypeList.get(position).toName());
+                adapter.getData().clear();
+                mType=billTypeList.get(position).toString();
+                mPresent.getAcountList(userId,mType.toString(),mStart,mEnd);
+                if (listPopupWindow!=null){
+                    listPopupWindow.dismiss();
+                }
+            }
+        });
     }
 
 
@@ -184,111 +250,78 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 pvTime.show();
                 break;
             case R.id.my_detail_class_ll:
-                listPopWindow.show(myDetailClassTv);
+                listPopupWindow.setAnchorView(myDetailClassLl);
+                listPopupWindow.show();
+//                listPopWindow.show(myDetailClassTv);
                 break;
         }
     }
 
 
     private void iniData() {
-
-        moreList=new ArrayList<>();
-        PopMoreBean bean=new PopMoreBean();
-        bean.setId("-1");
-        bean.setName("全部");
-        bean.setContent("");
-        moreList.add(bean);
-        PopMoreBean bean2=new PopMoreBean();
-        bean2.setId("0");
-        bean2.setName("红包发布");
-        bean2.setContent("SEND_PACKAGE");
-        moreList.add(bean2);
-        PopMoreBean bean3=new PopMoreBean();
-        bean3.setId("1");
-        bean3.setName("红包领取");
-        bean3.setContent("GRAP_PACKAGE");
-        moreList.add(bean3);
-        PopMoreBean bean4=new PopMoreBean();
-        bean4.setId("2");
-        bean4.setName("红包返点");
-        bean4.setContent("PACKAGE_REBATE");
-        moreList.add(bean4);
-        PopMoreBean bean5=new PopMoreBean();
-        bean5.setId("3");
-        bean5.setName("红包奖励");
-        bean5.setContent("PACKAGE_REWARD");
-        moreList.add(bean5);
-        PopMoreBean bean6=new PopMoreBean();
-        bean6.setId("4");
-        bean6.setName("中了雷包");
-        bean6.setContent("THUNDER_PACKAGE");
-        moreList.add(bean6);
-        PopMoreBean bean7=new PopMoreBean();
-        bean7.setId("5");
-        bean7.setName("收到雷包");
-        bean7.setContent("THUNDER_REWARD");
-        moreList.add(bean7);
-        PopMoreBean bean8=new PopMoreBean();
-        bean8.setId("6");
-        bean8.setName("红包积分结算");
-        bean8.setContent("PACKAGE_RETURN");
-        moreList.add(bean8);
-        PopMoreBean bean9=new PopMoreBean();
-        bean9.setId("7");
-        bean9.setName("充值");
-        bean9.setContent("RECHARGE");
-        moreList.add(bean9);
-        PopMoreBean bean10=new PopMoreBean();
-        bean10.setId("8");
-        bean10.setName("扣除");
-        bean10.setContent("WITHDRAW");
-        moreList.add(bean10);
-        PopMoreBean bean11=new PopMoreBean();
-        bean11.setId("9");
-        bean11.setName("转账");
-        bean11.setContent("TRANSFER");
-        moreList.add(bean11);
-        PopMoreBean bean12=new PopMoreBean();
-        bean12.setId("10");
-        bean12.setName("增加");
-        bean12.setContent("OFFLINE_RECHARGE");
-        moreList.add(bean12);
-
-    }
-    private String name(String type){
-        if (BillType.GRAP_PACKAGE.toString().equals(type)){
-            return BillType.GRAP_PACKAGE.toName();
-        }else if (BillType.OFFLINE_RECHARGE.toString().equals(type)){
-            return BillType.OFFLINE_RECHARGE.toName();
-        }else if (BillType.PACKAGE_REBATE.toString().equals(type)){
-            return BillType.PACKAGE_REBATE.toName();
-        }else if (BillType.PACKAGE_RETURN.toString().equals(type)){
-            return BillType.PACKAGE_RETURN.toName();
-        }else if (BillType.PACKAGE_REWARD.toString().equals(type)){
-            return BillType.PACKAGE_REWARD.toName();
-        }else if (BillType.RECHARGE.toString().equals(type)){
-            return BillType.RECHARGE.toName();
-        }else if (BillType.SEND_PACKAGE.toString().equals(type)){
-            return BillType.SEND_PACKAGE.toName();
-        }else if (BillType.THUNDER_PACKAGE.toString().equals(type)){
-            return BillType.THUNDER_PACKAGE.toName();
-        } else if (BillType.THUNDER_REWARD.toString().equals(type)){
-            return BillType.THUNDER_REWARD.toName();
-        }else if (BillType.TRANSFER.toString().equals(type)){
-            return BillType.TRANSFER.toName();
-        } else if (BillType.WITHDRAW.toString().equals(type)){
-            return BillType.WITHDRAW.toName();
-        }
-        return "发红包";
+        billTypeList=new ArrayList<>();
+        billTypeList.add(BillType.ALL);
+        billTypeList.add(BillType.GRAP_PACKAGE);
+        billTypeList.add(BillType.OFFLINE_RECHARGE);
+        billTypeList.add(BillType.PACKAGE_REBATE);
+        billTypeList.add(BillType.PACKAGE_RETURN);
+        billTypeList.add(BillType.PACKAGE_REWARD);
+        billTypeList.add(BillType.RECHARGE);
+        billTypeList.add(BillType.SEND_PACKAGE);
+        billTypeList.add(BillType.THUNDER_PACKAGE);
+        billTypeList.add(BillType.THUNDER_REWARD);
+        billTypeList.add(BillType.TRANSFER);
+        billTypeList.add(BillType.WITHDRAW);
+        billTypeList.add(BillType.FREEZE);
+        billTypeList.add(BillType.UNFREEZE);
     }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (listPopWindow!=null){
-            listPopWindow.destroy();
-            listPopWindow=null;
+        if (listPopupWindow!=null){
+            listPopupWindow.dismiss();
+            listPopupWindow=null;
         }
         unbinder.unbind();
+    }
+
+    public class PopupWindowAdapter extends BaseAdapter {
+        private Context context;
+        public PopupWindowAdapter(Context context) {
+            this.context= context;
+        }
+        @Override
+        public int getCount() {
+            if (billTypeList!=null)
+                return billTypeList.size();
+            return 10;
+        }
+        @Override
+        public Object getItem(int position) {
+            return billTypeList.get(position);
+        }
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+        @Override
+        public View getView(int position,View convertView,ViewGroup parent) {
+
+            ViewHolder viewHolder;
+            if(convertView ==null) {
+                viewHolder=new ViewHolder();
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_pop_client_more, null);
+                viewHolder.textView=convertView.findViewById(R.id.item_pop_client_more_tv);
+                convertView.setTag(viewHolder);
+            }else{
+                viewHolder= (ViewHolder) convertView.getTag();
+            }
+            viewHolder.textView.setText(billTypeList.get(position).toName());
+            return convertView;
+        }
+        class ViewHolder {
+            TextView textView;
+        }
     }
 
     @Override

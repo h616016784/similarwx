@@ -6,19 +6,22 @@ package com.android.similarwx.base;
 
 public enum BillType {
 
-
     /**
-     * 发红包
+     * 全部
      */
-    SEND_PACKAGE("发红包","SEND_PACKAGE"),
+    ALL("全部",""),
     /**
-     * 抢红包
+     * 红包发布
      */
-    GRAP_PACKAGE("抢红包","GRAP_PACKAGE"),
+    SEND_PACKAGE("红包发布","SEND_PACKAGE"),
     /**
-     * 红包返点
+     * 红包领取
      */
-    PACKAGE_REBATE("红包返点","PACKAGE_REBATE"),
+    GRAP_PACKAGE("红包领取","GRAP_PACKAGE"),
+    /**
+     * 推荐返点
+     */
+    PACKAGE_REBATE("推荐返点","PACKAGE_REBATE"),
     /**
      * 红包奖励
      */
@@ -32,25 +35,34 @@ public enum BillType {
      */
     THUNDER_REWARD("雷包奖励","THUNDER_REWARD"),
     /**
-     * 红包退回
+     * 红包奖励结算
      */
-    PACKAGE_RETURN("红包退回","PACKAGE_RETURN"),
+    PACKAGE_RETURN("红包奖励结算","PACKAGE_RETURN"),
     /**
-     * 在线充值
+     * 充值
      */
-    RECHARGE("在线充值","RECHARGE"),
+    RECHARGE("充值","RECHARGE"),
     /**
-     * 提现
+     * 扣除
      */
-    WITHDRAW("提现","WITHDRAW"),
+    WITHDRAW("扣除","WITHDRAW"),
     /**
      * 转账
      */
     TRANSFER("转账","TRANSFER"),
     /**
-     * 线下充值
+     * 增加
      */
-    OFFLINE_RECHARGE("线下充值","OFFLINE_RECHARGE");
+    OFFLINE_RECHARGE("增加","OFFLINE_RECHARGE"),
+
+    /**
+     * 冻结
+     */
+    FREEZE("冻结","FREEZE"),
+    /**
+     * 解冻
+     */
+    UNFREEZE("解冻","UNFREEZE");
 
     private String name;
     private String content;
