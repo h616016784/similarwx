@@ -24,6 +24,7 @@ import com.android.similarwx.beans.Bill;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.RedTakeBean;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.AcountViewInterface;
 import com.android.similarwx.present.AcountPresent;
 import com.android.similarwx.utils.FragmentUtils;
@@ -87,6 +88,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
     private String mType;
     private String mStart;
     private String mEnd;
+    private int userFlag=0;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_detail;
@@ -99,6 +101,9 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new AcountPresent(this);
         userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
+        User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+        if (user!=null)
+            userFlag=user.getSystemFlg();
         mType=BillType.ALL.toString();
 //        Bundle bundle=getArguments();
 //        if (bundle!=null){
@@ -128,17 +133,29 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                     helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
                     helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
                 }else if (type.equals(BillType.PACKAGE_REBATE.toString())){ //推荐返点
-                    helper.setText(R.id.item_my_detail_name_tv,BillType.PACKAGE_REBATE.toName());
-                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
-                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                    if (userFlag==1){
+                        helper.setText(R.id.item_my_detail_name_tv,"发放返点");
+                        helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
+                        helper.setText(R.id.item_my_detail_money_tv,"-"+amount+"");
+                    }else {
+                        helper.setText(R.id.item_my_detail_name_tv,BillType.PACKAGE_REBATE.toName());
+                        helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                        helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                    }
                 }else if (type.equals(BillType.PACKAGE_RETURN.toString())){ //红包奖励结算
                     helper.setText(R.id.item_my_detail_name_tv,BillType.PACKAGE_RETURN.toName());
                     helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
                     helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
                 }else if (type.equals(BillType.PACKAGE_REWARD.toString())){ //红包奖励
-                    helper.setText(R.id.item_my_detail_name_tv,BillType.PACKAGE_REWARD.toName());
-                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
-                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                    if (userFlag==1){//系统用户
+                        helper.setText(R.id.item_my_detail_name_tv,"发放奖励");
+                        helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
+                        helper.setText(R.id.item_my_detail_money_tv,"-"+amount+"");
+                    }else {
+                        helper.setText(R.id.item_my_detail_name_tv,BillType.PACKAGE_REWARD.toName());
+                        helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                        helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
+                    }
                 }else if (type.equals(BillType.RECHARGE.toString())){ //充值
                     helper.setText(R.id.item_my_detail_name_tv,BillType.RECHARGE.toName());
                     helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));

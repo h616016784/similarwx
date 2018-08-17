@@ -255,6 +255,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         content.put("finishFlag",finishFlag);
         Gson gson=new Gson();
         content.put("sendRedBean", gson.toJson(mSendRedBean));
+        content.put("redPacTipMessageType","redPacTip");
 // 创建tip消息，teamId需要开发者已经存在的team的teamId
         IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team);
         msg.setRemoteExtension(content);

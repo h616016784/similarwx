@@ -14,6 +14,8 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.base.BillType;
 import com.android.similarwx.beans.Bill;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.utils.SharePreferenceUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +41,7 @@ public class TransDetailFragment extends BaseFragment {
     Unbinder unbinder;
 
     private Bill.BillDetail billDetail=null;
+    private int userFlag=0;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_trans_detail;
@@ -49,6 +52,9 @@ public class TransDetailFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.trans_detail_title);
         unbinder = ButterKnife.bind(this, contentView);
+        User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+        if (user!=null)
+            userFlag=user.getSystemFlg();
         Bundle bundle=getArguments();
         if (bundle!=null){
             billDetail= (Bill.BillDetail) bundle.getSerializable(AppConstants.TRANSFER_BILL_BEAN);
@@ -69,20 +75,35 @@ public class TransDetailFragment extends BaseFragment {
                 transDetailMoney.setText("+"+amount);
                 transDetailState.setText("系统增加");
             }else if (type.equals(BillType.PACKAGE_REBATE.toString())){ //推荐返点
-                transDetailTurn.setText(BillType.PACKAGE_REBATE.toName());
-                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
-                transDetailMoney.setText("+"+amount);
-                transDetailState.setText("获得"+billDetail.getNickName()+"的游戏返佣");
+                if (userFlag==1){
+                    transDetailTurn.setText("发放返点");
+                    transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
+                    transDetailMoney.setText("-"+amount+"");
+                    transDetailState.setText(billDetail.getNickName()+"获得了推荐佣金");
+                }else {
+                    transDetailTurn.setText(BillType.PACKAGE_REBATE.toName());
+                    transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    transDetailMoney.setText("+"+amount);
+                    transDetailState.setText("获得"+billDetail.getNickName()+"的游戏返佣");
+                }
+
             }else if (type.equals(BillType.PACKAGE_RETURN.toString())){ //红包奖励结算
                 transDetailTurn.setText(BillType.PACKAGE_RETURN.toName());
                 transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
                 transDetailMoney.setText("+"+amount);
                 transDetailState.setText("超时红包退回");
             }else if (type.equals(BillType.PACKAGE_REWARD.toString())){ //红包奖励
-                transDetailTurn.setText(BillType.PACKAGE_REWARD.toName());
-                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
-                transDetailMoney.setText("+"+amount);
-                transDetailState.setText("抢到幸运数字（**.**）");
+                if (userFlag==1){
+                    transDetailTurn.setText("发放奖励");
+                    transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
+                    transDetailMoney.setText("-"+amount+"");
+                    transDetailState.setText(billDetail.getNickName()+"抢到了幸运数字（*.**）");
+                }else {
+                    transDetailTurn.setText(BillType.PACKAGE_REWARD.toName());
+                    transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    transDetailMoney.setText("+"+amount);
+                    transDetailState.setText("抢到幸运数字（**.**）");
+                }
             }else if (type.equals(BillType.RECHARGE.toString())){ //充值
                 transDetailTurn.setText(BillType.RECHARGE.toName());
                 transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
