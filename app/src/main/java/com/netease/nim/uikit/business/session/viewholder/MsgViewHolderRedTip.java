@@ -60,15 +60,17 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
         handleTextNotification(getDisplayText());
     }
     protected String getDisplayText() {
-        String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),message.getFromAccount());
+//        String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),message.getFromAccount());
+
         String accid= (String) message.getRemoteExtension().get("accId");
+        String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
         Object object= message.getRemoteExtension().get("finishFlag");
         int finishFlag=0;
         if (object!=null){
             finishFlag = (int)object;
         }
 
-        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
+//        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
 
         Map<String, Object> content=message.getRemoteExtension();
         if (content!=null){
@@ -78,6 +80,7 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
                 sendRedBean=gson.fromJson(sendRedJson, SendRed.SendRedBean.class);
             }
         }
+        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),sendRedBean.getMyUserId());
         if (!TextUtils.isEmpty(from) && !TextUtils.isEmpty(to)){
             if (!from.equals("我")&&!from.equals("你")&&!to.equals("我")&&!to.equals("你")){
                 message_item_tips_ll.setVisibility(View.GONE);

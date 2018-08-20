@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.BaseBean;
 import com.android.similarwx.beans.RedDetialBean;
 import com.android.similarwx.beans.SendRed;
@@ -27,6 +28,7 @@ import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -270,7 +272,9 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
     private void doYunXinTip(String sessionId,int finishFlag) {
         Map<String, Object> content = new HashMap<>(1);
-        content.put("accId", mSendRedBean.getMyUserId());
+        String accid= SharePreferenceUtil.getString(getActivity(), AppConstants.USER_ACCID,"");
+//        content.put("accId", mSendRedBean.getMyUserId());
+        content.put("accId", accid);
         content.put("finishFlag",finishFlag);
         Gson gson=new Gson();
         content.put("sendRedBean", gson.toJson(mSendRedBean));
