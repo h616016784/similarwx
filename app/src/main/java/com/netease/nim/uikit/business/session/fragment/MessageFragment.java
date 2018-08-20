@@ -133,7 +133,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     @Override
     public void onResume() {
         super.onResume();
-        messageListPanel.reload(container, anchor);
+//        messageListPanel.reload(container, anchor);
         messageListPanel.onResume();
         NIMClient.getService(MsgService.class).setChattingAccount(sessionId, sessionType);
         getActivity().setVolumeControlStream(AudioManager.STREAM_VOICE_CALL); // 默认使用听筒播放
@@ -283,7 +283,11 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             String isMut=AppConstants.USER_TEAM_IS_MUT;
             if (!TextUtils.isEmpty(isMut)){
                 if (isMut.equals("3")){
-                    if (!(message.getMsgType()==MsgTypeEnum.custom)){
+                    if (message.getMsgType()==MsgTypeEnum.custom){
+
+                    }else if (message.getMsgType()==MsgTypeEnum.tip){
+
+                    }else {
                         Toaster.toastShort("已禁言！");
                         return false;
                     }

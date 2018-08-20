@@ -25,8 +25,8 @@ public class AcountPresent extends BasePresent {
         this.mView=view;
     }
 
-    public void getAcountList(String userId,String type,String startDate,String endDate){
-        API.getInstance().getBill(userId,type,startDate,endDate,this);
+    public void getAcountList(String userId,String type,String startDate,String endDate,String page,String rows){
+        API.getInstance().getBill(userId,type,startDate,endDate,page,rows,this);
     }
 
     public void analyzeRes(RspBill rspBill) {

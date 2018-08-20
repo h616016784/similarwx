@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,9 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
     private String mStart;
     private String mEnd;
     private int userFlag=0;
+
+    private int page=1;
+    private int rows=20;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_detail;
@@ -198,6 +202,16 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
 
             }
         };
+        adapter.setEnableLoadMore(true);
+//        adapter.disableLoadMoreIfNotFullPage();
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                Log.e("onLoadMoreRequested","onLoadMoreRequested");
+                page++;
+                mPresent.getAcountList(userId,mType.toString(),mStart,mEnd,page+"",rows+"");
+            }
+        },myDetailRv);
         myDetailRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -217,7 +231,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         mStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(starTime);
         myDetailStartTv.setText(mStart);
         myDetailEndTv.setText(mEnd);
-        mPresent.getAcountList(userId, "".toString(),mStart,mEnd);
+        mPresent.getAcountList(userId, "".toString(),mStart,mEnd,page+"",rows+"");
 
         pvTime=new TimePickerBuilder(activity, new OnTimeSelectListener() {
             @Override
@@ -230,7 +244,9 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                     myDetailEndTv.setText(mEnd);
                 }
                 adapter.getData().clear();
-                mPresent.getAcountList(userId,mType,mStart,mEnd);
+                page=1;
+                rows=20;
+                mPresent.getAcountList(userId,mType,mStart,mEnd,page+"",rows+"");
             }
         }).build();
         //展示类别list
@@ -246,7 +262,9 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 myDetailClassTv.setText(billTypeList.get(position).toName());
                 adapter.getData().clear();
                 mType=billTypeList.get(position).toString();
-                mPresent.getAcountList(userId,mType.toString(),mStart,mEnd);
+                page=1;
+                rows=20;
+                mPresent.getAcountList(userId,mType.toString(),mStart,mEnd,page+"",rows+"");
                 if (listPopupWindow!=null){
                     listPopupWindow.dismiss();
                 }
@@ -352,7 +370,20 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             myDetailZongTv.setText(bill.getTotalAmount());
             myDetailFreezeTv.setText(bill.getFreezeAmount());
             myDetailSumTv.setText(bill.getSumAmount());
-            adapter.addData(bill.getAccountDetailList());
+            List<Bill.BillDetail> billDetails=bill.getAccountDetailList();
+            if (billDetails==null){
+                adapter.loadMoreEnd();
+            }else{
+                adapter.addData(billDetails);
+                if (billDetails.size()<20){
+                    adapter.loadMoreEnd();
+                }else {
+                    adapter.loadMoreComplete();
+                }
+            }
+        }else {
+            adapter.loadMoreEnd();
         }
+
     }
 }

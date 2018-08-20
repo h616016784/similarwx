@@ -30,6 +30,7 @@ import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.netease.nim.uikit.business.session.module.ModuleProxy;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
@@ -50,7 +51,8 @@ import java.util.Map;
  * Created by Administrator on 2018/4/9.
  */
 
-public class RedResultNewDialogFragment extends DialogFragment implements View.OnClickListener, MiViewInterface, RedDetailViewInterface {
+public class RedResultNewDialogFragment extends DialogFragment implements View.OnClickListener, MiViewInterface{
+    private static ModuleProxy proxy;
 
     public static RedResultNewDialogFragment newInstance(SendRed.SendRedBean sendRed,IMMessage message) {
         RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
@@ -68,6 +70,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         redDialogFragment.setArguments(bundle);
         return redDialogFragment;
     }
+
     public static RedResultNewDialogFragment newInstance(String title, String message) {
         RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
         Bundle bundle = new Bundle();
@@ -86,7 +89,6 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
     SendRed.SendRedBean mSendRedBean;
     private MIPresent miPresent;
-    private RedDetailPresent mPresent;
 //    IMMessage message;
     private String sessionId;
     @Override
@@ -117,7 +119,6 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 //            message= (IMMessage) bundle.getSerializable("message");
             sessionId= bundle.getString("sessionId");
             miPresent=new MIPresent(this);
-            mPresent=new RedDetailPresent(this);
             if (mSendRedBean!=null){
                 miPresent.canGrab(mSendRedBean.getRedPacId(),getActivity());//请求是否能抢红包
                 String accid=mSendRedBean.getMyUserId();//云信的accid
@@ -165,6 +166,15 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         return redResultDialogFragment;
     }
     public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,String sessionId){
+        RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed,sessionId);
+        FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
+        transaction.add(redResultDialogFragment,"redResultDialogBean");
+        transaction.addToBackStack(null);
+        transaction.commit();
+        return redResultDialogFragment;
+    }
+    public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,String sessionId,ModuleProxy proxyN){
+        proxy=proxyN;
         RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed,sessionId);
         FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
         transaction.add(redResultDialogFragment,"redResultDialogBean");
@@ -229,9 +239,18 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                     if (code.equals("0000")){
                         Bundle bundle=new Bundle();
                         if (mSendRedBean!=null){
-
-                            mPresent.redDetailList(mSendRedBean.getRedPacId(),mSendRedBean.getGroupId());
-
+                            //抢包成功、发送一个提示消息
+                            String isComplete=bena.getIsComplete();
+                            int flag=0;
+                            if (TextUtils.isEmpty(isComplete)){
+                                flag=0;
+                            }else {
+                                if (isComplete.equals("true"))
+                                    flag=1;
+                                else
+                                    flag=0;
+                            }
+                            doYunXinTip(sessionId,flag);
                             bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
                             bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
                             bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
@@ -263,26 +282,14 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         CustomMessageConfig config = new CustomMessageConfig();
 // 消息不计入未读
         config.enableUnreadCount = false;
+        config.enablePush=false;
         msg.setConfig(config);
 // 消息发送状态设置为success
         msg.setStatus(MsgStatusEnum.success);
 
-        NIMClient.getService(MsgService.class).sendMessage(msg, true).setCallback(new RequestCallback<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                // 保存消息到本地数据库，但不发送到服务器
-            }
-
-            @Override
-            public void onFailed(int i) {
-
-            }
-
-            @Override
-            public void onException(Throwable throwable) {
-
-            }
-        });
+        if (proxy!=null){
+            proxy.sendMessage(msg);
+        }
     }
 
     @Override
@@ -305,22 +312,5 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 setErrorText(bean.getRetMsg());
             }
         }
-    }
-
-    @Override
-    public void refreshRedDetail(List<RedDetialBean> list) {
-        int flag=0;
-        if (list!=null && mSendRedBean!=null){
-            String count=mSendRedBean.getCount();
-            if (!TextUtils.isEmpty(count)){
-                if (list.size()==Integer.parseInt(count)){
-                    flag=1;
-                }else {
-                    flag=0;
-                }
-            }
-        }
-        //抢包成功、发送一个提示消息
-        doYunXinTip(sessionId,flag);
     }
 }

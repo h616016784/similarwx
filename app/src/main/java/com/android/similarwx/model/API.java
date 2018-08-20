@@ -842,13 +842,15 @@ public class API implements APIConstants {
         });
     }
 
-    public void getBill(String userId,String type,String startDate,String endDate,AcountPresent present){
+    public void getBill(String userId,String type,String startDate,String endDate,String page,String rows,AcountPresent present){
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         if (!TextUtils.isEmpty(type))
             map.put("type",type );
         map.put("startDate",startDate );
         map.put("endDate",endDate );
+        map.put("page",page );
+        map.put("rows",rows );
 
         Call<RspBill> call=apiService.getBill(map);
         call.enqueue(new Callback<RspBill>() {
