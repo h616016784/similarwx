@@ -94,7 +94,7 @@ public class TeamMessageActivity extends BaseMessageActivity implements GroupInf
     protected void onResume() {
         super.onResume();
         requestTeamInfo();
-        fragment.onResume();
+//        fragment.onResume();
     }
 
     /**
