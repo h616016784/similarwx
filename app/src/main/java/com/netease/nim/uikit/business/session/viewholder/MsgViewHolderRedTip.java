@@ -61,42 +61,46 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
     }
     protected String getDisplayText() {
 //        String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),message.getFromAccount());
-
-        String accid= (String) message.getRemoteExtension().get("accId");
-        String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
-        Object object= message.getRemoteExtension().get("finishFlag");
-        int finishFlag=0;
-        if (object!=null){
-            finishFlag = (int)object;
-        }
+        Map<String, Object> content=message.getRemoteExtension();
 
 //        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
-
-        Map<String, Object> content=message.getRemoteExtension();
         if (content!=null){
-            String sendRedJson= (String) content.get("sendRedBean");
-            Gson gson=new Gson();
-            if (!TextUtils.isEmpty(sendRedJson)){
-                sendRedBean=gson.fromJson(sendRedJson, SendRed.SendRedBean.class);
-            }
-        }
-        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),sendRedBean.getMyUserId());
-        if (!TextUtils.isEmpty(from) && !TextUtils.isEmpty(to)){
-            if (!from.equals("我")&&!from.equals("你")&&!to.equals("我")&&!to.equals("你")){
+            String accid= (String) content.get("accId");
+            String redPacTipMessageType= (String) content.get("redPacTipMessageType");
+            if (redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
                 message_item_tips_ll.setVisibility(View.GONE);
-            }else {
-                if (to.equals("我")){
-                    if (finishFlag==1){
-                        message_item_tips_red_finish_tv.setVisibility(View.VISIBLE);
-                    }else {
-                        message_item_tips_red_finish_tv.setVisibility(View.GONE);
-                    }
-//                    mPresent.redDetailList(sendRedBean.getRedPacId(),sendRedBean.getGroupId());
+            }else {//抢红包的tip
+                message_item_tips_ll.setVisibility(View.VISIBLE);
+                String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
+                Object object= message.getRemoteExtension().get("finishFlag");
+                int finishFlag=0;
+                if (object!=null){
+                    finishFlag = (int)object;
                 }
+                String sendRedJson= (String) content.get("sendRedBean");
+                Gson gson=new Gson();
+                if (!TextUtils.isEmpty(sendRedJson)){
+                    sendRedBean=gson.fromJson(sendRedJson, SendRed.SendRedBean.class);
+                }
+                String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),sendRedBean.getMyUserId());
+                if (!TextUtils.isEmpty(from) && !TextUtils.isEmpty(to)){
+                    if (!from.equals("我")&&!from.equals("你")&&!to.equals("我")&&!to.equals("你")){
+                        message_item_tips_ll.setVisibility(View.GONE);
+                    }else {
+                        if (to.equals("我")){
+                            if (finishFlag==1){
+                                message_item_tips_red_finish_tv.setVisibility(View.VISIBLE);
+                            }else {
+                                message_item_tips_red_finish_tv.setVisibility(View.GONE);
+                            }
+//                    mPresent.redDetailList(sendRedBean.getRedPacId(),sendRedBean.getGroupId());
+                        }
+                    }
+                }
+                return from+"领取了"+to+"的";
             }
         }
-        return from+"领取了"+to+"的";
-
+        return "异常tip";
 //        return TeamNotificationHelper.getTeamNotificationText(message, message.getSessionId());
     }
 

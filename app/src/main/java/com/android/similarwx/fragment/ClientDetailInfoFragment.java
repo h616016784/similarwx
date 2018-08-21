@@ -36,13 +36,23 @@ import com.android.similarwx.widget.dialog.BottomBaseDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -307,6 +317,29 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
         }
     }
 
+
+    private void sendEmptyAudioMessage(String userStatus) {
+        // 该帐号为示例，请先注册
+        String account = bean.getGroupId();
+        SessionTypeEnum sessionType = SessionTypeEnum.Team;
+        Map<String, Object> content = new HashMap<>(1);
+        content.put("accId", bean.getUserId());
+        content.put("status", userStatus);
+        content.put("redPacTipMessageType","emptyTipsMessage");
+// 创建tip消息，teamId需要开发者已经存在的team的teamId
+        IMMessage msg = MessageBuilder.createTipMessage(account, sessionType);
+        msg.setRemoteExtension(content);
+// 自定义消息配置选项
+        CustomMessageConfig config = new CustomMessageConfig();
+// 消息不计入未读
+        config.enableUnreadCount = false;
+        config.enablePush=false;
+        msg.setConfig(config);
+// 消息发送状态设置为success
+        msg.setStatus(MsgStatusEnum.success);
+        // 发送给对方
+        NIMClient.getService(MsgService.class).sendMessage(msg, false);
+    }
     @Override
     public void showErrorMessage(String err) {
 
@@ -328,9 +361,16 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     }
 
     @Override
-    public void refreshUpdateUserStatus() {
-        Toaster.toastShort("操作成功！");
+    public void refreshUpdateUserStatus(String userStatus) {
+        if (userStatus.equals("3")){
+            Toaster.toastShort("禁言成功！");
+
+        }else if (userStatus.equals("1")){
+            Toaster.toastShort("解禁成功！");
+        }
+        sendEmptyAudioMessage(userStatus);
     }
+
 
     //剔除成员成功的回调
     @Override

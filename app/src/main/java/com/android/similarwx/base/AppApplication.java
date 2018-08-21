@@ -7,10 +7,13 @@ import android.text.TextUtils;
 import com.android.outbaselibrary.BaseApplication;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.LogUtil;
+import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.config.NIMInitManager;
 import com.android.similarwx.config.NimSDKOptionConfig;
 import com.android.similarwx.config.UserPreferences;
 import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.service.mipush.DemoMixPushMessageHandler;
+import com.google.gson.Gson;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRed;
 import com.android.similarwx.inteface.message.CustomAttachParser;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
@@ -27,9 +30,15 @@ import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.mixpush.NIMPushClient;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.nimlib.sdk.util.NIMUtil;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.util.Map;
 
 /**
  * Created by hanhuailong on 2018/3/15.
@@ -75,6 +84,26 @@ public class AppApplication extends BaseApplication {
 
         // 注册自定义推送消息处理，这个是可选项
         NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
+        // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
+//        NIMInitManager.getInstance().init(true);
+//        NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter() {
+//            @Override
+//            public boolean shouldIgnore(IMMessage imMessage) {
+//                if (imMessage.getSessionType()== SessionTypeEnum.Team){
+//                    if (imMessage.getMsgType()== MsgTypeEnum.audio){
+//                        Map<String, Object> content=imMessage.getRemoteExtension();
+//                        if (content!=null){
+//                            String redPacTipMessageType= (String) content.get("redPacTipMessageType");
+//                            String accId= (String) content.get("accId");
+//                            int status= (int) content.get("status");
+//
+//                            return true;
+//                        }
+//                    }
+//                }
+//                return false;
+//            }
+//        });
         // init pinyin
         PinYin.init(this);
         PinYin.validate();

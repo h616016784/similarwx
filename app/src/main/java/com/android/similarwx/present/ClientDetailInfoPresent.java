@@ -15,6 +15,7 @@ import com.android.similarwx.model.API;
 
 public class ClientDetailInfoPresent {
     ClientDetailInfoViewInterface mView;
+    private String userStatus;
     public ClientDetailInfoPresent(ClientDetailInfoViewInterface mView){
         this.mView=mView;
     }
@@ -31,6 +32,7 @@ public class ClientDetailInfoPresent {
     }
 
     public void doUpdateGroupUserStatus(String groupId,String userId,String userStatus){
+        this.userStatus=userStatus;
         API.getInstance().doUpdateGroupUserStatus(groupId,userId,userStatus,this);
     }
 
@@ -78,7 +80,7 @@ public class ClientDetailInfoPresent {
         String result=rspDeleteGroupUser.getResult();
         if (result.equals("success")){
             if (rspDeleteGroupUser.getErrorCode().equals("0000")){
-                mView.refreshUpdateUserStatus();
+                mView.refreshUpdateUserStatus(userStatus);
             }else
                 Toaster.toastShort(rspDeleteGroupUser.getErrorMsg());
         }else {

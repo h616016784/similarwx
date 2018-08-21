@@ -69,6 +69,7 @@ import com.netease.nimlib.sdk.robot.model.RobotAttachment;
 import com.netease.nimlib.sdk.robot.model.RobotMsgType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -238,7 +239,22 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             if (messages == null || messages.isEmpty()) {
                 return;
             }
-
+            for (IMMessage message:messages){
+                if (message.getMsgType()==MsgTypeEnum.tip){
+                    Map<String, Object> content=message.getRemoteExtension();
+                    if (content!=null){
+                        String redPacTipMessageType= (String) content.get("redPacTipMessageType");
+                        String accId= (String) content.get("accId");
+                        String myAccId=SharePreferenceUtil.getString(getActivity(),AppConstants.USER_ACCID,"");
+                        if (redPacTipMessageType.equals("emptyTipsMessage")){//禁言tip
+                            if (myAccId.equals(accId)){//对我进行禁言、解禁操作了
+                                String status= (String) content.get("status");
+                                AppConstants.USER_TEAM_IS_MUT=status;
+                            }
+                        }
+                    }
+                }
+            }
             messageListPanel.onIncomingMessage(messages);
             sendMsgReceipt(); // 发送已读回执
         }
@@ -327,6 +343,78 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         return true;
     }
 
+    public boolean sendMessage(IMMessage message,SendRed.SendRedBean data) {
+        if (!isAllowSendMessage(message)) {
+            return false;
+        }
+        if (sessionType == SessionTypeEnum.P2P){//单聊
+            String transfer= AppConstants.USER_TRANSFER;
+            if (!TextUtils.isEmpty(transfer)){
+                if (transfer.equals("1")){
+                    if (message.getMsgType()==MsgTypeEnum.custom){
+                        Toaster.toastShort("已禁止转账！");
+                        return false;
+                    }
+                }
+            }
+            String personChat= AppConstants.USER_PERSON_CHAT;
+            if (!TextUtils.isEmpty(personChat)){
+                if (personChat.equals("1")){
+                    if (!(message.getMsgType()==MsgTypeEnum.custom)){
+                        Toaster.toastShort("已禁言！");
+                        return false;
+                    }
+                }
+            }
+        }else if (sessionType == SessionTypeEnum.Team){ //群聊
+            String isMut=AppConstants.USER_TEAM_IS_MUT;
+            if (!TextUtils.isEmpty(isMut)){
+                if (isMut.equals("3")){
+                    if (message.getMsgType()==MsgTypeEnum.custom){
+
+                    }else if (message.getMsgType()==MsgTypeEnum.tip){
+
+                    }else {
+                        Toaster.toastShort("已禁言！");
+                        return false;
+                    }
+                }
+            }
+        }
+        appendTeamMemberPush(message);
+        message = changeToRobotMsg(message);
+        final IMMessage msg = message;
+        appendPushConfig(message);
+        // send message to server and save to db
+        NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void param) {
+                if (data!=null){
+                    doYunXinTip(sessionId,0,data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code) {
+                sendFailWithBlackList(code, msg);
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+
+            }
+        });
+
+        messageListPanel.onMsgSend(message);
+
+        if (aitManager != null) {
+            aitManager.reset();
+        }
+        //发送的声音
+        if (sound==1)
+            MediaManager.playSendMessageSoundDefault(getActivity(),null);
+        return true;
+    }
     // 被对方拉入黑名单后，发消息失败的交互处理
     private void sendFailWithBlackList(int code, IMMessage msg) {
         if (code == ResponseCode.RES_IN_BLACK_LIST) {
@@ -481,6 +569,29 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         messageListPanel.receiveReceipt();
     }
 
+    private void doYunXinTip(String sessionId,int finishFlag,SendRed.SendRedBean data) {
+        Map<String, Object> content = new HashMap<>(1);
+        String accid= SharePreferenceUtil.getString(getActivity(), AppConstants.USER_ACCID,"");
+//        content.put("accId", mSendRedBean.getMyUserId());
+        content.put("accId", accid);
+        content.put("finishFlag",finishFlag);
+        Gson gson=new Gson();
+        content.put("sendRedBean", gson.toJson(data));
+        content.put("redPacTipMessageType","redPacTip");
+// 创建tip消息，teamId需要开发者已经存在的team的teamId
+        IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team);
+        msg.setRemoteExtension(content);
+// 自定义消息配置选项
+        CustomMessageConfig config = new CustomMessageConfig();
+// 消息不计入未读
+        config.enableUnreadCount = false;
+        config.enablePush=false;
+        msg.setConfig(config);
+// 消息发送状态设置为success
+        msg.setStatus(MsgStatusEnum.success);
+
+        sendMessage(msg);
+    }
     /**
      * 一下是本地服务的几口==========================
      */
@@ -505,8 +616,9 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     public void reFreshCustemRed(SendRed.SendRedBean data) {
         if (data!=null){
             IMMessage imMessage=createCustomMessage(data);
+            String sysRed=data.getCotent();
             if (imMessage!=null)
-                sendMessage(imMessage);
+                sendMessage(imMessage,data);
         }
     }
 
