@@ -44,7 +44,8 @@ public class WxPresent extends BasePresent {
                 }else
                     Toaster.toastShort("数据解析异常");
             }else{
-                doRigister(unionId);
+                Toaster.toastShort(rspUser.getErrorMsg());
+//                doRigister(unionId);
             }
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
