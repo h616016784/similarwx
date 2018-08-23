@@ -18,9 +18,11 @@ import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.dialog.RedResultNewDialogFragment;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.business.chatroom.adapter.ChatRoomMsgAdapter;
 import com.netease.nim.uikit.business.session.module.ModuleProxy;
 import com.netease.nim.uikit.business.session.module.list.MsgAdapter;
+import com.netease.nim.uikit.business.team.helper.TeamHelper;
 import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLoadAdapter;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -68,6 +70,7 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
         if (transfer != null) {
             amount = transfer.getAmount();
             textContent = transfer.getToUserName();
+
         }
 
         if (!isReceivedMessage()) {// 消息方向，自己发送的
@@ -84,7 +87,7 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
         } else {
             sendView.setVisibility(View.GONE);
             revView.setVisibility(View.VISIBLE);
-            revContentText.setText("转账给 " + textContent);
+            revContentText.setText("转账给 " + "我");
             revTargetText.setText("¥" + amount);
 
             if (message.getStatus() == MsgStatusEnum.read) {//已读

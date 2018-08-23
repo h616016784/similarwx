@@ -84,26 +84,8 @@ public class AppApplication extends BaseApplication {
 
         // 注册自定义推送消息处理，这个是可选项
         NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
-        // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
-//        NIMInitManager.getInstance().init(true);
-//        NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter() {
-//            @Override
-//            public boolean shouldIgnore(IMMessage imMessage) {
-//                if (imMessage.getSessionType()== SessionTypeEnum.Team){
-//                    if (imMessage.getMsgType()== MsgTypeEnum.audio){
-//                        Map<String, Object> content=imMessage.getRemoteExtension();
-//                        if (content!=null){
-//                            String redPacTipMessageType= (String) content.get("redPacTipMessageType");
-//                            String accId= (String) content.get("accId");
-//                            int status= (int) content.get("status");
-//
-//                            return true;
-//                        }
-//                    }
-//                }
-//                return false;
-//            }
-//        });
+        // 云信sdk相关业务初始化
+        NIMInitManager.getInstance().init(true);
         // init pinyin
         PinYin.init(this);
         PinYin.validate();

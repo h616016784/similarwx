@@ -71,7 +71,7 @@ public class EditDialogSimple {
         mCancel=dialogView.findViewById(R.id.dialog_edit_cancel);
         mEditText=dialogView.findViewById(R.id.dialog_edit_in_et);
         if (inputType==1)
-            mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            mEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         mTitle.setText(title);
         addListener();
     }

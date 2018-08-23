@@ -30,6 +30,7 @@ import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.SendRedPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.Util;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
 import com.bumptech.glide.Glide;
@@ -140,6 +141,17 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                     bundle.putString(AppConstants.TRANSFER_GROUP_USER_ROLE,listBean.getGroupUserRule());
                     FragmentUtils.navigateToNormalActivity(getActivity(),new ClientDetailInfoFragment(),bundle);
                 }
+            }
+        });
+        groupInfoCodeRl.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String text=groupInfoCodeIv.getText().toString();
+                if (!TextUtils.isEmpty(text)){
+                    Util.copy(text,activity);
+                    Toaster.toastShort("已复制到粘贴板上");
+                }
+                return true;
             }
         });
     }

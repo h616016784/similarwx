@@ -121,6 +121,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private LoginPresent loginPresent;
     private NoticePresent noticePresent;
     private long tempMsgId=-1;
+    private boolean isNormal=true;
     public static void start(Activity context) {
         Intent intent = new Intent(context, MainChartrActivity.class);
         context.startActivity(intent);
@@ -167,8 +168,10 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             int adminFlg=mUser.getAdminFlg();
             int serviceFlg=mUser.getServiceFlg();
             if (systemFlg==0 && adminFlg==0 && serviceFlg==0 ){
-                createGroupIv.setVisibility(View.GONE);
+                isNormal=true;
+                createGroupIv.setVisibility(View.VISIBLE);
             }else {
+                isNormal=false;
                 createGroupIv.setVisibility(View.VISIBLE);
             }
         }
@@ -180,7 +183,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         recyclerView.setAdapter(adapter);
         recyclerView.requestFocus();
         adapter.setOnItemClickListener(this);
-
 
         hideKeyboard();
     }
@@ -240,11 +242,12 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
     private void initLoacalData() {
         listMore=new ArrayList<>();
-        PopMoreBean bean=new PopMoreBean();
-        bean.setName("创建群组");
-        bean.setImage(R.drawable.icon_top_add);
-        listMore.add(bean);
-
+        if (!isNormal){
+            PopMoreBean bean=new PopMoreBean();
+            bean.setName("创建群组");
+            bean.setImage(R.drawable.icon_top_add);
+            listMore.add(bean);
+        }
         PopMoreBean bean1=new PopMoreBean();
         bean1.setName("查找用户");
         bean1.setImage(R.drawable.icon_top_search);
@@ -281,13 +284,14 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 listPopWindowHelper.setOnClickItem(new ListPopWindow.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        if (position==0){
+                        PopMoreBean popMoreBean=listMore.get(position);
+                        if (popMoreBean.getName().equals("创建群组")){
                             FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new AddGroupFragment(), null);
-                        }else if (position==1){
+                        }else if (popMoreBean.getName().equals("查找用户")){
                             Bundle bundle=new Bundle();
                             bundle.putInt(AppConstants.TRANSFER_BASE,1);
                             FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new SearchFragment(), bundle);
-                        }else {
+                        }else if (popMoreBean.getName().equals("查找群组")){
                             Bundle bundle=new Bundle();
                             bundle.putInt(AppConstants.TRANSFER_BASE,2);
                             FragmentUtils.navigateToNormalActivity(MainChartrActivity.this, new SearchFragment(), bundle);

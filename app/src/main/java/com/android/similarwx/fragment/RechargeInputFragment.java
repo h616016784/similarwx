@@ -1,6 +1,7 @@
 package com.android.similarwx.fragment;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -29,6 +30,8 @@ import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.present.CashPresent;
 import com.android.similarwx.present.ClientDetailInfoPresent;
 import com.android.similarwx.present.RechargePresent;
+import com.android.similarwx.utils.DigestUtil;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.InputPasswordDialog;
 import com.bumptech.glide.Glide;
 import com.netease.nim.uikit.api.NimUIKit;
@@ -59,7 +62,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     String id;
     ClientDetailInfoPresent present;
     Unbinder unbinder;
-
+    private User mUser;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_recharge_input;
@@ -74,6 +77,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
         present=new ClientDetailInfoPresent(this);
         present.getUserInfoByParams("",account);
         mActionbar.setTitle("转账");
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
     }
 
     @Override
@@ -89,15 +93,21 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             Toaster.toastShort("转账金额不能为空！");
             return;
         }
-        if (!TextUtils.isEmpty(id))
-            mPresent.transfer(id,money);
-//        InputPasswordDialog dialog=InputPasswordDialog.newInstance("支付", "100", new InputPasswordDialog.OnInputFinishListener() {
-//            @Override
-//            public void onInputFinish(String password) {
-//
-//            }
-//        });
-//        activity.getFragmentManager().beginTransaction().add(dialog,"inputpassword").commit();
+        if (!TextUtils.isEmpty(id)){
+            InputPasswordDialog dialog=InputPasswordDialog.newInstance("转账", money, new InputPasswordDialog.OnInputFinishListener() {
+                @Override
+                public void onInputFinish(String password) {
+                    if (DigestUtil.sha1(password).equals(mUser.getPaymentPasswd())){
+                        mPresent.transfer(id,money);
+                    }else
+                        Toaster.toastShort("支付密码不正确！");
+                }
+            });
+            FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
+            transaction.add(dialog,"transDialog");
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
 

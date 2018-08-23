@@ -15,6 +15,7 @@ import com.android.similarwx.beans.Transfer;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.model.APIYUNXIN;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
@@ -56,22 +57,30 @@ public class TranferAdminFragment extends BaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             message = (IMMessage) bundle.getSerializable(AppConstants.USER_OBJECT);
-            APIYUNXIN.searchUser(message.getSessionId(), new YCallBack<List<NimUserInfo>>() {
-                @Override
-                public void callBack(List<NimUserInfo> nimUserInfos) {
-                    if (nimUserInfos!=null && nimUserInfos.size()>0){
-                        transferAdminNameTv.setText("转账给 "+nimUserInfos.get(0).getName());
-                    }
-                }
-            });
+//            APIYUNXIN.searchUser(message.getSessionId(), new YCallBack<List<NimUserInfo>>() {
+//                @Override
+//                public void callBack(List<NimUserInfo> nimUserInfos) {
+//                    if (nimUserInfos!=null && nimUserInfos.size()>0){
+//                        transferAdminNameTv.setText("转账给 "+nimUserInfos.get(0).getName());
+//                    }
+//                }
+//            });
         }
 
         if (message != null) {
             TransCustomAttachment attachment = (TransCustomAttachment) message.getAttachment();
             if (attachment!=null){
                 Transfer transfer=attachment.getTransfer();
-                if (transfer!=null)
+                if (transfer!=null){
                     transferAdminMoneyTv.setText("¥ "+transfer.getAmount());
+                    String myName= SharePreferenceUtil.getString(activity,AppConstants.USER_NICK,"");
+                    String toUserName=transfer.getToUserName();
+                    if (myName.equals(toUserName))
+                        transferAdminNameTv.setText("转账给 "+"我");
+                    else
+                        transferAdminNameTv.setText("转账给 "+toUserName);
+                }
+
             }
         }
     }
