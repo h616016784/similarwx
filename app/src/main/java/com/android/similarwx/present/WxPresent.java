@@ -25,11 +25,13 @@ import retrofit2.Response;
 
 public class WxPresent extends BasePresent {
     private WxViewInterface view;
+    private String unionId;
     public WxPresent(WxViewInterface view){
         this.view=view;
     }
 
     public void WxLogin(String unionId){
+        this.unionId=unionId;
         API.getInstance().WxLogin(unionId,this);
     }
     public void analyzeRes(RspUser rspUser) {
@@ -42,7 +44,7 @@ public class WxPresent extends BasePresent {
                 }else
                     Toaster.toastShort("数据解析异常");
             }else{
-                doRigister(rspUser.getData().getAccId());
+                doRigister(unionId);
             }
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
