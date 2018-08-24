@@ -390,7 +390,9 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             @Override
             public void onSuccess(Void param) {
                 if (data!=null){
-                    doYunXinTip(sessionId,0,data);
+                    String accid= data.getSysAccId();
+                    if (!TextUtils.isEmpty(accid))
+                        doYunXinTip(0,data);
                 }
             }
 
@@ -569,9 +571,9 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         messageListPanel.receiveReceipt();
     }
 
-    private void doYunXinTip(String sessionId,int finishFlag,SendRed.SendRedBean data) {
+    private void doYunXinTip(int finishFlag,SendRed.SendRedBean data) {
         Map<String, Object> content = new HashMap<>(1);
-        String accid= SharePreferenceUtil.getString(getActivity(), AppConstants.USER_ACCID,"");
+        String accid= data.getSysAccId();
 //        content.put("accId", mSendRedBean.getMyUserId());
         content.put("accId", accid);
         content.put("finishFlag",finishFlag);

@@ -38,10 +38,28 @@ public class SendRed extends BaseBean{
         private String myUserId;//云信的accid
         private String myGroupId;//群组编号（云信）
         private String groupId;//群组编号（本地服务器）
-        private String type;//发包类型，MINE：扫雷红包；LUCK：拼手气红包
+        private String type;//发包类型，MINE：扫雷红包；LUCK：拼手气红包系统性
         private String thunder;//中雷数字
         private String click;//0表示未点击，1表示点击
         private String count;//数量，type为LUCK时必填
+        private String sysAccId;//系统用户id
+        private String sysGrabAmount;//系统用户抢到的金额
+
+        public String getSysAccId() {
+            return sysAccId;
+        }
+
+        public void setSysAccId(String sysAccId) {
+            this.sysAccId = sysAccId;
+        }
+
+        public String getSysGrabAmount() {
+            return sysGrabAmount;
+        }
+
+        public void setSysGrabAmount(String sysGrabAmount) {
+            this.sysGrabAmount = sysGrabAmount;
+        }
 
         public String getCount() {
             return count;
