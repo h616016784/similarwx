@@ -45,7 +45,9 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
             }
             String joinmode=item.getHallDisplay();
             if (!TextUtils.isEmpty(joinmode)){
-                if (Integer.parseInt(joinmode)==1){
+                if (Integer.parseInt(joinmode)==1){//大厅显示的群
+
+                }else {//非大厅显示的群
                     if (recents!=null){
                         for (RecentContact recentContact:recents){
                             if (recentContact.getSessionType()== SessionTypeEnum.Team){
