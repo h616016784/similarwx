@@ -1,6 +1,7 @@
 package com.android.similarwx.fragment;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,8 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                 mActionbar.setTitle("设置登录密码");
             }else {
                 mActionbar.setTitle(R.string.set_pay_password_title);
+                setPayPasswordEt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                setPayPasswordConfirmEt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             }
         }
         mActionbar.setRightText(R.string.register_complete);

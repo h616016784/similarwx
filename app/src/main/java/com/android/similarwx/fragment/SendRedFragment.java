@@ -40,6 +40,8 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,6 +117,12 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
             Toaster.toastShort("金额不能为空！");
             return;
         }else {
+            Pattern pattern= Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$");
+            Matcher match=pattern.matcher(money);
+            if(match.matches()==false){
+                Toaster.toastShort("金额是小数点后两位哦！");
+                return ;
+            }
             if (listBean!=null){
                 double dMoney=Double.parseDouble(money);
                 if (dMoney>=listBean.getStartRange() && dMoney<=listBean.getEndRange()){}
@@ -210,6 +218,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
                 Bundle bundle=new Bundle();
                 bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE, SetPayPasswordFragment.PAY_PSD);
                 FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                activity.finish();
             }
         }).show();
     }
@@ -226,6 +235,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
                 sendRedBt.setEnabled(false);
             }else {
                 sumMoneyTv.setText("¥"+s);
+//                sendRedSumEt.setText(String.format("%.2f", Double.parseDouble(s.toString())));
                 sendRedBt.setEnabled(true);
             }
 

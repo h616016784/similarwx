@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -367,9 +368,20 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
     @Override
     public void refreshBill(Bill bill) {
         if (bill!=null){
-            myDetailZongTv.setText(bill.getTotalAmount());
+            String totalAmount=bill.getTotalAmount();
+            if (TextUtils.isEmpty(totalAmount)){
+                myDetailZongTv.setText("0.00");
+            }else {
+                myDetailZongTv.setText(String.format("%.2f", Double.parseDouble(bill.getTotalAmount())));
+            }
             myDetailFreezeTv.setText(bill.getFreezeAmount());
-            myDetailSumTv.setText(bill.getSumAmount());
+            String sunAmount=bill.getSumAmount();
+            if (TextUtils.isEmpty(sunAmount)){
+                myDetailSumTv.setText("0.00");
+            }else {
+                myDetailSumTv.setText(String.format("%.2f", Double.parseDouble(bill.getSumAmount())));
+            }
+
             List<Bill.BillDetail> billDetails=bill.getAccountDetailList();
             if (billDetails==null){
                 adapter.loadMoreEnd();

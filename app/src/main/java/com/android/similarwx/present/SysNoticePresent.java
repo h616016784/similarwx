@@ -29,7 +29,9 @@ public class SysNoticePresent {
     public void getContract(){
         API.getInstance().getNotices("CONTACT",this);
     }
-
+    public void getExplain(){
+        API.getInstance().getNotices("EXPLAIN",this);
+    }
     public void getConfig(){
         API.getInstance().getConfig("",this);
     }

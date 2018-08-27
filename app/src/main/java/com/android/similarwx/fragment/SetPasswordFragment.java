@@ -47,8 +47,8 @@ public class SetPasswordFragment extends BaseFragment {
     Unbinder unbinder;
 
     EditDialogSimple editDialogSimple;
+    EditDialogSimple editDialogSimplePay;
     User muser;
-    private int flag=-1;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_my_set_password;
@@ -59,6 +59,7 @@ public class SetPasswordFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.my_base_title);
         unbinder = ButterKnife.bind(this, contentView);
+        muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
         init();
     }
 
@@ -83,12 +84,10 @@ public class SetPasswordFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_set_password_login_iv:
-                flag=0;
-                showEditDialog(flag);
+                showEditDialog();
                 break;
             case R.id.my_set_password_pay_iv:
-                flag=1;
-                showEditDialog(flag);
+                showEditDialogPay();
                 break;
             case R.id.my_set_password_find_iv:
                 FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),null);
@@ -96,54 +95,54 @@ public class SetPasswordFragment extends BaseFragment {
         }
     }
 
-    private void showEditDialog(int flag) {
-        muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
-        if(editDialogSimple==null)
-            editDialogSimple=new EditDialogSimple(activity,"");
-        if(flag==0){
-            editDialogSimple.setTitle("请输入原登录密码");
-            editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
-                @Override
-                public void onClickListener(String text) {
-                    if (TextUtils.isEmpty(text))
-                        Toaster.toastShort("登录密码不能为空");
-                    else if (!DigestUtil.sha1(text).equals(muser.getPasswd()))
-                        Toaster.toastShort("登录密码不正确！");
-                    else {
-                        Bundle bundle=new Bundle();
-                        bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
-                        FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
-                    }
-                }
-            });
-            editDialogSimple.show();
-        } else{
-            if (TextUtils.isEmpty(muser.getPaymentPasswd())){
+    private void showEditDialogPay() {
+        if(editDialogSimplePay==null)
+            editDialogSimplePay=new EditDialogSimple(activity,"",1);
+        if (TextUtils.isEmpty(muser.getPaymentPasswd())) {
 //                Bundle bundle=new Bundle();
 //                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
 //                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
-                FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),null);
-            }else{
-                editDialogSimple.setTitle(AppContext.getResources().getString(R.string.set_password_message));
-                editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
-                    @Override
-                    public void onClickListener(String text) {
-                        String myPayPassword=muser.getPaymentPasswd();
-                        if (TextUtils.isEmpty(text))
-                            Toaster.toastShort("支付密码不能为空");
-                        else {
-                            if (DigestUtil.sha1(text).equals(myPayPassword)){
-                                Bundle bundle=new Bundle();
-                                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
-                                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
-                            } else
-                                Toaster.toastShort("原支付密码不正确!");
-                        }
+            FragmentUtils.navigateToNormalActivity(activity, new PhoneVerifyFragment(), null);
+        } else {
+            editDialogSimplePay.setTitle(AppContext.getResources().getString(R.string.set_password_message));
+            editDialogSimplePay.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+                @Override
+                public void onClickListener(String text) {
+                    String myPayPassword = muser.getPaymentPasswd();
+                    if (TextUtils.isEmpty(text))
+                        Toaster.toastShort("支付密码不能为空");
+                    else {
+                        if (DigestUtil.sha1(text).equals(myPayPassword)) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE, SetPayPasswordFragment.PAY_PSD);
+                            FragmentUtils.navigateToNormalActivity(activity, new SetPayPasswordFragment(), bundle);
+                        } else
+                            Toaster.toastShort("原支付密码不正确!");
                     }
-                });
-                editDialogSimple.show();
-            }
+                }
+            });
+            editDialogSimplePay.show();
         }
+    }
 
+    private void showEditDialog() {
+        if(editDialogSimple==null)
+            editDialogSimple=new EditDialogSimple(activity,"");
+        editDialogSimple.setTitle("请输入原登录密码");
+        editDialogSimple.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
+            @Override
+            public void onClickListener(String text) {
+                if (TextUtils.isEmpty(text))
+                    Toaster.toastShort("登录密码不能为空");
+                else if (!DigestUtil.sha1(text).equals(muser.getPasswd()))
+                    Toaster.toastShort("登录密码不正确！");
+                else {
+                    Bundle bundle=new Bundle();
+                    bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
+                    FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                }
+            }
+        });
+        editDialogSimple.show();
     }
 }

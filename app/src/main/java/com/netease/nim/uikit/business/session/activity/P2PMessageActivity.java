@@ -3,12 +3,21 @@ package com.netease.nim.uikit.business.session.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.beans.Notice;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspConfig;
+import com.android.similarwx.inteface.ClientDetailInfoViewInterface;
+import com.android.similarwx.inteface.SysNoticeViewInterface;
+import com.android.similarwx.present.ClientDetailInfoPresent;
+import com.android.similarwx.present.SysNoticePresent;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.contact.ContactChangedObserver;
 import com.netease.nim.uikit.api.model.main.OnlineStateChangeObserver;
@@ -29,6 +38,8 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -36,10 +47,15 @@ import java.util.Set;
  * <p/>
  * Created by huangjun on 2015/2/1.
  */
-public class P2PMessageActivity extends BaseMessageActivity {
+public class P2PMessageActivity extends BaseMessageActivity implements SysNoticeViewInterface, ClientDetailInfoViewInterface {
 
     private boolean isResume = false;
-
+    SysNoticePresent sysNoticePresent;
+    ClientDetailInfoPresent mPresent;
+    Timer timer ;
+    TimerTask alarmTask ;
+    private boolean myIsNormal=true;
+    private boolean youIsNormal=true;
     public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
@@ -56,6 +72,21 @@ public class P2PMessageActivity extends BaseMessageActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresent=new ClientDetailInfoPresent(this);
+        sysNoticePresent=new SysNoticePresent(this);
+        User mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
+        int serviceFlag=mUser.getServiceFlg();
+        int systermFlay=mUser.getSystemFlg();
+        int adminFlag=mUser.getAdminFlg();
+        if (serviceFlag==0&& systermFlay==0&& adminFlag==0){//普通用户
+            myIsNormal=true;
+
+        }else {
+            myIsNormal=false;
+        }
+        //获取用户信息
+        if (!TextUtils.isEmpty(sessionId))
+            mPresent.getUserInfoByParams("",sessionId);
 
         // 单聊特例话数据，包括个人信息，
         requestBuddyInfo();
@@ -71,6 +102,14 @@ public class P2PMessageActivity extends BaseMessageActivity {
         registerOnlineStateChangeListener(false);
         AppConstants.USER_PERSON_CHAT="";
         AppConstants.USER_TRANSFER="";
+        if (alarmTask!=null){
+            alarmTask.cancel();
+            alarmTask=null;
+        }
+        if (timer!=null){
+            timer.cancel();
+            timer=null;
+        }
     }
 
     @Override
@@ -222,5 +261,67 @@ public class P2PMessageActivity extends BaseMessageActivity {
     protected void initToolBar() {
         ToolBarOptions options = new NimToolBarOptions();
         setToolBar(R.id.toolbar, options);
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void refreshSysNotice(List<Notice> list) {
+
+    }
+
+    @Override
+    public void refreshSysMoney(String url) {
+
+    }
+
+    @Override
+    public void refreshSysConfig(RspConfig.ConfigBean bean) {
+        String personChat=bean.getPersonChat();
+        String transfer=bean.getTransfer();
+        AppConstants.USER_PERSON_CHAT=personChat;
+        AppConstants.USER_TRANSFER=transfer;
+    }
+
+    @Override
+    public void refreshUserInfo(User user) {
+        if (user!=null){
+            int serviceFlag=user.getServiceFlg();
+            int systermFlay=user.getSystemFlg();
+            int adminFlag=user.getAdminFlg();
+            if (serviceFlag==0&& systermFlay==0&& adminFlag==0){//普通用户
+                youIsNormal=true;
+                timer = new Timer();
+                alarmTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        //获取禁言和转账标示
+                        sysNoticePresent.getConfig();
+                    }
+                };
+                timer.schedule(alarmTask,10*60*1000,10*60*1000);//10分钟后每隔10分钟执行一次
+
+            }else {
+                youIsNormal=false;
+            }
+        }
+    }
+
+    @Override
+    public void refreshUpdateUser() {
+
+    }
+
+    @Override
+    public void refreshUpdateUserStatus(String userStatus) {
+
+    }
+
+    @Override
+    public void refreshDeleteUser() {
+
     }
 }
