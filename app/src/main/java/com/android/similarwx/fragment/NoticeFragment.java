@@ -16,9 +16,12 @@ import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.NoticePresent;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.NIMSDK;
+import com.netease.nimlib.sdk.msg.SystemMessageService;
 import com.netease.nimlib.sdk.msg.constant.SystemMessageStatus;
 import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
+import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
@@ -106,6 +109,11 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
                     if (list!=null)
                         list.clear();
                     noticeAdapter.addData(systemMessages);
+                    for (SystemMessage systemMessage:systemMessages){
+                        if (systemMessage.isUnread()){
+                            NIMClient.getService(SystemMessageService.class).setSystemMessageRead(systemMessage.getMessageId());
+                        }
+                    }
                 }
             }
         });

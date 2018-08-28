@@ -30,14 +30,31 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/chart_name_tv"
-                android:layout_marginTop="@dimen/distance_small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="群组通知"
-                android:textSize="@dimen/text_sub_title"
-                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/chart_name_tv"
+                    android:layout_marginTop="@dimen/distance_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="群组通知"
+                    android:textSize="@dimen/text_sub_title"
+                    />
+
+                <TextView
+                    android:id="@+id/team_chart_un_read_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_mini"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/distance_smaller"
+                    android:layout_marginRight="@dimen/distance_big"
+                    android:background="@drawable/nim_main_tab_new_message_notify"/>
+            </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

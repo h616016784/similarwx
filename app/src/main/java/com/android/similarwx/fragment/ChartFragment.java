@@ -35,6 +35,7 @@ import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.SystemMessageService;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
@@ -63,6 +64,8 @@ public class ChartFragment extends BaseFragment {
     TextView chartContentTv;
     @BindView(R.id.chart_role_tv)
     TextView chartRoleTv;
+    @BindView(R.id.team_chart_un_read_tv)
+    TextView teamChartUnReadTv;
     @BindView(R.id.chart_iv)
     ImageView chartIv;
     @BindView(R.id.chart_ll)
@@ -151,14 +154,6 @@ public class ChartFragment extends BaseFragment {
                     chartLl.setVisibility(View.VISIBLE);
                     SystemMessage message = systemMessages.get(0);
                     NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(message.getFromAccount());//用户详情
-//                    Gson gson=new Gson();
-//                    User user = null;
-//                    String content=message.getContent();
-//                    try {
-//                        user =gson.fromJson(content, User.class);
-//                    }catch (Exception e){
-//
-//                    }
                     if (user!=null){
                         switch (message.getType().getValue()){
                             case 0:
@@ -181,7 +176,17 @@ public class ChartFragment extends BaseFragment {
                         }
                         chartRoleTv.setText(TimeUtil.timestampToString(message.getTime()));
                     }
+                    int unread = NIMClient.getService(SystemMessageService.class)
+                            .querySystemMessageUnreadCountBlock();
+                    if (unread>0){
+                        teamChartUnReadTv.setVisibility(View.VISIBLE);
+                        if (unread>=10)
+                            teamChartUnReadTv.setText("9+");
+                        else
+                            teamChartUnReadTv.setText(unread);
 
+                    }else
+                        teamChartUnReadTv.setVisibility(View.GONE);
                 }else {
                     chartLl.setVisibility(View.GONE);
                 }
