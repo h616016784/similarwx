@@ -94,6 +94,15 @@
                     android:text="@string/main_dating"
                     android:textSize="@dimen/text_content_or_button"
                     />
+                <ImageView
+                    android:id="@+id/main_explain_red_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:src="@drawable/circle_on"
+                    android:layout_marginRight="@dimen/distance_big"
+                    android:layout_alignParentRight="true"
+                    />
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/main_rl_chart"
@@ -114,6 +123,15 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/main_msg"
                     android:textSize="@dimen/text_content_or_button"
+                    />
+                <ImageView
+                    android:id="@+id/main_rl_chart_red_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/circle_on"
+                    android:visibility="gone"
+                    android:layout_marginRight="@dimen/distance_big"
+                    android:layout_alignParentRight="true"
                     />
             </RelativeLayout>
             <RelativeLayout

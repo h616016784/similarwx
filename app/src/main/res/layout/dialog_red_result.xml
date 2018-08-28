@@ -40,7 +40,7 @@
             android:layout_marginLeft="@dimen/distance_normal"
             android:layout_marginRight="@dimen/distance_normal"
             android:layout_below="@id/dialog_red_result_name_tv"
-            android:layout_marginTop="@dimen/distance_small"
+            android:layout_marginTop="@dimen/distance_big"
             android:gravity="center_horizontal"
             android:text="您的积分不足，请充值！"
             android:textColor="@color/white"
@@ -49,7 +49,7 @@
 
         <ImageView
             android:id="@+id/dialog_red_result_kai_tv"
-            android:layout_marginTop="@dimen/distance_small"
+            android:layout_marginTop="@dimen/distance_big"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/dialog_red_result_tips_tv"
@@ -67,7 +67,7 @@
             android:layout_below="@id/dialog_red_result_tips_tv"
             android:layout_marginTop="170dp"
             android:gravity="center_horizontal"
-            android:text="看看大家的手气 >"
+            android:text="查看领取详情 >"
             android:textColor="@color/white"
             android:textSize="@dimen/text_tip"/>
 

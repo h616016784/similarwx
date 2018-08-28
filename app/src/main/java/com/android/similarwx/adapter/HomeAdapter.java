@@ -2,6 +2,7 @@ package com.android.similarwx.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.android.similarwx.R;
@@ -22,11 +23,17 @@ import java.util.List;
 public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,BaseViewHolder>{
     private Context context;
     private List<RecentContact> recents;
+    private ImageView mainChartRedIv,mainExplainRedIv;
+    public HomeAdapter(int layoutResId,Context context,List<GroupMessageBean.ListBean> mListData,ImageView mainChartRedIv,ImageView mainExplainRedIv){
+        super(layoutResId,mListData);
+        this.mainChartRedIv=mainChartRedIv;
+        this.mainExplainRedIv=mainExplainRedIv;
+        this.context=context;
+    }
     public HomeAdapter(int layoutResId,Context context,List<GroupMessageBean.ListBean> mListData){
         super(layoutResId,mListData);
         this.context=context;
     }
-
     @Override
     protected void convert(BaseViewHolder helper, GroupMessageBean.ListBean item) {
         helper.setGone(R.id.item_group_count_tv,false);//隐藏这个控件
@@ -38,7 +45,6 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
 //            helper.setGone(R.id.item_group_count_tv,true);
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
         }else{
-
             String groupIcon =item.getGroupIcon();
             if (!TextUtils.isEmpty(groupIcon)){
                 NetImageUtil.glideImageNormal(context,groupIcon,(ImageView) helper.getView(R.id.item_group_iv));
@@ -46,8 +52,6 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
             String joinmode=item.getHallDisplay();
             if (!TextUtils.isEmpty(joinmode)){
                 if (Integer.parseInt(joinmode)==1){//大厅显示的群
-
-                }else {//非大厅显示的群
                     if (recents!=null){
                         for (RecentContact recentContact:recents){
                             if (recentContact.getSessionType()== SessionTypeEnum.Team){
@@ -55,8 +59,8 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
                                     int unReadCount=recentContact.getUnreadCount();
                                     if (unReadCount>0){
                                         helper.setGone(R.id.item_group_count_tv,true);
-                                        if (unReadCount>=100)
-                                            helper.setText(R.id.item_group_count_tv,"99+");
+                                        if (unReadCount>=10)
+                                            helper.setText(R.id.item_group_count_tv,"9+");
                                         else
                                             helper.setText(R.id.item_group_count_tv,unReadCount+"");
                                     }else {
@@ -65,6 +69,10 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
                                 }
                             }
                         }
+                    }
+                }else {//非大厅显示的群
+                    if (item.getUserExists().equals("1")){//在群里
+
                     }
                 }
             }

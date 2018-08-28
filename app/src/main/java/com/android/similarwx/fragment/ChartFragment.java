@@ -97,6 +97,16 @@ public class ChartFragment extends BaseFragment {
                 if (!TextUtils.isEmpty(icon)) {
                     NetImageUtil.glideImageCircle(activity,icon,(ImageView) helper.getView(R.id.item_chart_iv));
                 }
+                int unReadCount=item.getUnreadCount();
+                if (unReadCount>0){
+                    helper.setGone(R.id.item_chart_un_read_tv,true);
+                    if (unReadCount>=10)
+                        helper.setText(R.id.item_chart_un_read_tv,"9+");
+                    else
+                        helper.setText(R.id.item_chart_un_read_tv,unReadCount+"");
+                }else {
+                    helper.setGone(R.id.item_chart_un_read_tv,false);
+                }
             }
         };
         chartRv.setAdapter(baseQuickAdapter);
@@ -122,9 +132,15 @@ public class ChartFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         queryRecentContacts();
         querySystemMessages();
     }
+
 
     private void querySystemMessages() {
         APIYUNXIN.getTeamNotice(new YCallBack<List<SystemMessage>>() {
@@ -134,7 +150,6 @@ public class ChartFragment extends BaseFragment {
                 if (systemMessages != null && systemMessages.size() > 0) {
                     chartLl.setVisibility(View.VISIBLE);
                     SystemMessage message = systemMessages.get(0);
-
                     NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(message.getFromAccount());//用户详情
 //                    Gson gson=new Gson();
 //                    User user = null;
@@ -182,6 +197,7 @@ public class ChartFragment extends BaseFragment {
                     @Override
                     public void onResult(int code, List<RecentContact> result, Throwable exception) {
                         if (result != null && result.size() > 0) {
+                            baseQuickAdapter.getData().clear();
                             for (RecentContact recentContact:result){
                                 SessionTypeEnum sessionTypeEnum=recentContact.getSessionType();
                                 if (sessionTypeEnum==SessionTypeEnum.P2P){

@@ -110,6 +110,10 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     RelativeLayout mainRlChart;
     @BindView(R.id.main_my_chart)
     RelativeLayout mainMyChart;
+    @BindView(R.id.main_explain_red_iv)
+    ImageView mainExplainRedIv;
+    @BindView(R.id.main_rl_chart_red_iv)
+    ImageView mainChartRedIv;
 
     private HomeAdapter adapter;
     private List<GroupMessageBean.ListBean> mListData;
@@ -177,7 +181,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         }
         initLoacalData();
 
-        adapter = new HomeAdapter(R.layout.item_group, this, mListData);
+        adapter = new HomeAdapter(R.layout.item_group, this, mListData,mainChartRedIv,mainExplainRedIv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
@@ -446,22 +450,23 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             if (imMessages != null) {
                 boolean isTeam=false;
                 for (IMMessage imMessage : imMessages) {
-                    if (imMessage.getSessionType()==SessionTypeEnum.Team){
+                    if (imMessage.getSessionType()==SessionTypeEnum.Team)
                         isTeam=true;
+                    else {
+                        mainChartRedIv.setVisibility(View.VISIBLE);
                     }
-                }
-                if (isTeam){
-                    //查询最近联系人已获取未读数
-                    NIMClient.getService(MsgService.class).queryRecentContacts()
-                            .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
-                                @Override
-                                public void onResult(int code, List<RecentContact> recents, Throwable e) {
-                                    // recents参数即为最近联系人列表（最近会话列表）
-                                    adapter.setRecentContacts(recents);
-                                    adapter.addData(mListData);
-                                }
-                            });
-                    isTeam=false;
+                    if (isTeam){
+                        //查询最近联系人已获取未读数
+                        NIMClient.getService(MsgService.class).queryRecentContacts()
+                                .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
+                                    @Override
+                                    public void onResult(int code, List<RecentContact> recents, Throwable e) {
+                                        // recents参数即为最近联系人列表（最近会话列表）
+                                        adapter.setRecentContacts(recents);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
+                    }
                 }
             }
         }
@@ -501,6 +506,11 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 if (!TextUtils.isEmpty(hallDisplay)){
                     if (listBean.getHallDisplay().equals("1"))//正式的要加上这个过滤
                         mListData.add(listBean);
+                    else {
+                        if (listBean.getUserExists().equals("1")){//在群里
+                            mListData.add(listBean);
+                        }
+                    }
                 }
             }
         }
@@ -510,9 +520,53 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
                     @Override
                     public void onResult(int code, List<RecentContact> recents, Throwable e) {
+
+                        if (data!=null){
+                            int flag=0;
+                            for (GroupMessageBean.ListBean listBean:data){
+                                String joinmode=listBean.getHallDisplay();
+                                if (!TextUtils.isEmpty(joinmode)){
+                                    if (Integer.parseInt(joinmode)==1){//大厅显示的群
+                                        if (flag==1)
+                                            break;
+                                        if (recents!=null){
+                                            for (RecentContact recentContact:recents){
+                                                if (recentContact.getSessionType()== SessionTypeEnum.Team){
+                                                    if (recentContact.getContactId().equals(listBean.getGroupId())){
+                                                        int unReadCount=recentContact.getUnreadCount();
+                                                        if (unReadCount>0){
+                                                            flag=1;
+                                                            mainExplainRedIv.setVisibility(View.VISIBLE);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }else {//非大厅显示的群
+                                        if (listBean.getUserExists().equals("1")){//在群里
+
+                                        }
+                                    }
+                                }
+                            }
+                            if (flag==0)
+                                mainExplainRedIv.setVisibility(View.GONE);
+                        }
                         // recents参数即为最近联系人列表（最近会话列表）
                         adapter.setRecentContacts(recents);
                         adapter.addData(mListData);
+
+                        for (RecentContact recentContact:recents){
+                            if (recentContact.getSessionType()== SessionTypeEnum.P2P){
+                                int unReadCount=recentContact.getUnreadCount();
+                                if (unReadCount>0){
+                                    mainChartRedIv.setVisibility(View.VISIBLE);
+                                    break;
+                                }
+                            }
+                            mainChartRedIv.setVisibility(View.GONE);
+                        }
                     }
                 });
     }
