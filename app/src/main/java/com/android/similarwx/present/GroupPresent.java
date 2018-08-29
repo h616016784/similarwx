@@ -57,4 +57,7 @@ public class GroupPresent extends BasePresent {
             }
         }
     }
+    public void doError(String error){
+        mView.showErrorMessage(error);
+    }
 }

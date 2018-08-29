@@ -191,7 +191,7 @@ public class ChartFragment extends BaseFragment {
                     chartLl.setVisibility(View.GONE);
                 }
             }
-        });
+        },0);
 //        String userid= SharePreferenceUtil.getString(activity,AppConstants.USER_ID,"");
 //        API.getInstance().getGroupApplyList(userid);
     }

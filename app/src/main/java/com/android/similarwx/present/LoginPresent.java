@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.Toaster;
+import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspUser;
@@ -91,6 +92,12 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,user.getPaymentPasswd());
         if (!TextUtils.isEmpty(password))
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);
+        Map<String,String> map=SharePreferenceUtil.getHashMapData(AppContext.getContext(),AppConstants.USER_MAP_OBJECT);
+        if (map==null){
+            map=new HashMap<>();
+            map.put("1","1");
+            SharePreferenceUtil.putHashMapData(AppContext.getContext(),AppConstants.USER_MAP_OBJECT,map);
+        }
         //云信登录
 
         String accid=user.getAccId();
@@ -257,5 +264,6 @@ public class LoginPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,"");
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,"");
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_WX_UNIONID,"");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_MAP_OBJECT,"");
     }
 }

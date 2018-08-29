@@ -493,6 +493,7 @@ public class API implements APIConstants {
             @Override
             public void onFailure(Call<RspGroup> call, Throwable t) {
                 Toaster.toastShort(t.getMessage());
+                present.doError(t.getMessage());
             }
         });
     }

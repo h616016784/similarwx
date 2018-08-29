@@ -79,6 +79,7 @@ public class AppConstants extends BaseConstants {
      */
     public static final String USER_WX_UNIONID = "unionId";
     public static final String USER_OBJECT = "userObj";
+    public static final String USER_MAP_OBJECT = "userMapObj";
     public static final String USER_ACCID = "accId";
     public static final String USER_TOKEN = "token";
     public static final String USER_EMAIL= "email";

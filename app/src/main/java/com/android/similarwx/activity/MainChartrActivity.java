@@ -44,10 +44,12 @@ import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.service.reminder.ReminderItem;
 import com.android.similarwx.service.reminder.ReminderManager;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.NetUtil;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.notification.NotificationUtil;
 import com.android.similarwx.widget.ListPopWindow;
 import com.android.similarwx.widget.ListPopWindowHelper;
+import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.EditDialogBuilder;
@@ -108,6 +110,10 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     RelativeLayout mainRlExplain;
     @BindView(R.id.main_rl_chart)
     RelativeLayout mainRlChart;
+    @BindView(R.id.main_net_rl)
+    RelativeLayout mainNeyRl;
+    @BindView(R.id.main_load_rl)
+    RelativeLayout mainLoadRl;
     @BindView(R.id.main_my_chart)
     RelativeLayout mainMyChart;
     @BindView(R.id.main_explain_red_iv)
@@ -268,13 +274,24 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     protected void onResume() {
         super.onResume();
         groupPresent.getGroupList();
+        mainLoadRl.setVisibility(View.VISIBLE);
+        checkNet();
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
 //        listPopWindowHelper.destroy();
+    }
+
+    private void checkNet() {
+        if (NetUtil.getAPNType(this)==0){//没有网络
+            mainNeyRl.setVisibility(View.VISIBLE);
+        }else {
+            mainNeyRl.setVisibility(View.GONE);
+        }
     }
 
     @OnClick({R.id.main_search_iv, R.id.main_rl_chart, R.id.main_my_chart,R.id.create_group_iv,R.id.main_rl_find})
@@ -360,14 +377,21 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                                                 Gson gson=new Gson();
                                                 mUser.setPasswd("申请加入该群");
                                                 mUser.setPasswdStr(bean.getGroupName());
-//                                String detail=gson.toJson(mUser);
-                                                APIYUNXIN.applyJoinTeam(bean.getGroupId(), "", new YCallBack<Team>() {
-                                                    @Override
-                                                    public void callBack(Team team) {
-                                                        Toaster.toastShort("申请成功，等待群主审批");
+                                                Map<String,String> map=SharePreferenceUtil.getHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT);
+                                                if (map!=null){
+                                                    String applyFlag=map.get(bean.getGroupId());
+                                                    if (TextUtils.isEmpty(applyFlag)){
+                                                        APIYUNXIN.applyJoinTeam(MainChartrActivity.this,bean.getGroupId(), "", new YCallBack<Team>() {
+                                                            @Override
+                                                            public void callBack(Team team) {
+                                                                Toaster.toastShort("申请成功，等待群主审批");
+                                                            }
+                                                        });
+                                                    }else {
+                                                        showQuitDialog("已经发过申请，请等待");
                                                     }
-                                                });
-//                        doGroupApply(bean.getGroupId());
+                                                }
+
                                             }
                                         });
                                         mDialog.show();
@@ -385,14 +409,20 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                                             Gson gson=new Gson();
                                             mUser.setPasswd("申请加入该群");
                                             mUser.setPasswdStr(bean.getGroupName());
-//                            String detail=gson.toJson(mUser);
-                                            APIYUNXIN.applyJoinTeam(bean.getGroupId(), "", new YCallBack<Team>() {
-                                                @Override
-                                                public void callBack(Team team) {
-                                                    Toaster.toastShort("申请成功，等待群主审批");
+                                             Map<String,String> map=SharePreferenceUtil.getHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT);
+                                            if (map!=null){
+                                                String applyFlag=map.get(bean.getGroupId());
+                                                if (TextUtils.isEmpty(applyFlag)){
+                                                    APIYUNXIN.applyJoinTeam(MainChartrActivity.this,bean.getGroupId(), "", new YCallBack<Team>() {
+                                                        @Override
+                                                        public void callBack(Team team) {
+                                                            Toaster.toastShort("申请成功，等待群主审批");
+                                                        }
+                                                    });
+                                                }else {
+                                                    showQuitDialog("已经发过申请，请等待");
                                                 }
-                                            });
-//                        doGroupApply(bean.getGroupId());
+                                            }
                                         }
                                     });
                                     mDialog.show();
@@ -409,6 +439,26 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         }
     }
 
+    /**
+     * 展示申请信息
+     * @param msg
+     */
+    private void showQuitDialog(String msg) {
+        final CancelDialogBuilder cancel_dialogBuilder = CancelDialogBuilder
+                .getInstance(this);
+
+        cancel_dialogBuilder.setTitleText(msg);
+        cancel_dialogBuilder.setDetermineText("确定");
+
+        cancel_dialogBuilder.isCancelableOnTouchOutside(true)
+                .setCancelNone()
+                .setButton2Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancel_dialogBuilder.dismiss();
+                    }
+        }).show();
+    }
     private void doInGroupByAnyOne(GroupMessageBean.ListBean bean) {
         String accid=SharePreferenceUtil.getString(this,AppConstants.USER_ACCID,"");
         noticePresent.doAddGroupUser(bean.getGroupId(),accid);
@@ -485,11 +535,12 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
     @Override
     public void showErrorMessage(String err) {
-
+        mainLoadRl.setVisibility(View.GONE);
     }
 
     @Override
     public void groupRefresh(List<GroupMessageBean.ListBean> data) {
+        mainLoadRl.setVisibility(View.GONE);
         if (mListData==null)
             mListData = new ArrayList<>();
         mListData.clear();
@@ -560,6 +611,9 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                         for (RecentContact recentContact:recents){
                             if (recentContact.getSessionType()== SessionTypeEnum.P2P){
                                 int unReadCount=recentContact.getUnreadCount();
+
+                                int unread = NIMClient.getService(SystemMessageService.class) .querySystemMessageUnreadCountBlock();
+                                unReadCount+=unread;
                                 if (unReadCount>0){
                                     mainChartRedIv.setVisibility(View.VISIBLE);
                                     break;
@@ -605,7 +659,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     public void aggreeView(String code,String groupId) {
         if (!TextUtils.isEmpty(code)){
             if (code.equals("0000") ){//添加成功或者
-                APIYUNXIN.applyJoinTeam(groupId, "", new YCallBack<Team>() {
+                APIYUNXIN.applyJoinTeam(MainChartrActivity.this,groupId, "", new YCallBack<Team>() {
                     @Override
                     public void callBack(Team team) {
                         // 打开群聊界面

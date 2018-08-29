@@ -1,7 +1,11 @@
 package com.android.similarwx.model;
 
+import android.content.Context;
+
 import com.android.outbaselibrary.utils.Toaster;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.inteface.YCallBack;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.SystemMessageService;
@@ -15,6 +19,7 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hanhuailong on 2018/6/22.
@@ -27,10 +32,15 @@ public class APIYUNXIN {
      * @param postscript
      * @param callBack
      */
-    public static void applyJoinTeam(String teamId, String postscript, YCallBack<Team> callBack){
+    public static void applyJoinTeam(Context context,String teamId, String postscript, YCallBack<Team> callBack){
         NIMClient.getService(TeamService.class).applyJoinTeam(teamId, postscript).setCallback(new RequestCallback<Team>() {
             @Override
             public void onSuccess(Team team) {
+                Map<String,String> map=SharePreferenceUtil.getHashMapData(context,AppConstants.USER_MAP_OBJECT);
+                if (map!=null){
+                    map.put(teamId,"1");
+                }
+                SharePreferenceUtil.putHashMapData(context,AppConstants.USER_MAP_OBJECT,map);
                 // 申请成功, 等待验证入群
                 if (callBack!=null)
                     callBack.callBack(team);
@@ -38,9 +48,20 @@ public class APIYUNXIN {
 
             @Override
             public void onFailed(int code) {
-                if (code==808)
+                Map<String,String> map=SharePreferenceUtil.getHashMapData(context,AppConstants.USER_MAP_OBJECT);
+                if (code==808){
+                    if (map!=null){
+                        map.put(teamId,"1");
+                    }
+                    SharePreferenceUtil.putHashMapData(context,AppConstants.USER_MAP_OBJECT,map);
                     Toaster.toastShort("申请已发出,等待毋急！");
-                else
+                }else if (code==809){
+                    if (map!=null){
+                        map.put(teamId,"1");
+                    }
+                    SharePreferenceUtil.putHashMapData(context,AppConstants.USER_MAP_OBJECT,map);
+                    Toaster.toastShort("您已经在群里！");
+                }else
                     Toaster.toastShort(code+"");// 申请失败
             }
 
@@ -252,9 +273,9 @@ public class APIYUNXIN {
             }
         });
     }
-    public static void getTeamNotice(YCallBack<List<SystemMessage>> callBack){
+    public static void getTeamNotice(YCallBack<List<SystemMessage>> callBack,int num){
         // 从1条开始，查询1条系统消息
-        NIMClient.getService(SystemMessageService.class).querySystemMessages(0, 5)
+        NIMClient.getService(SystemMessageService.class).querySystemMessages(num, 20)
                 .setCallback(new RequestCallback<List<SystemMessage>>() {
                     @Override
                     public void onSuccess(List<SystemMessage> param) {

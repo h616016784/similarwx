@@ -112,7 +112,12 @@ public class CancelDialogBuilder extends Dialog implements DialogInterface {
 
 		return this;
 	}
+	public CancelDialogBuilder setCancelNone() {
 
+		mDialogView.findViewById(R.id.cancle_btncancle).setVisibility(View.GONE);
+
+		return this;
+	}
 	public CancelDialogBuilder setButton2Click(View.OnClickListener click) {
 		mDialogView.findViewById(R.id.cancle_determine).setOnClickListener(
 				click);

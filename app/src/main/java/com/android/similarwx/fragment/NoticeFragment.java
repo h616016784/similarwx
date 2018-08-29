@@ -37,6 +37,7 @@ import butterknife.Unbinder;
  */
 
 public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
+    private int num=0;
     @BindView(R.id.notice_recycler)
     RecyclerView noticeRecycler;
     Unbinder unbinder;
@@ -59,6 +60,15 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
         noticeRecycler.setLayoutManager(linearLayoutManager);
 //        noticeAdapter=new NoticeAdapter2(R.layout.item_notice);
         noticeAdapter=new NoticeAdapter2(R.layout.item_sys_notice);
+        noticeAdapter.setEnableLoadMore(true);
+//        adapter.disableLoadMoreIfNotFullPage();
+        noticeAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                num++;
+                fetchData();
+            }
+        },noticeRecycler);
         noticeRecycler.setAdapter(noticeAdapter);
         noticeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -86,6 +96,8 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
                                 public void callBack(Void aVoid) {
                                     Toaster.toastShort("已拒绝！");
                                     APIYUNXIN.setSystemMessageStatus(message.getMessageId(), SystemMessageStatus.declined);
+                                    num=0;
+                                    noticeAdapter.getData().clear();
                                     fetchData();
                                 }
                             });
@@ -105,18 +117,25 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
             @Override
             public void callBack(List<SystemMessage> systemMessages) {
                 if (systemMessages != null && systemMessages.size() > 0) {
-                    List<SystemMessage> list=noticeAdapter.getData();
-                    if (list!=null)
-                        list.clear();
+
                     noticeAdapter.addData(systemMessages);
+                    if (systemMessages.size()<20){
+                        noticeAdapter.loadMoreEnd();
+                    }else {
+                        noticeAdapter.loadMoreComplete();
+                    }
+
+
                     for (SystemMessage systemMessage:systemMessages){
                         if (systemMessage.isUnread()){
                             NIMClient.getService(SystemMessageService.class).setSystemMessageRead(systemMessage.getMessageId());
                         }
                     }
+                }else {
+                    noticeAdapter.loadMoreEnd();
                 }
             }
-        });
+        },num);
     }
 
     @Override
@@ -144,6 +163,8 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
         else if (systemMessage.getType().getValue()== SystemMessageType.TeamInvite.getValue()){
             APIYUNXIN.setSystemMessageStatus(systemMessage.getMessageId(), SystemMessageStatus.passed);
         }
+        num=0;
+        noticeAdapter.getData().clear();
         fetchData();
     }
 

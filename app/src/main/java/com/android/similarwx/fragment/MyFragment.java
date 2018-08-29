@@ -194,7 +194,6 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
                     public void onClick(View v) {
                         cancel_dialogBuilder.dismiss();
                         present.logout();
-
                     }
         }).show();
     }

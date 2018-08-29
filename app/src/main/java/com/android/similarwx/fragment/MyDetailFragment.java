@@ -208,7 +208,6 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                Log.e("onLoadMoreRequested","onLoadMoreRequested");
                 page++;
                 mPresent.getAcountList(userId,mType.toString(),mStart,mEnd,page+"",rows+"");
             }

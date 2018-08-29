@@ -28,6 +28,54 @@
             android:layout_marginRight="@dimen/distance_normal"
             android:visibility="gone"
             android:src="@drawable/message_button_bottom_add_selector"/>
+        <RelativeLayout
+            android:id="@+id/main_load_rl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/distance_small"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+            <ProgressBar
+                android:id="@+id/main_load_pb"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="@dimen/dp_14"
+                android:layout_height="@dimen/dp_14"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center" />
+            <TextView
+                android:layout_toRightOf="@id/main_load_pb"
+                android:layout_marginLeft="@dimen/distance_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:text="收取中..."/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/main_net_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/distance_smaller"
+        android:background="@color/gray"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/main_net_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info_black_24dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/main_net_iv"
+            android:text="当前网络不可用，请检查你的网络设置"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -67,6 +115,7 @@
             <include layout="@layout/include_divider"/>
             <include layout="@layout/include_divider"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/bottom_ll"
             android:layout_width="match_parent"
@@ -179,7 +228,7 @@
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_marginTop="@dimen/distance_small"
+            android:layout_marginTop="@dimen/distance_smallest"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_ll">

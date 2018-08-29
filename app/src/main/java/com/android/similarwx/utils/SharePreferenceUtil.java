@@ -4,11 +4,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/4/17.
@@ -139,6 +146,47 @@ public class SharePreferenceUtil {
 
     public static Object getSerializableObjectDefault(Context context, String key) {
         return getSerializableObject(context, "localData", key);
+    }
+    public static void putHashMapData(Context context, String key, Map<String, String> datas) {
+        JSONArray mJsonArray = new JSONArray();
+        Iterator<Map.Entry<String, String>> iterator = datas.entrySet().iterator();
+
+        JSONObject object = new JSONObject();
+
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            try {
+                object.put(entry.getKey(), entry.getValue());
+            } catch (JSONException e) {
+
+            }
+        }
+        mJsonArray.put(object);
+
+        putObject(context,key,mJsonArray.toString());
+    }
+
+    public static Map<String, String> getHashMapData(Context context, String key) {
+
+        Map<String, String> datas = new HashMap<>();
+        String result= (String) getObject(context,key,"");
+        try {
+            JSONArray array = new JSONArray(result);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject itemObject = array.getJSONObject(i);
+                JSONArray names = itemObject.names();
+                if (names != null) {
+                    for (int j = 0; j < names.length(); j++) {
+                        String name = names.getString(j);
+                        String value = itemObject.getString(name);
+                        datas.put(name, value);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+
+        }
+        return datas;
     }
     /**
      * desc:将16进制的数据转为数组
