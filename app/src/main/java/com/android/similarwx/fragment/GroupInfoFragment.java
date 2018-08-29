@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +39,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.nim.uikit.business.team.activity.AdvancedTeamInfoActivity;
+import com.netease.nim.uikit.business.team.helper.TeamHelper;
+import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
+import com.netease.nim.uikit.common.ui.dialog.MenuDialog;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.ResponseCode;
+import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.nimlib.sdk.team.constant.TeamMessageNotifyTypeEnum;
+import com.netease.nimlib.sdk.team.model.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +74,12 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     TextView groupInfoCodeIv;
     @BindView(R.id.group_info_code_rl)
     RelativeLayout groupInfoCodeRl;
+    @BindView(R.id.group_info_msg_rl)
+    RelativeLayout groupInfoMsgRl;
     @BindView(R.id.group_info_notice_tv)
     TextView groupInfoNoticeTv;
+    @BindView(R.id.group_info_msg_tv)
+    TextView groupInfoMsgTv;
     @BindView(R.id.group_info_know_tv)
     TextView groupInfoKnowTv;
     @BindView(R.id.group_info_quit_bt)
@@ -87,6 +103,8 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     private String accountId;
     private SendRedPresent present;
     private User mUser;
+
+    private MenuDialog teamNotifyDialog;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_group_info;
@@ -154,6 +172,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                 return true;
             }
         });
+
     }
 
     private void initDataAndView() {
@@ -218,11 +237,14 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     }
 
 
-    @OnClick({R.id.group_info_member_ll,R.id.group_info_quit_bt})
+    @OnClick({R.id.group_info_member_ll,R.id.group_info_quit_bt,R.id.group_info_msg_rl})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.group_info_code_rl:
 //                FragmentUtils.navigateToNormalActivity(activity,new GroupCodeFragment(),null);
+                break;
+            case R.id.group_info_msg_rl://群消息设置
+                showTeamNotifyMenu();
                 break;
             case R.id.group_info_member_ll://全部成员
                 Bundle bundle=new Bundle();
@@ -242,6 +264,71 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                     Toaster.toastShort("请联系群管理者");
                 }
                 break;
+        }
+    }
+
+    private void showTeamNotifyMenu() {
+
+            NIMClient.getService(TeamService.class).queryTeam(accountId).setCallback(new RequestCallbackWrapper<Team>() {
+                @Override
+                public void onResult(int code, Team team, Throwable exception) {
+                    if (code == ResponseCode.RES_SUCCESS) {
+                        if (teamNotifyDialog == null) {
+                            List<String> btnNames = TeamHelper.createNotifyMenuStrings();
+                            // 成功
+                            int type = team.getMessageNotifyType().getValue();
+                            teamNotifyDialog = new MenuDialog(activity, btnNames, type, type, new MenuDialog
+                                    .MenuDialogOnButtonClickListener() {
+                                @Override
+                                public void onButtonClick(String name) {
+                                    teamNotifyDialog.dismiss();
+
+                                    TeamMessageNotifyTypeEnum type = TeamHelper.getNotifyType(name);
+                                    if (type == null) {
+                                        return;
+                                    }
+                                    DialogMaker.showProgressDialog(activity, getString(R.string.empty), true);
+                                    NIMClient.getService(TeamService.class).muteTeam(accountId, type).setCallback(new RequestCallback<Void>() {
+                                        @Override
+                                        public void onSuccess(Void param) {
+                                            DialogMaker.dismissProgressDialog();
+                                            updateTeamNotifyText(team.getMessageNotifyType());
+                                        }
+
+                                        @Override
+                                        public void onFailed(int code) {
+                                            DialogMaker.dismissProgressDialog();
+                                            teamNotifyDialog.undoLastSelect();
+                                            Log.d(TAG, "muteTeam failed code:" + code);
+                                        }
+
+                                        @Override
+                                        public void onException(Throwable exception) {
+                                            DialogMaker.dismissProgressDialog();
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        teamNotifyDialog.show();
+                    } else {
+                        // 失败，错误码见code
+                    }
+                    if (exception != null) {
+                        // error
+                    }
+                }
+            });
+
+    }
+
+    private void updateTeamNotifyText(TeamMessageNotifyTypeEnum typeEnum) {
+        if (typeEnum == TeamMessageNotifyTypeEnum.All) {
+            groupInfoMsgTv.setText(getString(R.string.team_notify_all));
+        } else if (typeEnum == TeamMessageNotifyTypeEnum.Manager) {
+            groupInfoMsgTv.setText(getString(R.string.team_notify_manager));
+        } else if (typeEnum == TeamMessageNotifyTypeEnum.Mute) {
+            groupInfoMsgTv.setText(getString(R.string.team_notify_mute));
         }
     }
     @Override

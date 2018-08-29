@@ -1,6 +1,7 @@
 package com.android.similarwx.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -73,6 +74,7 @@ public class ChartFragment extends BaseFragment {
     private BaseQuickAdapter baseQuickAdapter;
     private List<RecentContact> list;
 
+    Handler mHandler;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,7 +185,7 @@ public class ChartFragment extends BaseFragment {
                         if (unread>=10)
                             teamChartUnReadTv.setText("9+");
                         else
-                            teamChartUnReadTv.setText(unread);
+                            teamChartUnReadTv.setText(unread+"");
 
                     }else
                         teamChartUnReadTv.setVisibility(View.GONE);

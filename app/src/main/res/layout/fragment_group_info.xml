@@ -123,6 +123,40 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/divider"/>
+        <RelativeLayout
+            android:id="@+id/group_info_msg_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/distance_small"
+            android:background="@color/white"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="消息提醒"
+                android:textSize="@dimen/text_content_or_button"
+                android:textColor="@color/black"
+                />
+            <TextView
+                android:id="@+id/group_info_msg_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/distance_bigger"
+                android:text=""
+                android:textSize="@dimen/text_content_or_button"
+                android:layout_alignParentRight="true"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/distance_normal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/em_right"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

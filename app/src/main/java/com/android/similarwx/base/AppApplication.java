@@ -84,6 +84,7 @@ public class AppApplication extends BaseApplication {
 
         // 注册自定义推送消息处理，这个是可选项
         NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
+
         // 云信sdk相关业务初始化
         NIMInitManager.getInstance().init(true);
         // init pinyin

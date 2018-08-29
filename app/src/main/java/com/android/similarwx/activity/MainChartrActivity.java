@@ -62,6 +62,8 @@ import com.netease.nim.uikit.business.recent.TeamMemberAitHelper;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
@@ -147,6 +149,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         noticePresent=new NoticePresent(this);
         initYunXinSystemMsgListener();
         registerMsgUnreadInfoObserver(true);
+        registerUserOnlineStatus(true);
 //        requestSystemMessageUnreadCount();
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
 
@@ -196,6 +199,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
         hideKeyboard();
     }
+
+
 
     private void doInputInviter(String invitationCode) {
         loginPresent.setInvitationCode(invitationCode);
@@ -283,6 +288,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        registerUserOnlineStatus(false);
 //        listPopWindowHelper.destroy();
     }
 
@@ -488,6 +494,24 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 //        }
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeReceiveMessage(messageReceiverObserver, register);
+    }
+
+    /**
+     * 注册用户在线状态
+     * @param b
+     */
+    private void registerUserOnlineStatus(boolean b) {
+        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(
+                new Observer<StatusCode> () {
+                    public void onEvent(StatusCode status) {
+                        if (status==StatusCode.KICKOUT) {
+                            // 被踢出
+                            Toaster.toastShort("用户在其他设备上登录！！！！");
+                            finish();
+                            startActivity(new Intent(MainChartrActivity.this,LoginActivity.class));
+                        }
+                    }
+                }, b);
     }
 
     // 暂存消息，当RecentContact 监听回来时使用，结束后清掉
