@@ -65,7 +65,7 @@
             android:layout_marginLeft="@dimen/distance_normal"
             android:layout_marginRight="@dimen/distance_normal"
             android:layout_below="@id/dialog_red_result_tips_tv"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="140dp"
             android:gravity="center_horizontal"
             android:text="查看领取详情 >"
             android:textColor="@color/white"

@@ -160,14 +160,18 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
 
     @Override
     public void refreshRedDetail(List<RedDetialBean> list) {
+        boolean isHas=false;
         String myAccid= SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"");
         for (RedDetialBean bean:list){
             String accid=bean.getAccId();
             if (!TextUtils.isEmpty(accid)){
                 if (myAccid.equals(accid))
+                    isHas=true;
                     redDetailAcountTv.setText(String.format("%.2f", bean.getAmount())+" 元");
             }
         }
+        if (!isHas)
+            redDetailAcountTv.setVisibility(View.GONE);
         redDetailAdapter.addData(list);
         redDetailTakeTv.setText(list.size()+"/"+sendRed.getCount());
     }

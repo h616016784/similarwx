@@ -35,6 +35,7 @@ import com.android.similarwx.widget.input.actions.RedAction;
 import com.android.similarwx.widget.input.actions.ServiceAction;
 import com.android.similarwx.widget.input.actions.TransferAciton;
 import com.google.gson.Gson;
+import com.gyf.barlibrary.ImmersionBar;
 import com.netease.nim.uikit.api.UIKitOptions;
 import com.netease.nim.uikit.api.model.main.CustomPushContentProvider;
 import com.netease.nim.uikit.api.model.session.SessionCustomization;
@@ -102,6 +103,8 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     private int sound=0;
     Container container;
     IMMessage anchor;
+
+    private ImmersionBar mImmersionBar;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -110,6 +113,13 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mImmersionBar=ImmersionBar.with(this);
+        mImmersionBar.keyboardEnable(true)  //解决软键盘与底部输入框冲突问题
+                //  .keyboardEnable(true, WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                //                        | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)  //软键盘自动弹出
+                .statusBarDarkFont(false, 0.2f)
+                .statusBarColor(R.color.colorPrimary)
+                .init();
         miPresent=new MIPresent(this);
         gson=new Gson();
         sound=SharePreferenceUtil.getInt(getActivity(),AppConstants.USER_SOUND_SET);
@@ -150,6 +160,9 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         }
         if (aitManager != null) {
             aitManager.reset();
+        }
+        if (mImmersionBar != null) {
+            mImmersionBar.destroy();
         }
     }
 

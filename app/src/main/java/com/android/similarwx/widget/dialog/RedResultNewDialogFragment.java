@@ -320,7 +320,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         if (bean!=null){
             String code = bean.getRetCode();
             if (code.equals("0000")) {
-                flag=0;
+                flag=1;
                 dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
                 if (mSendRedBean!=null){
                     String text=null;
