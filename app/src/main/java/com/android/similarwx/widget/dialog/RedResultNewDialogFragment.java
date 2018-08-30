@@ -94,7 +94,6 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 //    IMMessage message;
     private String sessionId;
     int flag=0;//0是未抢完   1是抢完
-    int isLast=0;//0为过期   1过期
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +149,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
                             }
                         });
+
             }
 
 
@@ -203,7 +203,8 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 disMiss(getActivity());
                 break;
             case R.id.dialog_red_result_bottom_tv:
-                if (flag==1){
+                String myAccid=SharePreferenceUtil.getString(getActivity(),AppConstants.USER_ACCID,"");
+                if (myAccid.equals(mSendRedBean.getMyUserId())){
                     Bundle bundle=new Bundle();
                     if (mSendRedBean!=null){
                         bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
@@ -213,8 +214,20 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                     FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
                     disMiss(getActivity());
                 }else {
-                    Toaster.toastShort("红包未抢完，不能查看详情！");
+                    if (flag==1){
+                        Bundle bundle=new Bundle();
+                        if (mSendRedBean!=null){
+                            bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
+                            bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
+                            bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
+                        }
+                        FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
+                        disMiss(getActivity());
+                    }else {
+                        Toaster.toastShort("红包未抢完，不能查看详情！");
+                    }
                 }
+
                 break;
             case R.id.dialog_red_result_kai_tv://开红包
                 miPresent.grabRed(mSendRedBean.getRedPacId(),getActivity());
@@ -331,6 +344,15 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 flag=0;
                 setErrorText(bean.getRetMsg());
+            }
+
+            String type=mSendRedBean.getType();
+            if (TextUtils.isEmpty(type)){
+                dialog_red_result_tips_tv.setText("恭喜发财，大吉大利！");
+            }else {
+                if (type.equals("LUCK")){
+                    dialog_red_result_tips_tv.setText("恭喜发财，大吉大利！");
+                }
             }
         }
     }
