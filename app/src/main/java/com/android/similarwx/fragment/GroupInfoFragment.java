@@ -152,8 +152,12 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (groupList!=null){
-                    Bundle bundle=new Bundle();
                     String id=groupList.get(position).getUserId();
+                    if (mUser.getAccId().equals(id)){
+                        Toaster.toastShort("不能对自己操作!");
+                        return;
+                    }
+                    Bundle bundle=new Bundle();
                     bundle.putString(AppConstants.TRANSFER_AWARDRULE,id);
                     bundle.putSerializable(AppConstants.TRANSFER_AWARDRULE,groupList.get(position));
                     bundle.putString(AppConstants.TRANSFER_GROUP_USER_ROLE,listBean.getGroupUserRule());

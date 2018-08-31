@@ -246,7 +246,8 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
     public void refreshTotalBalance(User user) {
         if (user!=null){
             myPlayItem.setRightText("推荐: "+user.getUserChildCount());
-            myBaseFenTv.setText(user.getTotalBalance()+"");
+            double totalBalance=user.getTotalBalance();
+            myBaseFenTv.setText(String.format("%.2f", totalBalance)+"");
 
             SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
         }

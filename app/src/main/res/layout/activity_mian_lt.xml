@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textColor="@color/white"
-                android:text="收取中..."/>
+                android:text="正在加载..."/>
         </RelativeLayout>
 
     </RelativeLayout>

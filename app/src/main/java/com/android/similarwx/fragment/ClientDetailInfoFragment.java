@@ -212,6 +212,11 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
 //                }
                 break;
             case R.id.client_detail_quit_bt:
+                String role=bean.getGroupUserRule();
+                if (role.equals("3") || role.equals("4")){
+                    Toaster.toastShort("您的权限不足");
+                    return;
+                }
                 APIYUNXIN.removeMember(bean.getGroupId(), bean.getUserId(), new YCallBack<Void>() {
                     @Override
                     public void callBack(Void aVoid) {

@@ -98,6 +98,18 @@ public class EditDialogBuilder {
         });
         return this;
     }
+    public EditDialogBuilder setConfirmButtonNoDismiss(final ButtonClicker onClickListener) {
+        this.buttonClicker=onClickListener;
+        mConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s=mEditText.getText().toString();
+                if (onClickListener!=null)
+                    buttonClicker.onButtonClick(s);
+            }
+        });
+        return this;
+    }
     public EditDialogBuilder setCancelButton(final View.OnClickListener onClickListener) {
         mCancle.setOnClickListener(new View.OnClickListener() {
             @Override

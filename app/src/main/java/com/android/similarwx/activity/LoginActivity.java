@@ -85,7 +85,6 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         loginPresent = new LoginPresent(this);
         initPerssion();
 
-        
         api= WXUtil.getInstance(this).getApi();
         //防止抖动
         RxView.clicks(loginLogin).throttleFirst(1,TimeUnit.SECONDS)
@@ -95,7 +94,6 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                     public void onSubscribe(Disposable d) {
 
                     }
-
                     @Override
                     public void onNext(Object value) {
                         loginError.setVisibility(View.GONE);
@@ -105,7 +103,6 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                         String weixin = loginWeixinEt.getText().toString();
                         loginPresent.login(mobile, password, weixin,"",null);
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         Toaster.toastShort(e.getMessage());
@@ -176,7 +173,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         if (TextUtils.isEmpty(inviter)){
             BaseDialog dialog=new  EditDialogBuilder(this)
                     .setMessage("请输入邀请码")
-                    .setConfirmButton(new EditDialogBuilder.ButtonClicker() {
+                    .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
                         @Override
                         public void onButtonClick(String str) {
                             if (TextUtils.isEmpty(str))

@@ -234,8 +234,11 @@ public class LoginPresent extends BasePresent {
     public void analyzeResLogout(RspUser rspUser) {
         String result=rspUser.getResult();
         if (result.equals("success")){
-            clearUserInfo();
-            loginViewInterface.logoutScucces(rspUser.getData());
+            if (rspUser.getErrorCode().equals("0000")){
+                clearUserInfo();
+                loginViewInterface.logoutScucces(rspUser.getData());
+            }else
+                Toaster.toastShort(rspUser.getErrorMsg());
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
         }
@@ -245,6 +248,17 @@ public class LoginPresent extends BasePresent {
         String result=rspUser.getResult();
         if (result.equals("success")){
             loginViewInterface.refreshTotalBalance(rspUser.getData());
+        }else {
+            Toaster.toastShort(rspUser.getErrorMsg());
+        }
+    }
+    public void analyzeInvitationCode(RspUser rspUser) {
+        String result=rspUser.getResult();
+        if (result.equals("success")){
+            if (rspUser.getErrorCode().equals("0000")){
+                loginViewInterface.refreshTotalBalance(rspUser.getData());
+            }else
+                Toaster.toastShort(rspUser.getErrorMsg());
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
         }

@@ -123,6 +123,34 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/distance_normal"
+            android:padding="@dimen/distance_small"
+            android:background="@color/white"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/group_info_know"
+                android:textSize="@dimen/text_content_or_button"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/group_info_know_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_small"
+                android:text=""
+                android:textSize="@dimen/text_content_or_button"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"/>
         <RelativeLayout
             android:id="@+id/group_info_msg_rl"
             android:layout_width="match_parent"
@@ -160,34 +188,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/distance_normal"
-            android:padding="@dimen/distance_small"
-            android:background="@color/white"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_info_know"
-                android:textSize="@dimen/text_content_or_button"
-                android:textColor="@color/black"/>
-            <TextView
-                android:id="@+id/group_info_know_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/distance_small"
-                android:text=""
-                android:textSize="@dimen/text_content_or_button"
-                />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/distance_normal"
             android:padding="@dimen/distance_small"
             android:background="@color/white"
             android:orientation="vertical"

@@ -93,7 +93,7 @@ public class APIYUNXIN {
             @Override
             public void onFailed(int code) {
                 // 失败
-                Toaster.toastShort(code+"");
+                explainGrouopErrorCode(code);
             }
 
             @Override
@@ -123,7 +123,7 @@ public class APIYUNXIN {
             @Override
             public void onFailed(int code) {
                 // 失败
-                Toaster.toastShort(code+"");
+                explainGrouopErrorCode(code);
             }
 
             @Override
@@ -152,7 +152,7 @@ public class APIYUNXIN {
             @Override
             public void onFailed(int code) {
                 // 失败
-                Toaster.toastShort(code+"");
+                explainGrouopErrorCode(code);
             }
 
             @Override
@@ -180,7 +180,7 @@ public class APIYUNXIN {
             @Override
             public void onFailed(int code) {
                 // 失败
-                Toaster.toastShort(code+"");
+                explainGrouopErrorCode(code);
             }
 
             @Override
@@ -210,7 +210,7 @@ public class APIYUNXIN {
             @Override
             public void onFailed(int code) {
                 // 添加群管理员失败
-                Toaster.toastShort(code+"");
+                explainGrouopErrorCode(code);
             }
 
             @Override
@@ -233,7 +233,7 @@ public class APIYUNXIN {
             @Override
             public void onFailed(int code) {
                 // 添加群管理员失败
-                Toaster.toastShort(code+"");
+                explainGrouopErrorCode(code);
             }
 
             @Override
@@ -287,6 +287,7 @@ public class APIYUNXIN {
                     @Override
                     public void onFailed(int code) {
                         // 查询失败
+                        explainGrouopErrorCode(code);
                     }
 
                     @Override
@@ -316,7 +317,7 @@ public class APIYUNXIN {
 
             @Override
             public void onFailed(int i) {
-
+                explainGrouopErrorCode(i);
             }
 
             @Override
@@ -339,7 +340,7 @@ public class APIYUNXIN {
 
                     @Override
                     public void onFailed(int i) {
-
+                        explainGrouopErrorCode(i);
                     }
 
                     @Override
@@ -347,5 +348,30 @@ public class APIYUNXIN {
 
                     }
                 });
+    }
+
+    public static void explainGrouopErrorCode(int code){
+        if (code==801){
+            Toaster.toastShort("群人数达到上限");
+        }else if (code==802){
+            Toaster.toastShort("没有权限");
+        }else if (code==803){
+            Toaster.toastShort("群不存在");
+        }else if (code==804){
+            Toaster.toastShort("用户不在群");
+        }else if (code==805){
+            Toaster.toastShort("群类型不匹配");
+        }else if (code==806){
+            Toaster.toastShort("创建群数量达到限制");
+        }else if (code==807){
+            Toaster.toastShort("群成员状态错误");
+        }else if (code==808){
+            Toaster.toastShort("申请成功");
+        }else if (code==809){
+            Toaster.toastShort("已经在群内");
+        }else if (code==810){
+            Toaster.toastShort("邀请成功");
+        }else
+            Toaster.toastShort(code+"");
     }
 }

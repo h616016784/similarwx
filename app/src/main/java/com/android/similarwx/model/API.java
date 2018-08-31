@@ -252,7 +252,7 @@ public class API implements APIConstants {
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
                 try {
                     RspUser rspUser=response.body();
-                    present.analyzeTotalBalance(rspUser);
+                    present.analyzeInvitationCode(rspUser);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
                 }
