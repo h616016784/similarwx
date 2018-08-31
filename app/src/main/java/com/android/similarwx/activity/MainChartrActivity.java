@@ -327,7 +327,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 });
                 break;
             case R.id.main_rl_find://发现
-
                 FragmentUtils.navigateToNormalActivity(this, new ExplainFragment(), null);//此功能去掉
                 break;
             case R.id.main_rl_chart://消息

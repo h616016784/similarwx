@@ -94,6 +94,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 //    IMMessage message;
     private String sessionId;
     int flag=0;//0是未抢完   1是抢完
+    String myAccid;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +116,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         dialog_red_result_name_tv=view.findViewById(R.id.dialog_red_result_name_tv);
         dialog_red_result_tips_tv=view.findViewById(R.id.dialog_red_result_tips_tv);
         dialog_red_result_kai_tv=view.findViewById(R.id.dialog_red_result_kai_tv);
-
+        myAccid = SharePreferenceUtil.getString(getActivity(),AppConstants.USER_ACCID,"");
         Bundle bundle=getArguments();
         if (bundle!=null){
             mSendRedBean= (SendRed.SendRedBean) bundle.getSerializable("info");
@@ -201,7 +202,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 disMiss(getActivity());
                 break;
             case R.id.dialog_red_result_bottom_tv:
-                String myAccid=SharePreferenceUtil.getString(getActivity(),AppConstants.USER_ACCID,"");
+
                 Bundle bundle=new Bundle();
                 if (mSendRedBean!=null){
                     bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
@@ -320,7 +321,11 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             if (code.equals("0000")) {
                 flag=1;
                 dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
-                dialog_red_result_bottom_tv.setVisibility(View.GONE);
+                if (myAccid.equals(mSendRedBean.getMyUserId())){
+                    dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                }else {
+                    dialog_red_result_bottom_tv.setVisibility(View.GONE);
+                }
                 if (mSendRedBean!=null){
                     String text=null;
                     if (TextUtils.isEmpty(mSendRedBean.getThunder())){

@@ -22,11 +22,9 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/sys_explain_rv"
+    <WebView
+        android:id="@+id/sys_explain_wv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"></WebView>
 
 </LinearLayout>
