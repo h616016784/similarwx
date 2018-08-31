@@ -151,8 +151,6 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         });
 
             }
-
-
         }
     }
     private void addClickListener() {
@@ -204,30 +202,30 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 break;
             case R.id.dialog_red_result_bottom_tv:
                 String myAccid=SharePreferenceUtil.getString(getActivity(),AppConstants.USER_ACCID,"");
-                if (myAccid.equals(mSendRedBean.getMyUserId())){
-                    Bundle bundle=new Bundle();
-                    if (mSendRedBean!=null){
-                        bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
-                        bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
-                        bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
-                    }
-                    FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
-                    disMiss(getActivity());
-                }else {
-                    if (flag==1){
-                        Bundle bundle=new Bundle();
-                        if (mSendRedBean!=null){
-                            bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
-                            bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
-                            bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
-                        }
-                        FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
-                        disMiss(getActivity());
-                    }else {
-                        Toaster.toastShort("红包未抢完，不能查看详情！");
-                    }
+                Bundle bundle=new Bundle();
+                if (mSendRedBean!=null){
+                    bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
+                    bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
+                    bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
                 }
-
+                FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
+                disMiss(getActivity());
+//                if (myAccid.equals(mSendRedBean.getMyUserId())){
+//
+//                }else {
+//                    if (flag==1){
+//                        Bundle bundle=new Bundle();
+//                        if (mSendRedBean!=null){
+//                            bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
+//                            bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
+//                            bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
+//                        }
+//                        FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
+//                        disMiss(getActivity());
+//                    }else {
+//                        Toaster.toastShort("红包未抢完，不能查看详情！");
+//                    }
+//                }
                 break;
             case R.id.dialog_red_result_kai_tv://开红包
                 miPresent.grabRed(mSendRedBean.getRedPacId(),getActivity());
@@ -322,11 +320,11 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             if (code.equals("0000")) {
                 flag=1;
                 dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_bottom_tv.setVisibility(View.GONE);
                 if (mSendRedBean!=null){
                     String text=null;
                     if (TextUtils.isEmpty(mSendRedBean.getThunder())){
                         text=mSendRedBean.getCount();
-
                     }else {
                         text=mSendRedBean.getThunder();
                     }
@@ -334,6 +332,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 }
             } else if (code.equals("8889")){//红包已拆分完毕。
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
                 flag=1;
                 setErrorText(bean.getRetMsg());
             } else if (code.equals("9000")){//红包已过期退回。
@@ -342,6 +341,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 setErrorText(bean.getRetMsg());
             } else {
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
                 flag=0;
                 setErrorText(bean.getRetMsg());
             }

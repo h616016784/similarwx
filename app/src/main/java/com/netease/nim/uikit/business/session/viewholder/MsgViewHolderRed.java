@@ -1,6 +1,7 @@
 package com.netease.nim.uikit.business.session.viewholder;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -8,9 +9,14 @@ import android.widget.TextView;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
+import com.android.similarwx.beans.BaseBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
+import com.android.similarwx.fragment.RedDetailFragment;
+import com.android.similarwx.inteface.MiViewInterface;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
+import com.android.similarwx.present.MIPresent;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.widget.dialog.RedResultNewDialogFragment;
 import com.netease.nim.uikit.business.chatroom.adapter.ChatRoomMsgAdapter;
 import com.netease.nim.uikit.business.session.module.ModuleProxy;
@@ -31,14 +37,15 @@ import java.util.Map;
  * Created by hanhuailong on 2018/7/11.
  */
 
-public class MsgViewHolderRed extends MsgViewHolderBase {
+public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterface {
     private RelativeLayout sendView, revView;
     private TextView sendContentText, revContentText;    // 红包描述
     private TextView sendTitleText, revTitleText;    // 红包名称
     private TextView tv_bri_target_send, tv_bri_target_rev;    // 红包change
-
+    private MIPresent miPresent;
     public MsgViewHolderRed(BaseMultiItemFetchLoadAdapter adapter) {
         super(adapter);
+        miPresent=new MIPresent(this);
     }
 
     @Override
@@ -128,14 +135,51 @@ public class MsgViewHolderRed extends MsgViewHolderBase {
         }
 
         RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
-        BaseMultiItemFetchLoadAdapter adapter = getAdapter();
-        ModuleProxy proxy = null;
-        if (adapter instanceof MsgAdapter) {
-            proxy = ((MsgAdapter) adapter).getContainer().proxy;
-        } else if (adapter instanceof ChatRoomMsgAdapter) {
-            proxy = ((ChatRoomMsgAdapter) adapter).getContainer().proxy;
-        }
+
 //        message.getFromAccount(); message.getSessionId(); message.getSessionType();
-        RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean(),message.getSessionId(),proxy);
+        miPresent.canGrab(attachment.getSendRedBean().getRedPacId(),(Activity) context);//请求是否能抢红包
+
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void reFreshCustemRed(SendRed.SendRedBean data) {
+
+    }
+
+    @Override
+    public void grabRed(RspGrabRed bean) {
+
+    }
+
+    @Override
+    public void canGrab(BaseBean bean) {
+        RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+        if (bean!=null) {
+            String code = bean.getRetCode();
+            if (code.equals("8888")) {
+                Bundle bundle=new Bundle();
+                SendRed.SendRedBean mSendRedBean=attachment.getSendRedBean();
+                if (mSendRedBean!=null){
+                    bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
+                    bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
+                    bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
+                }
+                FragmentUtils.navigateToNormalActivity((Activity) context,new RedDetailFragment(),bundle);
+            }else {
+                BaseMultiItemFetchLoadAdapter adapter = getAdapter();
+                ModuleProxy proxy = null;
+                if (adapter instanceof MsgAdapter) {
+                    proxy = ((MsgAdapter) adapter).getContainer().proxy;
+                } else if (adapter instanceof ChatRoomMsgAdapter) {
+                    proxy = ((ChatRoomMsgAdapter) adapter).getContainer().proxy;
+                }
+                RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean(),message.getSessionId(),proxy);
+            }
+        }
     }
 }
