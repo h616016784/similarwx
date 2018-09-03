@@ -79,7 +79,6 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
         mActionbar.setWholeBackground(R.color.colorRed2);
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new RedDetailPresent(this);
-
         Bundle bundle=getArguments();
         if (bundle!=null){
             redId=bundle.getString(REDID);
@@ -87,11 +86,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             sendRed= (SendRed.SendRedBean) bundle.getSerializable(SENDRED);
 //            grabRedBean= (RspGrabRed.GrabRedBean) bundle.getSerializable(GRAB);
             if (sendRed!=null){
-                String textContent=sendRed.getThunder();
-                if (TextUtils.isEmpty(sendRed.getThunder())){
-                    textContent=sendRed.getCount();
-                }
-                redDetailCount.setText(String.format("%.2f", Double.parseDouble(sendRed.getAmount()))+"-"+textContent);
+
                 String accid=sendRed.getMyUserId();//云信的accid
                 List accounts=new ArrayList();
                 accounts.add(accid);
@@ -119,10 +114,8 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
                         });
 
             }
-//            if (grabRedBean!=null){
-//                redDetailAcountTv.setText(grabRedBean.getAmount()+"元");
-//            }
         }
+
 
         redDetailRv.setLayoutManager(new LinearLayoutManager(activity));
         redDetailAdapter=new RedDetailAdapter(R.layout.item_red_detial,activity,sendRed.getType());
@@ -160,6 +153,12 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
 
     @Override
     public void refreshRedDetail(List<RedDetialBean> list) {
+        String textContent=sendRed.getThunder();
+        if (TextUtils.isEmpty(sendRed.getThunder())){
+            textContent=sendRed.getCount();
+        }
+        redDetailCount.setText(String.format("%.2f", Double.parseDouble(sendRed.getAmount()))+"-"+textContent);
+
         boolean isHas=false;
         String myAccid= SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"");
         for (RedDetialBean bean:list){

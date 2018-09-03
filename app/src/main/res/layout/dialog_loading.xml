@@ -5,7 +5,7 @@
     <LinearLayout
         android:layout_width="280dp"
         android:layout_height="140dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center">
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
@@ -14,9 +14,11 @@
             android:id="@+id/progressBar" />
         <TextView
             android:id="@+id/cip_dialog_loading_text"
+            android:layout_marginTop="@dimen/distance_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:text="正在加载..."
             />
 
     </LinearLayout>

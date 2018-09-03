@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.android.outbaselibrary.primary.AppContext;
@@ -23,10 +25,8 @@ import com.netease.nimlib.sdk.auth.LoginInfo;
 
 public class RegisterPresent extends BasePresent {
     RegisterViewInterface registerViewInterface;
-
     public RegisterPresent(RegisterViewInterface registerViewInterface){
         this.registerViewInterface=registerViewInterface;
-
     }
 
     /**

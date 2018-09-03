@@ -3,6 +3,7 @@ package com.android.similarwx.model;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.request.ReqGroup;
 import com.android.similarwx.beans.response.BaseResponse;
@@ -56,6 +57,7 @@ import com.android.similarwx.present.SetPasswordPresent;
 import com.android.similarwx.present.SubUsersPresent;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.present.WxPresent;
+import com.android.similarwx.widget.dialog.LoadingDialog;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
 
 import java.util.HashMap;
@@ -74,6 +76,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class API implements APIConstants {
     private static API sInstance;
     public static APIService apiService;
+    boolean isCancle=true;
     private API() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new LogInterceptor())
@@ -84,6 +87,7 @@ public class API implements APIConstants {
                 .baseUrl(DOMAIN)
                 .build();
         apiService = retrofit.create(APIService.class);
+
     }
 
     public static API getInstance() {
@@ -109,6 +113,7 @@ public class API implements APIConstants {
      */
     public void register(String account, String weixinAccount, String email, String name, String password, String nick,
                          String birth,String gender,String alipay,String personalitySignature,String verifyCode,final RegisterPresent present){
+        LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
 //        if (!TextUtils.isEmpty(account))
 //            map.put("accId",account);
@@ -140,16 +145,19 @@ public class API implements APIConstants {
         user.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
                 RspUser rspUser=response.body();
                 present.analyzeRes(rspUser);
             }
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
     public void login(String name, String password, String weixin, String mobile, final LoginPresent present){
+        LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(name))
             map.put("accId",name);
@@ -163,6 +171,7 @@ public class API implements APIConstants {
         user.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -172,19 +181,22 @@ public class API implements APIConstants {
             }
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
 
 
     public void WxLogin(String unionid, WxPresent present) {
+        LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("unionid",unionid);
         Call<RspUser> call=apiService.WxLogin(map);
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -195,17 +207,20 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
     public void logout(String userId,LoginPresent present) {
+        LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);
         Call<RspUser> call=apiService.logout(map);
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeResLogout(rspUser);
@@ -216,17 +231,20 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
     public void getTotalBalance(String userId,LoginPresent present) {
+        LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",userId);
         Call<RspUser> call=apiService.getTotalBalance(map);
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeTotalBalance(rspUser);
@@ -237,12 +255,14 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
 
     public void setInvitationCode(String userId, String invitationCode, LoginPresent present) {
+        LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);
         map.put("invitationCode",invitationCode);
@@ -250,6 +270,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeInvitationCode(rspUser);
@@ -260,7 +281,8 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -283,7 +305,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -306,7 +328,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -329,7 +351,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -352,7 +374,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -376,7 +398,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -401,7 +423,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -429,7 +451,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspSetPassword> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -450,7 +472,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -471,7 +493,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspCashUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -492,7 +514,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroup> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
                 present.doError(t.getMessage());
             }
         });
@@ -517,7 +539,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupApply> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -540,7 +562,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspAddGroupUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -563,7 +585,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspDeleteGroup> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -587,7 +609,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspDeleteGroupUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -611,7 +633,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUpdateGroupUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -637,7 +659,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUpdateUserStatus> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -658,7 +680,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -680,7 +702,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -705,7 +727,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupUser> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -730,7 +752,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupInfo> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -752,7 +774,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGetApply> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -791,12 +813,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspSendRed> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
 
     public void grabRed(String userId, String redId, MIPresent present, Activity activity) {
+        LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         map.put("redPacId",redId);
@@ -804,7 +827,8 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspGrabRed>() {
             @Override
             public void onResponse(Call<RspGrabRed> call, Response<RspGrabRed> response) {
-                RedLoadingDialogFragment.disMiss(activity);
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+//                RedLoadingDialogFragment.disMiss(activity);
                 try {
                     RspGrabRed grabRed=response.body();
                     present.analyzeRes(grabRed);
@@ -815,8 +839,9 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGrabRed> call, Throwable t) {
-                RedLoadingDialogFragment.disMiss(activity);
-                Toaster.toastShort(t.getMessage());
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+//                RedLoadingDialogFragment.disMiss(activity);
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -838,7 +863,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspService> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -867,7 +892,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspBill> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -890,7 +915,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspCanGrab> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -915,7 +940,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspTransfer> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -944,11 +969,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspSubUsers> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
     public void redDetailList(String redPacId, String groupId,RedDetailPresent present) {
+        LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("redPacId",redPacId );
         map.put("groupId",groupId );
@@ -956,6 +982,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspRedDetail>() {
             @Override
             public void onResponse(Call<RspRedDetail> call, Response<RspRedDetail> response) {
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
                 try {
                     RspRedDetail rspRedDetail=response.body();
                     present.analyzeRes(rspRedDetail);
@@ -966,7 +993,8 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspRedDetail> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
             }
         });
     }
@@ -990,7 +1018,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspInMoney> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -1042,7 +1070,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupSave> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -1063,7 +1091,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspNotice> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -1085,7 +1113,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspMoney> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }
@@ -1106,7 +1134,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspConfig> call, Throwable t) {
-                Toaster.toastShort(t.getMessage());
+                Toaster.toastShort("网络异常!");
             }
         });
     }

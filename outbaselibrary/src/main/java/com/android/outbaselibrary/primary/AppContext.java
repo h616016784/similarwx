@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.android.outbaselibrary.utils.ViewUtil;
 
@@ -20,15 +21,15 @@ public class AppContext {
     private static int screenWidth = 0;
     private static int screenHeight = 0;
 
-    public static Activity getsActivity() {
+    public static AppCompatActivity getsActivity() {
         return sActivity;
     }
 
-    public static void setsActivity(Activity sActivity) {
+    public static void setsActivity(AppCompatActivity sActivity) {
         AppContext.sActivity = sActivity;
     }
 
-    private static Activity sActivity;
+    private static AppCompatActivity sActivity;
 
     public static Context getContext() {
         return sContext;

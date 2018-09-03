@@ -11,7 +11,7 @@
             android:id="@+id/red_detail_head_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/pic_1_20"
+            android:src="@drawable/default_member"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/avatar_m"/>
 
@@ -26,7 +26,6 @@
             android:textSize="@dimen/text_content_or_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/distance_smaller"
-            android:text="@string/red_detail_name"
             android:textColor="@color/black"
             android:textStyle="bold"/>
         <TextView
@@ -36,7 +35,7 @@
             android:textSize="@dimen/text_content_or_button"
             android:layout_below="@id/red_detail_name"
             android:layout_centerHorizontal="true"
-            android:text="@string/red_detail_count"/>
+            android:text="0-0"/>
         <TextView
             android:id="@+id/red_detail_acount_tv"
             android:layout_width="wrap_content"

@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ import butterknife.ButterKnife;
 
 public class BaseFragment extends Fragment
         implements View.OnClickListener, OnInterceptKeyListener {
-    protected Activity activity;
+    protected AppCompatActivity activity;
     protected int mGeneratedLoaderId = ViewUtil.generateViewId();
     protected int mConstantLoaderId = ViewUtil.generateViewId();
     protected Handler mHandler;
@@ -50,7 +51,7 @@ public class BaseFragment extends Fragment
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = activity;
+        this.activity = (AppCompatActivity) activity;
     }
 
     @Override
