@@ -46,6 +46,10 @@
             android:launchMode="singleTask" />
         <activity android:name=".base.NormalActivity"></activity>
         <activity android:name=".activity.SysNoticeActivity" />
+        <activity android:name=".activity.RobotProfileActivity" />
+        <activity android:name=".activity.UserProfileActivity" />
+        <activity android:name=".activity.UserProfileEditItemActivity" />
+        <activity android:name=".activity.UserProfileSettingActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

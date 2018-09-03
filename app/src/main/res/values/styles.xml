@@ -170,5 +170,11 @@
         <item name="android:windowEnterAnimation">@anim/in_bottom</item>
         <item name="android:windowExitAnimation">@anim/out_bottom</item>
     </style>
-
+    <style name="CommonDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/bg_face</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 </resources>

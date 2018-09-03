@@ -1,8 +1,10 @@
 package com.android.similarwx.fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +63,8 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                 setPayPasswordConfirmEt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             }
         }
+//        setPayPasswordEt.addTextChangedListener(textWatcher1);
+//        setPayPasswordConfirmEt.addTextChangedListener(textWatcher2);
         mActionbar.setRightText(R.string.register_complete);
         mActionbar.setRightOnClickListener(this);
         muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
@@ -79,6 +83,14 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                 else if (!password.equals(confirmPassword))
                     Toaster.toastShort("密码前后不一致!");
                 else{
+                    if (password.length()>6){
+                        Toaster.toastShort("密码长度不能大于6");
+                        return;
+                    }
+                    if (confirmPassword.length()>6){
+                        Toaster.toastShort("密码长度不能大于6");
+                        return;
+                    }
                     if (type.equals(LOG_PSD)){
                         present.setPassword(muser.getMobile(),"",password,code);
                     }else {
@@ -95,11 +107,10 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
         super.onDestroy();
         unbinder.unbind();
     }
-
     @Override
     public void refreshSetPassword(User user) {
         if (user!=null){
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_OBJECT,user);
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(),AppConstants.USER_OBJECT,user);
             String password=setPayPasswordEt.getText().toString();
             if (type.equals(LOG_PSD)){
                 SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);

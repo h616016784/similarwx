@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.user.UserInfoObserver;
@@ -967,36 +968,36 @@ public class MessageListPanelEx {
 
         // 长按菜单项 -- 转发到个人
         private void longClickItemForwardToPerson(final IMMessage item, CustomAlertDialog alertDialog) {
-            alertDialog.addItem(container.activity.getString(R.string.forward_to_person), new CustomAlertDialog.onSeparateItemClickListener() {
-
-                @Override
-                public void onClick() {
-                    forwardMessage = item;
-                    ContactSelectActivity.Option option = new ContactSelectActivity.Option();
-                    option.title = "选择转发的人";
-                    option.type = ContactSelectActivity.ContactSelectType.BUDDY;
-                    option.multi = false;
-                    option.maxSelectNum = 1;
-                    NimUIKit.startContactSelector(container.activity, option, REQUEST_CODE_FORWARD_PERSON);
-                }
-            });
+//            alertDialog.addItem(container.activity.getString(R.string.forward_to_person), new CustomAlertDialog.onSeparateItemClickListener() {
+//
+//                @Override
+//                public void onClick() {
+//                    forwardMessage = item;
+//                    ContactSelectActivity.Option option = new ContactSelectActivity.Option();
+//                    option.title = "选择转发的人";
+//                    option.type = ContactSelectActivity.ContactSelectType.BUDDY;
+//                    option.multi = false;
+//                    option.maxSelectNum = 1;
+//                    NimUIKit.startContactSelector(container.activity, option, REQUEST_CODE_FORWARD_PERSON);
+//                }
+//            });
         }
 
         // 长按菜单项 -- 转发到群组
         private void longClickItemForwardToTeam(final IMMessage item, CustomAlertDialog alertDialog) {
-            alertDialog.addItem(container.activity.getString(R.string.forward_to_team), new CustomAlertDialog.onSeparateItemClickListener() {
-
-                @Override
-                public void onClick() {
-                    forwardMessage = item;
-                    ContactSelectActivity.Option option = new ContactSelectActivity.Option();
-                    option.title = "选择转发的群";
-                    option.type = ContactSelectActivity.ContactSelectType.TEAM;
-                    option.multi = false;
-                    option.maxSelectNum = 1;
-                    NimUIKit.startContactSelector(container.activity, option, REQUEST_CODE_FORWARD_TEAM);
-                }
-            });
+//            alertDialog.addItem(container.activity.getString(R.string.forward_to_team), new CustomAlertDialog.onSeparateItemClickListener() {
+//
+//                @Override
+//                public void onClick() {
+//                    forwardMessage = item;
+//                    ContactSelectActivity.Option option = new ContactSelectActivity.Option();
+//                    option.title = "选择转发的群";
+//                    option.type = ContactSelectActivity.ContactSelectType.TEAM;
+//                    option.multi = false;
+//                    option.maxSelectNum = 1;
+//                    NimUIKit.startContactSelector(container.activity, option, REQUEST_CODE_FORWARD_TEAM);
+//                }
+//            });
         }
 
         // 长按菜单项 -- 撤回消息

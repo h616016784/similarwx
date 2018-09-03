@@ -105,6 +105,12 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();

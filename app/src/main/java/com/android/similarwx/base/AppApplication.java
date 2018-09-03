@@ -14,6 +14,8 @@ import com.android.similarwx.config.UserPreferences;
 import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.service.mipush.DemoMixPushMessageHandler;
 import com.google.gson.Gson;
+import com.netease.nim.uikit.business.contact.core.util.ContactHelper;
+import com.netease.nim.uikit.business.session.SessionHelper;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRed;
 import com.android.similarwx.inteface.message.CustomAttachParser;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
@@ -25,6 +27,7 @@ import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.business.contact.core.query.PinYin;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRedTip;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderTrans;
+import com.netease.nim.uikit.business.team.DemoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
@@ -76,7 +79,7 @@ public class AppApplication extends BaseApplication {
         // 1.注册自定义消息附件解析器（可选）
         // 2.注册各种扩展消息类型的显示ViewHolder（可选）
         // 3.设置会话中点击事件响应处理（一般需要）
-//        SessionHelper.init();
+        SessionHelper.init();
 
         // 通讯录列表定制：示例代码可详见demo源码中的ContactHelper类。ContactHelper
         // 1.定制通讯录列表中点击事响应处理（一般需要，UIKit 提供默认实现为点击进入聊天界面)
@@ -129,12 +132,14 @@ public class AppApplication extends BaseApplication {
         try {
             accid=(String) SharePreferenceUtil.getObject(this,AppConstants.USER_ACCID,"无");
             token=(String) SharePreferenceUtil.getObject(this,AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
+
         }catch (Exception e){
             return null;
         }
 
         if (!TextUtils.isEmpty(accid)&&!TextUtils.isEmpty(token)){
             LoginInfo info=new LoginInfo(accid,token);
+            DemoCache.setAccount(accid.toLowerCase());
             return  info;
         }
         return null;

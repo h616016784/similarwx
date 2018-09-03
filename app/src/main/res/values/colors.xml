@@ -73,6 +73,7 @@
     <color name="color_green_disable">#a2efe0</color>
     <color name="color_green_00d3a9">#ff00D3A9</color>
     <color name="color_grey_999999">#999999</color>
+    <color name="color_grey_666666">#666666</color>
     <color name="color_b3b3b3">#b3b3b3</color>
     <!-- main bg color -->
     <color name="main_bg_color">#FFFFFF</color>
@@ -110,6 +111,7 @@
     <!-- image picker -->
 
     <!-- contact -->
+    <color name="color_red_f04c62">#f04c62</color>
     <color name="contact_list_hover">#d9d9d9</color>
     <color name="contact_letter_idx_bg">#33000000</color>
     <color name="contacts_letters_color">#80807c</color>
@@ -127,4 +129,6 @@
 
     <color name="robot_link_element_text_blue">#248DFA</color>
     <color name="color_999">#999</color>
+    <color name="cip_color_white">#ffffff</color>
+    <color name="cip_face_line_grey">#bebebe</color>
 </resources>
