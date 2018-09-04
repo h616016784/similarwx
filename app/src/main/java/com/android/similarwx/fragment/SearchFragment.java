@@ -86,7 +86,7 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
         noticePresent=new NoticePresent(this);
         userId= SharePreferenceUtil.getString(activity,AppConstants.USER_ACCID,"");
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
-        searchEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+
         Bundle bundle=getArguments();
         if (bundle!=null){
             tag=bundle.getInt(AppConstants.TRANSFER_BASE);
@@ -94,6 +94,7 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
                 mActionbar.setTitle("搜索用户");
             }else if (tag==2){
                 mActionbar.setTitle("搜索群组");
+                searchEt.setInputType(InputType.TYPE_CLASS_NUMBER);
             }
         }
         adapter = new BaseQuickAdapter<RspGroupInfo.GroupInfo, BaseViewHolder>(R.layout.item_group, null) {

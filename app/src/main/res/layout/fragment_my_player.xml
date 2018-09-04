@@ -3,11 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/distance_smaller"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/player_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/distance_smaller"
+            android:layout_marginLeft="@dimen/distance_small"
+            android:src="@drawable/img_search"/>
+        <EditText
+            android:id="@+id/player_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_middle"
+            android:layout_marginTop="@dimen/distance_smaller"
+            android:layout_toRightOf="@id/main_search_iv"
+            android:background="@null"
+            android:textSize="@dimen/text_content_or_button"
+            android:hint="输入玩家Id和名称"
+            android:lines="1"/>
+    </LinearLayout>
+    <include layout="@layout/include_divider"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_player_rv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

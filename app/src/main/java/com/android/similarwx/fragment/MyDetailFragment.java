@@ -105,15 +105,24 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         mActionbar.setTitle("我的明细");
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new AcountPresent(this);
-        userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
-        User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
-        if (user!=null)
-            userFlag=user.getSystemFlg();
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            String transferId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);
+            if (TextUtils.isEmpty(transferId)){
+                userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
+                User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+                if (user!=null)
+                    userFlag=user.getSystemFlg();
+            }else {
+                userId=transferId;
+            }
+        }else {
+            userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
+            User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+            if (user!=null)
+                userFlag=user.getSystemFlg();
+        }
         mType=BillType.ALL.toString();
-//        Bundle bundle=getArguments();
-//        if (bundle!=null){
-//            listBean= (GroupMessageBean.ListBean) bundle.getSerializable(AppConstants.CHAT_GROUP_BEAN);
-//        }
         iniData();
         initView();
 
