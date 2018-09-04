@@ -621,27 +621,29 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                                 String joinmode=listBean.getHallDisplay();
                                 if (!TextUtils.isEmpty(joinmode)){
                                     if (Integer.parseInt(joinmode)==1){//大厅显示的群
-                                        if (flag==1)
-                                            break;
-                                        if (recents!=null){
-                                            for (RecentContact recentContact:recents){
-                                                if (recentContact.getSessionType()== SessionTypeEnum.Team){
-                                                    if (recentContact.getContactId().equals(listBean.getGroupId())){
-                                                        int unReadCount=recentContact.getUnreadCount();
-                                                        if (unReadCount>0){
-                                                            flag=1;
-                                                            mainExplainRedIv.setVisibility(View.VISIBLE);
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
+
                                     }else {//非大厅显示的群
                                         if (listBean.getUserExists().equals("1")){//在群里
 
                                         }
                                     }
+                                    if (flag==1)
+                                        break;
+                                    if (recents!=null){
+                                        for (RecentContact recentContact:recents){
+                                            if (recentContact.getSessionType()== SessionTypeEnum.Team){
+                                                if (recentContact.getContactId().equals(listBean.getGroupId())){
+                                                    int unReadCount=recentContact.getUnreadCount();
+                                                    if (unReadCount>0){
+                                                        flag=1;
+                                                        mainExplainRedIv.setVisibility(View.VISIBLE);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
                                 }
                             }
                             if (flag==0)

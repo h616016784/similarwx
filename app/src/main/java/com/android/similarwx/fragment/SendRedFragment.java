@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -100,6 +101,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
         accountId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);
         present=new SendRedPresent(this);
         present.getGroupByIdOrGroupId(mUser.getAccId(),accountId);
+        sendRedCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         sendRedSumEt.addTextChangedListener(textWatcher);
         sendRedLeiEt.addTextChangedListener(leiWatcher);
     }
@@ -245,11 +247,19 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
                 sendRedBt.setEnabled(true);
             }
 
+
+
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-
+            String temp = s.toString();
+            int posDot = temp.indexOf(".");
+            if (posDot <= 0) return;
+            if (temp.length() - posDot - 1 > 2)
+            {
+                s.delete(posDot + 3, posDot + 4);
+            }
         }
     };
 

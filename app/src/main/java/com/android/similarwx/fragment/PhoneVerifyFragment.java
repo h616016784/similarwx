@@ -2,6 +2,7 @@ package com.android.similarwx.fragment;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,8 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
                 verifyGetCodeTv.setClickable(true);
             }
         };
+        verifyPhoneEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        verifyCodeEt.setInputType(InputType.TYPE_CLASS_NUMBER);
     }
 
     @Override

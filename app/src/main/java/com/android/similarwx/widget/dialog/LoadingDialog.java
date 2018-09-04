@@ -27,7 +27,7 @@ public class LoadingDialog extends DialogFragment{
             String title = getArguments().getString("TITLE","");
             setDialog_text(title);
         }else{
-            dialog_text.setVisibility(View.GONE);
+            setDialog_text("正在加载...");
         }
 
         return view;
@@ -43,7 +43,7 @@ public class LoadingDialog extends DialogFragment{
                                      boolean cancelable) {
         Loading_Exit(fragmentManager);
         LoadingDialog loadingDialog = new LoadingDialog();
-        loadingDialog.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CommonDialog);
+        loadingDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.CommonDialog);
         loadingDialog.setCancelable(cancelable);
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();

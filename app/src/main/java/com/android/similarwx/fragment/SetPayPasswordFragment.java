@@ -63,8 +63,10 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                 setPayPasswordConfirmEt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             }
         }
-//        setPayPasswordEt.addTextChangedListener(textWatcher1);
-//        setPayPasswordConfirmEt.addTextChangedListener(textWatcher2);
+        setPayPasswordEt.addTextChangedListener(textWatcher1);
+        setPayPasswordConfirmEt.addTextChangedListener(textWatcher2);
+        setPayPasswordEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        setPayPasswordConfirmEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         mActionbar.setRightText(R.string.register_complete);
         mActionbar.setRightOnClickListener(this);
         muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
@@ -101,7 +103,47 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                 break;
         }
     }
+    private TextWatcher textWatcher1=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String temp = s.toString();
+            if (temp.length() > 6)
+            {
+                s.delete(temp.length()-1, temp.length());
+                Toaster.toastShort("只能是6位数字");
+            }
+        }
+    };
+    private TextWatcher textWatcher2=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String temp = s.toString();
+            if (temp.length() > 6)
+            {
+                s.delete(temp.length()-1, temp.length());
+                Toaster.toastShort("只能是6位数字");
+            }
+        }
+    };
     @Override
     public void onDestroy() {
         super.onDestroy();

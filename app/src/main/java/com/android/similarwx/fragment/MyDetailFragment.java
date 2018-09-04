@@ -126,7 +126,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             protected void convert(BaseViewHolder helper, Bill.BillDetail item) {
                 String type=item.getTradeType();
                 helper.setText(R.id.item_my_detail_time_tv,item.getCreateDate());
-                double amount=Double.parseDouble(String.format("%.2f", item.getAmount()));
+                String amount=String.format("%.2f", item.getAmount());
                 if (type.equals(BillType.ALL.toString())){
                     helper.setText(R.id.item_my_detail_name_tv,BillType.ALL.toName());
                 }else if (type.equals(BillType.GRAP_PACKAGE.toString())){ //红包领取
@@ -178,7 +178,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                     helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
                     helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
                 }else if (type.equals(BillType.TRANSFER.toString())){ //转账
-                    if (amount>0){
+                    if (Double.parseDouble(amount)>0){
                         helper.setText(R.id.item_my_detail_name_tv,BillType.TRANSFER.toName());
                         helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
                         helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
