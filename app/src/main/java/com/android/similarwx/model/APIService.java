@@ -3,6 +3,7 @@ package com.android.similarwx.model;
 import com.android.similarwx.beans.AccToken;
 import com.android.similarwx.beans.UserInfoWX;
 import com.android.similarwx.beans.response.BaseResponse;
+import com.android.similarwx.beans.response.RspAccountDetail;
 import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
@@ -116,6 +117,9 @@ public interface APIService {
 
     @POST("trade/accountList")
     Call<RspBill> getBill(@QueryMap Map<String, String> map);
+
+    @POST("trade/accountDetail")
+    Call<RspAccountDetail> getAccountDetail(@QueryMap Map<String, String> map);
 
     @POST("trade/transfer")
     Call<RspTransfer> transfer(@QueryMap Map<String, String> map);

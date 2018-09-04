@@ -22,6 +22,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.base.BillType;
+import com.android.similarwx.beans.AccountDetailBean;
 import com.android.similarwx.beans.Bill;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.PopMoreBean;
@@ -228,6 +229,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 Bill.BillDetail billDetail= (Bill.BillDetail) adapter.getData().get(position);
                 Bundle bundle=new Bundle();
                 bundle.putSerializable(AppConstants.TRANSFER_BILL_BEAN,billDetail);
+                bundle.putSerializable(AppConstants.TRANSFER_ACCOUNT,billDetail.getId());
                 FragmentUtils.navigateToNormalActivity(getActivity(),new TransDetailFragment(),bundle);
             }
         });
@@ -404,6 +406,11 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         }else {
             adapter.loadMoreEnd();
         }
+
+    }
+
+    @Override
+    public void refreshAccountDetaiol(AccountDetailBean accountDetailBean) {
 
     }
 }

@@ -1,5 +1,6 @@
 package com.android.similarwx.inteface;
 
+import com.android.similarwx.beans.AccountDetailBean;
 import com.android.similarwx.beans.Bill;
 
 /**
@@ -8,4 +9,5 @@ import com.android.similarwx.beans.Bill;
 
 public interface AcountViewInterface extends ViewInterface {
     void refreshBill(Bill bill);
+    void refreshAccountDetaiol(AccountDetailBean accountDetailBean);
 }

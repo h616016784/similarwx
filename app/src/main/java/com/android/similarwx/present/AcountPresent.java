@@ -4,6 +4,7 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.GroupMessageBean;
+import com.android.similarwx.beans.response.RspAccountDetail;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspGroup;
 import com.android.similarwx.beans.response.RspGroupApply;
@@ -29,13 +30,33 @@ public class AcountPresent extends BasePresent {
         API.getInstance().getBill(userId,type,startDate,endDate,page,rows,this);
     }
 
+    public void getAccountDetail(String accountDetailId){
+        API.getInstance().getAccountDetail(accountDetailId,this);
+    }
     public void analyzeRes(RspBill rspBill) {
         if (rspBill!=null){
             String result=rspBill.getResult();
             if (result.equals("success")){
-                mView.refreshBill(rspBill.getData());
+                if (rspBill.getErrorCode().equals("0000"))
+                    mView.refreshBill(rspBill.getData());
+                else
+                    Toaster.toastShort(rspBill.getErrorMsg());
             }else {
                 Toaster.toastShort(rspBill.getErrorMsg());
+            }
+        }
+    }
+
+    public void analyzeRes(RspAccountDetail rspAccountDetail) {
+        if (rspAccountDetail!=null){
+            String result=rspAccountDetail.getResult();
+            if (result.equals("success")){
+                if (rspAccountDetail.getErrorCode().equals("0000"))
+                    mView.refreshAccountDetaiol(rspAccountDetail.getData());
+                else
+                    Toaster.toastShort(rspAccountDetail.getErrorMsg());
+            }else {
+                Toaster.toastShort(rspAccountDetail.getErrorMsg());
             }
         }
     }

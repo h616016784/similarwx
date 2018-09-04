@@ -13,8 +13,11 @@ import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.base.BillType;
+import com.android.similarwx.beans.AccountDetailBean;
 import com.android.similarwx.beans.Bill;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.inteface.AcountViewInterface;
+import com.android.similarwx.present.AcountPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
 
 import butterknife.BindView;
@@ -25,7 +28,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/3.
  */
 
-public class TransDetailFragment extends BaseFragment {
+public class TransDetailFragment extends BaseFragment implements AcountViewInterface {
     @BindView(R.id.trans_detail_iv)
     ImageView transDetailIv;
     @BindView(R.id.trans_detail_tile)
@@ -39,9 +42,10 @@ public class TransDetailFragment extends BaseFragment {
     @BindView(R.id.trans_detail_time)
     TextView transDetailTime;
     Unbinder unbinder;
-
+    private AcountPresent mPresent;
     private Bill.BillDetail billDetail=null;
     private int userFlag=0;
+    private String tranId;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_trans_detail;
@@ -52,12 +56,14 @@ public class TransDetailFragment extends BaseFragment {
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.trans_detail_title);
         unbinder = ButterKnife.bind(this, contentView);
-        User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
-        if (user!=null)
-            userFlag=user.getSystemFlg();
+        mPresent=new AcountPresent(this);
+//        User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+//        if (user!=null)
+//            userFlag=user.getSystemFlg();
         Bundle bundle=getArguments();
         if (bundle!=null){
             billDetail= (Bill.BillDetail) bundle.getSerializable(AppConstants.TRANSFER_BILL_BEAN);
+            tranId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);
             transDetailTime.setText(billDetail.getCreateDate());
             String type=billDetail.getTradeType();
             double amount=Double.parseDouble(String.format("%.2f", billDetail.getAmount()));
@@ -152,7 +158,7 @@ public class TransDetailFragment extends BaseFragment {
                 transDetailMoney.setText("+"+amount);
                 transDetailState.setText("积分解冻");
             }
-
+            mPresent.getAccountDetail(tranId);
         }
     }
 
@@ -160,5 +166,22 @@ public class TransDetailFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void refreshBill(Bill bill) {
+
+    }
+
+    @Override
+    public void refreshAccountDetaiol(AccountDetailBean accountDetailBean) {
+        if (accountDetailBean!=null){
+
+        }
     }
 }

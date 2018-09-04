@@ -7,6 +7,7 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.request.ReqGroup;
 import com.android.similarwx.beans.response.BaseResponse;
+import com.android.similarwx.beans.response.RspAccountDetail;
 import com.android.similarwx.beans.response.RspAddGroupUser;
 import com.android.similarwx.beans.response.RspBill;
 import com.android.similarwx.beans.response.RspCanGrab;
@@ -964,7 +965,31 @@ public class API implements APIConstants {
             }
         });
     }
+    public void getAccountDetail(String accountDetailId,AcountPresent present){
+        LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
+        Map<String,String> map=new HashMap<>();
+        map.put("accountDetailId",accountDetailId );
 
+        Call<RspAccountDetail> call=apiService.getAccountDetail(map);
+        call.enqueue(new Callback<RspAccountDetail>() {
+            @Override
+            public void onResponse(Call<RspAccountDetail> call, Response<RspAccountDetail> response) {
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+                try {
+                    RspAccountDetail rspService=response.body();
+                    present.analyzeRes(rspService);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspAccountDetail> call, Throwable t) {
+                LoadingDialog.Loading_Exit(AppContext.getsActivity().getSupportFragmentManager());
+                Toaster.toastShort("网络异常!");
+            }
+        });
+    }
     public void canGrab(String userId, String redId, MIPresent miPresent, Activity activity) {
         LoadingDialog.Loading_Show(AppContext.getsActivity().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
