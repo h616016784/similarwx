@@ -118,7 +118,7 @@ public class UserProfileActivity extends UI {
         super.onResume();
 
         updateUserInfo();
-        updateToggleView();
+//        updateToggleView();
     }
 
     @Override
@@ -203,7 +203,8 @@ public class UserProfileActivity extends UI {
             toolbarView.setVisibility(View.GONE);
             return;
         } else {
-            toolbarView.setVisibility(View.VISIBLE);
+//            toolbarView.setVisibility(View.VISIBLE);
+            toolbarView.setVisibility(View.GONE);
         }
         toolbarView.setText(R.string.edit);
         toolbarView.setOnClickListener(new View.OnClickListener() {

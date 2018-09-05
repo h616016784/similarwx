@@ -50,6 +50,11 @@ public enum BillType {
      * 转账
      */
     TRANSFER("转账","TRANSFER"),
+
+    /**
+     * 收到转账
+     */
+    REC_TRANSFER("收到转账","REC_TRANSFER"),
     /**
      * 增加
      */

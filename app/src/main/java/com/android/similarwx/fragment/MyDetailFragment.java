@@ -188,15 +188,13 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                     helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
                     helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
                 }else if (type.equals(BillType.TRANSFER.toString())){ //转账
-                    if (Double.parseDouble(amount)>0){
-                        helper.setText(R.id.item_my_detail_name_tv,BillType.TRANSFER.toName());
-                        helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
-                        helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
-                    }else {
-                        helper.setText(R.id.item_my_detail_name_tv,BillType.TRANSFER.toName());
-                        helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
-                        helper.setText(R.id.item_my_detail_money_tv,amount+"");
-                    }
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.TRANSFER.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
+                    helper.setText(R.id.item_my_detail_money_tv,"-"+amount+"");
+                }else if (type.equals(BillType.REC_TRANSFER.toString())){//收到转账
+                    helper.setText(R.id.item_my_detail_name_tv,BillType.REC_TRANSFER.toName());
+                    helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                    helper.setText(R.id.item_my_detail_money_tv,"+"+amount);
                 }else if (type.equals(BillType.WITHDRAW.toString())){ //扣除
                     helper.setText(R.id.item_my_detail_name_tv,BillType.WITHDRAW.toName());
                     helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
@@ -317,6 +315,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         billTypeList.add(BillType.THUNDER_PACKAGE);
         billTypeList.add(BillType.THUNDER_REWARD);
         billTypeList.add(BillType.TRANSFER);
+        billTypeList.add(BillType.REC_TRANSFER);
         billTypeList.add(BillType.WITHDRAW);
         billTypeList.add(BillType.FREEZE);
         billTypeList.add(BillType.UNFREEZE);

@@ -131,17 +131,15 @@ public class TransDetailFragment extends BaseFragment implements AcountViewInter
                 transDetailMoney.setText("+"+amount);
                 transDetailState.setText(billDetail.getNickName()+"踩中了你埋的雷包");
             }else if (type.equals(BillType.TRANSFER.toString())){ //转账
-                if (amount>0){
-                    transDetailTurn.setText(BillType.TRANSFER.toName());
-                    transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
-                    transDetailMoney.setText("+"+amount);
-                    transDetailState.setText("你收到"+billDetail.getNickName()+"的转账");
-                }else {
-                    transDetailTurn.setText(BillType.TRANSFER.toName());
-                    transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
-                    transDetailMoney.setText(amount+"");
-                    transDetailState.setText("你转账给"+billDetail.getNickName());
-                }
+                transDetailTurn.setText(BillType.TRANSFER.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
+                transDetailMoney.setText(amount+"");
+                transDetailState.setText("你转账给"+billDetail.getNickName());
+            }else if (type.equals(BillType.REC_TRANSFER.toString())){//收到转账
+                transDetailTurn.setText(BillType.TRANSFER.toName());
+                transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.colorPrimaryDark));
+                transDetailMoney.setText("+"+amount);
+                transDetailState.setText("你收到"+billDetail.getNickName()+"的转账");
             }else if (type.equals(BillType.WITHDRAW.toString())){ //扣除
                 transDetailTurn.setText(BillType.WITHDRAW.toName());
                 transDetailMoney.setTextColor(AppContext.getResources().getColor(R.color.black));
