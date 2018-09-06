@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
 import com.gyf.barlibrary.ImmersionBar;
 import com.netease.nim.uikit.common.fragment.TFragment;
@@ -44,6 +45,7 @@ public abstract class UI extends AppCompatActivity {
         mImmersionBar.statusBarDarkFont(false, 0.2f)
                 .statusBarColor(R.color.colorPrimary)
                 .fitsSystemWindows(true).init();
+        AppContext.setsActivity(this);
         LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
     }
 
@@ -145,7 +147,7 @@ public abstract class UI extends AppCompatActivity {
         }
     }
 
-    protected final Handler getHandler() {
+    public final Handler getHandler() {
         if (handler == null) {
             handler = new Handler(getMainLooper());
         }

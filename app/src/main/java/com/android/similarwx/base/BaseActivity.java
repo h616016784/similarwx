@@ -219,6 +219,9 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
 
     }
 
+    public Handler getmHandler(){
+        return mHandler;
+    }
     private void unregister() {
         if (mFinishReceiver != null) {
             unregisterReceiver(mFinishReceiver);

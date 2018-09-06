@@ -219,7 +219,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
                             String json = attachment.toJson(false);
                             if (!TextUtils.isEmpty(json)) {
                                 tempSendRed= gson.fromJson(json, SendRed.class);
-                                miPresent.canGrab(tempSendRed.getData().getRedPacId(),activity);
+                                miPresent.canGrab(tempSendRed.getData().getRedPacId());
 //                                miPresent.grabRed(sendRed.getRedPacId(),activity);
                             }
                         }

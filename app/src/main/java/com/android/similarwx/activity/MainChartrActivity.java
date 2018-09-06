@@ -579,6 +579,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     @Override
     public void showErrorMessage(String err) {
         mainLoadRl.setVisibility(View.GONE);
+        Toaster.toastShort(err);
     }
 
     @Override

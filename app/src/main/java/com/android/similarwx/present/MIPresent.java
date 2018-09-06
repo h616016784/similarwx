@@ -1,6 +1,7 @@
 package com.android.similarwx.present;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
@@ -31,9 +32,9 @@ public class MIPresent extends BasePresent {
         API.getInstance().sendRed(sendRed.getData().getRequestNum(),sendRed.getData().getUserId(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),sendRed.getData().getAmount(),sendRed.getData().getType(),sendRed.getData().getCount(),sendRed.getData().getThunder(),this);
     }
 
-    public void canGrab(String redId, Activity activity){
+    public void canGrab(String redId){
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().canGrab(userId,redId,this,activity);
+        API.getInstance().canGrab(userId,redId,this);
     }
     public void grabRed(String redId, Activity activity){
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");

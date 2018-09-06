@@ -2,6 +2,7 @@ package com.netease.nim.uikit.business.session.viewholder;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -17,6 +18,7 @@ import com.android.similarwx.inteface.MiViewInterface;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.widget.dialog.LoadingDialog;
 import com.android.similarwx.widget.dialog.RedResultNewDialogFragment;
 import com.netease.nim.uikit.business.chatroom.adapter.ChatRoomMsgAdapter;
 import com.netease.nim.uikit.business.session.module.ModuleProxy;
@@ -137,7 +139,8 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
         RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
 
 //        message.getFromAccount(); message.getSessionId(); message.getSessionType();
-        miPresent.canGrab(attachment.getSendRedBean().getRedPacId(),(Activity) context);//请求是否能抢红包
+        miPresent.canGrab(attachment.getSendRedBean().getRedPacId());//请求是否能抢红包
+//        LoadingDialog.Loading_Show(((AppCompatActivity)context).getSupportFragmentManager(),true);
 
     }
 

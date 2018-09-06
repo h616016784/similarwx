@@ -41,15 +41,18 @@ public class LoadingDialog extends DialogFragment{
 
     public static void Loading_Show(FragmentManager fragmentManager,
                                      boolean cancelable) {
-        Loading_Exit(fragmentManager);
-        LoadingDialog loadingDialog = new LoadingDialog();
+        DialogFragment loadingDialog = (DialogFragment) fragmentManager.findFragmentByTag(DIALOG_TAG_LOAD);
+        if (loadingDialog==null){
+            loadingDialog = new LoadingDialog();
+        }
+//        Loading_Exit(fragmentManager);
         loadingDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.CommonDialog);
         loadingDialog.setCancelable(cancelable);
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(loadingDialog, DIALOG_TAG_LOAD);
         transaction.show(loadingDialog);
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
 //        fragmentManager.executePendingTransactions();
     }
     public static void Loading_Show(FragmentManager fragmentManager,
@@ -73,7 +76,8 @@ public class LoadingDialog extends DialogFragment{
         if (dialog != null) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.remove(dialog);
-            transaction.commitAllowingStateLoss();
+//            transaction.commitAllowingStateLoss();
+            transaction.commit();
         }
     }
 }

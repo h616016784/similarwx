@@ -124,7 +124,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             sessionId= bundle.getString("sessionId");
             miPresent=new MIPresent(this);
             if (mSendRedBean!=null){
-                miPresent.canGrab(mSendRedBean.getRedPacId(),getActivity());//请求是否能抢红包
+                miPresent.canGrab(mSendRedBean.getRedPacId());//请求是否能抢红包
                 String accid=mSendRedBean.getMyUserId();//云信的accid
                 List accounts=new ArrayList();
                 accounts.add(accid);
