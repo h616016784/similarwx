@@ -81,12 +81,18 @@ public class AitManager implements TextWatcher {
                 TeamMember member = (TeamMember) data.getSerializableExtra(AitContactSelectorActivity.RESULT_DATA);
                 account = member.getAccount();
                 name = getAitTeamMemberName(member);
-            } else if (type == AitContactType.ROBOT) {
+                insertAitMemberInner(account, name, type, curPos, false);
+            } else if (type == AitContactType.TEAM_MEMBER_AT) {
+                TeamMember member = (TeamMember) data.getSerializableExtra(AitContactSelectorActivity.RESULT_DATA);
+                account = member.getAccount();
+                name = getAitTeamMemberName(member);
+                insertAitMemberInner(account, name, type, curPos, true);
+            }else if (type == AitContactType.ROBOT) {
                 NimRobotInfo robotInfo = (NimRobotInfo) data.getSerializableExtra(AitContactSelectorActivity.RESULT_DATA);
                 account = robotInfo.getAccount();
                 name = robotInfo.getName();
+                insertAitMemberInner(account, name, type, curPos, false);
             }
-            insertAitMemberInner(account, name, type, curPos, false);
         }
     }
 

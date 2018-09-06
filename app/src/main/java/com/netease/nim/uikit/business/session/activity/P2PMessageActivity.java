@@ -85,14 +85,15 @@ public class P2PMessageActivity extends BaseMessageActivity implements SysNotice
             myIsNormal=false;
         }
         //获取用户信息
-        if (!TextUtils.isEmpty(sessionId))
-            mPresent.getUserInfoByParams("",sessionId);
+        if (!TextUtils.isEmpty(mUser.getAccId()))
+            mPresent.getUserInfoByParams("",mUser.getAccId());
 
         // 单聊特例话数据，包括个人信息，
         requestBuddyInfo();
         displayOnlineState();
         registerObservers(true);
         registerOnlineStateChangeListener(true);
+
     }
 
     @Override
@@ -293,6 +294,8 @@ public class P2PMessageActivity extends BaseMessageActivity implements SysNotice
             int systermFlay=user.getSystemFlg();
             int adminFlag=user.getAdminFlg();
             if (serviceFlag==0&& systermFlay==0&& adminFlag==0){//普通用户
+                //获取禁言和转账标示
+                sysNoticePresent.getConfig();
                 youIsNormal=true;
                 timer = new Timer();
                 alarmTask = new TimerTask() {

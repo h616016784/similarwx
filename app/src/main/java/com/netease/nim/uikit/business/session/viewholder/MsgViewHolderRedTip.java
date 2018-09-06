@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
     }
 
     private TextView message_item_tips_label,message_item_tips_red_tv,message_item_tips_red_finish_tv;
+    private ImageView message_item_tips_iv;
     private LinearLayout message_item_tips_ll;
     private RedDetailPresent mPresent;
     SendRed.SendRedBean sendRedBean;
@@ -52,6 +54,7 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
         message_item_tips_red_tv=view.findViewById(R.id.message_item_tips_red_tv);
         message_item_tips_ll=view.findViewById(R.id.message_item_tips_ll);
         message_item_tips_red_finish_tv=view.findViewById(R.id.message_item_tips_red_finish_tv);
+        message_item_tips_iv=view.findViewById(R.id.message_item_tips_iv);
         mPresent=new RedDetailPresent(this);
     }
 
@@ -65,6 +68,9 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
 
 //        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
         if (content!=null){
+            message_item_tips_red_tv.setVisibility(View.VISIBLE);
+            message_item_tips_iv.setVisibility(View.VISIBLE);
+
             String accid= (String) content.get("accId");
             String redPacTipMessageType= (String) content.get("redPacTipMessageType");
             if (redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
@@ -99,8 +105,11 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
                 }
                 return from+"领取了"+to+"的";
             }
+        }else {
+            message_item_tips_red_tv.setVisibility(View.GONE);
+            message_item_tips_iv.setVisibility(View.GONE);
         }
-        return "异常tip";
+        return message.getContent();
 //        return TeamNotificationHelper.getTeamNotificationText(message, message.getSessionId());
     }
 

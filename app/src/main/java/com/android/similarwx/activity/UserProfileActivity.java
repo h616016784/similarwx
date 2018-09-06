@@ -118,7 +118,7 @@ public class UserProfileActivity extends UI {
         super.onResume();
 
         updateUserInfo();
-//        updateToggleView();
+        updateToggleView();
     }
 
     @Override
@@ -296,11 +296,11 @@ public class UserProfileActivity extends UI {
     private void updateUserOperatorView() {
         chatBtn.setVisibility(View.VISIBLE);
         if (NIMClient.getService(FriendService.class).isMyFriend(account)) {
-            removeFriendBtn.setVisibility(View.VISIBLE);
+            removeFriendBtn.setVisibility(View.GONE);
             addFriendBtn.setVisibility(View.GONE);
             updateAlias(true);
         } else {
-            addFriendBtn.setVisibility(View.VISIBLE);
+            addFriendBtn.setVisibility(View.GONE);
             removeFriendBtn.setVisibility(View.GONE);
             updateAlias(false);
         }
@@ -335,7 +335,7 @@ public class UserProfileActivity extends UI {
         switchButton.setOnChangedListener(onChangedListener);
         switchButton.setTag(key);
 
-        toggleLayout.addView(vp);
+//        toggleLayout.addView(vp);
 
         if (toggleStateMap == null) {
             toggleStateMap = new HashMap<>();

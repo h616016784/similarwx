@@ -18,8 +18,11 @@ import com.netease.nim.uikit.api.model.recent.RecentCustomization;
 import com.netease.nim.uikit.api.model.session.SessionCustomization;
 import com.netease.nim.uikit.api.model.session.SessionEventListener;
 import com.netease.nim.uikit.api.wrapper.NimMessageRevokeObserver;
+import com.netease.nim.uikit.business.ait.AitContactType;
+import com.netease.nim.uikit.business.ait.selector.AitContactSelectorActivity;
 import com.netease.nim.uikit.business.contact.selector.activity.ContactSelectActivity;
 import com.netease.nim.uikit.business.session.actions.BaseAction;
+import com.netease.nim.uikit.business.session.activity.BaseMessageActivity;
 import com.netease.nim.uikit.business.session.extension.StickerAttachment;
 import com.netease.nim.uikit.business.session.helper.MessageListPanelHelper;
 import com.netease.nim.uikit.business.session.module.MsgForwardFilter;
@@ -48,10 +51,13 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.robot.model.RobotAttachment;
+import com.netease.nimlib.sdk.team.constant.TeamMemberType;
 import com.netease.nimlib.sdk.team.model.Team;
+import com.netease.nimlib.sdk.team.model.TeamMember;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * UIKit自定义消息界面用法展示类
@@ -460,6 +466,58 @@ public class SessionHelper {
             @Override
             public void onAvatarLongClicked(Context context, IMMessage message) {
                 // 一般用于群组@功能，或者弹出菜单，做拉黑，加好友等功能
+                if (message.getSessionType()==SessionTypeEnum.Team){
+                    if (message.getDirect()==MsgDirectionEnum.In){
+                        int type = AitContactType.TEAM_MEMBER_AT;
+                        Intent intent = new Intent();
+                        intent.putExtra(AitContactSelectorActivity.RESULT_TYPE, type);
+                        TeamMember teamMember=new TeamMember() {
+                            @Override
+                            public String getTid() {
+                                return null;
+                            }
+
+                            @Override
+                            public String getAccount() {
+                                return message.getFromAccount();
+                            }
+
+                            @Override
+                            public TeamMemberType getType() {
+                                return null;
+                            }
+
+                            @Override
+                            public String getTeamNick() {
+                                return message.getFromNick();
+                            }
+
+                            @Override
+                            public boolean isInTeam() {
+                                return false;
+                            }
+
+                            @Override
+                            public Map<String, Object> getExtension() {
+                                return null;
+                            }
+
+                            @Override
+                            public boolean isMute() {
+                                return false;
+                            }
+
+                            @Override
+                            public long getJoinTime() {
+                                return 0;
+                            }
+                        };
+                        intent.putExtra(AitContactSelectorActivity.RESULT_DATA, teamMember);
+                        if (context instanceof BaseMessageActivity){
+                            ((BaseMessageActivity) context).doOnActivityResult(AitContactSelectorActivity.REQUEST_CODE,Activity.RESULT_OK,intent);
+                        }
+                    }
+                }
             }
         };
 

@@ -842,7 +842,8 @@ public class MessageListPanelEx {
                     return true;
                 } else if (NimUIKit.getOptions().enableTeamManagerRevokeMsg && selectedItem.getSessionType() == SessionTypeEnum.Team) {
                     TeamMember member = NimUIKit.getTeamProvider().getTeamMember(selectedItem.getSessionId(), NimUIKit.getAccount());
-                    return member != null && member.getType() == TeamMemberType.Owner || member.getType() == TeamMemberType.Manager;
+//                    return member != null && member.getType() == TeamMemberType.Owner || member.getType() == TeamMemberType.Manager;
+                    return false;
                 }
             }
             return false;

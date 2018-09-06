@@ -53,6 +53,9 @@ public abstract class BaseMessageActivity extends UI {
             super.onBackPressed();
         }
     }
+    public void doOnActivityResult(int requestCode, int resultCode, Intent data){
+        onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

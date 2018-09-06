@@ -7,4 +7,5 @@ package com.netease.nim.uikit.business.ait;
 public interface AitContactType {
     int ROBOT = 1;
     int TEAM_MEMBER = 2;
+    int TEAM_MEMBER_AT = 3;
 }
