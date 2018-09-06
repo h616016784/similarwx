@@ -79,7 +79,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
     @BindView(R.id.send_red_sum_money)
     TextView sumMoneyTv;
     @BindView(R.id.send_red_descript_tv)
-    TextView sendRedDescripTv;
+    EditText sendRedDescripTv;
     Unbinder unbinder;
     public RspGroupInfo.GroupInfo listBean;
     private String type = null;

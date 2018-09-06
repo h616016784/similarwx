@@ -162,7 +162,7 @@
         android:background="@null"
         android:textSize="@dimen/text_content_or_button"
         />
-    <TextView
+    <EditText
         android:id="@+id/send_red_descript_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
