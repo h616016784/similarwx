@@ -82,7 +82,6 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
                             present.login(accid,password,"","","");
                         }else {
                             startActivity(new Intent(SplashActivity.this,LoginActivity.class));
-                            finish();
                         }
                     }else {
                         doServiceLogin(unionId);
@@ -93,7 +92,6 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
                     Log.e("splash login","自动登录异常");
                 }
 //                        startActivity(new Intent(SplashActivity.this,LoginActivity.class));
-                finish();
             }
 
             @Override

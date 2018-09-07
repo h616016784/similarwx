@@ -187,7 +187,6 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         }else {
             //之后跳转界面
             MainChartrActivity.start(this);
-            finish();
         }
     }
 
@@ -206,7 +205,6 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
             SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
             //之后跳转界面
             startActivity(new Intent(this, MainChartrActivity.class));
-            finish();
         }
     }
 

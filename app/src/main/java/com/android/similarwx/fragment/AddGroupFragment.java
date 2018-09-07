@@ -152,6 +152,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 helper.setText(R.id.item_create_group_rule_get,item.getAmountReward());
             }
         };
+        createGroupRuleRv.setNestedScrollingEnabled(false);
         createGroupRuleRv.setAdapter(adapter);
         Bundle bundle=getArguments();
         if (bundle!=null){

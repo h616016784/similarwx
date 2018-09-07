@@ -93,6 +93,7 @@ public class AppConstants extends BaseConstants {
     public final static String USER_PAYPASSWORD = "payPassword";//
     public final static String USER_LOGIN_PASSWORD = "loginPassword";//
     public final static String USER_SOUND_SET= "soundSet";//
+    public final static String USER_MSSAGE_SET= "messageSet";//
     public final static int RESULT_USER_NICK = 9;//
     public final static int RESULT_USER_SIGN = 10;//
 

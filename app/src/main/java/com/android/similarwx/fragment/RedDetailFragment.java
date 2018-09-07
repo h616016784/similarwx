@@ -164,9 +164,10 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
         for (RedDetialBean bean:list){
             String accid=bean.getAccId();
             if (!TextUtils.isEmpty(accid)){
-                if (myAccid.equals(accid))
+                if (myAccid.equals(accid)){
                     isHas=true;
                     redDetailAcountTv.setText(String.format("%.2f", bean.getAmount())+" 元");
+                }
             }
         }
         if (!isHas)

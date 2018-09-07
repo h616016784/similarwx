@@ -390,7 +390,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/distance_middle"
+            android:layout_marginTop="@dimen/distance_smallest"
             android:background="@color/white"
             android:orientation="horizontal">
             <TextView
@@ -422,21 +422,27 @@
                 android:textColor="@color/gray"/>
 
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/create_group_rule_rv"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_72">
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/create_group_rule_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/create_group_new_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/distance_normal"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_normal_bg"
+            android:text="创建群组"/>
     </LinearLayout>
 
     </ScrollView>
-    <Button
-        android:id="@+id/create_group_new_bt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/distance_normal"
-        android:textColor="@color/white"
-        android:background="@drawable/selector_normal_bg"
-        android:text="创建群组"/>
 </LinearLayout>

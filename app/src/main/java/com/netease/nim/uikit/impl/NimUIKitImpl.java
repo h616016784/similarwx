@@ -376,7 +376,7 @@ public final class NimUIKitImpl {
 //            AdvancedTeamInfoActivity.start(context, teamId); // 启动固定群资料页
             Bundle bundle = new Bundle();
             bundle.putString(AppConstants.TRANSFER_ACCOUNT,teamId);
-            FragmentUtils.navigateToNormalActivity(AppContext.getsActivity(),new GroupInfoFragment(),bundle);
+            FragmentUtils.navigateToNormalActivity(AppContext.getActivitiesStack().peek(),new GroupInfoFragment(),bundle);
         } else if (team.getType() == TeamTypeEnum.Normal) {
 
             NormalTeamInfoActivity.start(context, teamId); // 启动讨论组资料页

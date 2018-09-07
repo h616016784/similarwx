@@ -33,7 +33,9 @@ import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Util;
 import com.android.similarwx.utils.glide.NetImageUtil;
+import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.android.similarwx.widget.dialog.TwoButtonDialogBuilder;
+import com.android.similarwx.widget.toggle.ToggleButton;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -74,18 +76,16 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     TextView groupInfoCodeIv;
     @BindView(R.id.group_info_code_rl)
     RelativeLayout groupInfoCodeRl;
-    @BindView(R.id.group_info_msg_rl)
-    RelativeLayout groupInfoMsgRl;
     @BindView(R.id.group_info_notice_tv)
     TextView groupInfoNoticeTv;
-    @BindView(R.id.group_info_msg_tv)
-    TextView groupInfoMsgTv;
     @BindView(R.id.group_info_know_tv)
     TextView groupInfoKnowTv;
     @BindView(R.id.group_info_quit_bt)
     TextView groupInfoQuitBt;
     @BindView(R.id.group_info_rule_rv)
     RecyclerView groupInfoRuleRv;
+    @BindView(R.id.group_info_message_set_tg)
+    ToggleButton groupInfoSetTg;
     Unbinder unbinder;
     @BindView(R.id.group_info_member_ll)
     LinearLayout groupInfoMemberLl;
@@ -105,6 +105,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     private User mUser;
 
     private MenuDialog teamNotifyDialog;
+    private int isClose=0;//0是开   1是关
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_group_info;
@@ -119,9 +120,11 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
         }
         mActionbar.setTitle("群信息");
         unbinder = ButterKnife.bind(this, contentView);
+        isClose=SharePreferenceUtil.getInt(activity,AppConstants.USER_MSSAGE_SET+accountId);
         groupInfoPresent=new GroupInfoPresent(this);
 
-        groupInfoRuleRv.setLayoutManager(new LinearLayoutManager(activity));
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(activity);
+        groupInfoRuleRv.setLayoutManager(mLayoutManager);
         ruleAdapter = new BaseQuickAdapter<GroupRule, BaseViewHolder>(R.layout.item_group_info_rule, ruleList) {
             @Override
             protected void convert(BaseViewHolder helper, GroupRule item) {
@@ -130,6 +133,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                 helper.setText(R.id.item_group_rule_num2_tv, item.getAmountReward());
             }
         };
+        groupInfoRuleRv.setNestedScrollingEnabled(false);
         groupInfoRuleRv.setAdapter(ruleAdapter);
 
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
@@ -177,6 +181,11 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             }
         });
 
+        if (isClose==0){
+            groupInfoSetTg.setToggleOn();
+        }else {
+            groupInfoSetTg.setToggleOff();
+        }
     }
 
     private void initDataAndView() {
@@ -217,8 +226,11 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             Gson gson=new Gson();
             ruleList=gson.fromJson(rules,new TypeToken<List<GroupRule>>() {
             }.getType());
-            if (ruleList!=null)
+            if (ruleList!=null){
+                ruleAdapter.getData().clear();
                 ruleAdapter.addData(ruleList);
+            }
+
         }
 
     }
@@ -241,14 +253,19 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     }
 
 
-    @OnClick({R.id.group_info_member_ll,R.id.group_info_quit_bt,R.id.group_info_msg_rl})
+    @OnClick({R.id.group_info_member_ll,R.id.group_info_quit_bt,R.id.group_info_message_set_tg})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.group_info_code_rl:
 //                FragmentUtils.navigateToNormalActivity(activity,new GroupCodeFragment(),null);
                 break;
-            case R.id.group_info_msg_rl://群消息设置
-                showTeamNotifyMenu();
+            case R.id.group_info_message_set_tg://群消息设置
+                if (isClose==0){
+                    doMessage(TeamMessageNotifyTypeEnum.Mute,isClose);
+                }else if (isClose==1){
+                    doMessage(TeamMessageNotifyTypeEnum.All,isClose);
+                }
+
                 break;
             case R.id.group_info_member_ll://全部成员
                 Bundle bundle=new Bundle();
@@ -257,13 +274,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                 break;
             case R.id.group_info_quit_bt://退出
                 if (isHost){
-                    APIYUNXIN.dismissTeam(listBean.getGroupId(), new YCallBack<Void>() {
-                        @Override
-                        public void callBack(Void aVoid) {
-                            Toaster.toastShort("解散群成功,调用本地代码 ！");
-                            groupInfoPresent.doDeleteGroup(listBean.getGroupId());
-                        }
-                    });
+                    showDialog();
                 }else {
                     Toaster.toastShort("请联系群管理者");
                 }
@@ -271,69 +282,78 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
         }
     }
 
-    private void showTeamNotifyMenu() {
+    private void showDialog() {
+        final CancelDialogBuilder cancel_dialogBuilder = CancelDialogBuilder
+                .getInstance(getActivity());
 
-            NIMClient.getService(TeamService.class).queryTeam(accountId).setCallback(new RequestCallbackWrapper<Team>() {
-                @Override
-                public void onResult(int code, Team team, Throwable exception) {
-                    if (code == ResponseCode.RES_SUCCESS) {
-                        if (teamNotifyDialog == null) {
-                            List<String> btnNames = TeamHelper.createNotifyMenuStrings();
-                            // 成功
-                            int type = team.getMessageNotifyType().getValue();
-                            teamNotifyDialog = new MenuDialog(activity, btnNames, type, type, new MenuDialog
-                                    .MenuDialogOnButtonClickListener() {
-                                @Override
-                                public void onButtonClick(String name) {
-                                    teamNotifyDialog.dismiss();
+        cancel_dialogBuilder.setTitleText("确定解散该群？");
+        cancel_dialogBuilder.setDetermineText("确定");
 
-                                    TeamMessageNotifyTypeEnum type = TeamHelper.getNotifyType(name);
-                                    if (type == null) {
-                                        return;
-                                    }
-                                    DialogMaker.showProgressDialog(activity, getString(R.string.empty), true);
-                                    NIMClient.getService(TeamService.class).muteTeam(accountId, type).setCallback(new RequestCallback<Void>() {
-                                        @Override
-                                        public void onSuccess(Void param) {
-                                            DialogMaker.dismissProgressDialog();
-                                            updateTeamNotifyText(team.getMessageNotifyType());
-                                        }
-
-                                        @Override
-                                        public void onFailed(int code) {
-                                            DialogMaker.dismissProgressDialog();
-                                            teamNotifyDialog.undoLastSelect();
-                                            Log.d(TAG, "muteTeam failed code:" + code);
-                                        }
-
-                                        @Override
-                                        public void onException(Throwable exception) {
-                                            DialogMaker.dismissProgressDialog();
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                        teamNotifyDialog.show();
-                    } else {
-                        // 失败，错误码见code
+        cancel_dialogBuilder.isCancelableOnTouchOutside(true)
+                .setButton1Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancel_dialogBuilder.dismiss();
                     }
-                    if (exception != null) {
-                        // error
+                }).setButton2Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancel_dialogBuilder.dismiss();
+                        APIYUNXIN.dismissTeam(listBean.getGroupId(), new YCallBack<Void>() {
+                            @Override
+                            public void callBack(Void aVoid) {
+                                Toaster.toastShort("解散群成功,调用本地代码 ！");
+                                groupInfoPresent.doDeleteGroup(listBean.getGroupId());
+                            }
+                        });
                     }
-                }
-            });
-
+        }).show();
     }
+    public void doMessage(TeamMessageNotifyTypeEnum type,int clicked){
+        DialogMaker.showProgressDialog(activity, getString(R.string.empty), true);
+        NIMClient.getService(TeamService.class).queryTeam(accountId).setCallback(new RequestCallbackWrapper<Team>() {
+            @Override
+            public void onResult(int code, Team team, Throwable exception) {
+                if (code == ResponseCode.RES_SUCCESS) {
+                    if (type == null) {
+                        return;
+                    }
+                    NIMClient.getService(TeamService.class).muteTeam(accountId, type).setCallback(new RequestCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void param) {
+                            DialogMaker.dismissProgressDialog();
+                            if (clicked==0){
+                                isClose=1;
+                                groupInfoSetTg.setToggleOff();
+                            }else {
+                                isClose=0;
+                                groupInfoSetTg.setToggleOn();
+                            }
+                            SharePreferenceUtil.putObject(activity,AppConstants.USER_MSSAGE_SET+accountId,isClose);
+                        }
 
-    private void updateTeamNotifyText(TeamMessageNotifyTypeEnum typeEnum) {
-        if (typeEnum == TeamMessageNotifyTypeEnum.All) {
-            groupInfoMsgTv.setText(getString(R.string.team_notify_all));
-        } else if (typeEnum == TeamMessageNotifyTypeEnum.Manager) {
-            groupInfoMsgTv.setText(getString(R.string.team_notify_manager));
-        } else if (typeEnum == TeamMessageNotifyTypeEnum.Mute) {
-            groupInfoMsgTv.setText(getString(R.string.team_notify_mute));
-        }
+                        @Override
+                        public void onFailed(int code) {
+                            DialogMaker.dismissProgressDialog();
+                            Toaster.toastShort(code);
+                        }
+
+                        @Override
+                        public void onException(Throwable exception) {
+                            DialogMaker.dismissProgressDialog();
+                        }
+                    });
+                } else {
+                    DialogMaker.dismissProgressDialog();
+                    Toaster.toastShort(code);
+                    // 失败，错误码见code
+                }
+                if (exception != null) {
+                    DialogMaker.dismissProgressDialog();
+                    // error
+                }
+            }
+        });
     }
     @Override
     public void showErrorMessage(String err) {
@@ -351,7 +371,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             }else {
                 List<GroupUser.ListBean> userList=groupAdapter.getData();
                 if (userList!=null && userList.size()>0)
-                    userList.clear();
+                    groupAdapter.getData().clear();
                 groupAdapter.addData(groupList);
                 groupInfoMemberNumTv.setText("("+groupList.size()+")");
             }
