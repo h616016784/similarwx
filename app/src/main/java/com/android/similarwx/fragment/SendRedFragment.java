@@ -156,6 +156,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
                     String money=sendRedSumEt.getText().toString();
                     String lei=sendRedLeiEt.getText().toString();
                     String count=sendRedCountEt.getText().toString();
+                    String content=sendRedDescripTv.getText().toString();
                     Intent intent=new Intent();
                     SendRed sendRed=new SendRed();
                     SendRed.SendRedBean bean=new SendRed.SendRedBean();
@@ -169,7 +170,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
                                 return;
                             }
                             bean.setThunder(lei);
-                            bean.setCount(sendRedCountReadTv.getText().toString());
+                            bean.setCount(count);
                             bean.setTitle("扫雷红包游戏");
 
                         }else {
@@ -189,7 +190,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
                     bean.setMyUserId(SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ACCID,"无"));
 
                     bean.setType(type);
-                    bean.setCotent("领取红包");
+                    bean.setCotent(content);
                     sendRed.setData(bean);
                     sendRed.setType("7");
                     intent.putExtra(AppConstants.TRANSFER_CHAT_REDENTITY,sendRed);

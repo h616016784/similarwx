@@ -1,6 +1,7 @@
 package com.netease.nim.uikit.common.activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.netease.nim.uikit.common.util.sys.ReflectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public abstract class UI extends AppCompatActivity {
 
@@ -45,8 +47,9 @@ public abstract class UI extends AppCompatActivity {
         mImmersionBar.statusBarDarkFont(false, 0.2f)
                 .statusBarColor(R.color.colorPrimary)
                 .fitsSystemWindows(true).init();
-        AppContext.setsActivity(this);
+        AppContext.getActivitiesStack().push(this);
         LogUtil.ui("activity: " + getClass().getSimpleName() + " onCreate()");
+
     }
 
     @Override
@@ -61,6 +64,7 @@ public abstract class UI extends AppCompatActivity {
         if (mImmersionBar != null) {
             mImmersionBar.destroy();
         }
+        AppContext.getActivitiesStack().pop();
         LogUtil.ui("activity: " + getClass().getSimpleName() + " onDestroy()");
         destroyed = true;
     }
@@ -68,6 +72,7 @@ public abstract class UI extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
     @Override

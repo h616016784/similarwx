@@ -100,7 +100,7 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
                 .statusBarColor(R.color.colorPrimary)
                 .fitsSystemWindows(true).init();
         setContentView();
-        AppContext.setsActivity(this);
+        AppContext.getActivitiesStack().push(this);
         mOnInterceptKeyListener = initContentFragment();
 
 //        StatusBarUtil.statusBarLightMode(this);
@@ -242,6 +242,7 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
         if (mImmersionBar != null) {
             mImmersionBar.destroy();
         }
+        AppContext.getActivitiesStack().pop();
         hideKeyboard();
         unregister();
     }

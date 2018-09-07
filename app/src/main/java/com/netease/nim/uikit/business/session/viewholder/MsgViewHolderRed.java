@@ -74,11 +74,13 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
         String title=null;
         String click=null;
         String textContent=null;
+        String content=null;
         sendRedBean=attachment.getSendRedBean();
         if (sendRedBean!=null){
             amount =sendRedBean.getAmount();
             title =null;
             click=sendRedBean.getClick();
+            content=sendRedBean.getCotent();
             if (TextUtils.isEmpty(sendRedBean.getThunder()))
                 textContent=amount+"-"+sendRedBean.getCount();
             else
@@ -93,7 +95,11 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
         if (!isReceivedMessage()) {// 消息方向，自己发送的
             sendView.setVisibility(View.VISIBLE);
             revView.setVisibility(View.GONE);
-            sendContentText.setText(textContent);
+            if (sendRedBean.getType().equals("MINE"))
+                sendContentText.setText(textContent);
+            else if (sendRedBean.getType().equals("LUCK"))
+                sendContentText.setText(content);
+
             sendTitleText.setText(title);
 
             if (message.getStatus()==MsgStatusEnum.read){//已读
@@ -106,7 +112,10 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
         } else {
             sendView.setVisibility(View.GONE);
             revView.setVisibility(View.VISIBLE);
-            revContentText.setText(textContent);
+            if (sendRedBean.getType().equals("MINE"))
+                revContentText.setText(textContent);
+            else if (sendRedBean.getType().equals("LUCK"))
+                revContentText.setText(content);
             revTitleText.setText(title);
 
             if (message.getStatus()==MsgStatusEnum.read){//已读

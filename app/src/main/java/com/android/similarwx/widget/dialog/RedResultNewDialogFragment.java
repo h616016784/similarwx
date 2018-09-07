@@ -353,10 +353,10 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
             String type=mSendRedBean.getType();
             if (TextUtils.isEmpty(type)){
-                dialog_red_result_tips_tv.setText("恭喜发财，大吉大利！");
+                dialog_red_result_tips_tv.setText(mSendRedBean.getCotent());
             }else {
                 if (type.equals("LUCK")){
-                    dialog_red_result_tips_tv.setText("恭喜发财，大吉大利！");
+                    dialog_red_result_tips_tv.setText(mSendRedBean.getCotent());
                 }
             }
         }

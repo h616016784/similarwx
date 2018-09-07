@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.android.outbaselibrary.utils.ViewUtil;
 
 import java.io.File;
+import java.util.Stack;
 
 /**
  * Created by Albert
@@ -20,7 +21,7 @@ public class AppContext {
     private static Context sContext;
     private static int screenWidth = 0;
     private static int screenHeight = 0;
-
+    private static Stack<AppCompatActivity> activitiesStack=new Stack<>();
     public static AppCompatActivity getsActivity() {
         return sActivity;
     }
@@ -28,7 +29,9 @@ public class AppContext {
     public static void setsActivity(AppCompatActivity sActivity) {
         AppContext.sActivity = sActivity;
     }
-
+    public static Stack<AppCompatActivity> getActivitiesStack () {
+        return activitiesStack;
+    }
     private static AppCompatActivity sActivity;
 
     public static Context getContext() {
