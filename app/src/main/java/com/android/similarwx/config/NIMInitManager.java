@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
+import com.netease.nim.uikit.event.OnlineStateEventManager;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.NimStrings;
 import com.netease.nimlib.sdk.Observer;
@@ -53,7 +54,7 @@ public class NIMInitManager {
 //        registerGlobalObservers(register);
 
         // 初始化在线状态事件
-//        OnlineStateEventManager.init();
+        OnlineStateEventManager.init();
     }
 
     private void registerGlobalObservers(boolean register) {

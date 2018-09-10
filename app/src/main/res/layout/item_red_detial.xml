@@ -50,14 +50,28 @@
                 android:text="11元"
                 android:textSize="@dimen/text_tip"
                 />
-            <TextView
-                android:id="@+id/item_red_detail_shouqi_tv"
+            <RelativeLayout
+                android:id="@+id/item_red_detail_shouqi_rl"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/distance_smallest"
-                android:textSize="@dimen/text_content_or_button"
-                android:textColor="@color/light_orange"
-                android:text="最佳手气"/>
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/item_red_detail_shouqi_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/rp_icon_best"/>
+                <TextView
+                    android:id="@+id/item_red_detail_shouqi_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/distance_smallest"
+                    android:layout_toRightOf="@id/item_red_detail_shouqi_iv"
+                    android:textSize="@dimen/text_content_or_button"
+                    android:textColor="@color/light_orange"
+                    android:layout_centerVertical="true"
+                    android:text="最佳手气"/>
+            </RelativeLayout>
+
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

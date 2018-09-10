@@ -134,6 +134,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         unbinder = ButterKnife.bind(this, contentView);
         reqGroup=new RspGroupInfo.GroupInfo();
         mPresent=new AddGroupPresent(this);
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            groupInfo= (RspGroupInfo.GroupInfo) bundle.getSerializable(AppConstants.TRANSFER_GROUP_INFO);
+        }
         initGroupList();
 //        groupTypePop=new ListPopWindow(activity,groupTypeList);
 //        groupTypePop.setOnClickItem(new ListPopWindow.OnItemClickListener() {
@@ -150,19 +154,24 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 helper.setText(R.id.item_create_group_rule_name,item.getRewardName());
                 helper.setText(R.id.item_create_group_rule_grab,item.getRewardValue());
                 helper.setText(R.id.item_create_group_rule_get,item.getAmountReward());
+                helper.addOnClickListener(R.id.item_create_group_rule_remove);
             }
         };
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//                groupRuleList.remove(position);
+//                adapter.notifyDataSetChanged();
+            }
+        });
         createGroupRuleRv.setNestedScrollingEnabled(false);
         createGroupRuleRv.setAdapter(adapter);
-        Bundle bundle=getArguments();
-        if (bundle!=null){
-            groupInfo= (RspGroupInfo.GroupInfo) bundle.getSerializable(AppConstants.TRANSFER_GROUP_INFO);
-            if (groupInfo!=null){
-                editType=1;
-                mActionbar.setTitle("编辑群组");
-                createGroupNewBt.setText("编辑群组");
-                initOriView(groupInfo);//初始化原群组信息
-            }
+
+        if (groupInfo!=null){
+            editType=1;
+            mActionbar.setTitle("编辑群组");
+            createGroupNewBt.setText("编辑群组");
+            initOriView(groupInfo);//初始化原群组信息
         }
         RxView.clicks(createGroupNewBt).throttleFirst(1, TimeUnit.SECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -413,17 +422,29 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 simpleLei.show();
                 break;
             case R.id.create_group_num_rl://红包个数
-                BottomBaseDialog dialogRedNum=new BottomBaseDialog(activity);
-                dialogRedNum.setTitle("红包个数");
-                dialogRedNum.setList(redNumList);
-                dialogRedNum.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+                EditDialogSimple simpleRedCount=new EditDialogSimple(activity,"红包个数",2);
+                simpleRedCount.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
-                    public void onItemClick(int position) {
-                        PopMoreBean bean=redNumList.get(position);
-                        createGroupNumEt.setText(bean.getName());
+                    public void onClickListener(String text){
+                        if (TextUtils.isEmpty(text))
+                            Toaster.toastShort("红包个数不能为空！");
+                        else
+                            createGroupNumEt.setText(text);
                     }
                 });
-                dialogRedNum.show();
+                simpleRedCount.show();
+
+//                BottomBaseDialog dialogRedNum=new BottomBaseDialog(activity);
+//                dialogRedNum.setTitle("红包个数");
+//                dialogRedNum.setList(redNumList);
+//                dialogRedNum.setOnClickItem(new BottomBaseDialog.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(int position) {
+//                        PopMoreBean bean=redNumList.get(position);
+//                        createGroupNumEt.setText(bean.getName());
+//                    }
+//                });
+//                dialogRedNum.show();
                 break;
             case R.id.create_group_range_high_rl://红包上限
 //                BottomBaseDialog dialogRedHigh=new BottomBaseDialog(activity);

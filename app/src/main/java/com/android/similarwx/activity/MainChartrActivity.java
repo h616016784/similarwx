@@ -87,6 +87,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -573,6 +575,27 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE); //得到InputMethodManager的实例
         if (imm.isActive()) {//如果开启
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);//关闭软键盘，开启方法相同，这个方法是切换开启与关闭状态的
+        }
+    }
+
+    private boolean quit = false; //设置退出标识
+
+    @Override
+    public void onBackPressed() {
+        if (!quit) { //询问退出程序
+            Toaster.toastShort("再按一次退出程序");
+            new Timer(true).schedule(new TimerTask() { //启动定时任务
+                @Override
+                public void run() {
+                    quit = false; //重置退出标识
+                }
+            }, 2000); //2秒后运行run()方法
+            quit = true;
+        } else { //确认退出程序
+            super.onBackPressed();
+            while (!AppContext.getActivitiesStack().isEmpty()){
+                AppContext.getActivitiesStack().pop().finish();
+            }
         }
     }
 

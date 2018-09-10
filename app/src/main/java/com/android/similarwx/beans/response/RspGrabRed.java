@@ -38,14 +38,14 @@ public class RspGrabRed extends BaseResponse {
         private String amount;
         private String lucky;
         private String luckAmount;
-        private String isComplete;
+        private String complete;
 
-        public String getIsComplete() {
-            return isComplete;
+        public String getComplete() {
+            return complete;
         }
 
-        public void setIsComplete(String isComplete) {
-            this.isComplete = isComplete;
+        public void setComplete(String complete) {
+            this.complete = complete;
         }
 
         public String getThunder() {

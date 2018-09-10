@@ -28,6 +28,7 @@ import com.netease.nim.uikit.business.contact.core.query.PinYin;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRedTip;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderTrans;
 import com.netease.nim.uikit.business.team.DemoCache;
+import com.netease.nim.uikit.event.DemoOnlineStateContentProvider;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;
@@ -54,6 +55,7 @@ public class AppApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         mInstance=this;
+        DemoCache.setContext(this);
 //        initYunXinSDK(this);
         initNIM(this);
     }
@@ -87,6 +89,7 @@ public class AppApplication extends BaseApplication {
 
         // 注册自定义推送消息处理，这个是可选项
         NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
+        NimUIKit.setOnlineStateContentProvider(new DemoOnlineStateContentProvider());
 
         // 云信sdk相关业务初始化
         NIMInitManager.getInstance().init(true);

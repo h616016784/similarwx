@@ -619,6 +619,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     public void senCustemTran(Transfer data) {
         if (data!=null){
            sendMessage(createCustomMessage(data));
+            Toaster.toastShort("发送成功");
         }
     }
 
@@ -632,8 +633,11 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         if (data!=null){
             IMMessage imMessage=createCustomMessage(data);
             String sysRed=data.getCotent();
-            if (imMessage!=null)
+            if (imMessage!=null){
                 sendMessage(imMessage,data);
+                Toaster.toastShort("发送成功");
+            }
+
         }
     }
 

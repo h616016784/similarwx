@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.TextureView;
@@ -237,9 +238,14 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
     @Override
     public void logoutScucces(User user) {
         NIMClient.getService(AuthService.class).logout();
-        startActivity(new Intent(getActivity(),
-                LoginActivity.class));
-        getActivity().finish();
+
+        while (!AppContext.getActivitiesStack().isEmpty()){
+            AppCompatActivity activity=AppContext.getActivitiesStack().pop();
+            if (activity instanceof LoginActivity){
+                continue;
+            }
+            activity.finish();
+        }
     }
 
     @Override

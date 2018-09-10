@@ -48,7 +48,6 @@ public class RedAction extends BaseAction {
 
     @Override
     public void onClick() {
-
         Bundle bundle=new Bundle();
         String account=getAccount();
         bundle.putString(AppConstants.TRANSFER_ACCOUNT,account);

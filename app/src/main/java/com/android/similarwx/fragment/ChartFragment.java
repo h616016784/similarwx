@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.Toaster;
@@ -30,6 +31,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.business.uinfo.UserInfoHelper;
+import com.netease.nim.uikit.common.badger.Badger;
+import com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -45,6 +49,9 @@ import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +62,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ChartFragment extends BaseFragment {
+
+    // 置顶功能可直接使用，也可作为思路，供开发者充分利用RecentContact的tag字段
+    public static final long RECENT_TAG_STICKY = 1; // 联系人置顶tag
 
     @BindView(R.id.chart_rv)
     RecyclerView chartRv;
@@ -74,7 +84,6 @@ public class ChartFragment extends BaseFragment {
     private BaseQuickAdapter baseQuickAdapter;
     private List<RecentContact> list;
 
-    Handler mHandler;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,9 +127,9 @@ public class ChartFragment extends BaseFragment {
         baseQuickAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                List<RecentContact> list = baseQuickAdapter.getData();
-                if (list != null && list.size() > 0) {
-                    RecentContact recentContact = list.get(position);
+                List<RecentContact> personlist = baseQuickAdapter.getData();
+                if (personlist != null && personlist.size() > 0) {
+                    RecentContact recentContact = personlist.get(position);
                     if (TextUtils.isEmpty(NimUIKit.getAccount())){
                         String accid= SharePreferenceUtil.getString(activity,AppConstants.USER_ACCID,"");
                         String token=SharePreferenceUtil.getString(activity,AppConstants.USER_TOKEN,"");
@@ -135,6 +144,13 @@ public class ChartFragment extends BaseFragment {
                         }
                     }
                 }
+            }
+        });
+        baseQuickAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                showLongClickMenu((RecentContact) baseQuickAdapter.getData().get(position),position);
+                return false;
             }
         });
     }
@@ -214,6 +230,7 @@ public class ChartFragment extends BaseFragment {
                                     }
                                 }
                             }
+                            list=baseQuickAdapter.getData();
                         }
                     }
                 });
@@ -244,6 +261,141 @@ public class ChartFragment extends BaseFragment {
             @Override
             public void onException(Throwable exception) {
                 Toaster.toastShort("登录异常");
+            }
+        });
+    }
+
+    private void showLongClickMenu(final RecentContact recent, final int position) {
+        CustomAlertDialog alertDialog = new CustomAlertDialog(getActivity());
+        alertDialog.setTitle(UserInfoHelper.getUserTitleName(recent.getContactId(), recent.getSessionType()));
+        String title = getString(R.string.main_msg_list_delete_chatting);
+        alertDialog.addItem(title, new CustomAlertDialog.onSeparateItemClickListener() {
+            @Override
+            public void onClick() {
+                // 删除会话，删除后，消息历史被一起删除
+                NIMClient.getService(MsgService.class).deleteRecentContact(recent);
+                NIMClient.getService(MsgService.class).clearChattingHistory(recent.getContactId(), recent.getSessionType());
+                baseQuickAdapter.remove(position);
+
+                postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshMessages(true);
+                    }
+                });
+            }
+        });
+
+        title = (isTagSet(recent, RECENT_TAG_STICKY) ? getString(R.string.main_msg_list_clear_sticky_on_top) : getString(R.string.main_msg_list_sticky_on_top));
+        alertDialog.addItem(title, new CustomAlertDialog.onSeparateItemClickListener() {
+            @Override
+            public void onClick() {
+                if (isTagSet(recent, RECENT_TAG_STICKY)) {
+                    removeTag(recent, RECENT_TAG_STICKY);
+                } else {
+                    addTag(recent, RECENT_TAG_STICKY);
+                }
+                NIMClient.getService(MsgService.class).updateRecent(recent);
+
+                refreshMessages(false);
+            }
+        });
+
+//        alertDialog.addItem("删除该聊天（仅服务器）", new CustomAlertDialog.onSeparateItemClickListener() {
+//            @Override
+//            public void onClick() {
+//                NIMClient.getService(MsgService.class)
+//                        .deleteRoamingRecentContact(recent.getContactId(), recent.getSessionType())
+//                        .setCallback(new RequestCallback<Void>() {
+//                            @Override
+//                            public void onSuccess(Void param) {
+//                                Toast.makeText(getActivity(), "delete success", Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            @Override
+//                            public void onFailed(int code) {
+//                                Toast.makeText(getActivity(), "delete failed, code:" + code, Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            @Override
+//                            public void onException(Throwable exception) {
+//
+//                            }
+//                        });
+//            }
+//        });
+        alertDialog.show();
+    }
+    private void addTag(RecentContact recent, long tag) {
+        tag = recent.getTag() | tag;
+        recent.setTag(tag);
+    }
+
+    private void removeTag(RecentContact recent, long tag) {
+        tag = recent.getTag() & ~tag;
+        recent.setTag(tag);
+    }
+    private boolean isTagSet(RecentContact recent, long tag) {
+        return (recent.getTag() & tag) == tag;
+    }
+    private void refreshMessages(boolean unreadChanged) {
+        sortRecentContacts(list);
+        baseQuickAdapter.notifyDataSetChanged();
+
+        if (unreadChanged) {
+
+            // 方式一：累加每个最近联系人的未读（快）
+
+            int unreadNum = 0;
+            for (RecentContact r : list) {
+                unreadNum += r.getUnreadCount();
+            }
+
+            // 方式二：直接从SDK读取（相对慢）
+            //int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+
+//            if (callback != null) {
+//                callback.onUnreadCountChange(unreadNum);
+//            }
+
+            Badger.updateBadgerCount(unreadNum);
+        }
+    }
+    /**
+     * **************************** 排序 ***********************************
+     */
+    private void sortRecentContacts(List<RecentContact> list) {
+        if (list.size() == 0) {
+            return;
+        }
+        Collections.sort(list, comp);
+    }
+    private static Comparator<RecentContact> comp = new Comparator<RecentContact>() {
+
+        @Override
+        public int compare(RecentContact o1, RecentContact o2) {
+            // 先比较置顶tag
+            long sticky = (o1.getTag() & RECENT_TAG_STICKY) - (o2.getTag() & RECENT_TAG_STICKY);
+            if (sticky != 0) {
+                return sticky > 0 ? -1 : 1;
+            } else {
+                long time = o1.getTime() - o2.getTime();
+                return time == 0 ? 0 : (time > 0 ? -1 : 1);
+            }
+        }
+    };
+    protected final void postRunnable(final Runnable runnable) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                // validate
+                // TODO use getActivity ?
+                if (!isAdded()) {
+                    return;
+                }
+
+                // run
+                runnable.run();
             }
         });
     }

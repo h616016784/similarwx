@@ -177,6 +177,8 @@ public class SessionHelper {
             SessionCustomization.OptionsButton cloudMsgButton = new SessionCustomization.OptionsButton() {
                 @Override
                 public void onClick(Context context, View view, String sessionId) {
+
+
                     initPopuptWindow(context, view, sessionId, SessionTypeEnum.P2P);
                 }
             };
@@ -399,7 +401,19 @@ public class SessionHelper {
             SessionCustomization.OptionsButton cloudMsgButton = new SessionCustomization.OptionsButton() {
                 @Override
                 public void onClick(Context context, View view, String sessionId) {
-                    initPopuptWindow(context, view, sessionId, SessionTypeEnum.Team);
+                    EasyAlertDialogHelper.createOkCancelDiolag(context, null, "确定要清空吗？", true, new EasyAlertDialogHelper.OnDialogActionListener() {
+                        @Override
+                        public void doCancelAction() {
+
+                        }
+
+                        @Override
+                        public void doOkAction() {
+                            NIMClient.getService(MsgService.class).clearChattingHistory(sessionId, SessionTypeEnum.Team);
+                            MessageListPanelHelper.getInstance().notifyClearMessages(sessionId);
+                        }
+                    }).show();
+//                    initPopuptWindow(context, view, sessionId, SessionTypeEnum.Team);
                 }
             };
             cloudMsgButton.iconId = R.drawable.nim_ic_messge_history;
@@ -595,18 +609,18 @@ public class SessionHelper {
 //                    SearchMessageActivity.start(item.getContext(), item.getSessionId(), item.getSessionTypeEnum());
                     break;
                 case ACTION_CLEAR_MESSAGE:
-                    EasyAlertDialogHelper.createOkCancelDiolag(item.getContext(), null, "确定要清空吗？", true, new EasyAlertDialogHelper.OnDialogActionListener() {
-                        @Override
-                        public void doCancelAction() {
-
-                        }
-
-                        @Override
-                        public void doOkAction() {
-                            NIMClient.getService(MsgService.class).clearChattingHistory(item.getSessionId(), item.getSessionTypeEnum());
-                            MessageListPanelHelper.getInstance().notifyClearMessages(item.getSessionId());
-                        }
-                    }).show();
+//                    EasyAlertDialogHelper.createOkCancelDiolag(item.getContext(), null, "确定要清空吗？", true, new EasyAlertDialogHelper.OnDialogActionListener() {
+//                        @Override
+//                        public void doCancelAction() {
+//
+//                        }
+//
+//                        @Override
+//                        public void doOkAction() {
+//                            NIMClient.getService(MsgService.class).clearChattingHistory(item.getSessionId(), item.getSessionTypeEnum());
+//                            MessageListPanelHelper.getInstance().notifyClearMessages(item.getSessionId());
+//                        }
+//                    }).show();
                     break;
             }
         }

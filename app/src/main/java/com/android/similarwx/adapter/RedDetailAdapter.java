@@ -60,11 +60,11 @@ public class RedDetailAdapter extends BaseQuickAdapter<RedDetialBean,BaseViewHol
         if (!TextUtils.isEmpty(imageUrl)){
             NetImageUtil.glideImageNormal(mContext,imageUrl,(ImageView) helper.getView(R.id.item_red_detail_iv));
         }
-        boolean isLucky=item.isLucky();
+        boolean isLucky=item.isBestHand();
         if (isLucky){
-            helper.setGone(R.id.item_red_detail_shouqi_tv,true);
+            helper.setGone(R.id.item_red_detail_shouqi_rl,true);
         }else{
-            helper.setGone(R.id.item_red_detail_shouqi_tv,false);
+            helper.setGone(R.id.item_red_detail_shouqi_rl,false);
         }
     }
 }

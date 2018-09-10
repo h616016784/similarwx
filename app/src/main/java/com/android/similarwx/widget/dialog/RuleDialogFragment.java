@@ -116,7 +116,7 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
                 simpleName.show();
                 break;
             case R.id.dialog_create_group_rule_grab_rl:
-                EditDialogSimple simpleNum=new EditDialogSimple(getActivity(),"奖励数字");
+                EditDialogSimple simpleNum=new EditDialogSimple(getActivity(),"奖励数字",1);
                 simpleNum.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
                     public void onClickListener(String text){
@@ -129,7 +129,7 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
                 simpleNum.show();
                 break;
             case R.id.dialog_create_group_rule_get_rl:
-                EditDialogSimple simpleAmount=new EditDialogSimple(getActivity(),"奖励金额");
+                EditDialogSimple simpleAmount=new EditDialogSimple(getActivity(),"奖励金额",1);
                 simpleAmount.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
                     public void onClickListener(String text){

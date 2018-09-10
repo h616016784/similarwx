@@ -104,6 +104,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
         sendRedCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         sendRedSumEt.addTextChangedListener(textWatcher);
         sendRedLeiEt.addTextChangedListener(leiWatcher);
+        sendRedDescripTv.addTextChangedListener(scripWatcher);
     }
 
     @Override
@@ -247,9 +248,6 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
 //                sendRedSumEt.setText(String.format("%.2f", Double.parseDouble(s.toString())));
                 sendRedBt.setEnabled(true);
             }
-
-
-
         }
 
         @Override
@@ -286,6 +284,26 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
         }
     };
 
+    private TextWatcher scripWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String temp = s.toString();
+            int posDot = temp.length();
+            if (posDot > 15)
+            {
+                s.delete(posDot -1, posDot );
+            }
+        }
+    };
     @Override
     public void showErrorMessage(String err) {
 

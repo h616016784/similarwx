@@ -9,7 +9,6 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.Transfer;
 import com.android.similarwx.fragment.RechargeInputFragment;
-import com.android.similarwx.fragment.SendRedFragment;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.FragmentUtilsV4;
 import com.netease.nim.uikit.business.session.actions.BaseAction;

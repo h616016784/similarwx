@@ -260,7 +260,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         Bundle bundle=new Bundle();
                         if (mSendRedBean!=null){
                             //抢包成功、发送一个提示消息
-                            String isComplete=bena.getIsComplete();
+                            String isComplete=bena.getComplete();
 
                             if (TextUtils.isEmpty(isComplete)){
                                 flag=0;

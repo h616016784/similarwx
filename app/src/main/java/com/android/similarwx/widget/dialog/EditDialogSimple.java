@@ -2,7 +2,10 @@ package com.android.similarwx.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +27,7 @@ public class EditDialogSimple {
     private String title;
     private ConfirmClickListener mOnConfirmClickListener;
     private Dialog mDialog;
-    private int inputType=0;//0是默认 ，1是纯数字
+    private int inputType=0;//0是默认 ，1是带小数点的数，2是纯数字
     public EditDialogSimple(Context context,String title,int inputType){
         this.inputType=inputType;
         this.title=title;
@@ -70,8 +73,13 @@ public class EditDialogSimple {
         mConfirm=dialogView.findViewById(R.id.dialog_edit_confirm);
         mCancel=dialogView.findViewById(R.id.dialog_edit_cancel);
         mEditText=dialogView.findViewById(R.id.dialog_edit_in_et);
-        if (inputType==1)
+        if (inputType==1){
             mEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            mEditText.addTextChangedListener(textWatcher);
+        }
+
+        else if (inputType==2)
+            mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
         mTitle.setText(title);
         addListener();
     }
@@ -109,4 +117,26 @@ public class EditDialogSimple {
             mDialog=null;
         }
     }
+
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String temp = s.toString();
+            int posDot = temp.indexOf(".");
+            if (posDot <= 0) return;
+            if (temp.length() - posDot - 1 > 2)
+            {
+                s.delete(posDot + 3, posDot + 4);
+            }
+        }
+    };
 }

@@ -934,7 +934,7 @@ public class API implements APIConstants {
         map.put("userId",userId );
         if (!TextUtils.isEmpty(type))
             map.put("type",type );
-        map.put("startDate",startDate );
+        map.put("beginDate",startDate );
         map.put("endDate",endDate );
         map.put("page",page );
         map.put("rows",rows );
