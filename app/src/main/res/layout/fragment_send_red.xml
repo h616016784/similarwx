@@ -8,8 +8,11 @@
         android:id="@+id/send_red_count_read_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/distance_normal"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginRight="@dimen/distance_normal"
+        android:layout_marginTop="@dimen/distance_normal"
         android:background="@color/white"
+        android:visibility="gone"
         android:padding="@dimen/distance_small"
         >
         <TextView
@@ -44,6 +47,7 @@
         android:id="@+id/send_red_count_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_normal"
         android:layout_marginLeft="@dimen/distance_normal"
         android:layout_marginRight="@dimen/distance_normal"
         android:background="@color/white"

@@ -86,6 +86,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
     private User mUser;
     private String accountId;
     private SendRedPresent present;
+    private boolean isNetTrue=false;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_send_red;
@@ -121,6 +122,10 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
 
     @OnClick(R.id.send_red_bt)
     public void onViewClicked() {
+        if (!isNetTrue){
+            activity.finish();
+            return;
+        }
         String money=sendRedSumEt.getText().toString();
         if (TextUtils.isEmpty(money)){
             Toaster.toastShort("金额不能为空！");
@@ -312,6 +317,7 @@ public class SendRedFragment extends BaseFragment implements SendRedViewInterfac
     @Override
     public void reFreshSendRed(RspGroupInfo.GroupInfo groupInfo) {
         if (groupInfo!=null){
+            isNetTrue=true;
             listBean=groupInfo;
             String groupType = groupInfo.getGroupType();
             String gameType = groupInfo.getGameType();
