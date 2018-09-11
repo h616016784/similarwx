@@ -202,6 +202,16 @@ public class Util {
 
 		return null;
 	}
+
+	/**
+	 * 判断double是否是整数
+	 * @param obj
+	 * @return
+	 */
+	public static boolean isIntegerForDouble(double obj) {
+		double eps = 1e-10;  // 精度范围
+		return obj-Math.floor(obj) < eps;
+	}
 	/**
 	 * 实现文本复制功能
 	 * add by wangqianzhou

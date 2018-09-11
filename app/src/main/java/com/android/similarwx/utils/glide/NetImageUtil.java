@@ -7,6 +7,7 @@ import com.android.similarwx.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 
 /**
@@ -24,6 +25,20 @@ public class NetImageUtil {
 
         Glide.with(context)
                 .load(url)
+                .apply(options)
+                .into(imageView);
+    }
+    public static void glideImageNormalListener(Context context, String url, ImageView imageView, RequestListener requestListener){
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.pic_1_cs)
+                .error(R.drawable.nim_default_img_failed)
+                .priority(Priority.HIGH);
+//                .diskCacheStrategy(DiskCacheStrategy.NONE);
+
+        Glide.with(context)
+                .load(url)
+                .listener(requestListener)
                 .apply(options)
                 .into(imageView);
     }

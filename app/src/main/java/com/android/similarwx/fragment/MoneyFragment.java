@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -13,20 +14,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.Notice;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.utils.BitmapUtil;
 import com.android.similarwx.utils.FileUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.WXUtil;
 import com.android.similarwx.utils.glide.NetImageUtil;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -52,8 +61,12 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
     RelativeLayout myMoneyShareCircleRl;
     @BindView(R.id.my_money_iv)
     ImageView myMoneyIv;
+    @BindView(R.id.my_money_code_tv)
+    TextView myMoneyCodeTv;
+    @BindView(R.id.my_money_code_ll)
+    LinearLayout myMoneyCodeLL;
     Unbinder unbinder;
-
+    private User mUser;
 //    private BaseQuickAdapter adapter;
     private SysNoticePresent present;
     @Override
@@ -70,22 +83,7 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
         init();
     }
     private void init() {
-//        myMoneyRv.setLayoutManager(new LinearLayoutManager(activity));
-//        adapter=new BaseQuickAdapter<Notice,BaseViewHolder>(R.layout.item_notice,null){
-//
-//            @Override
-//            protected void convert(BaseViewHolder helper, Notice item) {
-//                String content=item.getContent();
-//                helper.setText(R.id.notice_item_title,item.getTitle());
-//                helper.setText(R.id.notice_item_time,item.getModifyDate());
-//                helper.setText(R.id.notice_item_content,item.getRemark());
-//                if (!TextUtils.isEmpty(content)){
-//                    String text= Html.fromHtml(content).toString();
-//                    helper.setText(R.id.notice_item_content_detail,text);
-//                }
-//            }
-//        };
-//        myMoneyRv.setAdapter(adapter);
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
         present.getMoney();
     }
 
@@ -139,7 +137,20 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
 
     @Override
     public void refreshSysMoney(String url) {
-        NetImageUtil.glideImageNormal(activity,url,myMoneyIv);
+        NetImageUtil.glideImageNormalListener(activity, url, myMoneyIv, new RequestListener() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+                myMoneyCodeLL.setVisibility(View.VISIBLE);
+                myMoneyCodeTv.setText(mUser.getInviter());
+                return false;
+            }
+        });
+
     }
 
     @Override

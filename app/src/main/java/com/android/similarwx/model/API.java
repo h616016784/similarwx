@@ -837,7 +837,7 @@ public class API implements APIConstants {
         });
     }
 
-    public void sendRed(String requestNum, String userId,String accid,String groupId,String amount,String type, String count,String thunder,final MIPresent present) {
+    public void sendRed(String requestNum, String userId,String accid,String groupId,String amount,String type, String count,String thunder,String content,final MIPresent present) {
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("requestNum",requestNum );
@@ -845,6 +845,8 @@ public class API implements APIConstants {
         map.put("groupId",groupId);
         map.put("amount",amount);
         map.put("type",type);
+        if (!TextUtils.isEmpty(content))
+            map.put("cotent",content );
         if (TextUtils.isEmpty(type)){
             map.put("count",count);
         }else {

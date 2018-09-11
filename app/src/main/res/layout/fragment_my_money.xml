@@ -10,9 +10,41 @@
         android:layout_weight="8">
         <ImageView
             android:id="@+id/my_money_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:layout_centerInParent="true"/>
+        <LinearLayout
+            android:id="@+id/my_money_code_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/distance_bigger"
+                android:textSize="@dimen/text_big_title"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="推荐码"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+
+            <TextView
+                android:id="@+id/my_money_code_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/distance_normal"
+                android:layout_marginBottom="@dimen/distance_bigger"
+                android:textSize="@dimen/text_big_title"
+                android:textColor="@color/black"
+                android:textStyle="italic"
+                android:text="02365" />
+        </LinearLayout>
+
 
     </RelativeLayout>
     <TextView

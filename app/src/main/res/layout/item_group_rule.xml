@@ -5,34 +5,23 @@
     android:padding="@dimen/distance_small"
     android:background="@color/white"
     android:orientation="horizontal">
-    <RelativeLayout
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/item_create_group_rule_name"
         android:layout_width="0dp"
-        android:layout_weight="1">
-        <TextView
-            android:id="@+id/item_create_group_rule_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:text="名称"
-            android:textSize="@dimen/text_content_or_button"
-            android:textColor="@color/gray"/>
-        <TextView
-            android:id="@+id/item_create_group_rule_remove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/distance_normal"
-            android:layout_centerVertical="true"
-            android:background="@drawable/selector_delete_group_rule"
-            android:layout_toLeftOf="@id/item_create_group_rule_name"
-            android:visibility="gone"/>
-    </RelativeLayout>
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:text="名称"
+        android:textSize="@dimen/text_content_or_button"
+        android:textColor="@color/gray"/>
+
 
     <TextView
         android:id="@+id/item_create_group_rule_grab"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:gravity="center"
@@ -42,11 +31,24 @@
     <TextView
         android:id="@+id/item_create_group_rule_get"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:gravity="center"
         android:text="奖励金额"
         android:textSize="@dimen/text_content_or_button"
         android:textColor="@color/gray"/>
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/item_create_group_rule_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_centerInParent="true"
+            android:background="@drawable/selector_delete_group_rule"/>
+    </RelativeLayout>
+
 </LinearLayout>

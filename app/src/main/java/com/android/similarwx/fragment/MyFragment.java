@@ -127,7 +127,7 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
             if (!TextUtils.isEmpty(url)){
                 NetImageUtil.glideImageNormalWithSize(activity,url,myBaseHeadIv,240,240);
             }
-            myBaseAccountTv.setText(mUser.getAccId());
+            myBaseAccountTv.setText(mUser.getId());
             //性别
             String gender=mUser.getGender();
             if (TextUtils.isEmpty(gender)){

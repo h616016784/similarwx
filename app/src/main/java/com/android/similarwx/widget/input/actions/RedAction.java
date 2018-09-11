@@ -14,9 +14,13 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.MultipleItem;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.fragment.SendRedFragment;
 import com.android.similarwx.fragment.SetPayPasswordFragment;
+import com.android.similarwx.inteface.SendRedViewInterface;
 import com.android.similarwx.misdk.model.CustomAttachment;
+import com.android.similarwx.present.SendRedPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.FragmentUtilsV4;
 import com.android.similarwx.utils.SharePreferenceUtil;
@@ -32,8 +36,10 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
  * Created by hanhuailong on 2018/4/9.
  */
 
-public class RedAction extends BaseAction {
+public class RedAction extends BaseAction implements SendRedViewInterface {
     private MessageFragment fromFragment;
+    private SendRedPresent present;
+    private String myAccid;
     /**
      * 构造函数
      *
@@ -44,14 +50,15 @@ public class RedAction extends BaseAction {
     public RedAction(MessageFragment fromFragment) {
         super(R.drawable.demo_reply_bar_hb, R.string.chart_red);
         this.fromFragment=fromFragment;
+        present=new SendRedPresent(this);
+
     }
 
     @Override
     public void onClick() {
-        Bundle bundle=new Bundle();
-        String account=getAccount();
-        bundle.putString(AppConstants.TRANSFER_ACCOUNT,account);
-        FragmentUtilsV4.navigateToNormalActivityForResult(fromFragment.getActivity(),new SendRedFragment(),bundle, makeRequestCode(AppConstants.SEND_RED_REQUEST));
+        myAccid= SharePreferenceUtil.getString(getActivity(),AppConstants.USER_ACCID,"");
+        present.getGroupByIdOrGroupId(myAccid,getAccount());
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -76,5 +83,21 @@ public class RedAction extends BaseAction {
         SessionTypeEnum sessionType=container.sessionType;
         return MessageBuilder.createCustomMessage(account, sessionType, "红包",
                 new CustomAttachment<RedDetailBean>(MultipleItem.ITEM_RED,redDetailBean));
+    }
+
+    @Override
+    public void showErrorMessage(String err) {
+
+    }
+
+    @Override
+    public void reFreshSendRed(RspGroupInfo.GroupInfo groupInfo) {
+        if (groupInfo!=null){
+            Bundle bundle=new Bundle();
+            String account=getAccount();
+            bundle.putString(AppConstants.TRANSFER_ACCOUNT,account);
+            bundle.putSerializable(AppConstants.TRANSFER_OBJECT,groupInfo);
+            FragmentUtilsV4.navigateToNormalActivityForResult(fromFragment.getActivity(),new SendRedFragment(),bundle, makeRequestCode(AppConstants.SEND_RED_REQUEST));
+        }
     }
 }

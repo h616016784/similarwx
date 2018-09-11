@@ -111,7 +111,7 @@
     <string name="chart_recharge">充值</string>
     <string name="chart_recharge_paopao">泡泡红包</string>
     <string name="chart_transfer">转账</string>
-    <string name="chart_cash">提现</string>
+    <string name="chart_cash">兑换</string>
     <string name="chart_service">在线客服</string>
 
     <!-- 红包详情界面-->
@@ -123,7 +123,7 @@
     <!-- 我的界面-->
     <string name="my_title">我</string>
     <string name="my_fen">总积分</string>
-    <string name="my_account">账号</string>
+    <string name="my_account">泡泡ID</string>
     <string name="my_code">推荐码</string>
     <string name="my_money">我要赚钱</string>
     <string name="my_player">我的玩家</string>

@@ -29,7 +29,8 @@ public class MIPresent extends BasePresent {
         this.mView=view;
     }
     public void sendRed(SendRed sendRed){
-        API.getInstance().sendRed(sendRed.getData().getRequestNum(),sendRed.getData().getUserId(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),sendRed.getData().getAmount(),sendRed.getData().getType(),sendRed.getData().getCount(),sendRed.getData().getThunder(),this);
+        API.getInstance().sendRed(sendRed.getData().getRequestNum(),sendRed.getData().getUserId(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),
+                sendRed.getData().getAmount(),sendRed.getData().getType(),sendRed.getData().getCount(),sendRed.getData().getThunder(),sendRed.getData().getCotent(),this);
     }
 
     public void canGrab(String redId){

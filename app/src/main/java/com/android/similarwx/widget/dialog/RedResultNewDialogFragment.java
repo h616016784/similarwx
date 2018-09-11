@@ -29,6 +29,7 @@ import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.Util;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -333,7 +334,11 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                     }else {
                         text=mSendRedBean.getThunder();
                     }
-                    dialog_red_result_tips_tv.setText(String.format("%.2f", Double.parseDouble(mSendRedBean.getAmount()))+"-"+text);
+                    if (Util.isIntegerForDouble(Double.parseDouble(mSendRedBean.getAmount()))){
+                        dialog_red_result_tips_tv.setText(mSendRedBean.getAmount()+"-"+text);
+                    }else {
+                        dialog_red_result_tips_tv.setText(String.format("%.2f", Double.parseDouble(mSendRedBean.getAmount()))+"-"+text);
+                    }
                 }
             } else if (code.equals("8889")){//红包已拆分完毕。
                 dialog_red_result_kai_tv.setVisibility(View.GONE);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -13,6 +14,8 @@ import com.android.similarwx.R;
 import com.android.similarwx.activity.RobotProfileActivity;
 import com.android.similarwx.activity.UserProfileActivity;
 import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.fragment.ClientDetailInfoFragment;
+import com.android.similarwx.utils.FragmentUtils;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.recent.RecentCustomization;
 import com.netease.nim.uikit.api.model.session.SessionCustomization;
@@ -474,7 +477,13 @@ public class SessionHelper {
                         return;
                     }
                 }
-                UserProfileActivity.start(context, message.getFromAccount());
+                if (message.getSessionType()==SessionTypeEnum.Team){
+                    Bundle bundle=new Bundle();
+                    bundle.putString(AppConstants.TRANSFER_ACCOUNT,message.getFromAccount());
+                    bundle.putString(AppConstants.TRANSFER_TEAMID,message.getSessionId());
+                    FragmentUtils.navigateToNormalActivity((Activity) context,new ClientDetailInfoFragment(),bundle);
+                }
+//                UserProfileActivity.start(context, message.getFromAccount());
             }
 
             @Override

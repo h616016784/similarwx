@@ -160,8 +160,8 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//                groupRuleList.remove(position);
-//                adapter.notifyDataSetChanged();
+                adapter.getData().remove(position);
+                adapter.notifyDataSetChanged();
             }
         });
         createGroupRuleRv.setNestedScrollingEnabled(false);

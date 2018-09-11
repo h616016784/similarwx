@@ -79,7 +79,7 @@
                     android:id="@+id/my_base_account_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/distance_big"
+                    android:layout_marginLeft="@dimen/distance_normal"
                     android:text="0.00"
                     />
             </LinearLayout>

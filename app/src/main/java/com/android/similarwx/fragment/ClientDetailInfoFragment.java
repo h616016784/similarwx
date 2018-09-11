@@ -16,17 +16,20 @@ import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.Notice;
 import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.inteface.ClientDetailInfoViewInterface;
+import com.android.similarwx.inteface.GroupInfoViewInterface;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.API;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.ClientDetailInfoPresent;
+import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
@@ -63,7 +66,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/11.
  */
 
-public class ClientDetailInfoFragment extends BaseFragment implements ClientDetailInfoViewInterface{
+public class ClientDetailInfoFragment extends BaseFragment implements ClientDetailInfoViewInterface, GroupInfoViewInterface {
 
     @BindView(R.id.client_detail_account_iv)
     ImageView clientDetailAccountIv;
@@ -89,6 +92,12 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
 
     ClientDetailInfoPresent mPresent;
     String rule;
+
+    private GroupInfoPresent groupInfoPresent;
+    String toAccid;
+    String fromAccid;
+    String teamId;
+    int flag=0;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_client_detail_info;
@@ -102,46 +111,58 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
         unbinder = ButterKnife.bind(this, contentView);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String accid = bundle.getString(AppConstants.TRANSFER_ACCOUNT);
+            String groupUserType = bundle.getString(AppConstants.TRANSFER_GROUP_USER_ROLE);//发起用户的群角色
             bean = (GroupUser.ListBean) bundle.getSerializable(AppConstants.TRANSFER_AWARDRULE);
-            if (bean != null) {
-                clientDetailNameTv.setText(bean.getUserName());
-                clientDetailAccountTv.setText(bean.getUserId());
+            if (bean != null) {//从群信息界面跳转过来的
+                initUserView(groupUserType,bean);
+            }else{//从聊天界面跳转过来的
+                toAccid= bundle.getString(AppConstants.TRANSFER_ACCOUNT);
+                fromAccid = SharePreferenceUtil.getString(activity,AppConstants.USER_ACCID,"");
+                teamId=bundle.getString(AppConstants.TRANSFER_TEAMID);
+                groupInfoPresent=new GroupInfoPresent(this);
+                groupInfoPresent.getGroupUser(teamId,toAccid);
             }
-            String groupUserType = bundle.getString(AppConstants.TRANSFER_GROUP_USER_ROLE);
-            rule=bean.getGroupUserRule();
-            if (TextUtils.isEmpty(groupUserType)){
-                clientDetailIdTv.setText("普通用户");
-            }else {
-                if(groupUserType.equals("1")){
-//                    clientDetailIdTv.setText("普通用户");
-                    if (rule.equals("1")){//两个都是普通用户
-                    }
-                }else{
+        }
+
+    }
+
+    /**
+     *
+     * @param groupUserType  操作者的角色
+     * @param bean      被操作人的信息
+     */
+    private void initUserView(String groupUserType, GroupUser.ListBean bean) {
+        clientDetailNameTv.setText(bean.getUserName());
+        clientDetailAccountTv.setText("泡泡ID: "+bean.getId());
+        rule=bean.getGroupUserRule();
+        if (rule.equals("1")){//
+            clientDetailIdTv.setText("普通用户");
+        }else if (rule.equals("2")){
+            clientDetailIdTv.setText("管理员");
+        }else if (rule.equals("3")){
+            clientDetailIdTv.setText("群主");
+        }else if (rule.equals("4")){
+            clientDetailIdTv.setText("系统用户");
+        }else if (rule.equals("1")){
+            clientDetailIdTv.setText("普通用户");
+        }
+        if (!TextUtils.isEmpty(groupUserType)){
+            if(!groupUserType.equals("1")){
+                if (rule.equals("1")){//普通用户
                     clientDetailIdRl.setVisibility(View.VISIBLE);
                     clientDetailSetRl.setVisibility(View.VISIBLE);
                     clientDetailQuitBt.setVisibility(View.VISIBLE);
-                    if (rule.equals("2")){
-                        clientDetailIdTv.setText("管理员");
-                    }else if (rule.equals("3")){
-                        clientDetailIdTv.setText("群主");
-                    }else if (rule.equals("4")){
-                        clientDetailIdTv.setText("系统用户");
-                    }else if (rule.equals("1")){
-                        clientDetailIdTv.setText("普通用户");
-                    }
-
-                }
-            }
-
-            //设置用户是否禁言
-            String state=bean.getUserStatus();
-            if (!TextUtils.isEmpty(state)){
-                if (state.equals("3")){
-                    clientDetailSetTv.setText("禁言");
                 }
             }
         }
+        //设置用户是否禁言
+        String state=bean.getUserStatus();
+        if (!TextUtils.isEmpty(state)){
+            if (state.equals("3")){
+                clientDetailSetTv.setText("禁言");
+            }
+        }
+
         initData();
     }
 
@@ -377,5 +398,28 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     @Override
     public void refreshDeleteUser() {
         activity.finish();
+    }
+
+    /**
+     * 通过id获取用户在群的权限等纤细
+     * @param groupUser
+     */
+    @Override
+    public void refreshUserlist(GroupUser groupUser) {
+        if (groupUser!=null){
+            if (flag==0){
+                bean=groupUser.getList().get(0);
+                groupInfoPresent.getGroupUser(teamId,fromAccid);
+                flag=1;
+            }else if (flag==1){//第二次的网络请求了
+                initUserView(groupUser.getList().get(0).getGroupUserRule(),bean);
+            }
+
+        }
+    }
+
+    @Override
+    public void refreshDeleteGroup() {
+
     }
 }

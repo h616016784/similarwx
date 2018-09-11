@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/distance_normal"
-                android:text="微信客服"
+                android:text="客服"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_sub_title"/>
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/distance_middle"
                 android:layout_marginLeft="@dimen/distance_normal"
-                android:text="账号："
+                android:text="泡泡ID："
                 android:textSize="@dimen/text_content_or_button"/>
         </LinearLayout>
     </LinearLayout>

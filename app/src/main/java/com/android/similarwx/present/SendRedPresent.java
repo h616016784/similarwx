@@ -22,8 +22,11 @@ public class SendRedPresent {
         if (rspGroupInfo!=null){
             String result=rspGroupInfo.getResult();
             if (result.equals("success")){
-                RspGroupInfo.GroupInfo groupInfo=rspGroupInfo.getData();
-                view.reFreshSendRed(groupInfo);
+                if (rspGroupInfo.getErrorCode().equals("0000")){
+                    RspGroupInfo.GroupInfo groupInfo=rspGroupInfo.getData();
+                    view.reFreshSendRed(groupInfo);
+                }else
+                    Toaster.toastShort(rspGroupInfo.getErrorMsg());
             }else {
                 Toaster.toastShort(rspGroupInfo.getErrorMsg());
             }
