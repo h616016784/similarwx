@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.BaseBean;
+import com.android.similarwx.beans.CanGrabBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.fragment.RedDetailFragment;
@@ -169,7 +170,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
     }
 
     @Override
-    public void canGrab(BaseBean bean) {
+    public void canGrab(CanGrabBean bean) {
         RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
         if (bean!=null) {
             String code = bean.getRetCode();

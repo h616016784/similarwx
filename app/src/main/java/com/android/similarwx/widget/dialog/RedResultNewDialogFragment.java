@@ -18,6 +18,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.BaseBean;
+import com.android.similarwx.beans.CanGrabBean;
 import com.android.similarwx.beans.RedDetialBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
@@ -315,7 +316,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
     }
 
     @Override
-    public void canGrab(BaseBean bean) {
+    public void canGrab(CanGrabBean bean) {
         if (bean!=null){
             String code = bean.getRetCode();
             if (code.equals("0000")) {

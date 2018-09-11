@@ -19,6 +19,7 @@ import com.android.similarwx.base.AndroidBug5497Workaround;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.BaseBean;
+import com.android.similarwx.beans.CanGrabBean;
 import com.android.similarwx.beans.CharImageBean;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.MIMultiItem;
@@ -509,7 +510,7 @@ public class MIFragmentNew extends BaseFragment implements ModuleProxy ,MiViewIn
     }
 
     @Override
-    public void canGrab(BaseBean bean) {
+    public void canGrab(CanGrabBean bean) {
         if (bean != null) {
             redResultDialogFragment=RedResultDialogFragment.show(activity, bean,tempSendRed, new RedResultDialogFragment.OnOpenClick() {
                 @Override

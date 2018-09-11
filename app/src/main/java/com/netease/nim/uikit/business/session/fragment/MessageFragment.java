@@ -12,6 +12,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.BaseBean;
+import com.android.similarwx.beans.CanGrabBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.Transfer;
 import com.android.similarwx.beans.response.RspGrabRed;
@@ -647,7 +648,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     }
 
     @Override
-    public void canGrab(BaseBean bean) {
+    public void canGrab(CanGrabBean bean) {
 
     }
     /**
