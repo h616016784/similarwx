@@ -1,6 +1,7 @@
 package com.android.similarwx.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -75,7 +76,10 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
     ImageView loginWxIv;
     private LoginPresent loginPresent;
 
-
+    public static void start(Activity context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v7.app.AppCompatActivity;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.activity.LoginActivity;
+import com.android.similarwx.activity.MainChartrActivity;
 import com.netease.nim.uikit.business.team.DemoCache;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
@@ -138,6 +142,19 @@ public class OnlineStateEventManager {
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(new Observer<StatusCode>() {
             @Override
             public void onEvent(StatusCode statusCode) {
+                if (statusCode==StatusCode.KICKOUT) {
+                    // 被踢出
+                    Toaster.toastShort("用户在其他设备上登录！！！！");
+                    while (!AppContext.getActivitiesStack().isEmpty()){
+                        AppCompatActivity activity=AppContext.getActivitiesStack().pop();
+                        if (activity instanceof LoginActivity){
+
+                        }else {
+                            activity.finish();
+                        }
+                    }
+                }
+
                 if (statusCode != StatusCode.LOGINED) {
                     return;
                 }

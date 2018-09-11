@@ -204,30 +204,29 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 break;
             case R.id.dialog_red_result_bottom_tv:
 
-                Bundle bundle=new Bundle();
-                if (mSendRedBean!=null){
-                    bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
-                    bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
-                    bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
+                if (myAccid.equals(mSendRedBean.getMyUserId())){
+                    Bundle bundle=new Bundle();
+                    if (mSendRedBean!=null){
+                        bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
+                        bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
+                        bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
+                    }
+                    FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
+                    disMiss(getActivity());
+                }else {
+                    if (flag==1){
+                        Bundle bundle=new Bundle();
+                        if (mSendRedBean!=null){
+                            bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
+                            bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
+                            bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
+                        }
+                        FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
+                        disMiss(getActivity());
+                    }else {
+                        Toaster.toastShort(dialog_red_result_tips_tv.getText().toString());
+                    }
                 }
-                FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
-                disMiss(getActivity());
-//                if (myAccid.equals(mSendRedBean.getMyUserId())){
-//
-//                }else {
-//                    if (flag==1){
-//                        Bundle bundle=new Bundle();
-//                        if (mSendRedBean!=null){
-//                            bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
-//                            bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
-//                            bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
-//                        }
-//                        FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
-//                        disMiss(getActivity());
-//                    }else {
-//                        Toaster.toastShort("红包未抢完，不能查看详情！");
-//                    }
-//                }
                 break;
             case R.id.dialog_red_result_kai_tv://开红包
                 miPresent.grabRed(mSendRedBean.getRedPacId(),getActivity());
