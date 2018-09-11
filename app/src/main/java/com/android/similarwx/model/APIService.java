@@ -106,8 +106,10 @@ public interface APIService {
     @POST("sys/config")
     Call<RspConfig> getConfig(@QueryMap Map<String, String> map);
 
+    @FormUrlEncoded
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     @POST("redPac/send")
-    Call<RspSendRed> sendRed(@QueryMap Map<String, String> map);
+    Call<RspSendRed> sendRed(@FieldMap Map<String,String> map);
 
     @POST("redPac/canGrab")
     Call<RspCanGrab> canGrab(@QueryMap Map<String, String> map);

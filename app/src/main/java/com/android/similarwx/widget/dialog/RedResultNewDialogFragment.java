@@ -322,11 +322,12 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             if (code.equals("0000")) {
                 flag=1;
                 dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
-                if (myAccid.equals(mSendRedBean.getMyUserId())){
-                    dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
-                }else {
-                    dialog_red_result_bottom_tv.setVisibility(View.GONE);
-                }
+                dialog_red_result_bottom_tv.setVisibility(View.GONE);
+//                if (myAccid.equals(mSendRedBean.getMyUserId())){
+//                    dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+//                }else {
+//
+//                }
                 if (mSendRedBean!=null){
                     String text=null;
                     if (TextUtils.isEmpty(mSendRedBean.getThunder())){
