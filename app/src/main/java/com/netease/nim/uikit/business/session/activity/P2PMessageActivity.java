@@ -54,8 +54,8 @@ public class P2PMessageActivity extends BaseMessageActivity implements SysNotice
     ClientDetailInfoPresent mPresent;
     Timer timer ;
     TimerTask alarmTask ;
-    private boolean myIsNormal=true;
-    private boolean youIsNormal=true;
+    public boolean myIsNormal=true;
+    public boolean youIsNormal=true;
     public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
@@ -305,7 +305,7 @@ public class P2PMessageActivity extends BaseMessageActivity implements SysNotice
                         sysNoticePresent.getConfig();
                     }
                 };
-                timer.schedule(alarmTask,10*60*1000,10*60*1000);//10分钟后每隔10分钟执行一次
+                timer.schedule(alarmTask,10,10*60*1000);//10分钟后每隔10分钟执行一次
 
             }else {
                 youIsNormal=false;

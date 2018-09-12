@@ -36,6 +36,7 @@ import com.android.similarwx.widget.InputPasswordDialog;
 import com.bumptech.glide.Glide;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -63,6 +64,9 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     ClientDetailInfoPresent present;
     Unbinder unbinder;
     private User mUser;
+    private boolean my=false;
+    private boolean you=false;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_recharge_input;
@@ -71,13 +75,18 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
-        account= getArguments().getString(AppConstants.TRANSFER_ACCOUNT);
-        unbinder = ButterKnife.bind(this, contentView);
-        mPresent=new RechargePresent(this);
-        present=new ClientDetailInfoPresent(this);
-        present.getUserInfoByParams("",account);
-        mActionbar.setTitle("转账");
-        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+        Bundle bundle=getArguments();
+        if (bundle!=null){
+            account= bundle.getString(AppConstants.TRANSFER_ACCOUNT);
+            my=bundle.getBoolean(AppConstants.TRANSFER_BASE);
+            you=bundle.getBoolean(AppConstants.TRANSFER_ISHOST);
+            unbinder = ButterKnife.bind(this, contentView);
+            mPresent=new RechargePresent(this);
+            present=new ClientDetailInfoPresent(this);
+            present.getUserInfoByParams("",account);
+            mActionbar.setTitle("转账");
+            mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+        }
     }
 
     @Override
@@ -92,6 +101,15 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
         if (TextUtils.isEmpty(money)){
             Toaster.toastShort("转账金额不能为空！");
             return;
+        }
+        String transfer= AppConstants.USER_TRANSFER;
+        if (!TextUtils.isEmpty(transfer)){
+            if (transfer.equals("1")){
+                if (my && you){
+                    Toaster.toastShort("已禁止转账！");
+                    return ;
+                }
+            }
         }
         if (!TextUtils.isEmpty(id)){
             InputPasswordDialog dialog=InputPasswordDialog.newInstance("转账", money, new InputPasswordDialog.OnInputFinishListener() {

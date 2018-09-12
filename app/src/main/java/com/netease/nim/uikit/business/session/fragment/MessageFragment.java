@@ -1,8 +1,11 @@
 package com.netease.nim.uikit.business.session.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +48,7 @@ import com.netease.nim.uikit.business.session.actions.BaseAction;
 import com.netease.nim.uikit.business.session.actions.ImageAction;
 import com.netease.nim.uikit.business.session.actions.LocationAction;
 import com.netease.nim.uikit.business.session.actions.VideoAction;
+import com.netease.nim.uikit.business.session.activity.P2PMessageActivity;
 import com.netease.nim.uikit.business.session.constant.Extras;
 import com.netease.nim.uikit.business.session.module.Container;
 import com.netease.nim.uikit.business.session.module.ModuleProxy;
@@ -104,7 +108,6 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
     private int sound=0;
     Container container;
     IMMessage anchor;
-
     private ImmersionBar mImmersionBar;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -122,6 +125,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
                 .statusBarColor(R.color.colorPrimary)
                 .init();
         miPresent=new MIPresent(this);
+
         gson=new Gson();
         sound=SharePreferenceUtil.getInt(getActivity(),AppConstants.USER_SOUND_SET);
         rootView = inflater.inflate(R.layout.nim_message_fragment_hhl, container, false);
@@ -295,8 +299,15 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             if (!TextUtils.isEmpty(transfer)){
                 if (transfer.equals("1")){
                     if (message.getMsgType()==MsgTypeEnum.custom){
-                        Toaster.toastShort("已禁止转账！");
-                        return false;
+                        FragmentActivity activity=getActivity();
+                        if (activity instanceof P2PMessageActivity){
+                            boolean my=((P2PMessageActivity)activity).myIsNormal;
+                            boolean you=((P2PMessageActivity)activity).youIsNormal;
+                            if (my && you){
+                                Toaster.toastShort("已禁止转账！");
+                                return false;
+                            }
+                        }
                     }
                 }
             }
@@ -304,8 +315,15 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             if (!TextUtils.isEmpty(personChat)){
                 if (personChat.equals("1")){
                     if (!(message.getMsgType()==MsgTypeEnum.custom)){
-                        Toaster.toastShort("已禁言！");
-                        return false;
+                        FragmentActivity activity=getActivity();
+                        if (activity instanceof P2PMessageActivity){
+                            boolean my=((P2PMessageActivity)activity).myIsNormal;
+                            boolean you=((P2PMessageActivity)activity).youIsNormal;
+                            if (my && you){
+                                Toaster.toastShort("已禁止私聊！");
+                                return false;
+                            }
+                        }
                     }
                 }
             }
@@ -366,8 +384,15 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             if (!TextUtils.isEmpty(transfer)){
                 if (transfer.equals("1")){
                     if (message.getMsgType()==MsgTypeEnum.custom){
-                        Toaster.toastShort("已禁止转账！");
-                        return false;
+                        FragmentActivity activity=getActivity();
+                        if (activity instanceof P2PMessageActivity){
+                            boolean my=((P2PMessageActivity)activity).myIsNormal;
+                            boolean you=((P2PMessageActivity)activity).youIsNormal;
+                            if (my && you){
+                                Toaster.toastShort("已禁止转账！");
+                                return false;
+                            }
+                        }
                     }
                 }
             }
@@ -375,8 +400,15 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             if (!TextUtils.isEmpty(personChat)){
                 if (personChat.equals("1")){
                     if (!(message.getMsgType()==MsgTypeEnum.custom)){
-                        Toaster.toastShort("已禁言！");
-                        return false;
+                        FragmentActivity activity=getActivity();
+                        if (activity instanceof P2PMessageActivity){
+                            boolean my=((P2PMessageActivity)activity).myIsNormal;
+                            boolean you=((P2PMessageActivity)activity).youIsNormal;
+                            if (my && you){
+                                Toaster.toastShort("已禁止私聊！");
+                                return false;
+                            }
+                        };
                     }
                 }
             }
