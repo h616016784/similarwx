@@ -85,8 +85,8 @@ public class P2PMessageActivity extends BaseMessageActivity implements SysNotice
             myIsNormal=false;
         }
         //获取用户信息
-        if (!TextUtils.isEmpty(mUser.getAccId()))
-            mPresent.getUserInfoByParams("",mUser.getAccId());
+//        if (!TextUtils.isEmpty(mUser.getAccId()))
+            mPresent.getUserInfoByParams("",sessionId);
 
         // 单聊特例话数据，包括个人信息，
         requestBuddyInfo();

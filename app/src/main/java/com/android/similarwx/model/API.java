@@ -1224,14 +1224,14 @@ public class API implements APIConstants {
         });
     }
     public void getConfig(String key, SysNoticePresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+//        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String, String> map = new HashMap<>();
         map.put("key", key);
         Call<RspConfig> call=apiService.getConfig(map);
         call.enqueue(new Callback<RspConfig>() {
             @Override
             public void onResponse(Call<RspConfig> call, Response<RspConfig> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+//                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
                 try {
                     RspConfig rspMoney=response.body();
                     present.analyzeConfig(rspMoney);
