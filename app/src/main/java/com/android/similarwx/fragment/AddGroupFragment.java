@@ -581,7 +581,20 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                     @Override
                     public void onConfirmClickListener(GroupRule groupRule) {
                         if (groupRule!=null){
-                            adapter.addData(groupRule);
+                            List<GroupRule>  list=adapter.getData();
+                            if (list.size()==0)
+                                adapter.addData(groupRule);
+                            else {
+                                boolean has=false;
+                                for (GroupRule groupRule1:list){
+                                    if (groupRule.getRewardValue().equals(groupRule1.getRewardValue())){
+                                        has=true;
+                                        Toaster.toastShort("规则已存在！");
+                                    }
+                                }
+                                if (!has)
+                                    adapter.addData(groupRule);
+                            }
                         }
                     }
                 });

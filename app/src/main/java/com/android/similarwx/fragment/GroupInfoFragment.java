@@ -191,21 +191,21 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
     private void initDataAndView() {
         if (listBean!=null){
             String groupUserRule= listBean.getGroupUserRule();
-            if (!TextUtils.isEmpty(groupUserRule)){
-                if (groupUserRule.equals("2") || groupUserRule.equals("3")){//群组或者管理员
-                    mActionbar.setRightText("编辑");
-                    mActionbar.setRightOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Bundle bundle=new Bundle();
-                            bundle.putSerializable(AppConstants.TRANSFER_GROUP_INFO,listBean);
-                            FragmentUtils.navigateToNormalActivity(activity, new AddGroupFragment(), bundle);
-                        }
-                    });
-                }else {
-                    mActionbar.setRightText("");
-                }
-            }
+//            if (!TextUtils.isEmpty(groupUserRule)){
+//                if (groupUserRule.equals("2") || groupUserRule.equals("3")){//群组或者管理员
+//                    mActionbar.setRightText("编辑");
+//                    mActionbar.setRightOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Bundle bundle=new Bundle();
+//                            bundle.putSerializable(AppConstants.TRANSFER_GROUP_INFO,listBean);
+//                            FragmentUtils.navigateToNormalActivity(activity, new AddGroupFragment(), bundle);
+//                        }
+//                    });
+//                }else {
+//                    mActionbar.setRightText("");
+//                }
+//            }
 
             groupInfoCodeIv.setText(listBean.getGroupId());
             groupInfoMemberNumTv.setText(""+listBean.getPx());

@@ -91,6 +91,7 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
         if (prev != null) {
             DialogFragment df = (DialogFragment) prev;
             df.dismiss();
+            transaction.popBackStack();
         }
     }
 
@@ -149,7 +150,7 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
                 if (TextUtils.isEmpty(name))
                     Toaster.toastShort("规则名称不能为空！");
                 if (TextUtils.isEmpty(grab))
-                    Toaster.toastShort("抢到金额不能为空！");
+                    Toaster.toastShort("奖励数字不能为空！");
                 if (TextUtils.isEmpty(back))
                     Toaster.toastShort("奖励金额不能为空！");
 
@@ -160,7 +161,7 @@ public class RuleDialogFragment extends DialogFragment implements View.OnClickLi
                 if (mClickListener!=null){
                     mClickListener.onConfirmClickListener(bean);
                 }
-                dismiss();
+                disMiss(getActivity());
                 break;
         }
     }
