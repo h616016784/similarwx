@@ -50,16 +50,16 @@ public class LoginPresent extends BasePresent {
     }
 
     public void logout(){
-        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"paopaotest1");
+        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"");
         API.getInstance().logout(userId,this);
     }
     public void getTotalBalance(){
-        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"paopaotest1");
+        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"");
         API.getInstance().getTotalBalance(userId,this);
     }
 
     public void setInvitationCode(String invitationCode) {
-        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"paopaotest1");
+        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"");
         API.getInstance().setInvitationCode(userId,invitationCode,this);
     }
     /**
@@ -225,10 +225,14 @@ public class LoginPresent extends BasePresent {
                     saveUser(user);
                 else
                     Toaster.toastShort("数据解析异常");
-            }else
+            }else{
                 Toaster.toastShort(rspUser.getErrorMsg());
+                loginViewInterface.showErrorMessage(rspUser.getErrorCode());
+            }
+
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
+            loginViewInterface.showErrorMessage(rspUser.getErrorCode());
         }
     }
     public void analyzeResLogout(RspUser rspUser) {

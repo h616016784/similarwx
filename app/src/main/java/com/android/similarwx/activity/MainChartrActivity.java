@@ -164,7 +164,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                         .setCancelButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                finish();
+                                finishApp();
                             }
                         })
                         .setConfirmButton(new EditDialogBuilder.ButtonClicker() {
@@ -189,6 +189,9 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 isNormal=false;
                 createGroupIv.setVisibility(View.VISIBLE);
             }
+        }else {
+            Toaster.toastShort("获取本地数据异常！");
+            finishApp();
         }
         initLoacalData();
 
@@ -593,12 +596,15 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             quit = true;
         } else { //确认退出程序
             super.onBackPressed();
-            while (!AppContext.getActivitiesStack().isEmpty()){
-                AppContext.getActivitiesStack().pop().finish();
-            }
+            finishApp();
         }
     }
 
+    public void finishApp(){
+        while (!AppContext.getActivitiesStack().isEmpty()){
+            AppContext.getActivitiesStack().pop().finish();
+        }
+    }
     @Override
     public void showErrorMessage(String err) {
         mainLoadRl.setVisibility(View.GONE);

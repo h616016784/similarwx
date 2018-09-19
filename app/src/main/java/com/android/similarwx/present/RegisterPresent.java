@@ -19,12 +19,16 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2018/3/31.
  */
 
 public class RegisterPresent extends BasePresent {
     RegisterViewInterface registerViewInterface;
+    private String password;
     public RegisterPresent(RegisterViewInterface registerViewInterface){
         this.registerViewInterface=registerViewInterface;
     }
@@ -40,6 +44,7 @@ public class RegisterPresent extends BasePresent {
      * @param nick
      */
     public void register(String account,String weixinAccount,String email,String name,String password,String confim,String nick,String birth,String gender,String alipay,String personalitySignature,String verifyCode){
+        this.password=password;
         if(isEmpty(account,name,password,confim,nick)){
             return;
         }
@@ -63,10 +68,15 @@ public class RegisterPresent extends BasePresent {
      * @param user
      */
     public void saveUser(User user){
+        if (user!=null){
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(),AppConstants.USER_OBJECT,user);
+        }
         if (user.getAccId()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccId());
         if (user.getToken()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,user.getToken());
+        else
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
         if (user.getName()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_NICK,user.getName());
         if (user.getEmail()!=null)
@@ -77,6 +87,18 @@ public class RegisterPresent extends BasePresent {
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_WEIXIN,user.getWechatAccount());
         if (user.getGender()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_SEX,user.getGender());
+        if (user.getId()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
+        if (user.getPaymentPasswd()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,user.getPaymentPasswd());
+        if (!TextUtils.isEmpty(password))
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);
+        Map<String,String> map=SharePreferenceUtil.getHashMapData(AppContext.getContext(),AppConstants.USER_MAP_OBJECT);
+        if (map==null){
+            map=new HashMap<>();
+            map.put("1","1");
+            SharePreferenceUtil.putHashMapData(AppContext.getContext(),AppConstants.USER_MAP_OBJECT,map);
+        }
         //云信登录
         LoginInfo loginInfo=new LoginInfo(user.getAccId(),user.getToken());
         doYunXinLogin(loginInfo,user);

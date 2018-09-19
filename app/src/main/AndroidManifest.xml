@@ -71,11 +71,11 @@
 
         <!--
    APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
-   如果 SDKOptions 中提供了，取 SDKOptions 中的值。
+   如果 SDKOptions 中提供了，取 SDKOptions 中的值。  android:value="5d0ef04ce6ab1fb459a051d381d734d0"
         -->
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="5d0ef04ce6ab1fb459a051d381d734d0" />
+            android:value="ff26842c991b02fa98e6661731ef4409" />
         <!-- 云信后台服务，请使用独立进程。 -->
         <service
             android:name="com.netease.nimlib.service.NimService"

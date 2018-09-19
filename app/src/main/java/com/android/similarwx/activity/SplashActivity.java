@@ -199,7 +199,7 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
 
     @Override
     public void showErrorMessage(String err) {
-
+        startActivity(new Intent(SplashActivity.this,LoginActivity.class));
     }
 
     @Override

@@ -140,8 +140,8 @@ public class API implements APIConstants {
                          String birth,String gender,String alipay,String personalitySignature,String verifyCode,final RegisterPresent present){
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
-//        if (!TextUtils.isEmpty(account))
-//            map.put("accId",account);
+        if (!TextUtils.isEmpty(account))
+            map.put("accId",account);
         if (!TextUtils.isEmpty(password))
             map.put("passwdStr",password);
         if (!TextUtils.isEmpty(nick))

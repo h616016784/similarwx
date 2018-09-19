@@ -147,7 +147,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
                     Toaster.toastShort("验证码不能为空！");
                     return;
                 }
-                registerPresent.register(account,weixinAccount,email,phone, psd, confirm,nick,null,null,null,null,code);
+                registerPresent.register(phone,weixinAccount,email,phone, psd, confirm,nick,null,null,null,null,code);
                 break;
         }
     }
