@@ -56,6 +56,8 @@ public class AppApplication extends BaseApplication {
         super.onCreate();
         mInstance=this;
         DemoCache.setContext(this);
+        StorageUtil.init(this, options().sdkStorageRootPath);
+        ScreenUtil.init(this);
 //        initYunXinSDK(this);
         initNIM(this);
     }

@@ -41,7 +41,7 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
 
     private CountDownTimer timer;
     PhoneVerifyPresent present;
-
+    private String type="";
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_phone_verify;
@@ -53,6 +53,7 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
         mActionbar.setTitle("验证");
         unbinder = ButterKnife.bind(this, contentView);
         present=new PhoneVerifyPresent(this);
+        type=getArguments().getString(AppConstants.TRANSFER_PASSWORD_TYPE);
         timer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -95,7 +96,7 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
                     Toaster.toastShort("验证码不能为空!");
                 else {
                     Bundle bundle=new Bundle();
-                    bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
+                    bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,type);
                     bundle.putString(AppConstants.TRANSFER_VERCODE,textCode);
                     FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
                 }

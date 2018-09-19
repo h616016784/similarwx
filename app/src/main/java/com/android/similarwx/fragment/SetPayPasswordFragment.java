@@ -19,6 +19,7 @@ import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.SetPasswordViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.present.SetPasswordPresent;
+import com.android.similarwx.utils.DigestUtil;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Strings.MD5;
 
@@ -157,7 +158,10 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
             if (type.equals(LOG_PSD)){
                 SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);
             }else {
+                password=DigestUtil.sha1(password);
                 SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,password);
+                muser.setPaymentPasswd(password);
+                SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(),AppConstants.USER_OBJECT,muser);
             }
             activity.finish();
         }

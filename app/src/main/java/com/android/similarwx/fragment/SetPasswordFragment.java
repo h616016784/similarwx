@@ -90,7 +90,9 @@ public class SetPasswordFragment extends BaseFragment {
                 showEditDialogPay();
                 break;
             case R.id.my_set_password_find_iv:
-                FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),null);
+                Bundle bundle=new Bundle();
+                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
+                FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),bundle);
                 break;
         }
     }
@@ -99,10 +101,10 @@ public class SetPasswordFragment extends BaseFragment {
         if(editDialogSimplePay==null)
             editDialogSimplePay=new EditDialogSimple(activity,"",1);
         if (TextUtils.isEmpty(muser.getPaymentPasswd())) {
-//                Bundle bundle=new Bundle();
-//                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
+            Bundle bundle=new Bundle();
+            bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
 //                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
-            FragmentUtils.navigateToNormalActivity(activity, new PhoneVerifyFragment(), null);
+            FragmentUtils.navigateToNormalActivity(activity, new PhoneVerifyFragment(), bundle);
         } else {
             editDialogSimplePay.setTitle(AppContext.getResources().getString(R.string.set_password_message));
             editDialogSimplePay.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
@@ -115,7 +117,7 @@ public class SetPasswordFragment extends BaseFragment {
                         if (DigestUtil.sha1(text).equals(myPayPassword)) {
                             Bundle bundle = new Bundle();
                             bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE, SetPayPasswordFragment.PAY_PSD);
-                            FragmentUtils.navigateToNormalActivity(activity, new SetPayPasswordFragment(), bundle);
+                            FragmentUtils.navigateToNormalActivity(activity, new PhoneVerifyFragment(), bundle);
                         } else
                             Toaster.toastShort("原支付密码不正确!");
                     }
@@ -139,7 +141,7 @@ public class SetPasswordFragment extends BaseFragment {
                 else {
                     Bundle bundle=new Bundle();
                     bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
-                    FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                    FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),bundle);
                 }
             }
         });

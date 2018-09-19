@@ -28,8 +28,9 @@ public class SetPasswordPresent {
             String result=rspGroup.getResult();
             if (result.equals("success")){
                 if (rspGroup.getErrorCode().equals("0000")){
-
                     mView.refreshSetPassword(rspGroup.getData());
+                }else {
+                    Toaster.toastShort(rspGroup.getErrorMsg());
                 }
             }else {
                 Toaster.toastShort(rspGroup.getErrorMsg());
