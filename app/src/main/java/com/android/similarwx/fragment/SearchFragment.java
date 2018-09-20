@@ -77,6 +77,7 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
     private SearchPresent searchPresent;
     private User mUser;
     private String userId;
+    private User tempUser;
 
     @Override
     protected int getLayoutResource() {
@@ -151,7 +152,8 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
                 }
                 break;
             case R.id.search_user_ll:
-
+                if (tempUser!=null)
+                    NimUIKit.startP2PSession(activity,tempUser.getAccId());
                 break;
         }
     }
@@ -237,11 +239,14 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
     @Override
     public void refreshSearchUser(User user) {
         if (user != null) {
+            tempUser=user;
             searchUserLl.setVisibility(View.VISIBLE);
             searchUserTv.setText(user.getName());
             String icon = user.getIcon();
             if (!TextUtils.isEmpty(icon)) {
                 NetImageUtil.glideImageNormal(activity, icon, searchUserIv);
+            }else {
+                searchUserIv.setImageResource(R.drawable.ease_default_image);
             }
         }
     }
