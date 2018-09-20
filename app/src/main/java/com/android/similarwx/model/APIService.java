@@ -92,6 +92,11 @@ public interface APIService {
     @POST("group/getGroupUserList")
     Call<RspGroupUser> getGroupUserList(@FieldMap Map<String,String> map);
 
+    @FormUrlEncoded
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
+    @POST("resUsers/searchByParams")
+    Call<RspUser> getUser(@FieldMap Map<String,String> map);
+
     @POST("group/getGroupUser")
     Call<RspGroupUser> getGroupUser(@QueryMap Map<String,String> map);
 

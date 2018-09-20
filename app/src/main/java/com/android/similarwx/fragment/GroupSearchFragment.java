@@ -14,6 +14,7 @@ import com.android.similarwx.adapter.HomeAdapter;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupUser;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.GroupInfoViewInterface;
 import com.android.similarwx.inteface.SearchViewInterface;
 import com.android.similarwx.inteface.YCallBack;
@@ -109,6 +110,11 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
 
     @Override
     public void refreshSearchUser() {
+
+    }
+
+    @Override
+    public void refreshSearchUser(User user) {
 
     }
 

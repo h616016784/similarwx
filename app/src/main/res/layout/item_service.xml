@@ -7,6 +7,7 @@
         android:id="@+id/service_item_iv"
         android:layout_marginTop="@dimen/distance_smaller"
         android:layout_marginBottom="@dimen/distance_smaller"
+        android:layout_marginLeft="@dimen/distance_normal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/pic_1_cs"
@@ -14,6 +15,7 @@
     <TextView
         android:id="@+id/service_item_content_tv"
         android:layout_marginTop="@dimen/distance_normal"
+        android:layout_marginLeft="@dimen/distance_smaller"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/service_item_content"

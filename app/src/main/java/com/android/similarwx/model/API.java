@@ -787,7 +787,30 @@ public class API implements APIConstants {
             }
         });
     }
+    public void getSearchUser(String params,final SearchPresent present) {
+        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+        Map<String,String> map=new HashMap<>();
+        if (!TextUtils.isEmpty(params))
+            map.put("params",params);
+        Call<RspUser> call=apiService.getUser(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                try {
+                    RspUser rspGroupUser=response.body();
+                    present.analyzeRes(rspGroupUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                noNetTips();
+            }
+        });
+    }
     public void getGroupByGroupId(String id,String groupId, final SendRedPresent present) {
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();

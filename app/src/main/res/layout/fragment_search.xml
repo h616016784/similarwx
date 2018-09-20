@@ -14,13 +14,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/distance_smaller"
             android:layout_marginLeft="@dimen/distance_small"
+            android:minWidth="@dimen/distance_big"
+            android:minHeight="@dimen/distance_big"
             android:src="@drawable/img_search"/>
         <EditText
             android:id="@+id/search_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/distance_middle"
-            android:layout_marginTop="@dimen/distance_smaller"
+            android:layout_marginTop="@dimen/distance_small"
             android:layout_toRightOf="@id/main_search_iv"
             android:background="@null"
             android:textSize="@dimen/text_content_or_button"
@@ -29,8 +31,39 @@
             />
     </LinearLayout>
     <include layout="@layout/include_divider"/>
+    <LinearLayout
+        android:id="@+id/search_user_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/normal_bloody_margin"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <RelativeLayout
 
-
+            android:layout_width="@dimen/distance_recycle_item"
+            android:layout_height="@dimen/distance_recycle_item"
+            android:layout_marginTop="@dimen/distance_smaller"
+            android:layout_marginRight="@dimen/distance_smaller"
+            android:layout_marginBottom="@dimen/distance_smaller"
+            android:layout_marginLeft="@dimen/distance_normal">
+            <ImageView
+                android:id="@+id/search_user_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ease_default_image"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/distance_small">
+            <TextView
+                android:id="@+id/search_user_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_notice"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_recyclerView"
         android:layout_marginTop="@dimen/distance_small"
