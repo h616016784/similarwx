@@ -3,12 +3,14 @@ package com.android.similarwx.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
@@ -83,7 +85,12 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
 
     @OnClick(R.id.player_iv)
     public void onViewClicked() {
-
+        String content = myPlayerEt.getText().toString();
+        if (TextUtils.isEmpty(content)) {
+            Toaster.toastShort("搜索内容不能为空！");
+            return;
+        }
+        present.getSubUsers(null, content, null, null);
     }
 
     @Override
@@ -94,6 +101,7 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
 
     @Override
     public void refreshSubUsers(List<SubUser> subUsers) {
+        adapter.getData().clear();
         if (subUsers != null) {
             adapter.addData(subUsers);
         }

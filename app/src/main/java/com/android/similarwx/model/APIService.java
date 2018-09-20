@@ -130,8 +130,11 @@ public interface APIService {
 
     @POST("trade/transfer")
     Call<RspTransfer> transfer(@QueryMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     @POST("trade/subUserList")
-    Call<RspSubUsers> subUserList(@QueryMap Map<String, String> map);
+    Call<RspSubUsers> subUserList(@FieldMap Map<String, String> map);
 
     @POST("redPac/list")
     Call<RspRedDetail> redDetailList(@QueryMap Map<String, String> map);
