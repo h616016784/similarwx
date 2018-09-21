@@ -64,7 +64,10 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
                 helper.setText(R.id.item_play_name_tv, item.getUserInfo().getName());
                 helper.setText(R.id.item_play_content_tv, item.getUserInfo().getId());
                 helper.setText(R.id.item_play_num_tv, "(" + item.getLevel() + ")");
-                helper.setText(R.id.item_play_back_tv, "返点总计 ¥ " + item.getReturnAmout());
+                String returnAmount=item.getReturnAmout();
+                if (TextUtils.isEmpty(returnAmount))
+                    returnAmount="0";
+                helper.setText(R.id.item_play_back_tv, "返点总计 ¥ " + returnAmount);
                 ImageView imageView = helper.getView(R.id.item_play_iv);
                 NetImageUtil.glideImageCircle(activity, item.getUserInfo().getIcon(), imageView);
             }

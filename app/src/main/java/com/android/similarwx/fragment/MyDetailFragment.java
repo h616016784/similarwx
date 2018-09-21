@@ -68,6 +68,8 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
     TextView myDetailEndTv;
     @BindView(R.id.my_detail_end_ll)
     LinearLayout myDetailEndLl;
+    @BindView(R.id.my_detail_zong_ll)
+    LinearLayout myDetailZongLl;
     @BindView(R.id.my_detail_sum_tv)
     TextView myDetailSumTv;
     @BindView(R.id.my_detail_class_tv)
@@ -87,6 +89,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
 //    public GroupMessageBean.ListBean listBean;
     private AcountPresent mPresent;
     String userId;
+    String transferId="";
     private int timeFlag=0;//0 表示开始时间，1表示结束时间
     private String mType;
     private String mStart;
@@ -107,21 +110,17 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new AcountPresent(this);
         Bundle bundle=getArguments();
+        userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
+        User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+        if (user!=null)
+            userFlag=user.getSystemFlg();
         if (bundle!=null){
-            String transferId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);
+            transferId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);
             if (TextUtils.isEmpty(transferId)){
-                userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
-                User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
-                if (user!=null)
-                    userFlag=user.getSystemFlg();
+                myDetailZongLl.setVisibility(View.VISIBLE);
             }else {
-                userId=transferId;
+                myDetailZongLl.setVisibility(View.GONE);
             }
-        }else {
-            userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
-            User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
-            if (user!=null)
-                userFlag=user.getSystemFlg();
         }
         mType=BillType.ALL.toString();
         iniData();
@@ -136,7 +135,15 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             protected void convert(BaseViewHolder helper, Bill.BillDetail item) {
                 String type=item.getTradeType();
                 helper.setText(R.id.item_my_detail_time_tv,item.getCreateDate());
-                String amount=String.format("%.2f", item.getAmount());
+                String amount;
+                if (TextUtils.isEmpty(transferId)){
+                    amount=String.format("%.2f", item.getAmount());
+                }else {
+                    if (TextUtils.isEmpty(item.getRebateAmount())){
+                        amount="0.00";
+                    }else
+                        amount=String.format("%.2f", item.getRebateAmount());
+                }
                 if (type.equals(BillType.ALL.toString())){
                     helper.setText(R.id.item_my_detail_name_tv,BillType.ALL.toName());
                 }else if (type.equals(BillType.GRAP_PACKAGE.toString())){ //红包领取
@@ -217,7 +224,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             @Override
             public void onLoadMoreRequested() {
                 page++;
-                mPresent.getAcountList(userId,mType.toString(),mStart,mEnd,page+"",rows+"");
+                mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
             }
         },myDetailRv);
         myDetailRv.setAdapter(adapter);
@@ -240,7 +247,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         mStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(starTime);
         myDetailStartTv.setText(mStart);
         myDetailEndTv.setText(mEnd);
-        mPresent.getAcountList(userId, "".toString(),mStart,mEnd,page+"",rows+"");
+        mPresent.getAcountList(userId, "",transferId,mStart,mEnd,page+"",rows+"");
 
         pvTime=new TimePickerBuilder(activity, new OnTimeSelectListener() {
             @Override
@@ -255,7 +262,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 adapter.getData().clear();
                 page=1;
                 rows=20;
-                mPresent.getAcountList(userId,mType,mStart,mEnd,page+"",rows+"");
+                mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
             }
         }).build();
         //展示类别list
@@ -273,7 +280,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 mType=billTypeList.get(position).toString();
                 page=1;
                 rows=20;
-                mPresent.getAcountList(userId,mType.toString(),mStart,mEnd,page+"",rows+"");
+                mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
                 if (listPopupWindow!=null){
                     listPopupWindow.dismiss();
                 }

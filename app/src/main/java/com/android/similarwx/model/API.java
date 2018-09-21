@@ -953,12 +953,14 @@ public class API implements APIConstants {
         });
     }
 
-    public void getBill(String userId,String type,String startDate,String endDate,String page,String rows,AcountPresent present){
+    public void getBill(String userId,String type,String rebateToUserId,String startDate,String endDate,String page,String rows,AcountPresent present){
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         if (!TextUtils.isEmpty(type))
             map.put("type",type );
+        if (!TextUtils.isEmpty(rebateToUserId))
+            map.put("rebateToUserId",rebateToUserId );
         map.put("beginDate",startDate );
         map.put("endDate",endDate );
         map.put("page",page );

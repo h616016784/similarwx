@@ -86,6 +86,23 @@ public class Bill extends BaseBean {
         private String userId;
         private boolean isSyncAccount;
         private String createDate;
+        private String rebateAmount;
+
+        public boolean isSyncAccount() {
+            return isSyncAccount;
+        }
+
+        public void setSyncAccount(boolean syncAccount) {
+            isSyncAccount = syncAccount;
+        }
+
+        public String getRebateAmount() {
+            return rebateAmount;
+        }
+
+        public void setRebateAmount(String rebateAmount) {
+            this.rebateAmount = rebateAmount;
+        }
 
         public String getTradeType() {
             return tradeType;
