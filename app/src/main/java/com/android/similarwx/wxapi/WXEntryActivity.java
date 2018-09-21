@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.primary.Log;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
@@ -18,6 +20,15 @@ import com.android.similarwx.model.API;
 import com.android.similarwx.model.WXAPI;
 import com.android.similarwx.present.WxPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.business.team.DemoCache;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -25,6 +36,9 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hanhuailong on 2018/7/18.
@@ -122,6 +136,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
             if (!TextUtils.isEmpty(unionId))
                 SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_WX_UNIONID,unionId);
         }
+        if (user!=null){
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(),AppConstants.USER_OBJECT,user);
+        }
         if (user.getAccId()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccId());
         if (user.getToken()!=null)
@@ -142,10 +159,63 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
         if (user.getPaymentPasswd()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,user.getPaymentPasswd());
-        if (user.getPasswd()!=null)
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,user.getPasswd());
-    }
 
+        Map<String,String> map=SharePreferenceUtil.getHashMapData(AppContext.getContext(),AppConstants.USER_MAP_OBJECT);
+        if (map==null){
+            map=new HashMap<>();
+            map.put("1","1");
+            SharePreferenceUtil.putHashMapData(AppContext.getContext(),AppConstants.USER_MAP_OBJECT,map);
+        }
+        //云信登录
+        LoginInfo loginInfo=new LoginInfo(user.getAccId(),user.getToken());
+        doYunXinLogin(loginInfo,user);
+    }
+    private void doYunXinLogin(LoginInfo loginInfo, final User user) {
+
+        NimUIKit.login(loginInfo, new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo param) {
+
+                NIMClient.getService(AuthService.class).openLocalCache(loginInfo.getAccount());
+
+                //跟新本地用户资料
+                doUpdateLocalYunxin(user);
+                DemoCache.setAccount(user.getAccId());
+                MainChartrActivity.start(WXEntryActivity.this);
+            }
+
+            @Override
+            public void onFailed(int code) {
+                if (code == 302 || code == 404) {
+                    Toaster.toastShort("登录失败");
+                } else {
+                    Toaster.toastShort("登录失败");
+                }
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                Toaster.toastShort("登录异常");
+            }
+        });
+    }
+    private void doUpdateLocalYunxin(User user) {
+        Map<UserInfoFieldEnum, Object> fields = new HashMap<>(1);
+        fields.put(UserInfoFieldEnum.Name, user.getName());//昵称
+        fields.put(UserInfoFieldEnum.AVATAR, user.getIcon());//头像
+        fields.put(UserInfoFieldEnum.SIGNATURE, user.getPersonalitySignature());//签名
+        fields.put(UserInfoFieldEnum.GENDER, user.getGender());//性别
+        fields.put(UserInfoFieldEnum.EMAIL, user.getEmail());//电子邮箱
+        fields.put(UserInfoFieldEnum.BIRTHDAY, user.getBirth());//生日
+        fields.put(UserInfoFieldEnum.MOBILE, user.getMobile());//手机
+        NIMClient.getService(UserService.class).updateUserInfo(fields)
+                .setCallback(new RequestCallbackWrapper<Void>() {
+                    @Override
+                    public void onResult(int code, Void result, Throwable exception) {
+                        Log.e("UserService.class","保存本地用户信息");
+                    }
+                });
+    }
     @Override
     public void showErrorMessage(String err) {
 
@@ -155,7 +225,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
     public void refreshWxLogin(User user) {
         if (user!=null){
             saveUser(user);
-            MainChartrActivity.start(this);
+
         }
     }
 
@@ -172,7 +242,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
                     public void callBack(User user) {
                         if (user!=null){
                             saveUser(user);
-                            MainChartrActivity.start(WXEntryActivity.this);
                         }
                     }
                 });

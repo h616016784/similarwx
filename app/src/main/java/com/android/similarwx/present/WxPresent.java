@@ -43,11 +43,17 @@ public class WxPresent extends BasePresent {
                     view.refreshWxLogin(user);
                 }else
                     Toaster.toastShort("数据解析异常");
+            }else if (rspUser.getErrorCode().equals("1111")){
+                User user=rspUser.getData();
+                if (user!=null){
+                    view.refreshWxUpdate(user);
+                }else
+                    Toaster.toastShort("数据解析异常");
             }else{
                 Toaster.toastShort(rspUser.getErrorMsg());
 //                doRigister(unionId);
             }
-        }else {
+        }else{
             Toaster.toastShort(rspUser.getErrorMsg());
         }
     }

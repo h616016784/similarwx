@@ -41,6 +41,8 @@ public class EditDialogBuilder {
         mConfirm = (TextView) mDialog.findViewById(R.id.confirm);
         mCancle = (TextView) mDialog.findViewById(R.id.cancel);
         mEditText = (EditText) mDialog.findViewById(R.id.dialog_et);
+        mDialog.setCancelable(false);
+        mDialog.setCanceledOnTouchOutside(false);
 
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override

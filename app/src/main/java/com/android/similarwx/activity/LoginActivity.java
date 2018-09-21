@@ -172,26 +172,27 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
     @Override
     public void loginScucces(User user) {
+        //之后跳转界面
+        MainChartrActivity.start(this);
         //判断是否有邀请码
-        String inviter=user.getInviter();
-        if (TextUtils.isEmpty(inviter)){
-            BaseDialog dialog=new  EditDialogBuilder(this)
-                    .setMessage("请输入邀请码")
-                    .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
-                        @Override
-                        public void onButtonClick(String str) {
-                            if (TextUtils.isEmpty(str))
-                                Toaster.toastShort("邀请码不能为空！");
-                            else
-                                doInputInviter(str);
-                        }
-                    })
-                    .create();
-            dialog.show();
-        }else {
-            //之后跳转界面
-            MainChartrActivity.start(this);
-        }
+//        String inviter=user.getInviter();
+//        if (TextUtils.isEmpty(inviter)){
+//            BaseDialog dialog=new  EditDialogBuilder(this)
+//                    .setMessage("请输入邀请码")
+//                    .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
+//                        @Override
+//                        public void onButtonClick(String str) {
+//                            if (TextUtils.isEmpty(str))
+//                                Toaster.toastShort("邀请码不能为空！");
+//                            else
+//                                doInputInviter(str);
+//                        }
+//                    })
+//                    .create();
+//            dialog.show();
+//        }else {
+//
+//        }
     }
 
     private void doInputInviter(String invitationCode) {

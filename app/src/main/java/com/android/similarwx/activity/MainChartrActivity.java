@@ -136,6 +136,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private NoticePresent noticePresent;
     private long tempMsgId=-1;
     private boolean isNormal=true;
+    BaseDialog dialog;
     public static void start(Activity context) {
         Intent intent = new Intent(context, MainChartrActivity.class);
         context.startActivity(intent);
@@ -159,15 +160,16 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             //判断是否有填写邀请码
             String inviter=mUser.getInviter();
             if (TextUtils.isEmpty(inviter)){
-                BaseDialog dialog=new EditDialogBuilder(this)
+                dialog=new EditDialogBuilder(this)
                         .setMessage("请输入邀请码")
                         .setCancelButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                dialog.dismiss();
                                 finishApp();
                             }
                         })
-                        .setConfirmButton(new EditDialogBuilder.ButtonClicker() {
+                        .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
                             @Override
                             public void onButtonClick(String str) {
                                 if (TextUtils.isEmpty(str))
@@ -719,6 +721,10 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     @Override
     public void refreshTotalBalance(User user) {
         if (user!=null){
+            if (dialog!=null){
+                dialog.dismiss();
+                dialog=null;
+            }
             SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
         }else {
             finish();

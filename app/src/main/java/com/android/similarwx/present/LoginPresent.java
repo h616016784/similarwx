@@ -13,6 +13,7 @@ import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.business.team.DemoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -121,8 +122,8 @@ public class LoginPresent extends BasePresent {
 
                 //跟新本地用户资料
                 doUpdateLocalYunxin(user);
+                DemoCache.setAccount(user.getAccId());
                 loginViewInterface.loginScucces(user);
-//                DemoCache.setAccount(account);
 //                saveLoginInfo(account, token);
 //
 //                // 初始化消息提醒配置
