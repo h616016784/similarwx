@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.BaseActivity;
+import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.request.ReqGroup;
 import com.android.similarwx.beans.response.BaseResponse;
 import com.android.similarwx.beans.response.RspAccountDetail;
@@ -406,12 +407,16 @@ public class API implements APIConstants {
             }
         });
     }
-    public void updateUserByWX(String name, String url, String gender, YCallBack callBack){
+    public void updateUserByWX(String id,String name, String url, String gender, YCallBack callBack){
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
-        map.put("name",name);
-        map.put("icon",url);
-        map.put("gender",gender);
+        map.put("id",id);
+        if (!TextUtils.isEmpty(name))
+            map.put("name",name);
+        if (!TextUtils.isEmpty(url))
+            map.put("icon",url);
+        if (!TextUtils.isEmpty(gender))
+            map.put("gender",gender);
 
         Call<RspUser> call=apiService.updateUser(map);
         call.enqueue(new Callback<RspUser>() {
@@ -420,7 +425,19 @@ public class API implements APIConstants {
                 LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
-                    callBack.callBack(rspUser);
+
+                    String result=rspUser.getResult();
+                    if (result.equals("success")){
+                        User user=rspUser.getData();
+                        if (user!=null){
+                            callBack.callBack(user);
+                        }
+                        else
+                            Toaster.toastShort("数据解析异常");
+                    }else {
+                        Toaster.toastShort(rspUser.getErrorMsg());
+                    }
+
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
                 }

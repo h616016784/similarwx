@@ -224,8 +224,16 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
     @Override
     public void refreshWxLogin(User user) {
         if (user!=null){
-            saveUser(user);
+            String id=user.getId();
+            API.getInstance().updateUserByWX(id,userInfoWXTemp.getNickname(), userInfoWXTemp.getHeadimgurl(), userInfoWXTemp.getSex() + "", new YCallBack<User>() {
 
+                @Override
+                public void callBack(User user) {
+                    if (user!=null){
+                        saveUser(user);
+                    }
+                }
+            });
         }
     }
 
@@ -236,7 +244,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
 //                user.setName(userInfoWXTemp.getNickname());
 //                user.setName(userInfoWXTemp.getSex()+"");
 //                user.setName(userInfoWXTemp.getHeadimgurl()+"");
-                API.getInstance().updateUserByWX(userInfoWXTemp.getNickname(), userInfoWXTemp.getHeadimgurl(), userInfoWXTemp.getSex() + "", new YCallBack<User>() {
+                String id=user.getId();
+                API.getInstance().updateUserByWX(id,userInfoWXTemp.getNickname(), userInfoWXTemp.getHeadimgurl(), userInfoWXTemp.getSex() + "", new YCallBack<User>() {
 
                     @Override
                     public void callBack(User user) {
