@@ -344,6 +344,12 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     public void onResult(boolean success, Team result, int code) {
                         if (success && result != null) {
                             if (result.isMyTeam()){//在群里面
+                                //清除本地痕迹
+                                Map<String,String> map=SharePreferenceUtil.getHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT);
+                                if (map!=null){
+                                    map.put(bean.getGroupId(),"");
+                                }
+                                SharePreferenceUtil.putHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT,map);
                                 NimUIKit.startTeamSession(MainChartrActivity.this, bean.getGroupId());
                             }else {
                                 //这回真的不在群里面了
@@ -419,6 +425,12 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     }
                 });
             }else {//在群里  直接进入
+                //清除本地痕迹
+                Map<String,String> map=SharePreferenceUtil.getHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT);
+                if (map!=null){
+                    map.put(bean.getGroupId(),"");
+                }
+                SharePreferenceUtil.putHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT,map);
                 NimUIKit.startTeamSession(this, bean.getGroupId());
             }
         }

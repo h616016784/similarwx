@@ -137,8 +137,11 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 helper.setText(R.id.item_my_detail_time_tv,item.getCreateDate());
                 String amount;
                 if (TextUtils.isEmpty(transferId)){
+                    helper.setGone(R.id.item_my_detail_name_right_tv,false);
                     amount=String.format("%.2f", item.getAmount());
                 }else {
+                    helper.setGone(R.id.item_my_detail_name_right_tv,true);
+                    helper.setText(R.id.item_my_detail_name_right_tv,item.getAmount()+"");
                     if (TextUtils.isEmpty(item.getRebateAmount())){
                         amount="0.00";
                     }else
