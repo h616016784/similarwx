@@ -104,7 +104,7 @@ public class SetPasswordFragment extends BaseFragment {
             Bundle bundle=new Bundle();
             bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
 //                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
-            FragmentUtils.navigateToNormalActivity(activity, new PhoneVerifyFragment(), bundle);
+            FragmentUtils.navigateToNormalActivity(activity, new SetPayPasswordFragment(), bundle);
         } else {
             editDialogSimplePay.setTitle(AppContext.getResources().getString(R.string.set_password_message));
             editDialogSimplePay.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
@@ -117,7 +117,7 @@ public class SetPasswordFragment extends BaseFragment {
                         if (DigestUtil.sha1(text).equals(myPayPassword)) {
                             Bundle bundle = new Bundle();
                             bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE, SetPayPasswordFragment.PAY_PSD);
-                            FragmentUtils.navigateToNormalActivity(activity, new PhoneVerifyFragment(), bundle);
+                            FragmentUtils.navigateToNormalActivity(activity, new SetPayPasswordFragment(), bundle);
                         } else
                             Toaster.toastShort("原支付密码不正确!");
                     }
@@ -141,7 +141,7 @@ public class SetPasswordFragment extends BaseFragment {
                 else {
                     Bundle bundle=new Bundle();
                     bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.LOG_PSD);
-                    FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),bundle);
+                    FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
                 }
             }
         });
