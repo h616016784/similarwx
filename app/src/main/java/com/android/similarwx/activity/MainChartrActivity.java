@@ -99,7 +99,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/1.
  */
 
-public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, LoginViewInterface, NoticeViewInterface, ReminderManager.UnreadNumChangedCallback {
+public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, NoticeViewInterface, ReminderManager.UnreadNumChangedCallback {
 
     Unbinder unbinder;
     @BindView(R.id.main_search_iv)
@@ -132,7 +132,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private List<PopMoreBean> listMore=null;
 
     private User mUser;
-    private LoginPresent loginPresent;
     private NoticePresent noticePresent;
     private long tempMsgId=-1;
     private boolean isNormal=true;
@@ -148,7 +147,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
         groupPresent = new GroupPresent(this);
-        loginPresent = new LoginPresent(this);
         noticePresent=new NoticePresent(this);
         initYunXinSystemMsgListener();
         registerMsgUnreadInfoObserver(true);
@@ -157,30 +155,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
 
         if (mUser!=null){
-            //判断是否有填写邀请码
-            String inviter=mUser.getInviter();
-            if (TextUtils.isEmpty(inviter)){
-                dialog=new EditDialogBuilder(this)
-                        .setMessage("请输入邀请码")
-                        .setCancelButton(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                                finishApp();
-                            }
-                        })
-                        .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
-                            @Override
-                            public void onButtonClick(String str) {
-                                if (TextUtils.isEmpty(str))
-                                    Toaster.toastShort("邀请码不能为空！");
-                                else
-                                    doInputInviter(str);
-                            }
-                        })
-                        .create();
-                dialog.show();
-            }
             int systemFlg=mUser.getSystemFlg();
             int adminFlg=mUser.getAdminFlg();
             int serviceFlg=mUser.getServiceFlg();
@@ -206,13 +180,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
         hideKeyboard();
     }
-
-
-
-    private void doInputInviter(String invitationCode) {
-        loginPresent.setInvitationCode(invitationCode);
-    }
-
     private void initYunXinSystemMsgListener() {
         NIMClient.getService(SystemMessageObserver.class)
                 .observeReceiveSystemMsg(new Observer<SystemMessage>() {
@@ -707,29 +674,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         Toaster.toastShort("申请成功，等待群主审批");
     }
 
-
-    @Override
-    public void loginScucces(User user) {
-
-    }
-
-    @Override
-    public void logoutScucces(User user) {
-
-    }
-
-    @Override
-    public void refreshTotalBalance(User user) {
-        if (user!=null){
-            if (dialog!=null){
-                dialog.dismiss();
-                dialog=null;
-            }
-            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
-        }else {
-            finish();
-        }
-    }
 
     @Override
     public void aggreeView(SystemMessage systemMessage) {

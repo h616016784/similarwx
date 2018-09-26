@@ -260,6 +260,11 @@ public class InputPasswordDialog extends DialogFragment implements View.OnClickL
 
     }
 
+    @Override
+    public void refreshDoYunxinLocal(User user) {
+
+    }
+
     public interface OnInputFinishListener {
         void onInputFinish(String password);
     }

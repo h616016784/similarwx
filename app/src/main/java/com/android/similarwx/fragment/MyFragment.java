@@ -260,6 +260,11 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
     }
 
     @Override
+    public void refreshDoYunxinLocal(User user) {
+
+    }
+
+    @Override
     public void refreshSysNotice(List<Notice> list) {
 
     }

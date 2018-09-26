@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.primary.Log;
@@ -11,15 +12,19 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.beans.AccToken;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.UserInfoWX;
+import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.WxViewInterface;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.API;
 import com.android.similarwx.model.WXAPI;
+import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.WxPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.widget.dialog.EditDialogBuilder;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.business.team.DemoCache;
 import com.netease.nimlib.sdk.NIMClient;
@@ -44,13 +49,15 @@ import java.util.Map;
  * Created by hanhuailong on 2018/7/18.
  */
 
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxViewInterface {
+public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxViewInterface, LoginViewInterface {
 
     private IWXAPI api;
     private WxPresent present;
     private UserInfoWX userInfoWXTemp;
 
     private String unionId;
+    private LoginPresent loginPresent;
+    BaseDialog dialog;
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -62,6 +69,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
         super.onCreate(savedInstanceState);
         api =  WXAPIFactory.createWXAPI(this, AppConstants.WX_APP_ID,false);
         present=new WxPresent(this);
+        loginPresent = new LoginPresent(this);
         try {
             api.handleIntent(getIntent(), this);
         } catch (Exception e) {
@@ -181,7 +189,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
                 //跟新本地用户资料
                 doUpdateLocalYunxin(user);
                 DemoCache.setAccount(user.getAccId());
-                MainChartrActivity.start(WXEntryActivity.this);
             }
 
             @Override
@@ -216,6 +223,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
                     }
                 });
     }
+    private void doInputInviter(String userId,String invitationCode) {
+        loginPresent.setInvitationCode(userId,invitationCode);
+    }
     @Override
     public void showErrorMessage(String err) {
 
@@ -223,14 +233,38 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
 
     @Override
     public void refreshWxLogin(User user) {
+        doNext(user);
+    }
+
+    private void doNext(User user) {
         if (user!=null){
             String id=user.getId();
             API.getInstance().updateUserByWX(id,userInfoWXTemp.getNickname(), userInfoWXTemp.getHeadimgurl(), userInfoWXTemp.getSex() + "", new YCallBack<User>() {
 
                 @Override
                 public void callBack(User user) {
-                    if (user!=null){
+                    //判断是否有邀请码
+                    String inviter=user.getInviter();
+                    if (TextUtils.isEmpty(inviter)){
+                        dialog=new EditDialogBuilder(WXEntryActivity.this)
+                                .setMessage("请输入邀请码")
+                                .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
+                                    @Override
+                                    public void onButtonClick(String str) {
+                                        if (TextUtils.isEmpty(str))
+                                            Toaster.toastShort("邀请码不能为空！");
+                                        else
+                                            doInputInviter(user.getId(),str);
+                                    }
+                                })
+                                .create();
+                        dialog.show();
+                    }else {
                         saveUser(user);
+                        if (dialog!=null)
+                            dialog.dismiss();
+                        //之后跳转界面
+                        startActivity(new Intent(WXEntryActivity.this, MainChartrActivity.class));
                     }
                 }
             });
@@ -239,22 +273,37 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
 
     @Override
     public void refreshWxUpdate(User user) {
-        if (user!=null){
-            if (userInfoWXTemp!=null){
-//                user.setName(userInfoWXTemp.getNickname());
-//                user.setName(userInfoWXTemp.getSex()+"");
-//                user.setName(userInfoWXTemp.getHeadimgurl()+"");
-                String id=user.getId();
-                API.getInstance().updateUserByWX(id,userInfoWXTemp.getNickname(), userInfoWXTemp.getHeadimgurl(), userInfoWXTemp.getSex() + "", new YCallBack<User>() {
-
-                    @Override
-                    public void callBack(User user) {
-                        if (user!=null){
-                            saveUser(user);
-                        }
-                    }
-                });
-            }
+        doNext(user);
+    }
+    public void finishApp(){
+        while (!AppContext.getActivitiesStack().isEmpty()){
+            AppContext.getActivitiesStack().pop().finish();
         }
+    }
+
+    @Override
+    public void loginScucces(User user) {
+
+    }
+
+    @Override
+    public void logoutScucces(User user) {
+
+    }
+
+    @Override
+    public void refreshTotalBalance(User user) {
+        if (user!=null){
+            saveUser(user);
+            if (dialog!=null)
+                dialog.dismiss();
+            //之后跳转界面
+            startActivity(new Intent(this, MainChartrActivity.class));
+        }
+    }
+
+    @Override
+    public void refreshDoYunxinLocal(User user) {
+
     }
 }

@@ -75,7 +75,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
     @BindView(R.id.login_wx_iv)
     ImageView loginWxIv;
     private LoginPresent loginPresent;
-
+    BaseDialog dialog;
     public static void start(Activity context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
@@ -172,31 +172,31 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
 
     @Override
     public void loginScucces(User user) {
-        //之后跳转界面
-        MainChartrActivity.start(this);
         //判断是否有邀请码
-//        String inviter=user.getInviter();
-//        if (TextUtils.isEmpty(inviter)){
-//            BaseDialog dialog=new  EditDialogBuilder(this)
-//                    .setMessage("请输入邀请码")
-//                    .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
-//                        @Override
-//                        public void onButtonClick(String str) {
-//                            if (TextUtils.isEmpty(str))
-//                                Toaster.toastShort("邀请码不能为空！");
-//                            else
-//                                doInputInviter(str);
-//                        }
-//                    })
-//                    .create();
-//            dialog.show();
-//        }else {
-//
-//        }
+        String inviter=user.getInviter();
+        if (TextUtils.isEmpty(inviter)){
+            dialog=new  EditDialogBuilder(this)
+                    .setMessage("请输入邀请码")
+                    .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
+                        @Override
+                        public void onButtonClick(String str) {
+                            if (TextUtils.isEmpty(str))
+                                Toaster.toastShort("邀请码不能为空！");
+                            else
+                                doInputInviter(user.getId(),str);
+                        }
+                    })
+                    .create();
+            dialog.show();
+        }else {
+            loginPresent.saveUser(user);
+            //之后跳转界面
+            startActivity(new Intent(this, MainChartrActivity.class));
+        }
     }
 
-    private void doInputInviter(String invitationCode) {
-        loginPresent.setInvitationCode(invitationCode);
+    private void doInputInviter(String userId,String invitationCode) {
+        loginPresent.setInvitationCode(userId,invitationCode);
     }
 
     @Override
@@ -207,10 +207,16 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
     @Override
     public void refreshTotalBalance(User user) {
         if (user!=null){
-            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
-            //之后跳转界面
-            startActivity(new Intent(this, MainChartrActivity.class));
+            loginPresent.saveUser(user);
         }
+    }
+
+    @Override
+    public void refreshDoYunxinLocal(User user) {
+        if (dialog!=null)
+            dialog.dismiss();
+        //之后跳转界面
+        startActivity(new Intent(this, MainChartrActivity.class));
     }
 
     private void sendLoginWx(String text){

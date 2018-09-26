@@ -119,7 +119,7 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
      */
     public void saveUser(User user){
         if (user!=null){
-            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT,user);
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(),AppConstants.USER_OBJECT,user);
         }
         if (user.getAccId()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccId());
@@ -141,8 +141,16 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
         if (user.getPaymentPasswd()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,user.getPaymentPasswd());
-        if (user.getPasswd()!=null)
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_LOGIN_PASSWORD,password);
+
+        Map<String,String> map=SharePreferenceUtil.getHashMapData(AppContext.getContext(),AppConstants.USER_MAP_OBJECT);
+        if (map==null){
+            map=new HashMap<>();
+            map.put("1","1");
+            SharePreferenceUtil.putHashMapData(AppContext.getContext(),AppConstants.USER_MAP_OBJECT,map);
+        }
+        //云信登录
+        LoginInfo loginInfo=new LoginInfo(user.getAccId(),user.getToken());
+        doYunXinLogin(loginInfo,user);
     }
     private void doUpdateLocalYunxin(User user) {
         Map<UserInfoFieldEnum, Object> fields = new HashMap<>(1);
@@ -161,7 +169,7 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
                     }
                 });
     }
-    private void doNimLogin(LoginInfo loginInfo, User user) {
+    private void doYunXinLogin(LoginInfo loginInfo, User user) {
         NimUIKit.login(loginInfo, new RequestCallback<LoginInfo>() {
             @Override
             public void onSuccess(LoginInfo param) {
@@ -205,14 +213,7 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
     @Override
     public void loginScucces(User user) {
         if (user!=null){
-            saveUser(user);
-
-            String accid=user.getAccId();
-            String token=user.getToken();
-            LoginInfo loginInfo=new LoginInfo(accid,token);
-
-            doNimLogin(loginInfo,user);
-
+            present.saveUser(user);
         }
     }
 
@@ -223,19 +224,27 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
 
     @Override
     public void refreshTotalBalance(User user) {
+        if (user!=null){
+            present.saveUser(user);
+        }
+    }
 
+    @Override
+    public void refreshDoYunxinLocal(User user) {
+        MainChartrActivity.start(SplashActivity.this);
     }
 
     @Override
     public void refreshWxLogin(User user) {
         if (user!=null){
             saveUser(user);
-            MainChartrActivity.start(this);
         }
     }
 
     @Override
     public void refreshWxUpdate(User user) {
-
+        if (user!=null){
+            saveUser(user);
+        }
     }
 }

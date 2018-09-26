@@ -59,8 +59,7 @@ public class LoginPresent extends BasePresent {
         API.getInstance().getTotalBalance(userId,this);
     }
 
-    public void setInvitationCode(String invitationCode) {
-        String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"");
+    public void setInvitationCode(String userId,String invitationCode) {
         API.getInstance().setInvitationCode(userId,invitationCode,this);
     }
     /**
@@ -123,7 +122,7 @@ public class LoginPresent extends BasePresent {
                 //跟新本地用户资料
                 doUpdateLocalYunxin(user);
                 DemoCache.setAccount(user.getAccId());
-                loginViewInterface.loginScucces(user);
+                loginViewInterface.refreshDoYunxinLocal(user);
 //                saveLoginInfo(account, token);
 //
 //                // 初始化消息提醒配置
@@ -223,7 +222,7 @@ public class LoginPresent extends BasePresent {
             if (rspUser.getErrorCode().equals("0000")){
                 User user=rspUser.getData();
                 if (user!=null)
-                    saveUser(user);
+                    loginViewInterface.loginScucces(user);
                 else
                     Toaster.toastShort("数据解析异常");
             }else{

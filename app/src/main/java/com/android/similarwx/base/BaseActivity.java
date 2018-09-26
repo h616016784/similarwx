@@ -235,7 +235,11 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
 
         unregister();
     }
-
+    public void finishApp(){
+        while (!AppContext.getActivitiesStack().isEmpty()){
+            AppContext.getActivitiesStack().pop().finish();
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
