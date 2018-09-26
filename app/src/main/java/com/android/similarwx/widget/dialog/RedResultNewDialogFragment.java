@@ -96,6 +96,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 //    IMMessage message;
     private String sessionId;
     int flag=0;//0是未抢完   1是抢完
+    int canFlag=0;//0能抢包
     String myAccid;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -215,7 +216,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                     FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
                     disMiss(getActivity());
                 }else {
-                    if (flag==1){
+                    if (canFlag==1){
                         Bundle bundle=new Bundle();
                         if (mSendRedBean!=null){
                             bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
@@ -224,7 +225,9 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         }
                         FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
                         disMiss(getActivity());
-                    }else {
+                    }else if (canFlag==0){
+                        Toaster.toastShort("您未抢包，不能查看详情");
+                    } else {
                         Toaster.toastShort(dialog_red_result_tips_tv.getText().toString());
                     }
                 }
@@ -320,9 +323,9 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         if (bean!=null){
             String code = bean.getRetCode();
             if (code.equals("0000")) {
-                flag=1;
+                canFlag=0;
                 dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
-                dialog_red_result_bottom_tv.setVisibility(View.GONE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
 //                if (myAccid.equals(mSendRedBean.getMyUserId())){
 //                    dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
 //                }else {
@@ -344,16 +347,16 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             } else if (code.equals("8889")){//红包已拆分完毕。
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
-                flag=1;
+                canFlag=1;
                 setErrorText(bean.getRetMsg());
             } else if (code.equals("9000")){//红包已过期退回。
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
-                flag=1;
+                canFlag=1;
                 setErrorText(bean.getRetMsg());
             } else {
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
-                flag=0;
+                canFlag=2;
                 setErrorText(bean.getRetMsg());
             }
 
