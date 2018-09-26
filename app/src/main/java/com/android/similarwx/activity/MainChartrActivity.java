@@ -58,7 +58,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.SimpleCallback;
+import com.netease.nim.uikit.api.model.team.TeamDataChangedObserver;
 import com.netease.nim.uikit.business.recent.TeamMemberAitHelper;
+import com.netease.nim.uikit.business.session.activity.TeamMessageActivity;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -151,6 +153,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         initYunXinSystemMsgListener();
         registerMsgUnreadInfoObserver(true);
         registerUserOnlineStatus(true);
+        registerTeamUpdateObserver(true);//注册群信息变化（主要是自己被踢出）
 //        requestSystemMessageUnreadCount();
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
 
@@ -269,9 +272,38 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         super.onDestroy();
         unbinder.unbind();
         registerUserOnlineStatus(false);
+        registerTeamUpdateObserver(false);
 //        listPopWindowHelper.destroy();
     }
 
+    private void registerTeamUpdateObserver(boolean register) {
+        NimUIKit.getTeamChangedObservable().registerTeamDataChangedObserver(teamDataChangedObserver, register);
+    }
+
+    /**
+     * 群资料变动通知和移除群的通知（包括自己退群和群被解散）
+     */
+    TeamDataChangedObserver teamDataChangedObserver = new TeamDataChangedObserver() {
+        @Override
+        public void onUpdateTeams(List<Team> teams) {
+
+        }
+
+        @Override
+        public void onRemoveTeam(Team team) {
+            if (team == null) {
+                return;
+            }
+            Log.e("MainChartActivity",team.getId());
+            //清除本地痕迹
+            Map<String,String> map=SharePreferenceUtil.getHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT);
+            if (map!=null){
+                map.put(team.getId(),"");
+            }
+            SharePreferenceUtil.putHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT,map);
+
+        }
+    };
     private void checkNet() {
         if (NetUtil.getAPNType(this)==0){//没有网络
             mainNeyRl.setVisibility(View.VISIBLE);

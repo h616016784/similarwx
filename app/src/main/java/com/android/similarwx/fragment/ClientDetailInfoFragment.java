@@ -147,8 +147,14 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
             clientDetailIdTv.setText("普通用户");
         }
         if (!TextUtils.isEmpty(groupUserType)){
-            if(!groupUserType.equals("1")){
+            if(groupUserType.equals("2")){
                 if (rule.equals("1")){//普通用户
+                    clientDetailIdRl.setVisibility(View.VISIBLE);
+                    clientDetailSetRl.setVisibility(View.VISIBLE);
+                    clientDetailQuitBt.setVisibility(View.VISIBLE);
+                }
+            } if(groupUserType.equals("3")){
+                if (rule.equals("1") || rule.equals("2")){//普通用户
                     clientDetailIdRl.setVisibility(View.VISIBLE);
                     clientDetailSetRl.setVisibility(View.VISIBLE);
                     clientDetailQuitBt.setVisibility(View.VISIBLE);
@@ -159,9 +165,9 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
         String state=bean.getUserStatus();
         if (!TextUtils.isEmpty(state)){
             if (state.equals("3")){
-                clientDetailSetTv.setText("禁言");
-            }
+            clientDetailSetTv.setText("禁言");
         }
+    }
 
         initData();
     }

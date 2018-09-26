@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.outbaselibrary.primary.Log;
 import com.android.similarwx.R;
+import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.inteface.GroupInfoViewInterface;
@@ -32,6 +34,7 @@ import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 群聊界面
@@ -176,9 +179,16 @@ public class TeamMessageActivity extends BaseMessageActivity implements GroupInf
             if (team == null) {
                 return;
             }
+            Log.e("TeamMessageActivity",team.getId());
             if (team.getId().equals(TeamMessageActivity.this.team.getId())) {
                 updateTeamInfo(team);
             }
+            //清除本地痕迹
+            Map<String,String> map=SharePreferenceUtil.getHashMapData(TeamMessageActivity.this,AppConstants.USER_MAP_OBJECT);
+            if (map!=null){
+                map.put(team.getId(),"");
+            }
+            SharePreferenceUtil.putHashMapData(TeamMessageActivity.this,AppConstants.USER_MAP_OBJECT,map);
         }
     };
 
