@@ -10,10 +10,43 @@
         android:background="@color/white"
         android:padding="@dimen/distance_smaller"
         android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/view_rl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/distance_small">
+
+            <TextView
+                android:id="@+id/view_base_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text_sub_title"
+                android:layout_marginLeft="@dimen/distance_small"
+                android:text="头像"/>
+
+            <TextView
+                android:id="@+id/view_base_right_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/text_sub_title"
+                android:layout_marginRight="@dimen/distance_big"
+                android:text=""/>
+            <ImageView
+                android:id="@+id/view_base_iv"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/default_member"/>
+        </RelativeLayout>
         <com.android.similarwx.widget.BaseItemView
             android:id="@+id/my_base_head_bv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
         <com.android.similarwx.widget.BaseItemView
             android:id="@+id/my_base_nikename_bv"
             android:layout_width="match_parent"

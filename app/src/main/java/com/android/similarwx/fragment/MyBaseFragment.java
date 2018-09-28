@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.outbaselibrary.utils.Toaster;
@@ -59,6 +60,8 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
     BaseItemView myBaseSexBv;
     @BindView(R.id.my_base_sign_bv)
     BaseItemView myBaseSignBv;
+    @BindView(R.id.view_base_iv)
+    ImageView viewBaseIv;
     Unbinder unbinder;
 
 
@@ -123,7 +126,7 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
             String icon= mUser.getIcon();
 
             if (!TextUtils.isEmpty(icon)){
-                NetImageUtil.glideImageNormalWithSize(activity,icon,myBaseHeadBv.getRightImageView(),240,240);
+                NetImageUtil.glideImageNormalWithSize(activity,icon,viewBaseIv,240,240);
             }
         }
     }

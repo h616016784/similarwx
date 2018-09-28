@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import java.util.Locale;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtil {
 
@@ -107,4 +109,13 @@ public class StringUtil {
         }
         return count;
     }
+    public static String replaceChar(String s){
+        String returnString;
+        String regs="([^\\u4e00-\\u9fa5\\w\\(\\)（）])+?";
+        Pattern pattern= Pattern.compile(regs);
+        Matcher matcher=pattern.matcher(s);
+        returnString = matcher.replaceAll("*");
+        return returnString;
+    }
+
 }

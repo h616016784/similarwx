@@ -62,6 +62,7 @@ import com.android.similarwx.present.SetPasswordPresent;
 import com.android.similarwx.present.SubUsersPresent;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.present.WxPresent;
+import com.android.similarwx.utils.Strings.StringUtil;
 import com.android.similarwx.widget.dialog.LoadingDialog;
 import com.android.similarwx.widget.dialog.LoadingDialogMy;
 import com.android.similarwx.widget.dialog.RedLoadingDialogFragment;
@@ -312,8 +313,10 @@ public class API implements APIConstants {
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
-        map.put("name",nick);
-
+        if (!TextUtils.isEmpty(nick)){
+            nick= StringUtil.replaceChar(nick);
+            map.put("name",nick);
+        }
         Call<RspUser> call=apiService.updateUser(map);
         call.enqueue(new Callback<RspUser>() {
             @Override
@@ -363,8 +366,10 @@ public class API implements APIConstants {
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
-        map.put("personalitySignature",personalitySignature);
-
+        if (!TextUtils.isEmpty(personalitySignature)){
+            personalitySignature= StringUtil.replaceChar(personalitySignature);
+            map.put("personalitySignature",personalitySignature);
+        }
         Call<RspUser> call=apiService.updateUser(map);
         call.enqueue(new Callback<RspUser>() {
             @Override
@@ -438,8 +443,10 @@ public class API implements APIConstants {
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
-        if (!TextUtils.isEmpty(name))
+        if (!TextUtils.isEmpty(name)){
+            name= StringUtil.replaceChar(name);
             map.put("name",name);
+        }
         if (!TextUtils.isEmpty(url))
             map.put("icon",url);
         if (!TextUtils.isEmpty(gender))
