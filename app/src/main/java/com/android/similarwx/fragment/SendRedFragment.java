@@ -281,8 +281,8 @@ public class SendRedFragment extends BaseFragment {
                 cancel_dialogBuilder.dismiss();
                 Bundle bundle=new Bundle();
                 bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
-                FragmentUtils.navigateToNormalActivity(activity,new PhoneVerifyFragment(),bundle);
-//                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                bundle.putInt(SetPayPasswordFragment.MOBILE,0);
+                FragmentUtils.navigateToNormalActivity(activity, new SetPayPasswordFragment(), bundle);
 //                activity.finish();
             }
         }).show();

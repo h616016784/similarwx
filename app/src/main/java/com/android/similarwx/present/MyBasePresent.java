@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.text.TextUtils;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.AppConstants;
@@ -34,7 +36,10 @@ public class MyBasePresent extends BasePresent {
         String id= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
         API.getInstance().updateUserByUrl(id,url,this);
     }
-
+    public void updateUserByPhone(String mobile){
+        String id= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
+        API.getInstance().updateUserByPhone(id,mobile,this);
+    }
     public void analyzeRes(RspUser rspUser) {
         String result=rspUser.getResult();
         if (result.equals("success")){
@@ -54,26 +59,29 @@ public class MyBasePresent extends BasePresent {
      * @param user
      */
     public void saveUser(User user) {
-        if (user != null) {
-            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(), AppConstants.USER_OBJECT, user);
+        if (user!=null){
+            SharePreferenceUtil.saveSerializableObjectDefault(AppContext.getContext(),AppConstants.USER_OBJECT,user);
         }
-        if (user.getAccId() != null)
-            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID, user.getAccId());
-        if (user.getToken() != null)
-            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_TOKEN, user.getToken());
+        if (user.getAccId()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ACCID,user.getAccId());
+        if (user.getToken()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,user.getToken());
         else
-            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_TOKEN, "a170417844a19c6bfebb4ab1a137fc31");
-        if (user.getName() != null)
-            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_NICK, user.getName());
-        if (user.getEmail() != null)
-            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_EMAIL, user.getEmail());
-        if (user.getMobile() != null)
-            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_PHONE, user.getMobile());
-        if (user.getWechatAccount() != null)
-            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_WEIXIN, user.getWechatAccount());
-        if (user.getGender() != null)
-            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_SEX, user.getGender());
-        if (user.getId() != null)
-            SharePreferenceUtil.putObject(AppContext.getContext(), AppConstants.USER_ID, user.getId());
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
+        if (user.getName()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_NICK,user.getName());
+        if (user.getEmail()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_EMAIL,user.getEmail());
+        if (user.getMobile()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PHONE,user.getMobile());
+        if (user.getWechatAccount()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_WEIXIN,user.getWechatAccount());
+        if (user.getGender()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_SEX,user.getGender());
+        if (user.getId()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_ID,user.getId());
+        if (user.getPaymentPasswd()!=null)
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_PAYPASSWORD,user.getPaymentPasswd());
+
     }
 }

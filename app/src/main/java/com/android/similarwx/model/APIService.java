@@ -30,6 +30,7 @@ import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUpdateUserStatus;
 import com.android.similarwx.beans.response.RspUser;
+import com.android.similarwx.beans.response.VerifyCodeResponse;
 
 import java.util.Map;
 
@@ -72,7 +73,7 @@ public interface APIService {
     Call<RspSetPassword> setPaymentPasswd(@QueryMap Map<String, String> map);
 
     @POST("resUsers/getMobileVerifyCode")
-    Call<BaseResponse> getMobileVerifyCode(@QueryMap Map<String,String> map);
+    Call<VerifyCodeResponse> getMobileVerifyCode(@QueryMap Map<String,String> map);
 
     @POST("resUsers/getCashUser")
     Call<RspCashUser> getCashUser(@QueryMap Map<String,String> map);

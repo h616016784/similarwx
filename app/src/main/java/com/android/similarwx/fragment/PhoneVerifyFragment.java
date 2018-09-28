@@ -15,9 +15,14 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.VerifyCodeResponse;
+import com.android.similarwx.inteface.MyBaseViewInterface;
 import com.android.similarwx.inteface.PhoneVerifyViewInterface;
+import com.android.similarwx.present.MyBasePresent;
 import com.android.similarwx.present.PhoneVerifyPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.SharePreferenceUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +33,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/14.
  */
 
-public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyViewInterface{
+public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyViewInterface, MyBaseViewInterface {
     @BindView(R.id.verify_phone_et)
     EditText verifyPhoneEt;
     @BindView(R.id.verify_code_et)
@@ -41,7 +46,10 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
 
     private CountDownTimer timer;
     PhoneVerifyPresent present;
+    MyBasePresent myBasePresent;
     private String type="";
+    private String verifyCode="";
+    User muser;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_phone_verify;
@@ -53,7 +61,9 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
         mActionbar.setTitle("验证");
         unbinder = ButterKnife.bind(this, contentView);
         present=new PhoneVerifyPresent(this);
+        myBasePresent=new MyBasePresent(this);
         type=getArguments().getString(AppConstants.TRANSFER_PASSWORD_TYPE);
+        muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
         timer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -95,22 +105,51 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
                 if (TextUtils.isEmpty(textCode))
                     Toaster.toastShort("验证码不能为空!");
                 else {
-                    Bundle bundle=new Bundle();
-                    bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,type);
-                    bundle.putString(AppConstants.TRANSFER_VERCODE,textCode);
-                    FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                    if (textCode.equals(verifyCode)){
+                        if (muser==null){
+                            Bundle bundle=new Bundle();
+                            bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,type);
+                            bundle.putString(AppConstants.TRANSFER_VERCODE,textCode);
+                            bundle.putString(SetPayPasswordFragment.MOBILENUMBER,verifyPhoneEt.getText().toString());
+                            bundle.putInt(SetPayPasswordFragment.MOBILE,1);
+                            FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                        }else {
+                            String mobile = muser.getMobile();
+                            if (TextUtils.isEmpty(mobile)){
+                                myBasePresent.updateUserByPhone(verifyPhoneEt.getText().toString());
+                            }else {
+                                Bundle bundle=new Bundle();
+                                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,type);
+                                bundle.putString(AppConstants.TRANSFER_VERCODE,textCode);
+                                bundle.putInt(SetPayPasswordFragment.MOBILE,1);
+                                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                            }
+                        }
+                    }
                 }
                 break;
         }
     }
 
     @Override
-    public void refreshGettMobileVerifyCode() {
+    public void refreshGettMobileVerifyCode(VerifyCodeResponse.VerifyCodeBean bean) {
         timer.start();
+        if (bean!=null){
+            verifyCode=bean.getVerifyCode();
+        }
     }
 
     @Override
     public void showErrorMessage(String err) {
         timer.cancel();
+    }
+
+    @Override
+    public void reFreshUser(User user) {
+        Bundle bundle=new Bundle();
+        bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,type);
+        bundle.putString(AppConstants.TRANSFER_VERCODE,verifyCodeEt.getText().toString());
+        bundle.putInt(SetPayPasswordFragment.MOBILE,1);
+        FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
     }
 }

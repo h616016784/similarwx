@@ -34,6 +34,8 @@ import butterknife.Unbinder;
 public class SetPayPasswordFragment extends BaseFragment implements SetPasswordViewInterface {
     public static final String LOG_PSD="loginPassword";
     public static final String PAY_PSD="payPassword";
+    public static final String MOBILE="mobile";
+    public static final String MOBILENUMBER="mobileNumber";
     Unbinder unbinder;
     @BindView(R.id.set_pay_password_et)
     EditText setPayPasswordEt;
@@ -43,6 +45,8 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
     SetPasswordPresent present;
     private String type="";
     private String code="";
+    private String mobileNumber="";
+    private int mobile=0;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_pay_password;
@@ -55,6 +59,8 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
         unbinder = ButterKnife.bind(this, contentView);
         type=getArguments().getString(AppConstants.TRANSFER_PASSWORD_TYPE);
         code=getArguments().getString(AppConstants.TRANSFER_VERCODE);
+        mobileNumber=getArguments().getString(MOBILENUMBER);
+        mobile=getArguments().getInt(MOBILE);
         if (!TextUtils.isEmpty(type)){
             if (type.equals(LOG_PSD)){
                 mActionbar.setTitle("设置登录密码");
@@ -94,12 +100,23 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                         Toaster.toastShort("密码长度不能大于6");
                         return;
                     }
-                    if (type.equals(LOG_PSD)){
-                        present.setPassword(muser.getMobile(),"",password,code);
+                    if (mobile==0){
+                        if (type.equals(LOG_PSD)){
+                            present.setPassword("",muser.getId(),"",password,"");
+                        }else {
+                            present.setPassword("",muser.getId(),password,"","");
+                        }
                     }else {
-                        present.setPassword(muser.getMobile(), password,"",code);
+                        if (TextUtils.isEmpty(mobileNumber)){
+                            if (type.equals(LOG_PSD)){
+                                present.setPassword(muser.getMobile(),"", "",password,"");
+                            }else {
+                                present.setPassword(muser.getMobile(),"", password,"",code);
+                            }
+                        }else {
+                            present.setPassword(mobileNumber,"", "",password,code);
+                        }
                     }
-
                 }
                 break;
         }

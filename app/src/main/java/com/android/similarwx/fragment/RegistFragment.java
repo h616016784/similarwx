@@ -17,6 +17,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.VerifyCodeResponse;
 import com.android.similarwx.inteface.PhoneVerifyViewInterface;
 import com.android.similarwx.inteface.RegisterViewInterface;
 import com.android.similarwx.present.PhoneVerifyPresent;
@@ -191,7 +192,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
     }
 
     @Override
-    public void refreshGettMobileVerifyCode() {
+    public void refreshGettMobileVerifyCode(VerifyCodeResponse.VerifyCodeBean bean) {
 
     }
 }

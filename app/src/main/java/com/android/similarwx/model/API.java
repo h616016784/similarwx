@@ -37,6 +37,7 @@ import com.android.similarwx.beans.response.RspTransfer;
 import com.android.similarwx.beans.response.RspUpdateGroupUser;
 import com.android.similarwx.beans.response.RspUpdateUserStatus;
 import com.android.similarwx.beans.response.RspUser;
+import com.android.similarwx.beans.response.VerifyCodeResponse;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.model.interceptor.LogInterceptor;
 import com.android.similarwx.present.AcountPresent;
@@ -332,6 +333,32 @@ public class API implements APIConstants {
             }
         });
     }
+
+    public void updateUserByPhone(String id, String mobile, MyBasePresent present){
+        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+        Map<String,String> map=new HashMap<>();
+        map.put("id",id);
+        map.put("mobile",mobile);
+
+        Call<RspUser> call=apiService.updateUser(map);
+        call.enqueue(new Callback<RspUser>() {
+            @Override
+            public void onResponse(Call<RspUser> call, Response<RspUser> response) {
+                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                try {
+                    RspUser rspUser=response.body();
+                    present.analyzeRes(rspUser);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspUser> call, Throwable t) {
+                noNetTips();
+            }
+        });
+    }
     public void updateUserBySign(String id, String personalitySignature, MyBasePresent present){
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
@@ -477,10 +504,13 @@ public class API implements APIConstants {
         });
     }
 
-    public void setPaymentPasswd(String mobile, String paymentPasswd, String passwdStr,String verifyCode, SetPasswordPresent present){
+    public void setPaymentPasswd(String mobile, String userId,String paymentPasswd, String passwdStr,String verifyCode, SetPasswordPresent present){
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
-        map.put("mobile",mobile);
+        if (!TextUtils.isEmpty(userId))
+            map.put("userId",userId);
+        if (!TextUtils.isEmpty(mobile))
+            map.put("mobile",mobile);
         if (!TextUtils.isEmpty(paymentPasswd))
             map.put("paymentPasswd",paymentPasswd);
         if (!TextUtils.isEmpty(passwdStr))
@@ -510,13 +540,13 @@ public class API implements APIConstants {
         LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("mobile",mobile);
-        Call<BaseResponse> call=apiService.getMobileVerifyCode(map);
-        call.enqueue(new Callback<BaseResponse>() {
+        Call<VerifyCodeResponse> call=apiService.getMobileVerifyCode(map);
+        call.enqueue(new Callback<VerifyCodeResponse>() {
             @Override
-            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+            public void onResponse(Call<VerifyCodeResponse> call, Response<VerifyCodeResponse> response) {
                 LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
                 try {
-                    BaseResponse rspGroup=response.body();
+                    VerifyCodeResponse rspGroup=response.body();
                     present.analyzeRes(rspGroup);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
@@ -524,7 +554,7 @@ public class API implements APIConstants {
             }
 
             @Override
-            public void onFailure(Call<BaseResponse> call, Throwable t) {
+            public void onFailure(Call<VerifyCodeResponse> call, Throwable t) {
                 noNetTips();
             }
         });

@@ -2,6 +2,7 @@ package com.android.similarwx.present;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.response.BaseResponse;
+import com.android.similarwx.beans.response.VerifyCodeResponse;
 import com.android.similarwx.inteface.PhoneVerifyViewInterface;
 import com.android.similarwx.model.API;
 
@@ -17,12 +18,13 @@ public class PhoneVerifyPresent {
     public void getMobileVerifyCode(String mobile){
         API.getInstance().getMobileVerifyCode(mobile,this);
     }
-    public void analyzeRes(BaseResponse baseResponse) {
+
+    public void analyzeRes(VerifyCodeResponse baseResponse) {
         if (baseResponse!=null){
             String result=baseResponse.getResult();
             if (result.equals("success")){
                 if(baseResponse.getErrorCode().equals("0000"))
-                    mView.refreshGettMobileVerifyCode();
+                    mView.refreshGettMobileVerifyCode(baseResponse.getData());
                 else
                     Toaster.toastShort(baseResponse.getErrorMsg());
             }else {

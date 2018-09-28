@@ -19,8 +19,8 @@ public class SetPasswordPresent {
     public SetPasswordPresent(SetPasswordViewInterface view){
         this.mView=view;
     }
-    public void setPassword(String userId,String paymentPasswd,String passwdStr,String verifyCode){
-        API.getInstance().setPaymentPasswd(userId,paymentPasswd,passwdStr,verifyCode,this);
+    public void setPassword(String mobile,String userId,String paymentPasswd,String passwdStr,String verifyCode){
+        API.getInstance().setPaymentPasswd(mobile,userId,paymentPasswd,passwdStr,verifyCode,this);
     }
 
     public void analyzeRes(RspSetPassword rspGroup) {
