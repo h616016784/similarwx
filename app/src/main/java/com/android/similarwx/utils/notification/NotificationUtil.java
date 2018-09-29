@@ -5,9 +5,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +23,8 @@ import com.android.similarwx.base.NormalActivity;
 import com.android.similarwx.fragment.NoticeFragment;
 import com.android.similarwx.utils.SharePreferenceUtil;
 
+import java.io.IOException;
+
 /**
  * Created by hanhuailong on 2018/6/21.
  */
@@ -27,10 +32,12 @@ import com.android.similarwx.utils.SharePreferenceUtil;
 public class NotificationUtil {
     private Activity context;
     NotificationConfig config;
+    Uri uri;
     private int id = 1;
     public NotificationUtil(Activity context,NotificationConfig config){
         this.context=context;
         this.config=config;
+        uri = Uri.parse("file:///android_asset/team_notices.mp3");
     }
     private static NotificationUtil mNotificationUtil;
     public static NotificationUtil getInstance(Activity context,NotificationConfig config){
@@ -80,10 +87,13 @@ public class NotificationUtil {
         //设置消息的提醒方式，震动提醒：DEFAULT_VIBRATE     声音提醒：NotificationCompat.DEFAULT_SOUND
         //三色灯提醒NotificationCompat.DEFAULT_LIGHTS     以上三种方式一起：DEFAULT_ALL
         int sound= SharePreferenceUtil.getInt(context, AppConstants.USER_SOUND_SET);
-        if (sound==1)
-            mBuilder.setDefaults(NotificationCompat.DEFAULT_VIBRATE);
-        else
+        if (sound==1){
             mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
+            if (uri!=null)
+                 mBuilder.setSound(uri);
+        }
+        else
+            mBuilder.setDefaults(NotificationCompat.DEFAULT_VIBRATE);
         //设置震动方式，延迟零秒，震动一秒，延迟一秒、震动一秒
 //        mBuilder.setVibrate(new long[]{0, 1000, 1000, 1000});
 //        Intent intent = new Intent(context, SysNoticeActivity.class);

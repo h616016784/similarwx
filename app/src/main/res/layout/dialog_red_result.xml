@@ -50,11 +50,11 @@
         <ImageView
             android:id="@+id/dialog_red_result_kai_tv"
             android:layout_marginTop="@dimen/distance_big"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_below="@id/dialog_red_result_tips_tv"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/pop_btn_kai"
+            android:src="@drawable/red_loading"
             />
 
 

@@ -5,7 +5,11 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -31,6 +35,7 @@ import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.Util;
+import com.android.similarwx.utils.audio.MediaManager;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -46,6 +51,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.UserInfo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +103,8 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
     private String sessionId;
     int flag=0;//0是未抢完   1是抢完
     int canFlag=0;//0能抢包
+    private int sound=0;
+    AssetFileDescriptor afd;
     String myAccid;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,6 +128,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         dialog_red_result_tips_tv=view.findViewById(R.id.dialog_red_result_tips_tv);
         dialog_red_result_kai_tv=view.findViewById(R.id.dialog_red_result_kai_tv);
         myAccid = SharePreferenceUtil.getString(getActivity(),AppConstants.USER_ACCID,"");
+        sound=SharePreferenceUtil.getInt(getActivity(),AppConstants.USER_SOUND_SET);
         Bundle bundle=getArguments();
         if (bundle!=null){
             mSendRedBean= (SendRed.SendRedBean) bundle.getSerializable("info");
@@ -155,6 +164,13 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         });
 
             }
+        }
+
+        AssetManager am = getActivity().getAssets();
+        try {
+            afd = am.openFd("open_red.mp3");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     private void addClickListener() {
@@ -233,7 +249,19 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 }
                 break;
             case R.id.dialog_red_result_kai_tv://开红包
-                miPresent.grabRed(mSendRedBean.getRedPacId(),getActivity());
+                if (sound==1)
+                    MediaManager.playSendMessageSound(getActivity(),afd,null);
+                AnimationDrawable animationDrawable = (AnimationDrawable) dialog_red_result_kai_tv.getDrawable();
+                animationDrawable.start();
+                Handler handler=new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (animationDrawable.isRunning())
+                            animationDrawable.stop();
+                        miPresent.grabRed(mSendRedBean.getRedPacId(),getActivity());
+                    }
+                },1000);
                 break;
         }
     }
