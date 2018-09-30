@@ -120,6 +120,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 myDetailZongLl.setVisibility(View.VISIBLE);
             }else {
                 myDetailZongLl.setVisibility(View.GONE);
+                mActionbar.setTitle("流水明细");
             }
         }
         mType=BillType.ALL.toString();
