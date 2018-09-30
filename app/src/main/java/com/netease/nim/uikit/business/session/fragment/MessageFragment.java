@@ -297,7 +297,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         if (sessionType == SessionTypeEnum.P2P){//单聊
             String transfer= AppConstants.USER_TRANSFER;
             if (!TextUtils.isEmpty(transfer)){
-                if (transfer.equals("1")){
+                if (transfer.equals("0")){
                     if (message.getMsgType()==MsgTypeEnum.custom){
                         FragmentActivity activity=getActivity();
                         if (activity instanceof P2PMessageActivity){
@@ -313,7 +313,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             }
             String personChat= AppConstants.USER_PERSON_CHAT;
             if (!TextUtils.isEmpty(personChat)){
-                if (personChat.equals("1")){
+                if (personChat.equals("0")){
                     if (!(message.getMsgType()==MsgTypeEnum.custom)){
                         FragmentActivity activity=getActivity();
                         if (activity instanceof P2PMessageActivity){
@@ -382,7 +382,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
         if (sessionType == SessionTypeEnum.P2P){//单聊
             String transfer= AppConstants.USER_TRANSFER;
             if (!TextUtils.isEmpty(transfer)){
-                if (transfer.equals("1")){
+                if (transfer.equals("0")){
                     if (message.getMsgType()==MsgTypeEnum.custom){
                         FragmentActivity activity=getActivity();
                         if (activity instanceof P2PMessageActivity){
@@ -398,7 +398,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             }
             String personChat= AppConstants.USER_PERSON_CHAT;
             if (!TextUtils.isEmpty(personChat)){
-                if (personChat.equals("1")){
+                if (personChat.equals("0")){
                     if (!(message.getMsgType()==MsgTypeEnum.custom)){
                         FragmentActivity activity=getActivity();
                         if (activity instanceof P2PMessageActivity){
