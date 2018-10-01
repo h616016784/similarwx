@@ -29,14 +29,24 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_sub_title"/>
-            <TextView
-                android:id="@+id/client_detail_account_tv"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/distance_middle"
                 android:layout_marginLeft="@dimen/distance_normal"
-                android:text="泡泡ID："
-                android:textSize="@dimen/text_content_or_button"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="泡泡ID："
+                    android:textSize="@dimen/text_content_or_button"/>
+                <TextView
+                    android:id="@+id/client_detail_account_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="@dimen/text_content_or_button"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

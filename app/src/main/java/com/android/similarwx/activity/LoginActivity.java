@@ -181,12 +181,12 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         String inviter=user.getInviter();
         if (TextUtils.isEmpty(inviter)){
             dialog=new  EditDialogBuilder(this)
-                    .setMessage("请输入邀请码")
+                    .setMessage("请输入推荐码")
                     .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
                         @Override
                         public void onButtonClick(String str) {
                             if (TextUtils.isEmpty(str))
-                                Toaster.toastShort("邀请码不能为空！");
+                                Toaster.toastShort("推荐码不能为空！");
                             else
                                 doInputInviter(user.getId(),str);
                         }

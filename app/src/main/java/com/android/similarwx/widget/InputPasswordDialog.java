@@ -249,12 +249,13 @@ public class InputPasswordDialog extends DialogFragment implements View.OnClickL
     @Override
     public void refreshTotalBalance(User user) {
         if (!TextUtils.isEmpty(money)){
+            String balance=String.format("%.2f", user.getTotalBalance());
             if (Double.parseDouble(money)>user.getTotalBalance()){//余额不足
                 view_input_recharge_tv.setVisibility(View.VISIBLE);
-                view_input_money_tv.setText("剩余 ¥("+user.getTotalBalance()+") 余额不足！");
+                view_input_money_tv.setText("剩余 ¥("+balance+") 余额不足！");
             }else {
                 view_input_recharge_tv.setVisibility(View.GONE);
-                view_input_money_tv.setText("剩余 ¥("+user.getTotalBalance()+")");
+                view_input_money_tv.setText("剩余 ¥("+balance+")");
             }
         }
 

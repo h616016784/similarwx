@@ -110,6 +110,19 @@ public class SendRedFragment extends BaseFragment {
         sendRedSumEt.addTextChangedListener(textWatcher);
         sendRedLeiEt.addTextChangedListener(leiWatcher);
         sendRedDescripTv.addTextChangedListener(scripWatcher);
+        sendRedDescripTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    String content=sendRedDescripTv.getText().toString();
+                    if (!TextUtils.isEmpty(content)){
+                        if (content.equals("恭喜发财 大吉大利")){
+                            sendRedDescripTv.setText("");
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void initSendView(RspGroupInfo.GroupInfo groupInfo) {
@@ -225,6 +238,7 @@ public class SendRedFragment extends BaseFragment {
                                 return;
                             }
                             bean.setThunder(lei);
+                            count=sendRedCountReadTv.getText().toString();
                             bean.setCount(count);
                             bean.setTitle("扫雷红包游戏");
 
@@ -347,6 +361,7 @@ public class SendRedFragment extends BaseFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
         }
 
         @Override

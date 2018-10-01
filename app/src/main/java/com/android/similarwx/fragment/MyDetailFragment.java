@@ -118,12 +118,16 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             transferId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);
             if (TextUtils.isEmpty(transferId)){
                 myDetailZongLl.setVisibility(View.VISIBLE);
+                mType=BillType.ALL.toString();
             }else {
                 myDetailZongLl.setVisibility(View.GONE);
+                myDetailClassLl.setVisibility(View.GONE);
                 mActionbar.setTitle("流水明细");
+                mType=BillType.SEND_PACKAGE.toString();
             }
-        }
-        mType=BillType.ALL.toString();
+        }else
+            mType=BillType.ALL.toString();
+
         iniData();
         initView();
 
@@ -251,7 +255,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         mStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(starTime);
         myDetailStartTv.setText(mStart);
         myDetailEndTv.setText(mEnd);
-        mPresent.getAcountList(userId, "",transferId,mStart,mEnd,page+"",rows+"");
+        mPresent.getAcountList(userId, mType,transferId,mStart,mEnd,page+"",rows+"");
 
         pvTime=new TimePickerBuilder(activity, new OnTimeSelectListener() {
             @Override

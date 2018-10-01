@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +88,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             present.getUserInfoByParams("",account);
             mActionbar.setTitle("转账");
             mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+            rechargeInputEt.addTextChangedListener(textWatcher);
         }
     }
 
@@ -127,7 +130,27 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             transaction.commit();
         }
     }
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String temp = s.toString();
+            int posDot = temp.indexOf(".");
+            if (posDot <= 0) return;
+            if (temp.length() - posDot - 1 > 2)
+            {
+                s.delete(posDot + 3, posDot + 4);
+            }
+        }
+    };
 
     @Override
     public void showErrorMessage(String err) {

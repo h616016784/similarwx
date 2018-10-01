@@ -259,6 +259,7 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
     @Override
     public void reFreshSendRed(RspGroupInfo.GroupInfo bean) {
         if (bean != null) {
+            adapter.getData().clear();
             adapter.addData(bean);
         }
     }

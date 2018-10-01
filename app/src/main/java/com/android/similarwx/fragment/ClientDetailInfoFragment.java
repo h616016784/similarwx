@@ -33,6 +33,7 @@ import com.android.similarwx.present.GroupInfoPresent;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
+import com.android.similarwx.utils.Util;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.dialog.BottomBaseDialog;
@@ -123,7 +124,17 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                 groupInfoPresent.getGroupUser(teamId,toAccid);
             }
         }
-
+        clientDetailAccountTv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String text=clientDetailAccountTv.getText().toString();
+                if (!TextUtils.isEmpty(text)){
+                    Util.copy(text,activity);
+                    Toaster.toastShort("已复制到粘贴板上");
+                }
+                return true;
+            }
+        });
     }
 
     /**
@@ -133,7 +144,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
      */
     private void initUserView(String groupUserType, GroupUser.ListBean bean) {
         clientDetailNameTv.setText(bean.getUserName());
-        clientDetailAccountTv.setText("泡泡ID: "+bean.getId());
+        clientDetailAccountTv.setText(""+bean.getId());
         rule=bean.getGroupUserRule();
         if (rule.equals("1")){//
             clientDetailIdTv.setText("普通用户");
