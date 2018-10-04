@@ -122,6 +122,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     public RspGroupInfo.GroupInfo groupInfo;
     private int editType=0;//0为增加，1为编辑
     private List<GroupRule> ruleList;
+    private String groupRule;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_add_group;
@@ -137,6 +138,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         Bundle bundle=getArguments();
         if (bundle!=null){
             groupInfo= (RspGroupInfo.GroupInfo) bundle.getSerializable(AppConstants.TRANSFER_GROUP_INFO);
+            groupRule= bundle.getString(AppConstants.TRANSFER_GROUP_USER_ROLE);
         }
         initGroupList();
 //        groupTypePop=new ListPopWindow(activity,groupTypeList);
@@ -261,6 +263,14 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         createGroupRangeLowEt.setText(groupInfo.getStartRange()+"");
         createGroupRangeHighEt.setText(groupInfo.getEndRange()+"");
         createGroupNumEt.setText(groupInfo.getGrabBagNumber()+"");
+
+        if (!TextUtils.isEmpty(groupRule)){
+            if (!groupRule.equals(3)){//只有群主能看见
+                createGroupRangeHighRl.setVisibility(View.GONE);
+                createGroupNumRl.setVisibility(View.GONE);
+                createGroupRangeLowRl.setVisibility(View.GONE);
+            }
+        }
         String hall=groupInfo.getHallDisplay();
         if (!TextUtils.isEmpty(hall)){
             if (hall.equals("0")){
@@ -363,6 +373,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.create_group_set_rl:
+                if (groupInfo!=null){
+                    Toaster.toastShort("不能修改群类型");
+                    return;
+                }
                 GroupTypeDialogFragment.show(activity, new GroupTypeDialogFragment.OnGroupTypeListener() {
                     @Override
                     public void onGroupTypeClick(String groupType, String gameType) {
@@ -409,6 +423,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 //                dialog.show();
                 break;
             case R.id.create_group_lei_ll://雷
+                if (groupInfo!=null){
+                    Toaster.toastShort("不能修改雷");
+                    return;
+                }
                 EditDialogSimple simpleLei=new EditDialogSimple(activity,"中雷赔率",1);
                 simpleLei.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
@@ -422,6 +440,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 simpleLei.show();
                 break;
             case R.id.create_group_num_rl://红包个数
+                if (groupInfo!=null){
+                    Toaster.toastShort("不能修改群红包个数");
+                    return;
+                }
                 EditDialogSimple simpleRedCount=new EditDialogSimple(activity,"红包个数",2);
                 simpleRedCount.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
@@ -458,6 +480,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 //                    }
 //                });
 //                dialogRedHigh.show();
+                if (groupInfo!=null){
+                    Toaster.toastShort("不能修改红包上线");
+                    return;
+                }
                 EditDialogSimple dialogRedHigh=new EditDialogSimple(activity,"红包上限",1);
                 dialogRedHigh.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
@@ -482,6 +508,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 //                    }
 //                });
 //                dialogRedLow.show();
+                if (groupInfo!=null){
+                    Toaster.toastShort("不能修改红包下线");
+                    return;
+                }
                 EditDialogSimple dialogRedLow=new EditDialogSimple(activity,"红包下线",1);
                 dialogRedLow.setOnConfirmClickListener(new EditDialogSimple.ConfirmClickListener() {
                     @Override
@@ -534,6 +564,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 simpleName.show();
                 break;
             case R.id.create_group_home_rl:
+                if (groupInfo!=null){
+                    Toaster.toastShort("不能修改显示类型");
+                    return;
+                }
                 EasyAlertDialogHelper.createOkCancelDiolag(activity, "提示", "是否大厅显示？","是","否", true, new EasyAlertDialogHelper.OnDialogActionListener() {
                     @Override
                     public void doCancelAction() {
@@ -562,7 +596,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 //                        reqGroup.setJoinmode("1");
 //                    }
 //                }).show();
-
+                if (groupInfo!=null){
+                    Toaster.toastShort("不能修改验证方式");
+                    return;
+                }
                 BottomBaseDialog dialogSet=new BottomBaseDialog(activity);
                 dialogSet.setTitle("进群验证");
                 dialogSet.setList(groupInList);
@@ -577,6 +614,10 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 dialogSet.show();
                 break;
             case R.id.create_group_add_rule_iv:
+                if (groupInfo!=null){
+                    Toaster.toastShort("不能修改奖励规则");
+                    return;
+                }
                 RuleDialogFragment.show(activity, new RuleDialogFragment.OnConfirmClickListener() {
                     @Override
                     public void onConfirmClickListener(GroupRule groupRule) {

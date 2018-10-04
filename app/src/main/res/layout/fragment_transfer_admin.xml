@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/distance_bigger"
-            android:src="@drawable/rp_transfer_success"/>
+            android:src="@drawable/rp_transfer_success_1"/>
         <TextView
             android:id="@+id/transfer_admin_status_tv"
             android:layout_width="wrap_content"

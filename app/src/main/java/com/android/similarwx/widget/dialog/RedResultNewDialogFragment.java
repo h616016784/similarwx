@@ -8,6 +8,7 @@ import android.app.FragmentTransaction;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -162,7 +163,11 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
                             }
                         });
-
+                if (myAccid.equals(mSendRedBean.getMyUserId())){
+                    dialog_red_result_bottom_tv.setText("查看大家的手气");
+                }else {
+                    dialog_red_result_bottom_tv.setText("查看领取详情");
+                }
             }
         }
 
@@ -221,7 +226,6 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 disMiss(getActivity());
                 break;
             case R.id.dialog_red_result_bottom_tv:
-
                 if (myAccid.equals(mSendRedBean.getMyUserId())){
                     Bundle bundle=new Bundle();
                     if (mSendRedBean!=null){
@@ -249,8 +253,8 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 }
                 break;
             case R.id.dialog_red_result_kai_tv://开红包
-                if (sound==1)
-                    MediaManager.playSendMessageSound(getActivity(),afd,null);
+
+                dialog_red_result_kai_tv.setImageResource(R.drawable.red_loading);
                 AnimationDrawable animationDrawable = (AnimationDrawable) dialog_red_result_kai_tv.getDrawable();
                 animationDrawable.start();
                 Handler handler=new Handler();
@@ -289,27 +293,14 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 if (bena!=null){
                     String code=bena.getRetCode();
                     if (code.equals("0000")){
-                        Bundle bundle=new Bundle();
-                        if (mSendRedBean!=null){
-                            //抢包成功、发送一个提示消息
-                            String isComplete=bena.getComplete();
-
-                            if (TextUtils.isEmpty(isComplete)){
-                                flag=0;
-                            }else {
-                                if (isComplete.equals("true"))
-                                    flag=1;
-                                else
-                                    flag=0;
-                            }
-                            doYunXinTip(sessionId,flag);
-                            bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
-                            bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
-                            bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
-                            bundle.putSerializable(RedDetailFragment.GRAB,bena);
-                            FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
-                            disMiss(getActivity());
-                        }
+                        if (sound==1)
+                            MediaManager.playSendMessageSound(getActivity(), afd, new MediaPlayer.OnCompletionListener() {
+                                @Override
+                                public void onCompletion(MediaPlayer mp) {
+                                    doToRedDetail(bena);
+                                }
+                            });
+                        doToRedDetail(bena);
                     }else {
                         setErrorText(bena.getRetMsg());
                     }
@@ -317,6 +308,30 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             }else {
                 Toaster.toastShort(bean.getErrorMsg());
             }
+        }
+    }
+
+    private void doToRedDetail(RspGrabRed.GrabRedBean bena) {
+        Bundle bundle=new Bundle();
+        if (mSendRedBean!=null){
+            //抢包成功、发送一个提示消息
+            String isComplete=bena.getComplete();
+
+            if (TextUtils.isEmpty(isComplete)){
+                flag=0;
+            }else {
+                if (isComplete.equals("true"))
+                    flag=1;
+                else
+                    flag=0;
+            }
+            doYunXinTip(sessionId,flag);
+            bundle.putString(RedDetailFragment.GROUPID,mSendRedBean.getGroupId());
+            bundle.putString(RedDetailFragment.REDID,mSendRedBean.getRedPacId());
+            bundle.putSerializable(RedDetailFragment.SENDRED,mSendRedBean);
+            bundle.putSerializable(RedDetailFragment.GRAB,bena);
+            FragmentUtils.navigateToNormalActivity(getActivity(),new RedDetailFragment(),bundle);
+            disMiss(getActivity());
         }
     }
 
@@ -354,11 +369,6 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 canFlag=0;
                 dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
-//                if (myAccid.equals(mSendRedBean.getMyUserId())){
-//                    dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
-//                }else {
-//
-//                }
                 if (mSendRedBean!=null){
                     String text=null;
                     if (TextUtils.isEmpty(mSendRedBean.getThunder())){
@@ -379,8 +389,14 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 setErrorText(bean.getRetMsg());
             } else if (code.equals("9000")){//红包已过期退回。
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
                 canFlag=1;
                 setErrorText(bean.getRetMsg());
+            } else if(code.equals("0010")){
+                dialog_red_result_kai_tv.setVisibility(View.GONE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                canFlag=2;
+                setErrorText("您的积分不足请充值");
             } else {
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);

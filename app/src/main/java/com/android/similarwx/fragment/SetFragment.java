@@ -59,6 +59,8 @@ public class SetFragment extends BaseFragment {
         isClose=SharePreferenceUtil.getInt(activity,AppConstants.USER_SOUND_SET);
         if (isClose==1){
             mySetSoundSetTg.setToggleOn();
+        }else {
+            mySetSoundSetTg.setToggleOff();
         }
     }
 

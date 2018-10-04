@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,12 +60,20 @@ public class SendRedFragment extends BaseFragment {
     EditText sendRedCountEt;
     @BindView(R.id.send_red_sum_et)
     EditText sendRedSumEt;
+    @BindView(R.id.send_red_sum_iv)
+    ImageView sendRedSumIv;
     @BindView(R.id.send_red_lei_et)
     EditText sendRedLeiEt;
     @BindView(R.id.send_red_bt)
     Button sendRedBt;
     @BindView(R.id.send_red_group_hint_tv)
     TextView groupHintTv;
+    @BindView(R.id.send_red_error_tv)
+    TextView sendRedErrorTv;
+    @BindView(R.id.send_red_count_et_tv)
+    TextView sendRedCountEtTv;
+    @BindView(R.id.send_red_sum_et_tv)
+    TextView sendRedSumEtTv;
     @BindView(R.id.send_red_group_money_tv)
     TextView groupMoneyTv;
     @BindView(R.id.send_red_lei_tv)
@@ -75,6 +84,8 @@ public class SendRedFragment extends BaseFragment {
     RelativeLayout sendRedCountRl;
     @BindView(R.id.send_red_count_read_rl)
     RelativeLayout sendRedCountReadRl;
+    @BindView(R.id.send_red_descript_rl)
+    RelativeLayout sendRedDescriptRl;
     @BindView(R.id.send_red_count_read_tv)
     TextView sendRedCountReadTv;
     @BindView(R.id.send_red_sum_money)
@@ -87,6 +98,8 @@ public class SendRedFragment extends BaseFragment {
     private User mUser;
     private String accountId;
     RspGroupInfo.GroupInfo groupInfo;
+    private boolean first=false;//两个输入栏是否输入正确
+    private boolean second=false;//两个输入栏是否输入正确
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_send_red;
@@ -107,6 +120,7 @@ public class SendRedFragment extends BaseFragment {
             initSendView(groupInfo);
         }
         sendRedCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        sendRedCountEt.addTextChangedListener(countWatcher);
         sendRedSumEt.addTextChangedListener(textWatcher);
         sendRedLeiEt.addTextChangedListener(leiWatcher);
         sendRedDescripTv.addTextChangedListener(scripWatcher);
@@ -137,7 +151,9 @@ public class SendRedFragment extends BaseFragment {
 //                    sendRedLeiTv.setText("总数");
 //                    sendRedLeiEt.setHint("请输入总数");
                 groupHintTv.setText("总数最好不要超过10个");
-                sendRedDescripTv.setVisibility(View.VISIBLE);
+                groupHintTv.setVisibility(View.GONE);
+                sendRedDescriptRl.setVisibility(View.VISIBLE);
+                sendRedSumIv.setImageResource(R.drawable.img_send_red_sum_luck);
             }else {
                 if (groupType.equals("1")){//游戏群
                     if (!TextUtils.isEmpty(gameType)){
@@ -145,16 +161,20 @@ public class SendRedFragment extends BaseFragment {
                             type="MINE";
                             sendRedCountRl.setVisibility(View.GONE);
                             sendRedCountReadRl.setVisibility(View.VISIBLE);
-                            sendRedDescripTv.setVisibility(View.GONE);
+                            groupHintTv.setVisibility(View.VISIBLE);
+                            sendRedDescriptRl.setVisibility(View.GONE);
                             sendRedCountReadTv.setText(groupInfo.getGrabBagNumber()+"");
+                            sendRedSumIv.setImageResource(R.drawable.img_send_red_sum_lei);
                         }else {
                             type="LUCK";
                             sendRedCountReadRl.setVisibility(View.GONE);
                             sendRedLeiRl.setVisibility(View.GONE);
 //                    sendRedLeiTv.setText("总数");
 //                    sendRedLeiEt.setHint("请输入总数");
-                            groupHintTv.setText("总数最好不要超过10个");
-                            sendRedDescripTv.setVisibility(View.VISIBLE);
+//                            groupHintTv.setText("总数最好不要超过10个");
+                            groupHintTv.setVisibility(View.GONE);
+                            sendRedDescriptRl.setVisibility(View.VISIBLE);
+                            sendRedSumIv.setImageResource(R.drawable.img_send_red_sum_luck);
                         }
                     }
                 }else if(groupType.equals("2")){//交友群也就是普通群
@@ -162,7 +182,9 @@ public class SendRedFragment extends BaseFragment {
                     sendRedCountReadRl.setVisibility(View.GONE);
                     sendRedLeiRl.setVisibility(View.GONE);
                     groupHintTv.setText("总数最好不要超过10个");
-                    sendRedDescripTv.setVisibility(View.VISIBLE);
+                    groupHintTv.setVisibility(View.GONE);
+                    sendRedDescriptRl.setVisibility(View.VISIBLE);
+                    sendRedSumIv.setImageResource(R.drawable.img_send_red_sum_luck);
                 }
             }
             groupMoneyTv.setText("红包发布范围： "+groupInfo.getStartRange()+"-"+groupInfo.getEndRange()+"元");
@@ -312,10 +334,63 @@ public class SendRedFragment extends BaseFragment {
             if (TextUtils.isEmpty(s)){
                 sumMoneyTv.setText("¥0.0");
                 sendRedBt.setEnabled(false);
+                first=false;
             }else {
                 sumMoneyTv.setText("¥"+s);
 //                sendRedSumEt.setText(String.format("%.2f", Double.parseDouble(s.toString())));
-                sendRedBt.setEnabled(true);
+                double dMoney=Double.parseDouble(s.toString());
+                if (dMoney>=listBean.getStartRange() && dMoney<=listBean.getEndRange()){
+                    sendRedErrorTv.setVisibility(View.GONE);
+                    sendRedSumEtTv.setTextColor(getResources().getColor(R.color.black));
+                    sendRedSumEt.setTextColor(getResources().getColor(R.color.black));
+                    first=true;
+                    String countRed="";
+                    if (type.equals("LUCK")){
+                        countRed=sendRedCountEt.getText().toString();
+                    }else if (type.equals("MINE")){
+                        countRed=sendRedLeiEt.getText().toString();
+                    }
+                    if (!TextUtils.isEmpty(countRed)){
+                        int countRedInt=Integer.parseInt(countRed);
+                        if ((dMoney/countRedInt)<0.01){
+                            sendRedErrorTv.setVisibility(View.VISIBLE);
+                            sendRedErrorTv.setText("单个红包金额不可低于0.01");
+                            sendRedSumEtTv.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedSumEt.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedCountEt.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedCountEtTv.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedLeiEt.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedLeiTv.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedBt.setEnabled(false);
+                            first=false;
+                        }else {
+                            sendRedErrorTv.setVisibility(View.GONE);
+                            sendRedErrorTv.setText("单个红包金额不可低于0.01");
+                            sendRedSumEtTv.setTextColor(getResources().getColor(R.color.black));
+                            sendRedSumEt.setTextColor(getResources().getColor(R.color.black));
+                            sendRedCountEt.setTextColor(getResources().getColor(R.color.black));
+                            sendRedCountEtTv.setTextColor(getResources().getColor(R.color.black));
+                            sendRedLeiEt.setTextColor(getResources().getColor(R.color.black));
+                            sendRedLeiTv.setTextColor(getResources().getColor(R.color.black));
+                            first=true;
+                        }
+                    }
+                    if (second)
+                        sendRedBt.setEnabled(true);
+                    else
+                        sendRedBt.setEnabled(false);
+                }else{
+                    sendRedErrorTv.setVisibility(View.VISIBLE);
+                    sendRedErrorTv.setText("红包总金额超出范围，请重新填写");
+                    sendRedSumEtTv.setTextColor(getResources().getColor(R.color.colorRed));
+                    sendRedSumEt.setTextColor(getResources().getColor(R.color.colorRed));
+                    sendRedCountEt.setTextColor(getResources().getColor(R.color.black));
+                    sendRedCountEtTv.setTextColor(getResources().getColor(R.color.black));
+                    sendRedLeiEt.setTextColor(getResources().getColor(R.color.black));
+                    sendRedLeiTv.setTextColor(getResources().getColor(R.color.black));
+                    first=false;
+                    sendRedBt.setEnabled(false);
+                }
             }
         }
 
@@ -328,6 +403,65 @@ public class SendRedFragment extends BaseFragment {
             {
                 s.delete(posDot + 3, posDot + 4);
             }
+        }
+    };
+  private TextWatcher countWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (TextUtils.isEmpty(s)){
+                sendRedBt.setEnabled(false);
+            }else {
+                int num=Integer.parseInt(s.toString());
+                if (num>100){
+                    sendRedBt.setEnabled(false);
+                    sendRedErrorTv.setVisibility(View.VISIBLE);
+                    sendRedErrorTv.setText("一次最多可发100个红包");
+                    sendRedCountEtTv.setTextColor(getResources().getColor(R.color.colorRed));
+                    sendRedCountEt.setTextColor(getResources().getColor(R.color.colorRed));
+                    sendRedBt.setEnabled(false);
+                    second=false;
+                }else {
+                    sendRedErrorTv.setVisibility(View.GONE);
+                    sendRedCountEtTv.setTextColor(getResources().getColor(R.color.black));
+                    sendRedCountEt.setTextColor(getResources().getColor(R.color.black));
+                    second=true;
+                    String sum=sendRedSumEt.getText().toString();
+                    if (!TextUtils.isEmpty(sum)){
+                        double sumDouble=Double.parseDouble(sum);
+                        if (sumDouble/num<0.01){
+                            sendRedErrorTv.setVisibility(View.VISIBLE);
+                            sendRedErrorTv.setText("单个红包金额不可低于0.01");
+                            sendRedSumEtTv.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedSumEt.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedCountEt.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedCountEtTv.setTextColor(getResources().getColor(R.color.colorRed));
+                            sendRedBt.setEnabled(false);
+                            second=false;
+                        }else {
+                            sendRedErrorTv.setVisibility(View.GONE);
+                            sendRedSumEtTv.setTextColor(getResources().getColor(R.color.black));
+                            sendRedSumEt.setTextColor(getResources().getColor(R.color.black));
+                            sendRedCountEt.setTextColor(getResources().getColor(R.color.black));
+                            sendRedCountEtTv.setTextColor(getResources().getColor(R.color.black));
+                            second=true;
+                        }
+                    }
+                    if (first)
+                        sendRedBt.setEnabled(true);
+                    else
+                        sendRedBt.setEnabled(false);
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
         }
     };
 
@@ -343,6 +477,36 @@ public class SendRedFragment extends BaseFragment {
                 if (s.length()>1){
                     sendRedLeiEt.setText(s.subSequence(0,1));
                 }
+                second=true;
+                String sum=sendRedSumEt.getText().toString();
+                if (!TextUtils.isEmpty(sum)){
+                    double sumDouble=Double.parseDouble(sum);
+                    int num=Integer.parseInt(s.toString());
+                    if (sumDouble/num<0.01){
+                        sendRedErrorTv.setVisibility(View.VISIBLE);
+                        sendRedErrorTv.setText("单个红包金额不可低于0.01");
+                        sendRedSumEtTv.setTextColor(getResources().getColor(R.color.colorRed));
+                        sendRedSumEt.setTextColor(getResources().getColor(R.color.colorRed));
+                        sendRedCountEt.setTextColor(getResources().getColor(R.color.colorRed));
+                        sendRedCountEtTv.setTextColor(getResources().getColor(R.color.colorRed));
+                        sendRedBt.setEnabled(false);
+                        second=false;
+                    }else {
+                        sendRedErrorTv.setVisibility(View.GONE);
+                        sendRedSumEtTv.setTextColor(getResources().getColor(R.color.black));
+                        sendRedSumEt.setTextColor(getResources().getColor(R.color.black));
+                        sendRedCountEt.setTextColor(getResources().getColor(R.color.black));
+                        sendRedCountEtTv.setTextColor(getResources().getColor(R.color.black));
+                        second=true;
+                    }
+                }
+                if (first)
+                    sendRedBt.setEnabled(true);
+                else
+                    sendRedBt.setEnabled(false);
+            }else {
+                sendRedBt.setEnabled(false);
+                second=false;
             }
 
         }

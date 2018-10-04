@@ -100,8 +100,10 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
             tag = bundle.getInt(AppConstants.TRANSFER_BASE);
             if (tag == 1) {
                 mActionbar.setTitle("搜索用户");
+                searchEt.setHint("请输入手机号/泡泡ID");
             } else if (tag == 2) {
                 mActionbar.setTitle("搜索群组");
+                searchEt.setHint("请输入群号码");
                 searchEt.setInputType(InputType.TYPE_CLASS_NUMBER);
             }
         }

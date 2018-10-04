@@ -20,6 +20,7 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.inteface.YCallBack;
+import com.android.similarwx.inteface.message.CustomAttachment;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
@@ -105,7 +106,20 @@ public class ChartFragment extends BaseFragment {
                 String account=item.getContactId();
                 NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(account);//用户详情
                 helper.setText(R.id.item_chart_name_tv, user.getName());
-                helper.setText(R.id.item_chart_content_tv, item.getContent());
+                MsgTypeEnum typeEnum=item.getMsgType();
+                if (typeEnum==MsgTypeEnum.custom){
+                    CustomAttachment attachment= (CustomAttachment) item.getAttachment();
+                    int type =attachment.getType();
+                    if (type==8){
+                        helper.setText(R.id.item_chart_content_tv, "转账");
+                    }else if (type==7){
+                        helper.setText(R.id.item_chart_content_tv, "红包");
+                    }else {
+                        helper.setText(R.id.item_chart_content_tv, item.getContent());
+                    }
+                }else {
+                    helper.setText(R.id.item_chart_content_tv, item.getContent());
+                }
                 helper.setText(R.id.item_chart_role_tv, TimeUtil.timestampToString(item.getTime()));
                 String icon =user.getAvatar();
                 if (!TextUtils.isEmpty(icon)) {

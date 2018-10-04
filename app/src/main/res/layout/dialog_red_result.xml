@@ -54,7 +54,7 @@
             android:layout_height="60dp"
             android:layout_below="@id/dialog_red_result_tips_tv"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/red_loading"
+            android:src="@drawable/img_red_kai"
             />
 
 

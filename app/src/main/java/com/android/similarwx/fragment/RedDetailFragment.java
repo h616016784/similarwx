@@ -158,7 +158,12 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             textContent=sendRed.getCount();
         }
         redDetailCount.setText(String.format("%.2f", Double.parseDouble(sendRed.getAmount()))+"-"+textContent);
-
+        String type=sendRed.getType();
+        if (!TextUtils.isEmpty(type)){
+            if (type.equals("LUCK")){
+                redDetailCount.setText(sendRed.getCotent());
+            }
+        }
         boolean isHas=false;
         String myAccid= SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"");
         for (RedDetialBean bean:list){

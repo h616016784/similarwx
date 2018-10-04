@@ -4,6 +4,79 @@
     android:layout_height="match_parent"
     android:background="@color/gray_f5"
     android:orientation="vertical">
+    <TextView
+        android:id="@+id/send_red_error_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/distance_smaller"
+        android:gravity="center"
+        android:text=""
+        android:background="@color/pure_red"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:textSize="@dimen/text_content_or_button"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_normal"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginRight="@dimen/distance_normal"
+        android:background="@color/white"
+        android:padding="@dimen/distance_small">
+        <ImageView
+            android:id="@+id/send_red_sum_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/img_send_red_sum_lei"
+            />
+        <TextView
+            android:id="@+id/send_red_sum_et_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_smaller"
+            android:text="总金额"
+            android:textSize="@dimen/text_content_or_button"
+            android:layout_toRightOf="@id/send_red_sum_iv"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"/>
+        <EditText
+            android:id="@+id/send_red_sum_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:minWidth="@dimen/distance_bigger"
+            android:textSize="@dimen/text_content_or_button"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            android:gravity="right"
+            android:layout_marginRight="@dimen/distance_bigger"
+            android:layout_alignParentRight="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="元"
+            android:textSize="@dimen/text_content_or_button"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/send_red_group_money_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginRight="@dimen/distance_normal"
+        android:padding="@dimen/distance_small"
+        android:text="红包发布范围：0-9999元"
+        android:background="@null"
+        android:textSize="@dimen/text_content_or_button"
+        />
     <RelativeLayout
         android:id="@+id/send_red_count_read_rl"
         android:layout_width="match_parent"
@@ -54,6 +127,7 @@
         android:padding="@dimen/distance_small"
         >
         <TextView
+            android:id="@+id/send_red_count_et_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="红包个数"
@@ -66,9 +140,10 @@
             android:background="@null"
             android:minWidth="@dimen/distance_bigger"
             android:textSize="@dimen/text_content_or_button"
+            android:textColor="@color/black"
             android:inputType="numberDecimal"
             android:gravity="right"
-            android:hint="请输入红包个数"
+            android:hint="填写个数"
             android:layout_marginRight="@dimen/distance_bigger"
             android:layout_alignParentRight="true"/>
         <TextView
@@ -81,57 +156,11 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/distance_normal"
-        android:layout_marginLeft="@dimen/distance_normal"
-        android:layout_marginRight="@dimen/distance_normal"
-        android:background="@color/white"
-        android:padding="@dimen/distance_small"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="总金额"
-            android:textSize="@dimen/text_content_or_button"
-            android:textColor="@color/black"/>
-        <EditText
-            android:id="@+id/send_red_sum_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:minWidth="@dimen/distance_bigger"
-            android:textSize="@dimen/text_content_or_button"
-            android:inputType="numberDecimal"
-            android:hint="请输入总金额"
-            android:gravity="right"
-            android:layout_marginRight="@dimen/distance_bigger"
-            android:layout_alignParentRight="true"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="元"
-            android:textSize="@dimen/text_content_or_button"
-            android:textColor="@color/black"/>
-    </RelativeLayout>
-    <TextView
-        android:id="@+id/send_red_group_money_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/distance_normal"
-        android:layout_marginRight="@dimen/distance_normal"
-        android:padding="@dimen/distance_small"
-        android:text="红包发布范围：0-9999元"
-        android:background="@null"
-        android:textSize="@dimen/text_content_or_button"
-        />
-    <RelativeLayout
         android:id="@+id/send_red_lei_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_marginTop="@dimen/distance_normal"
+        android:layout_marginTop="@dimen/distance_bigger"
         android:layout_marginLeft="@dimen/distance_normal"
         android:layout_marginRight="@dimen/distance_normal"
         android:padding="@dimen/distance_small"
@@ -166,18 +195,35 @@
         android:background="@null"
         android:textSize="@dimen/text_content_or_button"
         />
-    <EditText
-        android:id="@+id/send_red_descript_tv"
+    <RelativeLayout
+        android:id="@+id/send_red_descript_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/dimen52dp"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/distance_bigger"
         android:layout_marginLeft="@dimen/distance_normal"
         android:layout_marginRight="@dimen/distance_normal"
-        android:padding="@dimen/distance_small"
-        android:text="恭喜发财 大吉大利"
-        android:background="@color/white"
-        android:textSize="@dimen/text_content_or_button"
-        />
+        android:padding="@dimen/distance_small">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="留言"
+            android:textSize="@dimen/text_content_or_button"
+            android:textColor="@color/black"/>
+        <EditText
+            android:id="@+id/send_red_descript_tv"
+            android:text="恭喜发财 大吉大利"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:minWidth="@dimen/distance_bigger"
+            android:textSize="@dimen/text_content_or_button"
+            android:textColor="@color/black_gray"
+            android:gravity="right"
+            android:layout_marginRight="@dimen/distance_smallest"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/send_red_sum_money"
         android:layout_width="match_parent"
