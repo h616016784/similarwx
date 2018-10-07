@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
     private TextView sendContentText, revContentText;    // 红包描述
     private TextView sendTitleText, revTitleText;    // 红包名称
     private TextView tv_bri_target_send, tv_bri_target_rev;    // 红包change
+    private ImageView tv_bri_pic_send,tv_bri_pic_rev;//红包图标
     private MIPresent miPresent;
     public MsgViewHolderRed(BaseMultiItemFetchLoadAdapter adapter) {
         super(adapter);
@@ -53,7 +55,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
 
     @Override
     protected int getContentResId() {
-        return R.layout.red_packet_item;
+        return R.layout.red_packet_item_new;
     }
 
     @Override
@@ -65,6 +67,8 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
         revTitleText = findViewById(R.id.tv_bri_name_rev);
         tv_bri_target_rev = findViewById(R.id.tv_bri_target_rev);
         tv_bri_target_send = findViewById(R.id.tv_bri_target_send);
+        tv_bri_pic_send = findViewById(R.id.tv_bri_pic_send);
+        tv_bri_pic_rev = findViewById(R.id.tv_bri_pic_rev);
         revView = findViewById(R.id.bri_rev);
     }
     SendRed.SendRedBean sendRedBean;
@@ -92,7 +96,6 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
                 title="拼手气红包";
         }
 
-
         if (!isReceivedMessage()) {// 消息方向，自己发送的
             sendView.setVisibility(View.VISIBLE);
             revView.setVisibility(View.GONE);
@@ -100,15 +103,31 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
                 sendContentText.setText(textContent);
             else if (sendRedBean.getType().equals("LUCK"))
                 sendContentText.setText(content);
-
             sendTitleText.setText(title);
 
-            if (message.getStatus()==MsgStatusEnum.read){//已读
-                sendView.setBackgroundResource(R.drawable.red_packet_send_press);
-                tv_bri_target_send.setText("红包已领取");
-            }else{
-                sendView.setBackgroundResource(R.drawable.red_packet_send_bg);
-                tv_bri_target_send.setText("领取红包");
+//            if (message.getStatus()==MsgStatusEnum.read){//已读
+//                sendView.setBackgroundResource(R.drawable.red_packet_send_press);
+//                tv_bri_target_send.setText("红包已领取");
+//            }else{
+//                sendView.setBackgroundResource(R.drawable.red_packet_send_bg);
+//                tv_bri_target_send.setText("领取红包");
+//            }
+
+            if (!TextUtils.isEmpty(click)){
+                if (click.equals("0000")){
+                    tv_bri_pic_send.setImageResource(R.drawable.img_red_item_looked);
+                    tv_bri_target_send.setText("红包已领取");
+                    sendView.setBackgroundResource(R.drawable.red_packet_send_bg_other);
+                }else if (click.equals("8889")){
+                    tv_bri_pic_send.setImageResource(R.drawable.img_red_item_looked);
+                    tv_bri_target_send.setText("红包已被领完");
+                    sendView.setBackgroundResource(R.drawable.red_packet_send_bg_other);
+                }else if (click.equals("9000")){
+                    tv_bri_pic_send.setImageResource(R.drawable.img_red_item_looked);
+                    tv_bri_target_send.setText("红包已过期");
+                    sendView.setBackgroundResource(R.drawable.red_packet_send_bg_other);
+                }
+
             }
         } else {
             sendView.setVisibility(View.GONE);
@@ -119,12 +138,28 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
                 revContentText.setText(content);
             revTitleText.setText(title);
 
-            if (message.getStatus()==MsgStatusEnum.read){//已读
-                revView.setBackgroundResource(R.drawable.red_packet_rev_press);
-                tv_bri_target_rev.setText("红包已领取");
-            }else{
-                sendView.setBackgroundResource(R.drawable.red_packet_rev_bg);
-                tv_bri_target_rev.setText("领取红包");
+//            if (message.getStatus()==MsgStatusEnum.read){//已读
+//                revView.setBackgroundResource(R.drawable.red_packet_rev_press);
+//                tv_bri_target_rev.setText("红包已领取");
+//            }else{
+//                sendView.setBackgroundResource(R.drawable.red_packet_rev_bg);
+//                tv_bri_target_rev.setText("领取红包");
+//            }
+            if (!TextUtils.isEmpty(click)){
+                if (click.equals("0000")){
+                    tv_bri_pic_rev.setImageResource(R.drawable.img_red_item_looked);
+                    tv_bri_target_rev.setText("红包已领取");
+                    revView.setBackgroundResource(R.drawable.red_packet_rev_bg_other);
+                }else if (click.equals("8889")){
+                    tv_bri_pic_rev.setImageResource(R.drawable.img_red_item_looked);
+                    tv_bri_target_rev.setText("红包已被领完");
+                    revView.setBackgroundResource(R.drawable.red_packet_rev_bg_other);
+                }else if (click.equals("9000")){
+                    tv_bri_pic_rev.setImageResource(R.drawable.img_red_item_looked);
+                    tv_bri_target_rev.setText("红包已过期");
+                    revView.setBackgroundResource(R.drawable.red_packet_rev_bg_other);
+                }
+
             }
         }
     }
@@ -191,7 +226,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
                 } else if (adapter instanceof ChatRoomMsgAdapter) {
                     proxy = ((ChatRoomMsgAdapter) adapter).getContainer().proxy;
                 }
-                RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean(),message.getSessionId(),proxy);
+                RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean(),message.getSessionId(),message,proxy);
             }
         }
     }

@@ -81,6 +81,15 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         redDialogFragment.setArguments(bundle);
         return redDialogFragment;
     }
+    public static RedResultNewDialogFragment newInstance(SendRed.SendRedBean sendRed,String sessionId,IMMessage imMessage) {
+        RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("info", sendRed);
+        bundle.putSerializable("sessionId", sessionId);
+        bundle.putSerializable("message", imMessage);
+        redDialogFragment.setArguments(bundle);
+        return redDialogFragment;
+    }
 
     public static RedResultNewDialogFragment newInstance(String title, String message) {
         RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
@@ -100,7 +109,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
     SendRed.SendRedBean mSendRedBean;
     private MIPresent miPresent;
-//    IMMessage message;
+    IMMessage message;
     private String sessionId;
     int flag=0;//0是未抢完   1是抢完
     int canFlag=0;//0能抢包
@@ -133,7 +142,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         Bundle bundle=getArguments();
         if (bundle!=null){
             mSendRedBean= (SendRed.SendRedBean) bundle.getSerializable("info");
-//            message= (IMMessage) bundle.getSerializable("message");
+            message= (IMMessage) bundle.getSerializable("message");
             sessionId= bundle.getString("sessionId");
             miPresent=new MIPresent(this);
             if (mSendRedBean!=null){
@@ -168,6 +177,15 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 }else {
                     dialog_red_result_bottom_tv.setText("查看领取详情");
                 }
+
+                String type=mSendRedBean.getType();
+                if (TextUtils.isEmpty(type)){
+                    dialog_red_result_tips_tv.setText(mSendRedBean.getCotent());
+                }else {
+                    if (type.equals("LUCK")){
+                        dialog_red_result_tips_tv.setText(mSendRedBean.getCotent());
+                    }
+                }
             }
         }
 
@@ -200,9 +218,9 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         transaction.commit();
         return redResultDialogFragment;
     }
-    public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,String sessionId,ModuleProxy proxyN){
+    public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,String sessionId,IMMessage imMessage,ModuleProxy proxyN){
         proxy=proxyN;
-        RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed,sessionId);
+        RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed,sessionId,imMessage);
         FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
         transaction.add(redResultDialogFragment,"redResultDialogBean");
         transaction.addToBackStack(null);
@@ -293,14 +311,26 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 if (bena!=null){
                     String code=bena.getRetCode();
                     if (code.equals("0000")){
-                        if (sound==1)
+                        if (message!=null){
+                            RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+                            mSendRedBean.setClick("0000");
+                            attachment.setSendRedBean(mSendRedBean);
+                            message.setAttachment(attachment);
+                            NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+//                            Map localExtention=new HashMap();
+//                            localExtention.put("redStatus","0000");
+//                            message.setLocalExtension(localExtention);
+//                            NIMClient.getService(MsgService.class).updateIMMessage(message);
+                        }
+                        if (sound==1){
                             MediaManager.playSendMessageSound(getActivity(), afd, new MediaPlayer.OnCompletionListener() {
                                 @Override
                                 public void onCompletion(MediaPlayer mp) {
                                     doToRedDetail(bena);
                                 }
                             });
-                        doToRedDetail(bena);
+                        }else
+                            doToRedDetail(bena);
                     }else {
                         setErrorText(bena.getRetMsg());
                     }
@@ -386,31 +416,43 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
                 canFlag=1;
-                setErrorText(bean.getRetMsg());
+                setErrorText("手慢了，红包派完了");
+                if (message!=null){
+                    RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+                    mSendRedBean.setClick("8889");
+                    attachment.setSendRedBean(mSendRedBean);
+                    message.setAttachment(attachment);
+                    NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+                }
             } else if (code.equals("9000")){//红包已过期退回。
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
                 canFlag=1;
                 setErrorText(bean.getRetMsg());
+                if (message!=null){
+                    RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+                    mSendRedBean.setClick("9000");
+                    attachment.setSendRedBean(mSendRedBean);
+                    message.setAttachment(attachment);
+                    NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+                }
             } else if(code.equals("0010")){
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
                 canFlag=2;
                 setErrorText("您的积分不足请充值");
+                if (message!=null){
+                    RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+                    mSendRedBean.setClick("9000");
+                    attachment.setSendRedBean(mSendRedBean);
+                    message.setAttachment(attachment);
+                    NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+                }
             } else {
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
                 canFlag=2;
                 setErrorText(bean.getRetMsg());
-            }
-
-            String type=mSendRedBean.getType();
-            if (TextUtils.isEmpty(type)){
-                dialog_red_result_tips_tv.setText(mSendRedBean.getCotent());
-            }else {
-                if (type.equals("LUCK")){
-                    dialog_red_result_tips_tv.setText(mSendRedBean.getCotent());
-                }
             }
         }
     }

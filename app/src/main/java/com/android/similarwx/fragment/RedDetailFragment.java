@@ -55,6 +55,8 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     TextView redDetailAcountTv;
     @BindView(R.id.red_detail_take_tv)
     TextView redDetailTakeTv;
+    @BindView(R.id.red_detail_take_time_tv)
+    TextView redDetailTakeTimeTv;
     @BindView(R.id.red_detail_head_iv)
     ImageView redDetailHeadIv;
     @BindView(R.id.red_detail_rv)
@@ -153,6 +155,9 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
 
     @Override
     public void refreshRedDetail(List<RedDetialBean> list) {
+
+        redDetailTakeTimeTv.setVisibility(View.VISIBLE);
+        redDetailTakeTimeTv.setText("秒内被抢光");
         String textContent=sendRed.getThunder();
         if (TextUtils.isEmpty(sendRed.getThunder())){
             textContent=sendRed.getCount();

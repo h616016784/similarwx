@@ -262,9 +262,9 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                 break;
             case R.id.group_info_message_set_tg://群消息设置
                 if (isClose==0){
-                    doMessage(TeamMessageNotifyTypeEnum.Mute,isClose);
-                }else if (isClose==1){
                     doMessage(TeamMessageNotifyTypeEnum.All,isClose);
+                }else if (isClose==1){
+                    doMessage(TeamMessageNotifyTypeEnum.Mute,isClose);
                 }
 
                 break;
