@@ -22,7 +22,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.RemoteViews;
 
+import com.android.similarwx.R;
 import com.android.similarwx.widget.dialog.DownLoadFragmentDialog;
 
 /**
@@ -165,28 +167,28 @@ public class UpgradeUIBuilder {
 		long when = System.currentTimeMillis();
 		mNotification = new Notification(icon, tickerText, when);
 		
-//		//  放置在"正在运行"栏目中
-		// mNotification.flags = Notification.FLAG_ONGOING_EVENT;
-		//
-		// RemoteViews contentView = new RemoteViews(context.getPackageName(),
-		// R.layout.download_notification_layout);
-		// contentView.setTextViewText(R.id.fileName, "Action.apk");
-		//
-		// // TODO 添加停止按钮 停止下载
-		//// Intent stopIntent = new Intent();
-		//// contentView.setOnClickFillInIntent(R.id.noti_stop_button,
-		// stopIntent);
-		// // 指定个性化视图
-		// mNotification.contentView = contentView;
-		//
-		//// Intent intent = new Intent(context, FileMgrActivity2.class);
-		// Intent intent = new Intent();
-		// PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-		// intent,
-		// PendingIntent.FLAG_UPDATE_CURRENT);
-		// // 指定内容意图
-		// mNotification.contentIntent = contentIntent;
-		// mNotificationManager.notify(NOTIFY_ID, mNotification);
+		//  放置在"正在运行"栏目中
+		 mNotification.flags = Notification.FLAG_ONGOING_EVENT;
+
+//		 RemoteViews contentView = new RemoteViews(mContext.getPackageName(),
+//		 R.layout.download_notification_layout);
+//		 contentView.setTextViewText(R.id.fileName, "Action.apk");
+//
+//		//  添加停止按钮 停止下载
+//		 Intent stopIntent = new Intent();
+//		 contentView.setOnClickFillInIntent(R.id.noti_stop_button,
+//		 stopIntent);
+//		 // 指定个性化视图
+//		 mNotification.contentView = contentView;
+//
+////		 Intent intent = new Intent(context, FileMgrActivity2.class);
+//		 Intent intent = new Intent();
+//		 PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
+//		 intent,
+//		 PendingIntent.FLAG_UPDATE_CURRENT);
+//		 // 指定内容意图
+//		 mNotification.contentIntent = contentIntent;
+//		 mNotificationManager.notify(NOTIFY_ID, mNotification);
 	}
 
 	/**

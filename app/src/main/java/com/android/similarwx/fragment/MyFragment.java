@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.primary.Log;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.LoginActivity;
 import com.android.similarwx.base.AppConstants;
@@ -278,15 +279,14 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
     public void refreshSysConfig(RspConfig.ConfigBean bean) {
         if (bean!=null){
            String url= bean.getAndroidDownloadUrl();
-           String appVersion= bean.getAppVersion();
-           if (!TextUtils.isEmpty(appVersion)){
-               if (getVersionCode()<Integer.parseInt(appVersion)){
-
+           int appVersion= bean.getAppVersion();
+           if (getVersionCode()<appVersion){
+               if (!TextUtils.isEmpty(url)){
+                   UpgradeUIBuilder upgradeUIBuilder=new UpgradeUIBuilder(activity,url);
+                   upgradeUIBuilder.downloadNewAppNew();
                }
-           }
-           if (!TextUtils.isEmpty(url)){
-               UpgradeUIBuilder upgradeUIBuilder=new UpgradeUIBuilder(activity,url);
-               upgradeUIBuilder.downloadNewAppNew();
+           }else {
+               Toaster.toastShort("当前已是最新版本");
            }
         }
     }

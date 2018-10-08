@@ -26,7 +26,7 @@ public class RspConfig extends BaseResponse{
 
         private String transfer;
         private String androidDownloadUrl;
-        private String appVersion;
+        private int appVersion;
         private String personChat;
         private String iosDownloadUrl;
 
@@ -46,11 +46,11 @@ public class RspConfig extends BaseResponse{
             this.androidDownloadUrl = androidDownloadUrl;
         }
 
-        public String getAppVersion() {
+        public int getAppVersion() {
             return appVersion;
         }
 
-        public void setAppVersion(String appVersion) {
+        public void setAppVersion(int appVersion) {
             this.appVersion = appVersion;
         }
 
