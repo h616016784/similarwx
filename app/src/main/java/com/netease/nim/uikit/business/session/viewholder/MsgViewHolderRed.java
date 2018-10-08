@@ -123,11 +123,14 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
                     tv_bri_target_send.setText("红包已被领完");
                     sendView.setBackgroundResource(R.drawable.red_packet_send_bg_other);
                 }else if (click.equals("9000")){
-                    tv_bri_pic_send.setImageResource(R.drawable.img_red_item_looked);
+                    tv_bri_pic_send.setImageResource(R.drawable.img_red_item_re);
                     tv_bri_target_send.setText("红包已过期");
                     sendView.setBackgroundResource(R.drawable.red_packet_send_bg_other);
                 }
-
+            }else {
+                tv_bri_pic_send.setImageResource(R.drawable.img_red_item_re);
+                tv_bri_target_send.setText("领取红包");
+                sendView.setBackgroundResource(R.drawable.red_packet_send_bg);
             }
         } else {
             sendView.setVisibility(View.GONE);
@@ -155,11 +158,14 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
                     tv_bri_target_rev.setText("红包已被领完");
                     revView.setBackgroundResource(R.drawable.red_packet_rev_bg_other);
                 }else if (click.equals("9000")){
-                    tv_bri_pic_rev.setImageResource(R.drawable.img_red_item_looked);
+                    tv_bri_pic_rev.setImageResource(R.drawable.img_red_item_re);
                     tv_bri_target_rev.setText("红包已过期");
                     revView.setBackgroundResource(R.drawable.red_packet_rev_bg_other);
                 }
-
+            }else {
+                tv_bri_pic_rev.setImageResource(R.drawable.img_red_item_re);
+                tv_bri_target_rev.setText("领取红包");
+                revView.setBackgroundResource(R.drawable.red_packet_rev_bg);
             }
         }
     }

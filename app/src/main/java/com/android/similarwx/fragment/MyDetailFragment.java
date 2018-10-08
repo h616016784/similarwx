@@ -146,11 +146,8 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                     amount=String.format("%.2f", item.getAmount());
                 }else {
                     helper.setGone(R.id.item_my_detail_name_right_tv,true);
-                    helper.setText(R.id.item_my_detail_name_right_tv,item.getAmount()+"");
-                    if (TextUtils.isEmpty(item.getRebateAmount())){
-                        amount="0.00";
-                    }else
-                        amount=String.format("%.2f", item.getRebateAmount());
+                    helper.setText(R.id.item_my_detail_name_right_tv,"-"+item.getAmount());
+                    amount=String.format("%.2f", item.getRebateAmount());
                 }
                 if (type.equals(BillType.ALL.toString())){
                     helper.setText(R.id.item_my_detail_name_tv,BillType.ALL.toName());
@@ -193,7 +190,10 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 }else if (type.equals(BillType.SEND_PACKAGE.toString())){ //红包发布
                     helper.setText(R.id.item_my_detail_name_tv,BillType.SEND_PACKAGE.toName());
                     helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
-                    helper.setText(R.id.item_my_detail_money_tv,"-"+amount+"");
+                    if (TextUtils.isEmpty(transferId))
+                        helper.setText(R.id.item_my_detail_money_tv,"-"+amount+"");
+                    else
+                        helper.setText(R.id.item_my_detail_money_tv,amount+"");
                 }else if (type.equals(BillType.THUNDER_PACKAGE.toString())){ //雷包扣款
                     helper.setText(R.id.item_my_detail_name_tv,BillType.THUNDER_PACKAGE.toName());
                     helper.setTextColor(R.id.item_my_detail_money_tv,AppContext.getResources().getColor(R.color.black));
@@ -232,7 +232,10 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             @Override
             public void onLoadMoreRequested() {
                 page++;
-                mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
+                if (TextUtils.isEmpty(transferId)){
+                    mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
+                }else
+                    mPresent.getAcountList(transferId,mType,userId,mStart,mEnd,page+"",rows+"");
             }
         },myDetailRv);
         myDetailRv.setAdapter(adapter);
@@ -255,7 +258,10 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         mStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(starTime);
         myDetailStartTv.setText(mStart);
         myDetailEndTv.setText(mEnd);
-        mPresent.getAcountList(userId, mType,transferId,mStart,mEnd,page+"",rows+"");
+        if (TextUtils.isEmpty(transferId)){
+            mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
+        }else
+            mPresent.getAcountList(transferId,mType,userId,mStart,mEnd,page+"",rows+"");
 
         pvTime=new TimePickerBuilder(activity, new OnTimeSelectListener() {
             @Override
@@ -270,7 +276,10 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 adapter.getData().clear();
                 page=1;
                 rows=20;
-                mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
+                if (TextUtils.isEmpty(transferId)){
+                    mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
+                }else
+                    mPresent.getAcountList(transferId,mType,userId,mStart,mEnd,page+"",rows+"");
             }
         }).build();
         //展示类别list
@@ -288,7 +297,10 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 mType=billTypeList.get(position).toString();
                 page=1;
                 rows=20;
-                mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
+                if (TextUtils.isEmpty(transferId)){
+                    mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
+                }else
+                    mPresent.getAcountList(transferId,mType,userId,mStart,mEnd,page+"",rows+"");
                 if (listPopupWindow!=null){
                     listPopupWindow.dismiss();
                 }

@@ -97,7 +97,7 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
 
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarDarkFont(false, 0.2f)
-                .statusBarColor(R.color.colorPrimary)
+                .statusBarColor(R.color.color_black_383A3E)
                 .fitsSystemWindows(true).init();
         setContentView();
         AppContext.getActivitiesStack().push(this);

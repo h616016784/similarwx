@@ -122,7 +122,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
                 //  .keyboardEnable(true, WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
                 //                        | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)  //软键盘自动弹出
                 .statusBarDarkFont(false, 0.2f)
-                .statusBarColor(R.color.colorPrimary)
+                .statusBarColor(R.color.color_black_383A3E)
                 .init();
         miPresent=new MIPresent(this);
 

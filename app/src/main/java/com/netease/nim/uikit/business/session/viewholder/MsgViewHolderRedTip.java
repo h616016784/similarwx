@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.RedDetialBean;
 import com.android.similarwx.beans.SendRed;
+import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.inteface.RedDetailViewInterface;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
@@ -141,7 +142,8 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
     }
 
     @Override
-    public void refreshRedDetail(List<RedDetialBean> list) {
+    public void refreshRedDetail(RspRedDetail.RedListData redListData) {
+        List<RedDetialBean> list=redListData.getRedPacDetailList();
         if (list!=null && sendRedBean!=null){
             String count=sendRedBean.getCount();
             if (!TextUtils.isEmpty(count)){

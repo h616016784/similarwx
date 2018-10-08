@@ -7,6 +7,15 @@ package com.android.similarwx.beans;
 public class AccountDetailBean extends BaseBean{
     private  String value;
     private  String type;
+    private  String oppositeId;
+
+    public String getOppositeId() {
+        return oppositeId;
+    }
+
+    public void setOppositeId(String oppositeId) {
+        this.oppositeId = oppositeId;
+    }
 
     public String getValue() {
         return value;

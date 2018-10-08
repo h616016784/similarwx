@@ -19,6 +19,7 @@ import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.RedDetialBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
+import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.inteface.RedDetailViewInterface;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
@@ -79,6 +80,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.red_detail_title);
         mActionbar.setWholeBackground(R.color.colorRed2);
+        mActionbar.setDividerBackground(R.color.colorRed2);
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new RedDetailPresent(this);
         Bundle bundle=getArguments();
@@ -101,7 +103,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
                                     String imageUrl=userInfo.getAvatar();
                                     redDetailName.setText(userInfo.getName());
                                     if (!TextUtils.isEmpty(imageUrl)){
-                                        NetImageUtil.glideImageCircle(getActivity(),imageUrl,redDetailHeadIv);
+                                        NetImageUtil.glideImageNormal(getActivity(),imageUrl,redDetailHeadIv);
                                     }
                                 }
                             }
@@ -154,10 +156,12 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     }
 
     @Override
-    public void refreshRedDetail(List<RedDetialBean> list) {
-
-        redDetailTakeTimeTv.setVisibility(View.VISIBLE);
-        redDetailTakeTimeTv.setText("秒内被抢光");
+    public void refreshRedDetail(RspRedDetail.RedListData redListData) {
+        List<RedDetialBean> list=redListData.getRedPacDetailList();
+        if (!TextUtils.isEmpty(redListData.getSpendSecond())){
+            redDetailTakeTimeTv.setVisibility(View.VISIBLE);
+            redDetailTakeTimeTv.setText(redListData.getSpendSecond()+"秒内被抢光");
+        }
         String textContent=sendRed.getThunder();
         if (TextUtils.isEmpty(sendRed.getThunder())){
             textContent=sendRed.getCount();

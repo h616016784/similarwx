@@ -21,7 +21,7 @@ public class RedDetailPresent {
         if (rspRedDetail!=null){
             String result=rspRedDetail.getResult();
             if (result.equals("success")){
-                mView.refreshRedDetail(rspRedDetail.getData().getRedPacDetailList());
+                mView.refreshRedDetail(rspRedDetail.getData());
             }else {
                 Toaster.toastShort(rspRedDetail.getErrorMsg());
             }

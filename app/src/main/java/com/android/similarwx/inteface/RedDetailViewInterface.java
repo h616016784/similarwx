@@ -2,6 +2,7 @@ package com.android.similarwx.inteface;
 
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.RedDetialBean;
+import com.android.similarwx.beans.response.RspRedDetail;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ import java.util.List;
  */
 
 public interface RedDetailViewInterface extends ViewInterface {
-    void refreshRedDetail(List<RedDetialBean> list);
+    void refreshRedDetail(RspRedDetail.RedListData list);
 }

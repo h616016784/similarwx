@@ -42,6 +42,7 @@ public class Actionbar extends FrameLayout {
 
     private View mCustomTitleView;
     private LinearLayout layout_ll;
+    private FrameLayout divider;
     View layout;
 
     public Actionbar(Context context) {
@@ -79,6 +80,7 @@ public class Actionbar extends FrameLayout {
         mLeftLayout = (ViewGroup) layout.findViewById(R.id.left_layout);
         mRightLayout = (ViewGroup) layout.findViewById(R.id.right_layout);
         layout_ll= (LinearLayout) layout.findViewById(R.id.content);
+        divider= (FrameLayout) layout.findViewById(R.id.divider);
         initActions();
     }
 
@@ -174,6 +176,9 @@ public class Actionbar extends FrameLayout {
 
     public void setWholeBackground(int res){
         layout_ll.setBackgroundResource(res);
+    }
+    public void setDividerBackground(int res){
+        divider.setBackgroundResource(res);
     }
     /**
      * 设置people

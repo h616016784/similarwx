@@ -72,7 +72,6 @@ public class Bill extends BaseBean {
          * isSyncAccount : true
          * createDate : 2018-08-15 22:40:07
          */
-
         private String tradeType;
         private String refId;
         private String rebateLevel;
@@ -86,7 +85,33 @@ public class Bill extends BaseBean {
         private String userId;
         private boolean isSyncAccount;
         private String createDate;
-        private String rebateAmount;
+        private String redPacAmount;
+        private double rebateAmount;
+        private double luckAmount;
+
+        public double getLuckAmount() {
+            return luckAmount;
+        }
+
+        public void setLuckAmount(double luckAmount) {
+            this.luckAmount = luckAmount;
+        }
+
+        public String getRedPacAmount() {
+            return redPacAmount;
+        }
+
+        public void setRedPacAmount(String redPacAmount) {
+            this.redPacAmount = redPacAmount;
+        }
+
+        public double getRebateAmount() {
+            return rebateAmount;
+        }
+
+        public void setRebateAmount(double rebateAmount) {
+            this.rebateAmount = rebateAmount;
+        }
 
         public boolean isSyncAccount() {
             return isSyncAccount;
@@ -94,14 +119,6 @@ public class Bill extends BaseBean {
 
         public void setSyncAccount(boolean syncAccount) {
             isSyncAccount = syncAccount;
-        }
-
-        public String getRebateAmount() {
-            return rebateAmount;
-        }
-
-        public void setRebateAmount(String rebateAmount) {
-            this.rebateAmount = rebateAmount;
         }
 
         public String getTradeType() {

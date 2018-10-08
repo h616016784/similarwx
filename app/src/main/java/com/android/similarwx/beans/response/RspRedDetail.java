@@ -21,7 +21,16 @@ public class RspRedDetail extends BaseResponse{
 
     public static class RedListData {
         private String count;
+        private String spendSecond;
         private List<RedDetialBean> redPacDetailList;
+
+        public String getSpendSecond() {
+            return spendSecond;
+        }
+
+        public void setSpendSecond(String spendSecond) {
+            this.spendSecond = spendSecond;
+        }
 
         public String getCount() {
             return count;

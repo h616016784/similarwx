@@ -11,6 +11,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -301,7 +302,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
     public void reFreshCustemRed(SendRed.SendRedBean data) {
 
     }
-
+    Handler handler=new Handler(Looper.getMainLooper());
     @Override
     public void grabRed(RspGrabRed bean) {
         if (bean!=null) {
@@ -323,12 +324,18 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 //                            NIMClient.getService(MsgService.class).updateIMMessage(message);
                         }
                         if (sound==1){
-                            MediaManager.playSendMessageSound(getActivity(), afd, new MediaPlayer.OnCompletionListener() {
+                            handler.post(new Runnable() {
                                 @Override
-                                public void onCompletion(MediaPlayer mp) {
-                                    doToRedDetail(bena);
+                                public void run() {
+                                    MediaManager.playSendMessageSound(getActivity(), afd, new MediaPlayer.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            MediaManager.release();
+                                        }
+                                    });
                                 }
                             });
+                            doToRedDetail(bena);
                         }else
                             doToRedDetail(bena);
                     }else {

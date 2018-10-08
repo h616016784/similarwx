@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_alignParentRight="true"
-                android:text="你领取了阿飞的红吧"/>
+                android:text=""/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"

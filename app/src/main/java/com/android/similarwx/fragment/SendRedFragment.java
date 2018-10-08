@@ -210,11 +210,12 @@ public class SendRedFragment extends BaseFragment {
             Toaster.toastShort("网络异常！");
             return;
         }
-        String money=sendRedSumEt.getText().toString();
+        String money=sumMoneyTv.getText().toString();
         if (TextUtils.isEmpty(money)){
             Toaster.toastShort("金额不能为空！");
             return;
         }else {
+            money=money.replace("¥","");
             Pattern pattern= Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$");
             Matcher match=pattern.matcher(money);
             if(match.matches()==false){
@@ -336,9 +337,8 @@ public class SendRedFragment extends BaseFragment {
                 sendRedBt.setEnabled(false);
                 first=false;
             }else {
-                sumMoneyTv.setText("¥"+s);
-//                sendRedSumEt.setText(String.format("%.2f", Double.parseDouble(s.toString())));
                 double dMoney=Double.parseDouble(s.toString());
+                sumMoneyTv.setText("¥"+dMoney);
                 if (dMoney>=listBean.getStartRange() && dMoney<=listBean.getEndRange()){
                     sendRedErrorTv.setVisibility(View.GONE);
                     sendRedSumEtTv.setTextColor(getResources().getColor(R.color.black));
