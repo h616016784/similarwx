@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:id="@+id/bri_send"
-        android:layout_width="240dp"
+        android:layout_width="220dp"
         android:layout_height="85dp"
         android:visibility="gone"
         android:background="@drawable/red_packet_send_bg">
@@ -57,7 +57,7 @@
 
     <RelativeLayout
         android:id="@+id/bri_rev"
-        android:layout_width="240dp"
+        android:layout_width="220dp"
         android:layout_height="85dp"
         android:background="@drawable/red_packet_rev_bg">
         <ImageView
