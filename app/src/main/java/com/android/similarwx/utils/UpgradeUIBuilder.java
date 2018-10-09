@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -120,7 +121,8 @@ public class UpgradeUIBuilder {
 	public UpgradeUIBuilder(Context context, String URL) {
 		this.mContext = context;
 		this.mAppUpgradeURL = URL;
-		pkgPath = Environment.getDataDirectory() + "/data/" + context.getPackageName();
+//		pkgPath = Environment.getDataDirectory() + "/data/" + context.getPackageName()+"/files/download";
+		pkgPath = context.getFilesDir()+"/download";
 		mNotificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		Log.i(TAG, "mNotificationManager:" + mNotificationManager);
@@ -409,12 +411,16 @@ public class UpgradeUIBuilder {
 	 * @param file
 	 */
 	private void openFile(File file) {
-        // TODO Auto-generated method stub
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(file),
-                        "application/vnd.android.package-archive");
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { // 7.0+以上版本
+			Uri apkUri = FileProvider.getUriForFile(mContext, mContext.getApplicationContext().getPackageName()+".provider", file);  //包名.fileprovider
+			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+		} else {
+			intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+		}
         mContext.startActivity(intent);
 	}
 

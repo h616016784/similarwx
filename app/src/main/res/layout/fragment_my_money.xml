@@ -7,8 +7,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8">
+        android:layout_weight="9">
         <ImageView
+            android:layout_margin="@dimen/distance_small"
             android:id="@+id/my_money_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,8 +45,6 @@
                 android:textStyle="italic"
                 android:text="02365" />
         </LinearLayout>
-
-
     </RelativeLayout>
     <TextView
         android:layout_marginTop="@dimen/distance_normal"

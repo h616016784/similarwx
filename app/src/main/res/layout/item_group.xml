@@ -10,23 +10,24 @@
         android:layout_marginRight="@dimen/distance_smaller"
         android:layout_marginBottom="@dimen/distance_smaller"
         android:layout_marginLeft="@dimen/distance_normal">
-            <ImageView
-                android:id="@+id/item_group_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ease_default_image"/>
-            <TextView
-                android:id="@+id/item_group_count_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_mini"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:visibility="gone"
-                android:background="@drawable/nim_main_tab_new_message_notify"
-                />
+        <ImageView
+            android:id="@+id/item_group_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ease_default_image"/>
+        <TextView
+            android:id="@+id/item_group_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_mini"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:visibility="gone"
+            android:background="@drawable/nim_main_tab_new_message_notify"
+            />
     </RelativeLayout>
 
     <RelativeLayout

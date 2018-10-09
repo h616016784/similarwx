@@ -26,6 +26,7 @@ import com.android.similarwx.beans.Notice;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
+import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.utils.BitmapUtil;
 import com.android.similarwx.utils.FileUtils;
@@ -137,19 +138,28 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
 
     @Override
     public void refreshSysMoney(String url) {
-        NetImageUtil.glideImageNormalListener(activity, url, myMoneyIv, new RequestListener() {
+        NetImageUtil.glideToBitmap(activity, url, new YCallBack<Bitmap>() {
             @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
-                myMoneyCodeLL.setVisibility(View.VISIBLE);
-                myMoneyCodeTv.setText(mUser.getInviter());
-                return false;
+            public void callBack(Bitmap bitmap) {
+                if (bitmap!=null){
+                    bitmap=BitmapUtil.addWatermarkBitmap(bitmap,"推荐码  "+mUser.getInviter());
+                    myMoneyIv.setImageBitmap(bitmap);
+                }
             }
         });
+//        NetImageUtil.glideImageNormalListener(activity, url, myMoneyIv,new RequestListener() {
+//            @Override
+//            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+//                myMoneyCodeLL.setVisibility(View.VISIBLE);
+//                myMoneyCodeTv.setText(mUser.getInviter());
+//                return false;
+//            }
+//        });
 
     }
 
