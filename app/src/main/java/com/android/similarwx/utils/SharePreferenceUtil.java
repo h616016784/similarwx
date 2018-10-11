@@ -61,7 +61,7 @@ public class SharePreferenceUtil {
     }
     public static Integer getInt(Context context, String key) {
         SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
-        return sp.getInt(key, 0);
+        return sp.getInt(key, 1);
     }
 
     /**

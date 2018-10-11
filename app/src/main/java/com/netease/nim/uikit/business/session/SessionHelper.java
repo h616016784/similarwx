@@ -432,7 +432,7 @@ public class SessionHelper {
                     }
                 }
             };
-            infoButton.iconId = R.drawable.nim_ic_message_actionbar_team;
+            infoButton.iconId = R.drawable.nim_ic_message_actionbar_team_1;
             buttons.add(cloudMsgButton);
             buttons.add(infoButton);
             teamCustomization.buttons = buttons;

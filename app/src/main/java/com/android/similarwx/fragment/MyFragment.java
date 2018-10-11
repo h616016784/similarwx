@@ -1,5 +1,6 @@
 package com.android.similarwx.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -19,6 +20,7 @@ import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.LoginActivity;
+import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.Notice;
@@ -239,14 +241,11 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
     @Override
     public void logoutScucces(User user) {
         NIMClient.getService(AuthService.class).logout();
-
-        while (!AppContext.getActivitiesStack().isEmpty()){
-            AppCompatActivity activity=AppContext.getActivitiesStack().pop();
-            if (activity instanceof LoginActivity){
-                continue;
-            }
-            activity.finish();
-        }
+        LoginActivity.start(activity);
+        Intent intent = new Intent();
+        intent.setAction(MainChartrActivity.ACTION_FINISH_MAIN);
+        activity.sendBroadcast(intent);
+        activity.finish();
     }
 
     @Override

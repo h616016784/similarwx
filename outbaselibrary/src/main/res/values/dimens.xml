@@ -12,6 +12,7 @@
     <dimen name="text_sub_title">16sp</dimen>
     <!-- appbar文字 -->
     <dimen name="text_appbar">20sp</dimen>
+    <dimen name="text_appbar_18">18sp</dimen>
     <!-- 大标题 -->
     <dimen name="text_big_title">24sp</dimen>
     <!-- 超大号文字 -->

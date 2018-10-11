@@ -6,53 +6,95 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_hb_detail">
+        android:background="@drawable/hui">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
+            android:src="@drawable/bg_hb_detail"/>
         <ImageView
             android:id="@+id/red_detail_head_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/default_member"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/avatar_m"/>
+            android:background="@drawable/bj_touxiang"
+            android:padding="@dimen/distance_smallest"
+            android:layout_marginTop="50dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/red_detail_head_iv">
+            <LinearLayout
+                android:id="@+id/red_detail_name_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/distance_small"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/red_detail_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_content_or_button"
+                    android:textColor="@color/black"
+                    android:text="昵称"
+                    android:textStyle="normal"/>
+                <ImageView
+                    android:id="@+id/red_detail_name_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/distance_smallest"
+                    android:layout_marginLeft="@dimen/distance_small"
+                    android:src="@drawable/red_lei"/>
+            </LinearLayout>
 
+            <TextView
+                android:id="@+id/red_detail_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_small"
+                android:textSize="@dimen/text_content_or_button"
+                android:layout_below="@id/red_detail_name_ll"
+                android:layout_centerHorizontal="true"
+                android:text="0-0"/>
+            <LinearLayout
+                android:id="@+id/red_detail_acount_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/distance_middle"
+                android:layout_below="@id/red_detail_count"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/red_detail_acount_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="40sp"
+                    android:layout_below="@id/red_detail_count"
+                    android:layout_centerHorizontal="true"
+                    android:text="0.00"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/red_detail_acount_yuan_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_content_or_button"
+                    android:layout_below="@id/red_detail_count"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/distance_smaller"
+                    android:text="元"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/red_detail_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_content_or_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/distance_smaller"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
-        <TextView
-            android:id="@+id/red_detail_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_content_or_button"
-            android:layout_below="@id/red_detail_name"
-            android:layout_centerHorizontal="true"
-            android:text="0-0"/>
-        <TextView
-            android:id="@+id/red_detail_acount_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_big_title"
-            android:layout_below="@id/red_detail_count"
-            android:layout_centerHorizontal="true"
-            android:text="0.00元"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            />
 
-    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/distance_small"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginTop="@dimen/distance_small"
+        android:layout_marginBottom="@dimen/distance_small"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
@@ -77,11 +119,14 @@
             android:visibility="gone"
             android:text="个"/>
     </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="@dimen/distance_smaller"
         android:id="@+id/red_detail_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/distance_normal"
+        android:layout_marginRight="@dimen/distance_normal"
         android:layout_weight="8">
 
     </android.support.v7.widget.RecyclerView>

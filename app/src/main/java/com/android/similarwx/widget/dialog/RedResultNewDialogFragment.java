@@ -32,6 +32,7 @@ import com.android.similarwx.fragment.RedDetailFragment;
 import com.android.similarwx.inteface.MiViewInterface;
 import com.android.similarwx.inteface.RedDetailViewInterface;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
+import com.android.similarwx.misdk.ScreenUtil;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.utils.FragmentUtils;
@@ -160,7 +161,9 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                                     String imageUrl=userInfo.getAvatar();
                                     dialog_red_result_name_tv.setText(userInfo.getName());
                                     if (!TextUtils.isEmpty(imageUrl)){
-                                        NetImageUtil.glideImageNormal(getActivity(),imageUrl,dialog_red_result_head_iv);
+                                        int width= ScreenUtil.dip2px(45);
+                                        int heigth=ScreenUtil.dip2px(45);
+                                        NetImageUtil.glideImageCorner(getActivity(),imageUrl,dialog_red_result_head_iv,width,heigth);
                                     }
                                 }
                             }

@@ -51,7 +51,6 @@ public class RedAction extends BaseAction implements SendRedViewInterface {
         super(R.drawable.demo_reply_bar_hb, R.string.chart_red);
         this.fromFragment=fromFragment;
         present=new SendRedPresent(this);
-
     }
 
     @Override

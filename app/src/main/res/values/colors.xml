@@ -7,6 +7,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorRed">#CC0033</color>
     <color name="colorRed2">#D84E43</color>
+    <color name="colorRed3">#D85940</color>
     <color name="actionbar_green">#26ca82</color>
     <color name="white_gray">#f0f0f0</color>
 
@@ -19,8 +20,12 @@
     <color name="light_green">#80218868</color>
     <color name="trans_green">#44218868</color>
     <color name="light_orange">#ff8942</color>
+    <color name="light_orange1">#F0B870</color>
+    <color name="light_orange_line">#F1F1F1</color>
+    <color name="light_orange_size">#FFE8B6</color>
     <color name="trans_orange">#99ff8942</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_1">#F4F4F6</color>
     <color name="fade_white">#f5f5f5</color>
     <color name="input_white">#fafafa</color>
     <color name="light_white">#44FFFFFF</color>
@@ -32,6 +37,8 @@
     <color name="transparent">#00000000</color>
     <color name="half_transparent">#80000000</color>
     <color name="dark_gray">#99000000</color>
+    <color name="dark_gray_1">#363942</color>
+    <color name="dark_gray_2">#171A23</color>
     <color name="light_gray">#cccccc</color>
     <color name="pressed_gray">#bbbbbb</color>
     <color name="gray">#a2a2a2</color>
@@ -121,6 +128,7 @@
     <color name="color_grey_ababab">#ababab</color>
     <color name="color_yellow_796413">#796413</color>
     <color name="color_yellow_b39729">#b39729</color>
+    <color name="color_red_chakan_text">#DF9C74</color>
 
     <!-- setting -->
     <color name="color_black_ff333333">#ff333333</color>

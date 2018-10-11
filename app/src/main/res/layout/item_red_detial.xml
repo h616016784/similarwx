@@ -2,43 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_app_bar">
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/distance_small"
-        android:layout_marginLeft="@dimen/distance_normal"
-        android:layout_marginRight="@dimen/distance_normal">
+        android:layout_marginTop="@dimen/distance_middle"
+        android:layout_marginBottom="@dimen/distance_middle">
         <ImageView
             android:id="@+id/item_red_detail_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/pic_1_cs"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/touxiang"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/item_red_detail_iv"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/distance_small"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/item_red_detail_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/distance_smaller"
                 android:text="唐僧哥哥"
-                android:textSize="@dimen/text_tip"
+                android:textSize="@dimen/text_sub_title"
+                android:textColor="@color/black"
                 />
             <TextView
                 android:id="@+id/item_red_detail_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/distance_smaller"
-                android:textSize="@dimen/text_tip"
+                android:layout_marginTop="@dimen/distance_small"
+                android:textSize="@dimen/text_content_or_button"
                 android:text="11：25"/>
         </LinearLayout>
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="vertical"
             android:layout_alignParentRight="true">
@@ -46,13 +47,17 @@
                 android:id="@+id/item_red_detail_money_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/distance_smaller"
+                android:layout_marginTop="@dimen/distance_small"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/black"
                 android:text="11元"
-                android:textSize="@dimen/text_tip"
+                android:textSize="@dimen/text_sub_title"
                 />
             <RelativeLayout
                 android:id="@+id/item_red_detail_shouqi_rl"
                 android:layout_width="wrap_content"
+                android:layout_below="@id/item_red_detail_money_tv"
+                android:layout_alignParentRight="true"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/item_red_detail_shouqi_iv"
@@ -67,11 +72,14 @@
                     android:layout_margin="@dimen/distance_smallest"
                     android:layout_toRightOf="@id/item_red_detail_shouqi_iv"
                     android:textSize="@dimen/text_content_or_button"
-                    android:textColor="@color/light_orange"
+                    android:textColor="@color/light_orange1"
                     android:layout_centerVertical="true"
                     android:text="最佳手气"/>
             </RelativeLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_orange_line"/>
 </LinearLayout>

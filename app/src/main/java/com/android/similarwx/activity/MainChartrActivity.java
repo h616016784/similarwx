@@ -2,6 +2,7 @@ package com.android.similarwx.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -102,7 +103,7 @@ import butterknife.Unbinder;
  */
 
 public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, NoticeViewInterface, ReminderManager.UnreadNumChangedCallback {
-
+    public static final String ACTION_FINISH_MAIN = "com.similarwx.action.main.finish";
     Unbinder unbinder;
     @BindView(R.id.main_search_iv)
     ImageView mainSearchIv;
@@ -181,7 +182,13 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         recyclerView.requestFocus();
         adapter.setOnItemClickListener(this);
 
+        registerReceiver(mFinishReceiver, new IntentFilter(ACTION_FINISH_MAIN));
         hideKeyboard();
+        for (Activity activity:AppContext.getActivitiesStack()){
+            if (activity !=this){
+                activity.finish();
+            }
+        }
     }
     private void initYunXinSystemMsgListener() {
         NIMClient.getService(SystemMessageObserver.class)
@@ -247,7 +254,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
         PopMoreBean bean2=new PopMoreBean();
         bean2.setName("查找群组");
-        bean2.setImage(R.drawable.icon_top_search);
+        bean2.setImage(R.drawable.icon_top_search_group);
         listMore.add(bean2);
     }
 
@@ -598,19 +605,20 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
     @Override
     public void onBackPressed() {
-        if (!quit) { //询问退出程序
-            Toaster.toastShort("再按一次退出程序");
-            new Timer(true).schedule(new TimerTask() { //启动定时任务
-                @Override
-                public void run() {
-                    quit = false; //重置退出标识
-                }
-            }, 2000); //2秒后运行run()方法
-            quit = true;
-        } else { //确认退出程序
-            super.onBackPressed();
-            finishApp();
-        }
+        super.onBackPressed();
+//        if (!quit) { //询问退出程序
+//            Toaster.toastShort("再按一次退出程序");
+//            new Timer(true).schedule(new TimerTask() { //启动定时任务
+//                @Override
+//                public void run() {
+//                    quit = false; //重置退出标识
+//                }
+//            }, 2000); //2秒后运行run()方法
+//            quit = true;
+//        } else { //确认退出程序
+//            super.onBackPressed();
+//            finishApp();
+//        }
     }
 
     public void finishApp(){

@@ -118,6 +118,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                         Log.e("onComplete","点击了！");
                     }
                 });
+
     }
 
     private void initPerssion() {

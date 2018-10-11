@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dark_gray"
+    android:background="@color/dark_gray_1"
     android:paddingTop="@dimen/distance_normal"
     android:orientation="vertical">
     <RelativeLayout
@@ -12,7 +12,7 @@
             android:id="@+id/item_list_pop_iv"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/tooltip_icon_f"
+            android:src="@drawable/icon_top_search"
             android:layout_marginLeft="@dimen/distance_normal"
             android:layout_centerVertical="true"/>
         <TextView
@@ -33,5 +33,5 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen1dp"
         android:layout_marginTop="@dimen/distance_normal"
-        android:background="@color/white"/>
+        android:background="@color/dark_gray_2"/>
 </LinearLayout>

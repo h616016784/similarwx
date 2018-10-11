@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.RedDetialBean;
+import com.android.similarwx.misdk.ScreenUtil;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
@@ -58,7 +59,9 @@ public class RedDetailAdapter extends BaseQuickAdapter<RedDetialBean,BaseViewHol
 //        helper.setText(R.id.item_red_detail_shouqi_tv,item.getShouqi());
         String imageUrl=item.getIcon();
         if (!TextUtils.isEmpty(imageUrl)){
-            NetImageUtil.glideImageNormal(mContext,imageUrl,(ImageView) helper.getView(R.id.item_red_detail_iv));
+            int width= ScreenUtil.dip2px(62);
+            int heigth=ScreenUtil.dip2px(62);
+            NetImageUtil.glideImageCorner(mContext,imageUrl,(ImageView) helper.getView(R.id.item_red_detail_iv), width,heigth);
         }
         boolean isLucky=item.isBestHand();
         if (isLucky){

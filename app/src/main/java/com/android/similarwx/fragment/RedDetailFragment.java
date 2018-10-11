@@ -21,6 +21,7 @@ import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
 import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.inteface.RedDetailViewInterface;
+import com.android.similarwx.misdk.ScreenUtil;
 import com.android.similarwx.present.RedDetailPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.glide.CircleCrop;
@@ -54,12 +55,16 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     TextView redDetailCount;
     @BindView(R.id.red_detail_acount_tv)
     TextView redDetailAcountTv;
+    @BindView(R.id.red_detail_acount_yuan_tv)
+    TextView redDetailAcountYuanTv;
     @BindView(R.id.red_detail_take_tv)
     TextView redDetailTakeTv;
     @BindView(R.id.red_detail_take_time_tv)
     TextView redDetailTakeTimeTv;
     @BindView(R.id.red_detail_head_iv)
     ImageView redDetailHeadIv;
+    @BindView(R.id.red_detail_name_iv)
+    ImageView redDetailNameIv;
     @BindView(R.id.red_detail_rv)
     RecyclerView redDetailRv;
     Unbinder unbinder;
@@ -78,9 +83,11 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
-        mActionbar.setTitle(R.string.red_detail_title);
-        mActionbar.setWholeBackground(R.color.colorRed2);
-        mActionbar.setDividerBackground(R.color.colorRed2);
+        mActionbar.setTitle("");
+        mActionbar.setLeftText("红包详情");
+        mActionbar.setLeftImage(R.drawable.left_red_new);
+        mActionbar.setWholeBackground(R.color.colorRed3);
+        mActionbar.setDividerBackground(R.color.colorRed3);
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new RedDetailPresent(this);
         Bundle bundle=getArguments();
@@ -103,7 +110,9 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
                                     String imageUrl=userInfo.getAvatar();
                                     redDetailName.setText(userInfo.getName());
                                     if (!TextUtils.isEmpty(imageUrl)){
-                                        NetImageUtil.glideImageNormal(getActivity(),imageUrl,redDetailHeadIv);
+                                        int width=ScreenUtil.dip2px(62);
+                                        int heigth=ScreenUtil.dip2px(62);
+                                        NetImageUtil.glideImageCorner(getActivity(),imageUrl,redDetailHeadIv, width,heigth);
                                     }
                                 }
                             }
@@ -171,6 +180,9 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
         if (!TextUtils.isEmpty(type)){
             if (type.equals("LUCK")){
                 redDetailCount.setText(sendRed.getCotent());
+                redDetailNameIv.setImageResource(R.drawable.red_pin);
+            }else {
+                redDetailNameIv.setImageResource(R.drawable.red_lei);
             }
         }
         boolean isHas=false;
@@ -180,7 +192,11 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             if (!TextUtils.isEmpty(accid)){
                 if (myAccid.equals(accid)){
                     isHas=true;
-                    redDetailAcountTv.setText(String.format("%.2f", bean.getAmount())+" 元");
+                    if (bean.getAmount()==0){
+                        redDetailAcountTv.setVisibility(View.GONE);
+                        redDetailAcountYuanTv.setVisibility(View.GONE);
+                    }else
+                        redDetailAcountTv.setText(String.format("%.2f", bean.getAmount()));
                 }
             }
         }

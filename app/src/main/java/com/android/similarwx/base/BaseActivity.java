@@ -72,7 +72,7 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
     };
 
     private OnInterceptKeyListener mOnInterceptKeyListener;
-    protected ImmersionBar mImmersionBar;
+    public ImmersionBar mImmersionBar;
 
     public void refresh() {
         if (mContentFragment != null) {

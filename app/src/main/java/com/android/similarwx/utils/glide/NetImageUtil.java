@@ -109,4 +109,22 @@ public class NetImageUtil {
                 .apply(options)
                 .into(imageView);
     }
+    public static void glideImageCorner(Context context, String url, ImageView imageView){
+        glideImageCorner(context,url,imageView,120,120);
+    }
+    public static void glideImageCorner(Context context, String url, ImageView imageView,int width,int height){
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.bj_touxiang)
+                .error(R.drawable.nim_default_img_failed)
+                .transform(new GlideRoundTransform(context))
+                .override(width,height)
+                .priority(Priority.HIGH);
+//                .diskCacheStrategy(DiskCacheStrategy.NONE);
+
+        Glide.with(context)
+                .load(url)
+                .apply(options)
+                .into(imageView);
+    }
 }

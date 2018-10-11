@@ -2,74 +2,101 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/pop_red_bg"
     android:orientation="vertical">
-    <ImageView
-        android:id="@+id/dialog_red_result_cancel_iv"
-        android:layout_marginTop="@dimen/distance_small"
-        android:layout_marginLeft="@dimen/distance_small"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_cancel"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_marginLeft="-4dp"
+        android:layout_marginRight="-4dp">
+
+    <LinearLayout
+        android:id="@+id/dialog_red_result_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bj_shang"
+        android:orientation="vertical">
         <ImageView
-            android:id="@+id/dialog_red_result_head_iv"
+            android:id="@+id/dialog_red_result_cancel_iv"
+            android:layout_marginTop="@dimen/distance_middle"
+            android:layout_marginLeft="@dimen/distance_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_cancel"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/distance_middle">
+            <ImageView
+                android:id="@+id/dialog_red_result_head_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bj_touxiang_90_90"/>
+            <TextView
+                android:id="@+id/dialog_red_result_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/distance_normal"
+                android:layout_marginRight="@dimen/distance_normal"
+                android:layout_below="@id/dialog_red_result_head_iv"
+                android:layout_marginTop="@dimen/distance_middle"
+                android:gravity="center_horizontal"
+                android:text="白富美"
+                android:textColor="@color/light_orange_size"
+                android:textSize="@dimen/text_content_or_button"/>
+
+            <TextView
+                android:id="@+id/dialog_red_result_tips_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/distance_normal"
+                android:layout_marginRight="@dimen/distance_normal"
+                android:layout_below="@id/dialog_red_result_name_tv"
+                android:layout_marginTop="@dimen/distance_small"
+                android:gravity="center_horizontal"
+                android:text="发了一个红包，金额随机"
+                android:textColor="@color/light_orange_size"
+                android:textSize="@dimen/text_tip"/>
+            <TextView
+                android:id="@+id/dialog_red_result_money_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/distance_normal"
+                android:layout_marginRight="@dimen/distance_normal"
+                android:layout_below="@id/dialog_red_result_tips_tv"
+                android:layout_marginTop="@dimen/distance_bigger"
+                android:gravity="center_horizontal"
+                android:text="恭喜发财，大吉大利"
+                android:textColor="@color/light_orange_size"
+                android:textSize="18sp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_red_result_up"
+        android:layout_marginTop="-44dp"
+        android:background="@drawable/bj_xia">
+        <TextView
+            android:id="@+id/dialog_red_result_bottom_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal"
+            android:layout_marginTop="140dp"
+            android:layout_centerHorizontal="true"
+            android:text="查看领取详情 >"
+            android:textColor="@color/color_red_chakan_text"
+            android:textSize="@dimen/text_tip"
+            android:layout_marginBottom="@dimen/distance_normal"/>
+    </RelativeLayout>
+    <ImageView
+            android:id="@+id/dialog_red_result_kai_tv"
+            android:layout_marginTop="210dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/pic_1_40"/>
-        <TextView
-            android:id="@+id/dialog_red_result_name_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"
-            android:layout_below="@id/dialog_red_result_head_iv"
-            android:layout_marginTop="@dimen/distance_small"
-            android:gravity="center_horizontal"
-            android:text="白富美"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_tip"/>
-
-        <TextView
-            android:id="@+id/dialog_red_result_tips_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"
-            android:layout_below="@id/dialog_red_result_name_tv"
-            android:layout_marginTop="@dimen/distance_big"
-            android:gravity="center_horizontal"
-            android:text="您的积分不足，请充值！"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_content_or_button"/>
-
-        <ImageView
-            android:id="@+id/dialog_red_result_kai_tv"
-            android:layout_marginTop="@dimen/distance_big"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_below="@id/dialog_red_result_tips_tv"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/img_red_kai"
-            />
-
-
-        <TextView
-            android:id="@+id/dialog_red_result_bottom_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_normal"
-            android:layout_marginRight="@dimen/distance_normal"
-            android:layout_below="@id/dialog_red_result_tips_tv"
-            android:layout_marginTop="140dp"
-            android:gravity="center_horizontal"
-            android:text="查看领取详情 >"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_tip"/>
-
+            android:src="@drawable/selector_red_kai"/>
     </RelativeLayout>
 </LinearLayout>
