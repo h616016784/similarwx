@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.android.similarwx.R;
 import com.android.similarwx.adapter.RedDetailAdapter;
 import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.RedDetailBean;
 import com.android.similarwx.beans.RedDetialBean;
@@ -27,6 +28,7 @@ import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.glide.CircleCrop;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
+import com.gyf.barlibrary.ImmersionBar;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.uinfo.UserService;
@@ -75,6 +77,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     RspGrabRed.GrabRedBean grabRedBean;
     String redId;
     String groupId;
+    public ImmersionBar mImmersionBar;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_red_detail;
@@ -88,6 +91,10 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
         mActionbar.setLeftImage(R.drawable.left_red_new);
         mActionbar.setWholeBackground(R.color.colorRed3);
         mActionbar.setDividerBackground(R.color.colorRed3);
+        mImmersionBar = ImmersionBar.with(activity);
+        mImmersionBar.statusBarDarkFont(false, 0.2f)
+                .statusBarColor(R.color.colorRed3)
+                .fitsSystemWindows(false).init();
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new RedDetailPresent(this);
         Bundle bundle=getArguments();
@@ -136,6 +143,12 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     protected void fetchData() {
         super.fetchData();
         mPresent.redDetailList(redId,groupId);
@@ -157,6 +170,8 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
     }
 
     @Override
@@ -169,7 +184,22 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
         List<RedDetialBean> list=redListData.getRedPacDetailList();
         if (!TextUtils.isEmpty(redListData.getSpendSecond())){
             redDetailTakeTimeTv.setVisibility(View.VISIBLE);
-            redDetailTakeTimeTv.setText(redListData.getSpendSecond()+"秒内被抢光");
+            int time=Integer.parseInt(redListData.getSpendSecond());
+            if (time<60){
+                redDetailTakeTimeTv.setText(time+"秒内被抢光");
+            }else if (time>=60 && time<60*60){//分钟
+                int yu= time%60;
+                if (yu==0)
+                    redDetailTakeTimeTv.setText(time/60+"分钟内被抢光");
+                else
+                    redDetailTakeTimeTv.setText((time/60+1)+"分钟内被抢光");
+            }else if (time>=60*60 && time<60*60*24){//小时
+                int yu= time%60*60;
+                if (yu==0)
+                    redDetailTakeTimeTv.setText(time/(60*60)+"小时内被抢光");
+                else
+                    redDetailTakeTimeTv.setText((time/(60*60)+1)+"小时内被抢光");
+            }
         }
         String textContent=sendRed.getThunder();
         if (TextUtils.isEmpty(sendRed.getThunder())){

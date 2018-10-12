@@ -3,6 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,26 +128,32 @@
             android:text="个"/>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="@dimen/distance_smaller"
-        android:id="@+id/red_detail_rv"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/distance_normal"
-        android:layout_marginRight="@dimen/distance_normal"
-        android:layout_weight="8">
-
-    </android.support.v7.widget.RecyclerView>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants">
         <TextView
+            android:id="@+id/red_detail_hint_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/distance_middle"
+            android:layout_alignParentBottom="true"
             android:text="@string/red_detail_hit"
+            android:visibility="gone"
             android:gravity="center"
             android:layout_centerInParent="true"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="@dimen/distance_smaller"
+            android:id="@+id/red_detail_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_normal"
+            android:layout_marginRight="@dimen/distance_normal">
+        </android.support.v7.widget.RecyclerView>
+
     </RelativeLayout>
 
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -55,7 +55,7 @@ public class MsgViewHolderText extends MsgViewHolderBase {
             bodyTextView.setPadding(ScreenUtil.dip2px(15), ScreenUtil.dip2px(8), ScreenUtil.dip2px(10), ScreenUtil.dip2px(8));
         } else {
             bodyTextView.setBackgroundResource(NimUIKitImpl.getOptions().messageRightBackground);
-            bodyTextView.setTextColor(Color.WHITE);
+            bodyTextView.setTextColor(Color.BLACK);
             bodyTextView.setPadding(ScreenUtil.dip2px(10), ScreenUtil.dip2px(8), ScreenUtil.dip2px(15), ScreenUtil.dip2px(8));
         }
     }

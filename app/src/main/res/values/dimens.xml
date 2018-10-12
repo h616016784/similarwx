@@ -41,6 +41,7 @@
     <dimen name="separator_small">12dip</dimen>
     <dimen name="sign_vertical_margin">32dip</dimen>
     <dimen name="home_bottom_icon_size">30dip</dimen>
+    <dimen name="home_bottom_icon_size_small">26dip</dimen>
     <dimen name="normal_header_height">54dip</dimen>
     <dimen name="cropper_bottom_height">54dip</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>

@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/buttonAudioMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="31dp"
             android:background="@drawable/nim_message_button_bottom_audio_selector"
             android:contentDescription="@string/empty"
             android:scaleType="center" />
@@ -101,8 +101,12 @@
             android:id="@+id/buttonSendMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/distance_smaller"
+            android:paddingBottom="@dimen/distance_small"
+            android:paddingLeft="@dimen/distance_small"
+            android:paddingRight="@dimen/distance_small"
             android:layout_gravity="center"
-            android:background="@drawable/nim_message_button_bottom_send_selector"
+            android:background="@drawable/nim_message_button_bottom_send_selector_1"
             android:contentDescription="@string/empty"
             android:gravity="center"
             android:text="@string/send"

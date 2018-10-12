@@ -20,13 +20,12 @@
 
         <ImageView
             android:id="@+id/create_group_iv"
-            android:layout_width="@dimen/distance_big"
-            android:layout_height="@dimen/distance_big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/distance_smaller"
             android:layout_marginRight="@dimen/distance_normal"
-            android:visibility="gone"
             android:src="@drawable/message_button_bottom_add_selector"/>
         <RelativeLayout
             android:id="@+id/main_load_rl"
@@ -127,12 +126,12 @@
                 android:id="@+id/main_rl_explain"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/distance_smallest"
+                android:layout_marginTop="@dimen/distance_smaller"
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/main_explain_iv"
-                    android:layout_width="@dimen/home_bottom_icon_size"
-                    android:layout_height="@dimen/home_bottom_icon_size"
+                    android:layout_width="@dimen/home_bottom_icon_size_small"
+                    android:layout_height="@dimen/home_bottom_icon_size_small"
                     android:src="@drawable/selector_explain_tab"
                     android:layout_centerHorizontal="true"
                     />
@@ -158,12 +157,12 @@
                 android:id="@+id/main_rl_chart"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/distance_smallest"
+                android:layout_marginTop="@dimen/distance_smaller"
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/main_rl_chart_iv"
-                    android:layout_width="@dimen/home_bottom_icon_size"
-                    android:layout_height="@dimen/home_bottom_icon_size"
+                    android:layout_width="@dimen/home_bottom_icon_size_small"
+                    android:layout_height="@dimen/home_bottom_icon_size_small"
                     android:src="@drawable/selector_chart_tab"
                     android:layout_centerHorizontal="true"
                     />
@@ -188,13 +187,13 @@
             <RelativeLayout
                 android:id="@+id/main_rl_find"
                 android:layout_width="0dp"
-                android:layout_marginTop="@dimen/distance_smallest"
+                android:layout_marginTop="@dimen/distance_smaller"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/main_rl_find_iv"
-                    android:layout_width="@dimen/home_bottom_icon_size"
-                    android:layout_height="@dimen/home_bottom_icon_size"
+                    android:layout_width="@dimen/home_bottom_icon_size_small"
+                    android:layout_height="@dimen/home_bottom_icon_size_small"
                     android:src="@drawable/selector_find_tab"
                     android:layout_centerHorizontal="true"
                     />
@@ -209,14 +208,14 @@
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/main_my_chart"
-                android:layout_marginTop="@dimen/distance_smallest"
+                android:layout_marginTop="@dimen/distance_smaller"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/main_my_chart_iv"
-                    android:layout_width="@dimen/home_bottom_icon_size"
-                    android:layout_height="@dimen/home_bottom_icon_size"
+                    android:layout_width="@dimen/home_bottom_icon_size_small"
+                    android:layout_height="@dimen/home_bottom_icon_size_small"
                     android:src="@drawable/selector_my_tab"
                     android:layout_centerHorizontal="true"
                     />

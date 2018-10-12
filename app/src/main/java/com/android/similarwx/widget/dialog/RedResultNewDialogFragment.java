@@ -108,6 +108,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
     private TextView dialog_red_result_bottom_tv;
     private TextView dialog_red_result_name_tv;
     private TextView dialog_red_result_tips_tv;
+    private TextView dialog_red_result_money_tv;
 
     SendRed.SendRedBean mSendRedBean;
     private MIPresent miPresent;
@@ -139,6 +140,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         dialog_red_result_name_tv=view.findViewById(R.id.dialog_red_result_name_tv);
         dialog_red_result_tips_tv=view.findViewById(R.id.dialog_red_result_tips_tv);
         dialog_red_result_kai_tv=view.findViewById(R.id.dialog_red_result_kai_tv);
+        dialog_red_result_money_tv=view.findViewById(R.id.dialog_red_result_money_tv);
         myAccid = SharePreferenceUtil.getString(getActivity(),AppConstants.USER_ACCID,"");
         sound=SharePreferenceUtil.getInt(getActivity(),AppConstants.USER_SOUND_SET);
         Bundle bundle=getArguments();
@@ -341,6 +343,8 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                             doToRedDetail(bena);
                         }else
                             doToRedDetail(bena);
+                    }else if (code.equals("8889")){
+                        setErrorText("手慢了，红包派完了");
                     }else {
                         setErrorText(bena.getRetMsg());
                     }
@@ -409,22 +413,26 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 canFlag=0;
                 dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_tips_tv.setText("发了一个红包，金额随机");
                 if (mSendRedBean!=null){
                     String text=null;
                     if (TextUtils.isEmpty(mSendRedBean.getThunder())){
                         text=mSendRedBean.getCount();
+                        dialog_red_result_money_tv.setText(mSendRedBean.getCotent());
                     }else {
                         text=mSendRedBean.getThunder();
-                    }
-                    if (Util.isIntegerForDouble(Double.parseDouble(mSendRedBean.getAmount()))){
-                        dialog_red_result_tips_tv.setText(mSendRedBean.getAmount()+"-"+text);
-                    }else {
-                        dialog_red_result_tips_tv.setText(String.format("%.2f", Double.parseDouble(mSendRedBean.getAmount()))+"-"+text);
+                        if (Util.isIntegerForDouble(Double.parseDouble(mSendRedBean.getAmount()))){
+                            dialog_red_result_money_tv.setText(mSendRedBean.getAmount()+"-"+text);
+                        }else {
+                            dialog_red_result_money_tv.setText(String.format("%.2f", Double.parseDouble(mSendRedBean.getAmount()))+"-"+text);
+                        }
                     }
                 }
             } else if (code.equals("8889")){//红包已拆分完毕。
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.GONE);
                 canFlag=1;
                 setErrorText("手慢了，红包派完了");
                 if (message!=null){
@@ -437,6 +445,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             } else if (code.equals("9000")){//红包已过期退回。
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.GONE);
                 canFlag=1;
                 setErrorText(bean.getRetMsg());
                 if (message!=null){
@@ -449,6 +458,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             } else if(code.equals("0010")){
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.GONE);
                 canFlag=2;
                 setErrorText("您的积分不足请充值");
                 if (message!=null){
@@ -461,6 +471,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             } else {
                 dialog_red_result_kai_tv.setVisibility(View.GONE);
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.GONE);
                 canFlag=2;
                 setErrorText(bean.getRetMsg());
             }

@@ -80,7 +80,7 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
             sendTargetText.setText("¥" + amount);
 
             if (message.getStatus() == MsgStatusEnum.read) {//已读
-                sendView.setBackgroundResource(R.drawable.red_packet_send_press);
+                sendView.setBackgroundResource(R.drawable.red_packet_send_bg_other);
             } else {
                 sendView.setBackgroundResource(R.drawable.red_packet_send_bg);
             }
@@ -91,7 +91,7 @@ public class MsgViewHolderTrans extends MsgViewHolderBase {
             revTargetText.setText("¥" + amount);
 
             if (message.getStatus() == MsgStatusEnum.read) {//已读
-                revView.setBackgroundResource(R.drawable.red_packet_rev_press);
+                revView.setBackgroundResource(R.drawable.red_packet_rev_bg_other);
             } else {
                 sendView.setBackgroundResource(R.drawable.red_packet_rev_bg);
             }

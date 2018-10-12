@@ -115,7 +115,7 @@ public class NetImageUtil {
     public static void glideImageCorner(Context context, String url, ImageView imageView,int width,int height){
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.bj_touxiang)
+                .placeholder(R.drawable.nim_avatar_default)
                 .error(R.drawable.nim_default_img_failed)
                 .transform(new GlideRoundTransform(context))
                 .override(width,height)
