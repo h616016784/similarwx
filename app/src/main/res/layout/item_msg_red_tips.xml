@@ -16,6 +16,8 @@
             android:id="@+id/message_item_tips_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/distance_smaller"
+            android:layout_centerVertical="true"
             android:src="@drawable/em_red_packet_ack_message_icon"/>
         <TextView
             android:id="@+id/message_item_tips_label"
