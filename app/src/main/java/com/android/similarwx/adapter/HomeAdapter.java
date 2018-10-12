@@ -46,8 +46,10 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
             helper.setImageResource(R.id.item_group_iv,R.drawable.online_answer);
         }else{
             String groupIcon =item.getGroupIcon();
+            ImageView imageView=(ImageView) helper.getView(R.id.item_group_iv);
             if (!TextUtils.isEmpty(groupIcon)){
-                NetImageUtil.glideImageNormal(context,groupIcon,(ImageView) helper.getView(R.id.item_group_iv));
+                imageView.setTag(R.id.item_group_iv,groupIcon);
+                NetImageUtil.glideImageNormal(context,groupIcon,imageView);
             }
             String joinmode=item.getHallDisplay();
             if (!TextUtils.isEmpty(joinmode)){

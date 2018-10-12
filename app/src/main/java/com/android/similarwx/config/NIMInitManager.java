@@ -45,13 +45,13 @@ public class NIMInitManager {
 
     public void init(boolean register) {
         // 注册通知消息过滤器
-//        registerIMMessageFilter();
+        registerIMMessageFilter();
 
         // 注册语言变化监听广播
-//        registerLocaleReceiver(register);
+        registerLocaleReceiver(register);
 
         // 注册全局云信sdk 观察者
-//        registerGlobalObservers(register);
+        registerGlobalObservers(register);
 
         // 初始化在线状态事件
         OnlineStateEventManager.init();
