@@ -94,6 +94,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     ClientDetailInfoPresent mPresent;
     String rule;
 
+    String name;
     private GroupInfoPresent groupInfoPresent;
     String toAccid;
     String fromAccid;
@@ -143,7 +144,9 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
      * @param bean      被操作人的信息
      */
     private void initUserView(String groupUserType, GroupUser.ListBean bean) {
-        clientDetailNameTv.setText(bean.getUserName());
+        if (!TextUtils.isEmpty(bean.getUserName()))
+            name=bean.getUserName();
+        clientDetailNameTv.setText(name);
         clientDetailAccountTv.setText(""+bean.getId());
         rule=bean.getGroupUserRule();
         if (rule.equals("1")){//
@@ -387,6 +390,10 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     @Override
     public void refreshUserInfo(User user) {
         if (user!=null){
+            if (TextUtils.isEmpty(name)){
+                name=user.getName();
+                clientDetailNameTv.setText(name);
+            }
             String icon=user.getIcon();
             if (!TextUtils.isEmpty(icon)){
                 NetImageUtil.glideImageNormal(activity,icon,clientDetailAccountIv);
