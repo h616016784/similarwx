@@ -55,7 +55,7 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.player_title);
         unbinder = ButterKnife.bind(this, contentView);
-        present = new SubUsersPresent(this);
+        present = new SubUsersPresent(this,activity);
 
         myPlayerRv.setLayoutManager(new LinearLayoutManager(activity));
         adapter = new BaseQuickAdapter<SubUser, BaseViewHolder>(R.layout.item_my_player, null) {

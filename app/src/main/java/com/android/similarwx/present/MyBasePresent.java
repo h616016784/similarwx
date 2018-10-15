@@ -1,5 +1,6 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.android.outbaselibrary.primary.AppContext;
@@ -17,28 +18,30 @@ import com.android.similarwx.utils.SharePreferenceUtil;
 
 public class MyBasePresent extends BasePresent {
     private MyBaseViewInterface mView;
-    public MyBasePresent(MyBaseViewInterface view){
+    AppCompatActivity activity;
+    public MyBasePresent(MyBaseViewInterface view,AppCompatActivity activity){
         this.mView=view;
+        this.activity=activity;
     }
     public void updateUserByNick(String nick){
         String id= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().updateUserByNick(id,nick,this);
+        API.getInstance().updateUserByNick(activity,id,nick,this);
     }
     public void updateUserBySign(String personalitySignature){
         String id= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().updateUserBySign(id,personalitySignature,this);
+        API.getInstance().updateUserBySign(activity,id,personalitySignature,this);
     }
     public void updateUserByGender(String gender){
         String id= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().updateUserByGender(id,gender,this);
+        API.getInstance().updateUserByGender(activity,id,gender,this);
     }
     public void updateUserByUrl(String url){
         String id= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().updateUserByUrl(id,url,this);
+        API.getInstance().updateUserByUrl(activity,id,url,this);
     }
     public void updateUserByPhone(String mobile){
         String id= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().updateUserByPhone(id,mobile,this);
+        API.getInstance().updateUserByPhone(activity,id,mobile,this);
     }
     public void analyzeRes(RspUser rspUser) {
         String result=rspUser.getResult();

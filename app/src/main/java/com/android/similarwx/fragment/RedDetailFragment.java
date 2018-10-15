@@ -8,7 +8,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
@@ -65,6 +68,8 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     TextView redDetailTakeTimeTv;
     @BindView(R.id.red_detail_head_iv)
     ImageView redDetailHeadIv;
+    @BindView(R.id.red_detail_head_rl)
+    RelativeLayout redDetailHeadRl;
     @BindView(R.id.red_detail_name_iv)
     ImageView redDetailNameIv;
     @BindView(R.id.red_detail_rv)
@@ -96,7 +101,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
                 .statusBarColor(R.color.colorRed3)
                 .fitsSystemWindows(false).init();
         unbinder = ButterKnife.bind(this, contentView);
-        mPresent=new RedDetailPresent(this);
+        mPresent=new RedDetailPresent(this,activity);
         Bundle bundle=getArguments();
         if (bundle!=null){
             redId=bundle.getString(REDID);
@@ -135,7 +140,6 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
 
             }
         }
-
 
         redDetailRv.setLayoutManager(new LinearLayoutManager(activity));
         redDetailAdapter=new RedDetailAdapter(R.layout.item_red_detial,activity,sendRed.getType());
@@ -178,7 +182,8 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
     public void showErrorMessage(String err) {
 
     }
-
+    boolean isHas=false;
+    double amountTemp;
     @Override
     public void refreshRedDetail(RspRedDetail.RedListData redListData) {
         List<RedDetialBean> list=redListData.getRedPacDetailList();
@@ -190,16 +195,23 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             }else if (time>=60 && time<60*60){//分钟
                 int yu= time%60;
                 if (yu==0)
-                    redDetailTakeTimeTv.setText(time/60+"分钟内被抢光");
-                else
-                    redDetailTakeTimeTv.setText((time/60+1)+"分钟内被抢光");
-            }else if (time>=60*60 && time<60*60*24){//小时
-                int yu= time%60*60;
-                if (yu==0)
-                    redDetailTakeTimeTv.setText(time/(60*60)+"小时内被抢光");
-                else
-                    redDetailTakeTimeTv.setText((time/(60*60)+1)+"小时内被抢光");
+                    redDetailTakeTimeTv.setText(time/60+"分钟被抢光");
+                else{
+                    if (yu<10){
+                        redDetailTakeTimeTv.setText(time/60+"分钟0"+yu+"秒被抢光");
+                    }else
+                        redDetailTakeTimeTv.setText(time/60+"分钟"+yu+"秒被抢光");
+                }
+            }else {
+                redDetailTakeTimeTv.setText("1小时以上被抢光！");
             }
+//            else if (time>=60*60 && time<60*60*24){//小时
+//                int yu= time%60*60;
+//                if (yu==0)
+//                    redDetailTakeTimeTv.setText(time/(60*60)+"小时内被抢光");
+//                else
+//                    redDetailTakeTimeTv.setText((time/(60*60)+1)+"小时内被抢光");
+//            }
         }
         String textContent=sendRed.getThunder();
         if (TextUtils.isEmpty(sendRed.getThunder())){
@@ -215,24 +227,38 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
                 redDetailNameIv.setImageResource(R.drawable.red_lei);
             }
         }
-        boolean isHas=false;
+
         String myAccid= SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID,"");
         for (RedDetialBean bean:list){
             String accid=bean.getAccId();
             if (!TextUtils.isEmpty(accid)){
                 if (myAccid.equals(accid)){
                     isHas=true;
-                    if (bean.getAmount()==0){
+                    amountTemp=bean.getAmount();
+                    if (amountTemp==0){
                         redDetailAcountTv.setVisibility(View.GONE);
                         redDetailAcountYuanTv.setVisibility(View.GONE);
+                        setHeadRlViewHigh();
                     }else
                         redDetailAcountTv.setText(String.format("%.2f", bean.getAmount()));
                 }
             }
         }
-        if (!isHas)
+        if (!isHas){
             redDetailAcountTv.setVisibility(View.GONE);
+            redDetailAcountYuanTv.setVisibility(View.GONE);
+            setHeadRlViewHigh();
+        }
+
         redDetailAdapter.addData(list);
         redDetailTakeTv.setText(list.size()+"/"+sendRed.getCount());
     }
+    private void setHeadRlViewHigh(){
+        LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) redDetailHeadRl.getLayoutParams();
+        redDetailHeadRl.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int height=redDetailHeadRl.getMeasuredHeight();
+        layoutParams.height=height-ScreenUtil.dip2px(80);
+        redDetailHeadRl.setLayoutParams(layoutParams);
+    }
+
 }

@@ -90,7 +90,7 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
     }
 
     private void init() {
-        myBasePresent=new MyBasePresent(this);
+        myBasePresent=new MyBasePresent(this,activity);
         myBaseHeadBv.setNameText(R.string.my_base_head);
         myBaseHeadBv.setImageView(R.drawable.rp_avatar);
         myBaseNikenameBv.setNameText(R.string.my_base_nick);

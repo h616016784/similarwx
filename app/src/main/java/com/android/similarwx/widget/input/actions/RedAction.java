@@ -3,6 +3,7 @@ package com.android.similarwx.widget.input.actions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -50,7 +51,7 @@ public class RedAction extends BaseAction implements SendRedViewInterface {
     public RedAction(MessageFragment fromFragment) {
         super(R.drawable.demo_reply_bar_hb, R.string.chart_red);
         this.fromFragment=fromFragment;
-        present=new SendRedPresent(this);
+        present=new SendRedPresent(this, (AppCompatActivity) fromFragment.getActivity());
     }
 
     @Override

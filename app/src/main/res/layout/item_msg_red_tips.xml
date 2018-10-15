@@ -14,11 +14,11 @@
         android:gravity="center">
         <ImageView
             android:id="@+id/message_item_tips_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="12dp"
+            android:layout_height="14dp"
             android:layout_marginLeft="@dimen/distance_smaller"
             android:layout_centerVertical="true"
-            android:src="@drawable/em_red_packet_ack_message_icon"/>
+            android:src="@drawable/img_red_item_re"/>
         <TextView
             android:id="@+id/message_item_tips_label"
             android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:text="  你的红包已被领完  "
+            android:text=" 你的红包已被领完 "
             android:visibility="gone"
             android:textSize="12sp"/>
     </RelativeLayout>

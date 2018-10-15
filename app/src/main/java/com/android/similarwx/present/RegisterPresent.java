@@ -33,9 +33,11 @@ import java.util.Map;
 
 public class RegisterPresent extends BasePresent {
     RegisterViewInterface registerViewInterface;
+    AppCompatActivity activity;
     private String password;
-    public RegisterPresent(RegisterViewInterface registerViewInterface){
+    public RegisterPresent(RegisterViewInterface registerViewInterface,AppCompatActivity activity){
         this.registerViewInterface=registerViewInterface;
+        this.activity=activity;
     }
 
     /**
@@ -53,7 +55,7 @@ public class RegisterPresent extends BasePresent {
         if(isEmpty(account,name,password,confim,nick)){
             return;
         }
-        API.getInstance().register(account,weixinAccount,email,name,confim,nick,birth,gender,alipay,personalitySignature,verifyCode,this);
+        API.getInstance().register(activity,account,weixinAccount,email,name,confim,nick,birth,gender,alipay,personalitySignature,verifyCode,this);
     }
     //解析相应体
     public void analyzeRes(RspUser rspUser){

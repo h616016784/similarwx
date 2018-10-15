@@ -26,19 +26,21 @@ import java.util.List;
 
 public class MIPresent extends BasePresent {
     private MiViewInterface mView;
-    public MIPresent(MiViewInterface view){
+    AppCompatActivity activity;
+    public MIPresent(MiViewInterface view,AppCompatActivity activity){
         this.mView=view;
+        this.activity=activity;
     }
     public void sendRed(SendRed sendRed){
-        API.getInstance().sendRed(sendRed.getData().getRequestNum(),sendRed.getData().getUserId(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),
+        API.getInstance().sendRed(activity,sendRed.getData().getRequestNum(),sendRed.getData().getUserId(),sendRed.getData().getMyUserId(),sendRed.getData().getMyGroupId(),
                 sendRed.getData().getAmount(),sendRed.getData().getType(),sendRed.getData().getCount(),sendRed.getData().getThunder(),sendRed.getData().getCotent(),this);
     }
 
     public void canGrab(String redId){
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().canGrab(userId,redId,this);
+        API.getInstance().canGrab(activity,userId,redId,this);
     }
-    public void grabRed(String redId, Activity activity){
+    public void grabRed(String redId, AppCompatActivity activity){
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
         API.getInstance().grabRed(userId,redId,this,activity);
     }

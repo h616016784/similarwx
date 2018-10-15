@@ -41,7 +41,7 @@
                 android:layout_below="@id/dialog_red_result_head_iv"
                 android:layout_marginTop="@dimen/distance_middle"
                 android:gravity="center_horizontal"
-                android:text="白富美"
+                android:text=" "
                 android:textColor="@color/light_orange_size"
                 android:textSize="@dimen/text_content_or_button"/>
 

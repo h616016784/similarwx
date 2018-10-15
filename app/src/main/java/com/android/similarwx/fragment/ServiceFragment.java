@@ -50,7 +50,7 @@ public class ServiceFragment extends BaseFragment implements ServiceViewInterfac
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.service_title);
         unbinder = ButterKnife.bind(this, contentView);
-        mPresent=new ServicePresent(this);
+        mPresent=new ServicePresent(this,activity);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(activity);
         serviceRecycler.setLayoutManager(linearLayoutManager);
         serviceAdapter=new ServiceAdapter(R.layout.item_service,activity);

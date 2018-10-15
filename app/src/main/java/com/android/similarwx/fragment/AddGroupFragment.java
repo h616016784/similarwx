@@ -134,7 +134,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
         mActionbar.setTitle("创建群组");
         unbinder = ButterKnife.bind(this, contentView);
         reqGroup=new RspGroupInfo.GroupInfo();
-        mPresent=new AddGroupPresent(this);
+        mPresent=new AddGroupPresent(this,activity);
         Bundle bundle=getArguments();
         if (bundle!=null){
             groupInfo= (RspGroupInfo.GroupInfo) bundle.getSerializable(AppConstants.TRANSFER_GROUP_INFO);

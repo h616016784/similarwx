@@ -1,6 +1,7 @@
 package com.android.similarwx.widget.input.actions;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.android.similarwx.R;
 import com.android.similarwx.beans.response.RspCashUser;
@@ -24,11 +25,11 @@ public class CashAction extends BaseAction implements CashViewInterface {
      */
     public CashAction() {
         super(R.drawable.demo_reply_bar_tixian, R.string.chart_cash);
-        cashPresent=new CashPresent(this);
     }
 
     @Override
     public void onClick() {
+        cashPresent=new CashPresent(this, (AppCompatActivity) getActivity());
         cashPresent.getCashUser();
     }
 

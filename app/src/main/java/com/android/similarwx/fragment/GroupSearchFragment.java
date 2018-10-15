@@ -65,8 +65,8 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
     protected void onInitView(View contentView) {
         mActionbar.setTitle("搜索用户");
         unbinder = ButterKnife.bind(this, contentView);
-        present=new SearchPresent(this);
-        groupInfoPresent=new GroupInfoPresent(this);
+        present=new SearchPresent(this,activity);
+        groupInfoPresent=new GroupInfoPresent(this,activity);
         Bundle bundle=getArguments();
         if (bundle!=null){
             groupId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);

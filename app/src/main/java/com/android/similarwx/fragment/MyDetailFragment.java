@@ -108,7 +108,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         super.onInitView(contentView);
         mActionbar.setTitle("我的明细");
         unbinder = ButterKnife.bind(this, contentView);
-        mPresent=new AcountPresent(this);
+        mPresent=new AcountPresent(this,activity);
         Bundle bundle=getArguments();
         userId= SharePreferenceUtil.getString(AppContext.getContext(),AppConstants.USER_ID,"无");
         User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);

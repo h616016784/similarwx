@@ -1,5 +1,6 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.android.outbaselibrary.primary.AppContext;
@@ -32,8 +33,10 @@ import java.util.Map;
 public class LoginPresent extends BasePresent {
     private String password;
     private LoginViewInterface loginViewInterface;
-    public LoginPresent(LoginViewInterface loginViewInterface){
+    private AppCompatActivity activity;
+    public LoginPresent(LoginViewInterface loginViewInterface,AppCompatActivity activity){
         this.loginViewInterface=loginViewInterface;
+        this.activity=activity;
     }
 
     /**
@@ -42,25 +45,25 @@ public class LoginPresent extends BasePresent {
      * @param password
      * @param code
      */
-    public void login(String name, String password,String weixin,String mobile,String code) {
+    public void login(String name, String password, String weixin, String mobile, String code) {
         this.password=password;
         if(isEmpty(name,password,weixin,mobile)){
             return;
         }
-        API.getInstance().login(name,password,weixin,mobile,this);
+        API.getInstance().login(activity,name,password,weixin,mobile,this);
     }
 
     public void logout(){
         String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"");
-        API.getInstance().logout(userId,this);
+        API.getInstance().logout(activity,userId,this);
     }
     public void getTotalBalance(){
         String userId= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ID,"");
-        API.getInstance().getTotalBalance(userId,this);
+        API.getInstance().getTotalBalance(activity,userId,this);
     }
 
     public void setInvitationCode(String userId,String invitationCode) {
-        API.getInstance().setInvitationCode(userId,invitationCode,this);
+        API.getInstance().setInvitationCode(activity,userId,invitationCode,this);
     }
     /**
      * 保存用户信息

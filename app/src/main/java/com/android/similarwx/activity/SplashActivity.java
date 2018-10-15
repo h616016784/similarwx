@@ -3,6 +3,7 @@ package com.android.similarwx.activity;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -49,8 +50,8 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        present=new LoginPresent(this);
-        presentWx=new WxPresent(this);
+        present=new LoginPresent(this,this);
+        presentWx=new WxPresent(this,this);
         animator  = AnimatorInflater.loadAnimator(SplashActivity.this, R.animator.alpha_splash);
         animator.setTarget(splashIv);
         mHandler.postDelayed(new Runnable() {

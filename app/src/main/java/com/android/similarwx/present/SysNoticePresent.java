@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.Notice;
 import com.android.similarwx.beans.response.RspConfig;
@@ -16,24 +18,26 @@ import java.util.List;
 
 public class SysNoticePresent {
     SysNoticeViewInterface view;
-    public SysNoticePresent(SysNoticeViewInterface view){
+    AppCompatActivity activity;
+    public SysNoticePresent(SysNoticeViewInterface view,AppCompatActivity activity){
         this.view=view;
+        this.activity=activity;
     }
     public void getNotice(){
-        API.getInstance().getNotices("NOTIFY",this);
+        API.getInstance().getNotices(activity,"NOTIFY",this);
     }
 
     public void getMoney(){
-        API.getInstance().getMoney("",this);
+        API.getInstance().getMoney(activity,"",this);
     }
     public void getContract(){
-        API.getInstance().getNotices("CONTACT",this);
+        API.getInstance().getNotices(activity,"CONTACT",this);
     }
     public void getExplain(){
-        API.getInstance().getNotices("EXPLAIN",this);
+        API.getInstance().getNotices(activity,"EXPLAIN",this);
     }
     public void getConfig(){
-        API.getInstance().getConfig("",this);
+        API.getInstance().getConfig(activity,"",this);
     }
     public void analyze(RspNotice rspGroupSave) {
         if (rspGroupSave!=null){

@@ -108,8 +108,8 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
         super.onInitView(contentView);
         unbinder = ButterKnife.bind(this, contentView);
         mActionbar.setTitle(R.string.login_bar_registe);
-        registerPresent = new RegisterPresent(this);
-        phoneVerifyPresent=new PhoneVerifyPresent(this);
+        registerPresent = new RegisterPresent(this,activity);
+        phoneVerifyPresent=new PhoneVerifyPresent(this,activity);
         timer = new Timer();
     }
 

@@ -88,10 +88,10 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
     protected void onInitView(View contentView) {
         mActionbar.setTitle("搜索群组");
         unbinder = ButterKnife.bind(this, contentView);
-        present = new SearchPresent(this);
-        sendRedPresent = new SendRedPresent(this);
-        noticePresent = new NoticePresent(this);
-        searchPresent = new SearchPresent(this);
+        present = new SearchPresent(this,activity);
+        sendRedPresent = new SendRedPresent(this,activity);
+        noticePresent = new NoticePresent(this,activity);
+        searchPresent = new SearchPresent(this,activity);
         userId = SharePreferenceUtil.getString(activity, AppConstants.USER_ACCID, "");
         mUser = (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
 

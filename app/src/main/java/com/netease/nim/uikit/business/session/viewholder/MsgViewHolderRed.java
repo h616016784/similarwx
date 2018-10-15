@@ -50,7 +50,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
     private MIPresent miPresent;
     public MsgViewHolderRed(BaseMultiItemFetchLoadAdapter adapter) {
         super(adapter);
-        miPresent=new MIPresent(this);
+        miPresent=new MIPresent(this, (AppCompatActivity) ((MsgAdapter) adapter).getContainer().activity);
     }
 
     @Override

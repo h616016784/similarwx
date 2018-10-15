@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.AppConstants;
@@ -18,13 +20,15 @@ import java.util.UUID;
 
 public class RechargePresent {
     private RechargeViewInterface mView;
-    public RechargePresent(RechargeViewInterface mView){
+    AppCompatActivity activity;
+    public RechargePresent(RechargeViewInterface mView,AppCompatActivity activity){
         this.mView=mView;
+        this.activity=activity;
     }
     public void transfer(String toUserId,String amount){
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
         String requestNum= MD5.getStringMD5(UUID.randomUUID().toString());
-        API.getInstance().transfer(userId,requestNum,toUserId,amount,this);
+        API.getInstance().transfer(activity,userId,requestNum,toUserId,amount,this);
 
     }
 

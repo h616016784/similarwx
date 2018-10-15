@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -71,7 +72,7 @@ public class InputPasswordDialog extends DialogFragment implements View.OnClickL
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         //设置背景颜色
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        loginPresent=new LoginPresent(this);
+        loginPresent=new LoginPresent(this, (AppCompatActivity) getActivity());
         //接收参数
         money = getArguments().getString("money");
         String title = getArguments().getString("title");

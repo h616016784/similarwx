@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.response.BaseResponse;
 import com.android.similarwx.beans.response.VerifyCodeResponse;
@@ -12,11 +14,13 @@ import com.android.similarwx.model.API;
 
 public class PhoneVerifyPresent {
     private PhoneVerifyViewInterface mView;
-    public PhoneVerifyPresent(PhoneVerifyViewInterface mView){
+    AppCompatActivity activity;
+    public PhoneVerifyPresent(PhoneVerifyViewInterface mView,AppCompatActivity activity){
         this.mView=mView;
+        this.activity=activity;
     }
     public void getMobileVerifyCode(String mobile){
-        API.getInstance().getMobileVerifyCode(mobile,this);
+        API.getInstance().getMobileVerifyCode(activity,mobile,this);
     }
 
     public void analyzeRes(VerifyCodeResponse baseResponse) {

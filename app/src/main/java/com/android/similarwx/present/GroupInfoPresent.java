@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.response.RspDeleteGroup;
@@ -15,20 +17,22 @@ import java.util.List;
 
 public class GroupInfoPresent extends BasePresent {
     private GroupInfoViewInterface mView;
-    public GroupInfoPresent(GroupInfoViewInterface view){
+    AppCompatActivity activity;
+    public GroupInfoPresent(GroupInfoViewInterface view,AppCompatActivity activity){
         this.mView=view;
+        this.activity=activity;
     }
 
     public void getGroupUserList(String groupId){
-        API.getInstance().GroupInfoPresent(groupId,this);
+        API.getInstance().GroupInfoPresent(activity,groupId,this);
     }
 
     public void doDeleteGroup(String groupId){
-        API.getInstance().doDeleteGroup(groupId,this);
+        API.getInstance().doDeleteGroup(activity,groupId,this);
     }
 
     public void getGroupUser(String groupId,String userId){
-        API.getInstance().getGroupUser(groupId,userId,this);
+        API.getInstance().getGroupUser(activity,groupId,userId,this);
     }
     public void analyzeRes(RspGroupUser rspGroup) {
         String result=rspGroup.getResult();

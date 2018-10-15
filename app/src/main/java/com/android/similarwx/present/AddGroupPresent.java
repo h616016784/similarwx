@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.request.ReqGroup;
@@ -16,14 +18,16 @@ import java.util.List;
 
 public class AddGroupPresent {
     private AddGroupViewInterface mView;
-    public AddGroupPresent(AddGroupViewInterface mView){
+    private AppCompatActivity activity;
+    public AddGroupPresent(AddGroupViewInterface mView,AppCompatActivity activity){
         this.mView=mView;
+        this.activity=activity;
     }
     public void addGroup(RspGroupInfo.GroupInfo reqGroup){
-        API.getInstance().groupSave(reqGroup,this,"",0);
+        API.getInstance().groupSave(activity,reqGroup,this,"",0);
     }
     public void updateGroup(RspGroupInfo.GroupInfo reqGroup,String updateUserId){
-        API.getInstance().groupSave(reqGroup,this,updateUserId,1);
+        API.getInstance().groupSave(activity,reqGroup,this,updateUserId,1);
     }
     public void analyzeAddGroup(RspGroupSave rspGroupSave) {
         if (rspGroupSave!=null){

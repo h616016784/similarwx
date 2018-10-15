@@ -59,8 +59,8 @@ public class TransDetailFragment extends BaseFragment implements AcountViewInter
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.trans_detail_title);
         unbinder = ButterKnife.bind(this, contentView);
-        mPresent=new AcountPresent(this);
-        infoPresent=new ClientDetailInfoPresent(this);
+        mPresent=new AcountPresent(this,activity);
+        infoPresent=new ClientDetailInfoPresent(this,activity);
 //        User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
 //        if (user!=null)
 //            userFlag=user.getSystemFlg();

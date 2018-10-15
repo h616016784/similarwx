@@ -108,7 +108,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
-        mPresent=new ClientDetailInfoPresent(this);
+        mPresent=new ClientDetailInfoPresent(this,activity);
         mActionbar.setTitle("群名片");
         unbinder = ButterKnife.bind(this, contentView);
         Bundle bundle = getArguments();
@@ -121,7 +121,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                 toAccid= bundle.getString(AppConstants.TRANSFER_ACCOUNT);
                 fromAccid = SharePreferenceUtil.getString(activity,AppConstants.USER_ACCID,"");
                 teamId=bundle.getString(AppConstants.TRANSFER_TEAMID);
-                groupInfoPresent=new GroupInfoPresent(this);
+                groupInfoPresent=new GroupInfoPresent(this,activity);
                 groupInfoPresent.getGroupUser(teamId,toAccid);
             }
         }

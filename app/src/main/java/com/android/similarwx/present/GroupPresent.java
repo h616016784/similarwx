@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
@@ -22,12 +24,14 @@ import java.util.List;
 
 public class GroupPresent extends BasePresent {
     private MainGroupView mView;
-    public GroupPresent(MainGroupView view){
+    AppCompatActivity activity;
+    public GroupPresent(MainGroupView view,AppCompatActivity activity){
         this.mView=view;
+        this.activity=activity;
     }
     public void getGroupList(){
         String accid=SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ACCID,"无");
-        API.getInstance().reqGroupList(accid,this);
+        API.getInstance().reqGroupList(activity,accid,this);
     }
 
     public void analyzeRes(RspGroup rspGroup) {
@@ -44,7 +48,7 @@ public class GroupPresent extends BasePresent {
 
     public void doGroupAppley(String groupId) {
         String accid=SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ACCID,"无");
-        API.getInstance().doGroupAppley(groupId,accid,this);
+        API.getInstance().doGroupAppley(activity,groupId,accid,this);
     }
 
     public void analyzeApplyRes(RspGroupApply rspGroupApply) {

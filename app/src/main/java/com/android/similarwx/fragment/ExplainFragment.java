@@ -61,7 +61,7 @@ public class ExplainFragment extends BaseFragment implements SysNoticeViewInterf
         unbinder = ButterKnife.bind(this, contentView);
         mActionbar.setTitle(R.string.explain_title_find);
         init(sysExplainWv);
-        present = new SysNoticePresent(this);
+        present = new SysNoticePresent(this,activity);
         present.getExplain();
 
     }

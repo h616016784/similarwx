@@ -1,5 +1,6 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.android.outbaselibrary.primary.AppContext;
@@ -26,13 +27,15 @@ import retrofit2.Response;
 public class WxPresent extends BasePresent {
     private WxViewInterface view;
     private String unionId;
-    public WxPresent(WxViewInterface view){
+    AppCompatActivity activity;
+    public WxPresent(WxViewInterface view,AppCompatActivity activity){
         this.view=view;
+        this.activity=activity;
     }
 
     public void WxLogin(String unionId){
         this.unionId=unionId;
-        API.getInstance().WxLogin(unionId,this);
+        API.getInstance().WxLogin(activity,unionId,this);
     }
     public void analyzeRes(RspUser rspUser) {
         String result=rspUser.getResult();

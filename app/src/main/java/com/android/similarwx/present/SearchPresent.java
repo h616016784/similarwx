@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.response.RspGroupUser;
@@ -13,14 +15,16 @@ import com.android.similarwx.model.API;
 
 public class SearchPresent extends BasePresent {
     private SearchViewInterface view;
-    public SearchPresent(SearchViewInterface view){
+    AppCompatActivity activity;
+    public SearchPresent(SearchViewInterface view,AppCompatActivity activity){
         this.view=view;
+        this.activity=activity;
     }
     public void searchUser(String groupId,String username){
-        API.getInstance().getSearchUser(groupId,username,this);
+        API.getInstance().getSearchUser(activity,groupId,username,this);
     }
     public void searchUser(String params){
-        API.getInstance().getSearchUser(params,this);
+        API.getInstance().getSearchUser(activity,params,this);
     }
     public void searchTeam(){
 

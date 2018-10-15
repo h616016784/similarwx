@@ -2,6 +2,7 @@ package com.netease.nim.uikit.business.session.viewholder;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
@@ -56,7 +57,7 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
         message_item_tips_ll=view.findViewById(R.id.message_item_tips_ll);
         message_item_tips_red_finish_tv=view.findViewById(R.id.message_item_tips_red_finish_tv);
         message_item_tips_iv=view.findViewById(R.id.message_item_tips_iv);
-        mPresent=new RedDetailPresent(this);
+        mPresent=new RedDetailPresent(this,(AppCompatActivity)context);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.android.similarwx.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -87,7 +88,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         setContentView(R.layout.activity_login);
         //初始化butterKnife
         ButterKnife.bind(this);
-        loginPresent = new LoginPresent(this);
+        loginPresent = new LoginPresent(this,this);
         initPerssion();
 
         api= WXUtil.getInstance(this).getApi();
@@ -118,7 +119,15 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                         Log.e("onComplete","点击了！");
                     }
                 });
+        registerReceiver(mFinishReceiver, new IntentFilter(ARGUMENT_EXTRA_ANIMATION_LOGIN));
+        Intent intent = new Intent();
+        intent.setAction(ACTION_FINISH);
+        sendBroadcast(intent);
+    }
 
+    @Override
+    public boolean getRegisterAble() {
+        return false;
     }
 
     private void initPerssion() {

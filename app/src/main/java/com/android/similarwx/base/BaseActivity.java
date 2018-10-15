@@ -40,6 +40,7 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
     public static final String ARGUMENT_EXTRA_ANIMATION_UP = "com.similarwx.activity.ARGUMENT_EXTRA_ANIMATION_UP";
 
     public static final String ARGUMENT_EXTRA_ANIMATION_SPLASH = "com.similarwx.activity.ARGUMENT_EXTRA_ANIMATION_SPLASH";
+    public static final String ARGUMENT_EXTRA_ANIMATION_LOGIN = "com.similarwx.activity.ARGUMENT_EXTRA_ANIMATION_LOGIN";
 
     public static final String ARGUMENTS_ENTER_ANIMATION = "com.similarwx.activity.ARGUMENTS_ENTER_ANIMATION";
 
@@ -105,9 +106,13 @@ public class BaseActivity extends AppCompatActivity  implements View.OnClickList
 
 //        StatusBarUtil.statusBarLightMode(this);
 
-        registerReceiver(mFinishReceiver, new IntentFilter(ACTION_FINISH));
+        if (getRegisterAble())
+            registerReceiver(mFinishReceiver, new IntentFilter(ACTION_FINISH));
     }
 
+    public boolean getRegisterAble(){
+        return true;
+    }
     public Actionbar getActionbar() {
         return mActionbar;
     }

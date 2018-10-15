@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspSendRed;
@@ -13,11 +15,13 @@ import com.android.similarwx.model.API;
 
 public class ServicePresent extends BasePresent {
     private ServiceViewInterface mView;
-    public ServicePresent(ServiceViewInterface view){
+    AppCompatActivity activity;
+    public ServicePresent(ServiceViewInterface view,AppCompatActivity activity){
         this.mView=view;
+        this.activity=activity;
     }
     public void getServicesList(){
-        API.getInstance().getServicesList(1+"",this);
+        API.getInstance().getServicesList(activity,1+"",this);
     }
     public void analyzeRes(RspService rspService) {
         if (rspService!=null){

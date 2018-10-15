@@ -109,20 +109,20 @@ public class API implements APIConstants {
         return sInstance;
     }
 
-    public void noNetTips(){
-        if (AppContext.getActivitiesStack().peek() instanceof BaseActivity){
-            ((BaseActivity)AppContext.getActivitiesStack().peek()).getmHandler().postDelayed(new Runnable() {
+    public void noNetTips(AppCompatActivity activity){
+        if (activity instanceof BaseActivity){
+            ((BaseActivity)activity).getmHandler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                    LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                     Toaster.toastShort("网络异常!");
                 }
             },1000);
         }else {
-            ((BaseMessageActivity)AppContext.getActivitiesStack().peek()).getHandler().postDelayed(new Runnable() {
+            ((BaseMessageActivity)activity).getHandler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                    LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                     Toaster.toastShort("网络异常!");
                 }
             },1000);
@@ -139,9 +139,9 @@ public class API implements APIConstants {
      * @param nick
      * @param present
      */
-    public void register(String account, String weixinAccount, String email, String name, String password, String nick,
+    public void register(AppCompatActivity activity,String account, String weixinAccount, String email, String name, String password, String nick,
                          String birth,String gender,String alipay,String personalitySignature,String verifyCode,final RegisterPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(account))
             map.put("accId",account);
@@ -173,19 +173,18 @@ public class API implements APIConstants {
         user.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 RspUser rspUser=response.body();
                 present.analyzeRes(rspUser);
             }
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void login(String name, String password, String weixin, String mobile, final LoginPresent present){
-        AppContext.getActivitiesStack().peek();
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void login(AppCompatActivity activity,String name, String password, String weixin, String mobile, final LoginPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(name))
             map.put("accId",name);
@@ -199,7 +198,7 @@ public class API implements APIConstants {
         user.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -209,21 +208,21 @@ public class API implements APIConstants {
             }
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
 
-    public void WxLogin(String unionid, WxPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void WxLogin(AppCompatActivity activity,String unionid, WxPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("unionid",unionid);
         Call<RspUser> call=apiService.WxLogin(map);
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -234,19 +233,19 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void logout(String userId,LoginPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void logout(AppCompatActivity activity,String userId,LoginPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);
         Call<RspUser> call=apiService.logout(map);
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeResLogout(rspUser);
@@ -257,19 +256,19 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getTotalBalance(String userId,LoginPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getTotalBalance(AppCompatActivity activity,String userId,LoginPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",userId);
         Call<RspUser> call=apiService.getTotalBalance(map);
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeTotalBalance(rspUser);
@@ -280,13 +279,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void setInvitationCode(String userId, String invitationCode, LoginPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void setInvitationCode(AppCompatActivity activity,String userId, String invitationCode, LoginPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);
         map.put("invitationCode",invitationCode);
@@ -294,7 +293,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeInvitationCode(rspUser);
@@ -305,12 +304,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void updateUserByNick(String id, String nick, MyBasePresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void updateUserByNick(AppCompatActivity activity,String id, String nick, MyBasePresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
         if (!TextUtils.isEmpty(nick)){
@@ -321,7 +320,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -332,13 +331,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void updateUserByPhone(String id, String mobile, MyBasePresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void updateUserByPhone(AppCompatActivity activity,String id, String mobile, MyBasePresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
         map.put("mobile",mobile);
@@ -347,7 +346,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -358,12 +357,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void updateUserBySign(String id, String personalitySignature, MyBasePresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void updateUserBySign(AppCompatActivity activity,String id, String personalitySignature, MyBasePresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
         if (!TextUtils.isEmpty(personalitySignature)){
@@ -374,7 +373,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -385,12 +384,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void updateUserByGender(String id, String gender, MyBasePresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void updateUserByGender(AppCompatActivity activity,String id, String gender, MyBasePresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
         map.put("gender",gender);
@@ -399,7 +398,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -410,12 +409,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void updateUserByUrl(String id, String url, MyBasePresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void updateUserByUrl(AppCompatActivity activity,String id, String url, MyBasePresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
         map.put("icon",url);
@@ -424,7 +423,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -435,12 +434,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void updateUserByWX(String id,String name, String url, String gender, YCallBack callBack){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void updateUserByWX(AppCompatActivity activity,String id,String name, String url, String gender, YCallBack callBack){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("id",id);
         if (!TextUtils.isEmpty(name)){
@@ -456,7 +455,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
 
@@ -479,12 +478,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getUserInfoByParams(String userId, String accId, ClientDetailInfoPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getUserInfoByParams(AppCompatActivity activity,String userId, String accId, ClientDetailInfoPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(userId))
             map.put("userId",userId);
@@ -495,7 +494,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -506,13 +505,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void setPaymentPasswd(String mobile, String userId,String paymentPasswd, String passwdStr,String verifyCode, SetPasswordPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void setPaymentPasswd(AppCompatActivity activity,String mobile, String userId,String paymentPasswd, String passwdStr,String verifyCode, SetPasswordPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(userId))
             map.put("userId",userId);
@@ -528,7 +527,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspSetPassword>() {
             @Override
             public void onResponse(Call<RspSetPassword> call, Response<RspSetPassword> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspSetPassword rspUser=response.body();
                     present.analyzeRes(rspUser);
@@ -539,19 +538,19 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspSetPassword> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getMobileVerifyCode(String mobile, PhoneVerifyPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getMobileVerifyCode(AppCompatActivity activity,String mobile, PhoneVerifyPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("mobile",mobile);
         Call<VerifyCodeResponse> call=apiService.getMobileVerifyCode(map);
         call.enqueue(new Callback<VerifyCodeResponse>() {
             @Override
             public void onResponse(Call<VerifyCodeResponse> call, Response<VerifyCodeResponse> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     VerifyCodeResponse rspGroup=response.body();
                     present.analyzeRes(rspGroup);
@@ -562,18 +561,18 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<VerifyCodeResponse> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getCashUser(CashPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getCashUser(AppCompatActivity activity,CashPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         Call<RspCashUser> call=apiService.getCashUser(map);
         call.enqueue(new Callback<RspCashUser>() {
             @Override
             public void onResponse(Call<RspCashUser> call, Response<RspCashUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspCashUser rspGroup=response.body();
 //                    present.analyzeRes(rspGroup);
@@ -585,11 +584,11 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspCashUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void reqGroupList(String userId , final GroupPresent present){
+    public void reqGroupList(AppCompatActivity activity,String userId , final GroupPresent present){
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId);
         Call<RspGroup> rspGroupCall=apiService.reqGroupList(map);
@@ -612,8 +611,8 @@ public class API implements APIConstants {
         });
     }
     //申请入群
-    public void doGroupAppley(String groupId, String userId, final GroupPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void doGroupAppley(AppCompatActivity activity,String groupId, String userId, final GroupPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("groupId",groupId);
         map.put("applyUserId",userId);
@@ -622,7 +621,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspGroupApply>() {
             @Override
             public void onResponse(Call<RspGroupApply> call, Response<RspGroupApply> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspGroupApply rspGroupApply=response.body();
                     present.analyzeApplyRes(rspGroupApply);
@@ -633,13 +632,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupApply> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
     //添加群组成员
-    public void doAddGroupUser(String grouId,String userId,NoticePresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void doAddGroupUser(AppCompatActivity activity,String grouId,String userId,NoticePresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("groupId",grouId);
         map.put("userId",userId);
@@ -647,7 +646,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspAddGroupUser>() {
             @Override
             public void onResponse(Call<RspAddGroupUser> call, Response<RspAddGroupUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspAddGroupUser rspGroupUser=response.body();
                     present.analyzeRes(rspGroupUser);
@@ -658,21 +657,21 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspAddGroupUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
     //解散群组
-    public void doDeleteGroup(String grouId , GroupInfoPresent groupInfoPresent){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void doDeleteGroup(AppCompatActivity activity,String grouId , GroupInfoPresent groupInfoPresent){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("groupId",grouId);
         Call<RspDeleteGroup> call=apiService.doDeleteGroup(map);
         call.enqueue(new Callback<RspDeleteGroup>() {
             @Override
             public void onResponse(Call<RspDeleteGroup> call, Response<RspDeleteGroup> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspDeleteGroup rspDeleteGroup=response.body();
                     groupInfoPresent.analyzeDeleteGroup(rspDeleteGroup);
@@ -683,13 +682,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspDeleteGroup> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
     //踢出群组或退出群组
-    public void doDeleteGroupUser(String grouId,String userId,ClientDetailInfoPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void doDeleteGroupUser(AppCompatActivity activity,String grouId,String userId,ClientDetailInfoPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("groupId",grouId);
         map.put("userId",userId);
@@ -697,7 +696,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspDeleteGroupUser>() {
             @Override
             public void onResponse(Call<RspDeleteGroupUser> call, Response<RspDeleteGroupUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspDeleteGroupUser rspDeleteGroupUser=response.body();
                     present.analyzeDeleteGroupUser(rspDeleteGroupUser);
@@ -709,13 +708,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspDeleteGroupUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
     //任命或者取消任命管理员
-    public void doUpdateGroupUser(String grouId,String userId,String groupUserRule,ClientDetailInfoPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void doUpdateGroupUser(AppCompatActivity activity,String grouId,String userId,String groupUserRule,ClientDetailInfoPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("groupId",grouId);
         map.put("userId",userId);
@@ -724,7 +723,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUpdateGroupUser>() {
             @Override
             public void onResponse(Call<RspUpdateGroupUser> call, Response<RspUpdateGroupUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUpdateGroupUser rspUpdateGroupUser=response.body();
                     present.analyzeUpdateGroupUser(rspUpdateGroupUser);
@@ -735,15 +734,15 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUpdateGroupUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
 
     //禁言/解禁群组用户
-    public void doUpdateGroupUserStatus(String grouId,String userId,String userStatus,ClientDetailInfoPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void doUpdateGroupUserStatus(AppCompatActivity activity,String grouId,String userId,String userStatus,ClientDetailInfoPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("groupId",grouId);
         map.put("userId",userId);
@@ -752,7 +751,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUpdateUserStatus>() {
             @Override
             public void onResponse(Call<RspUpdateUserStatus> call, Response<RspUpdateUserStatus> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUpdateUserStatus rspUpdateGroupUser=response.body();
                     present.analyzeUpdateGroupUserStatus(rspUpdateGroupUser);
@@ -763,19 +762,19 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUpdateUserStatus> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void GroupInfoPresent(String groupId, final GroupInfoPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void GroupInfoPresent(AppCompatActivity activity,String groupId, final GroupInfoPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("groupId",groupId);
         Call<RspGroupUser> call=apiService.getGroupUserList(map);
         call.enqueue(new Callback<RspGroupUser>() {
             @Override
             public void onResponse(Call<RspGroupUser> call, Response<RspGroupUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspGroupUser rspGroupUser=response.body();
                     present.analyzeRes(rspGroupUser);
@@ -786,12 +785,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getGroupUser(String groupId, String userId,final GroupInfoPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getGroupUser(AppCompatActivity activity,String groupId, String userId,final GroupInfoPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("groupId",groupId);
         map.put("userId",userId);
@@ -799,7 +798,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspGroupUser>() {
             @Override
             public void onResponse(Call<RspGroupUser> call, Response<RspGroupUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspGroupUser rspGroupUser=response.body();
                     present.analyzeRes(rspGroupUser);
@@ -810,13 +809,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void getSearchUser(String groupId, String userName,final SearchPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getSearchUser(AppCompatActivity activity,String groupId, String userName,final SearchPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(groupId))
              map.put("groupId",groupId);
@@ -826,7 +825,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspGroupUser>() {
             @Override
             public void onResponse(Call<RspGroupUser> call, Response<RspGroupUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspGroupUser rspGroupUser=response.body();
                     present.analyzeRes(rspGroupUser);
@@ -837,12 +836,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getSearchUser(String params,final SearchPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getSearchUser(AppCompatActivity activity,String params,final SearchPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(params))
             map.put("params",params);
@@ -850,7 +849,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspUser>() {
             @Override
             public void onResponse(Call<RspUser> call, Response<RspUser> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspUser rspGroupUser=response.body();
                     present.analyzeRes(rspGroupUser);
@@ -861,12 +860,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspUser> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getGroupByGroupId(String id,String groupId, final SendRedPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getGroupByGroupId(AppCompatActivity activity,String id,String groupId, final SendRedPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(groupId))
             map.put("groupId",groupId);
@@ -876,7 +875,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspGroupInfo>() {
             @Override
             public void onResponse(Call<RspGroupInfo> call, Response<RspGroupInfo> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspGroupInfo rspGroupInfo=response.body();
                     present.analyzeRes(rspGroupInfo);
@@ -887,7 +886,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupInfo> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
@@ -914,8 +913,8 @@ public class API implements APIConstants {
         });
     }
 
-    public void sendRed(String requestNum, String userId,String accid,String groupId,String amount,String type, String count,String thunder,String content,final MIPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void sendRed(AppCompatActivity activity,String requestNum, String userId,String accid,String groupId,String amount,String type, String count,String thunder,String content,final MIPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("requestNum",requestNum );
         map.put("userId",userId);
@@ -940,7 +939,7 @@ public class API implements APIConstants {
         rspRedCall.enqueue(new Callback<RspSendRed>() {
             @Override
             public void onResponse(Call<RspSendRed> call, Response<RspSendRed> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspSendRed rspRed=response.body();
                     present.analyzeRes(rspRed,accid);
@@ -952,13 +951,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspSendRed> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void grabRed(String userId, String redId, MIPresent present, Activity activity) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void grabRed(String userId, String redId, MIPresent present, AppCompatActivity activity) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         map.put("redPacId",redId);
@@ -966,7 +965,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspGrabRed>() {
             @Override
             public void onResponse(Call<RspGrabRed> call, Response<RspGrabRed> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
 //                RedLoadingDialogFragment.disMiss(activity);
                 try {
                     RspGrabRed grabRed=response.body();
@@ -978,20 +977,20 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGrabRed> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void getServicesList(String serviceFlg, ServicePresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getServicesList(AppCompatActivity activity,String serviceFlg, ServicePresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("serviceFlg",serviceFlg );
         Call<RspService> call=apiService.getServices(map);
         call.enqueue(new Callback<RspService>() {
             @Override
             public void onResponse(Call<RspService> call, Response<RspService> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspService rspService=response.body();
                     present.analyzeRes(rspService);
@@ -1002,13 +1001,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspService> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void getBill(String userId,String type,String rebateToUserId,String startDate,String endDate,String page,String rows,AcountPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getBill(AppCompatActivity activity,String userId,String type,String rebateToUserId,String startDate,String endDate,String page,String rows,AcountPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         if (!TextUtils.isEmpty(type))
@@ -1024,7 +1023,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspBill>() {
             @Override
             public void onResponse(Call<RspBill> call, Response<RspBill> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspBill rspService=response.body();
                     present.analyzeRes(rspService);
@@ -1035,12 +1034,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspBill> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getAccountDetail(String accountDetailId,AcountPresent present){
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getAccountDetail(AppCompatActivity activity,String accountDetailId,AcountPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("accountDetailId",accountDetailId );
 
@@ -1048,7 +1047,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspAccountDetail>() {
             @Override
             public void onResponse(Call<RspAccountDetail> call, Response<RspAccountDetail> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspAccountDetail rspService=response.body();
                     present.analyzeRes(rspService);
@@ -1059,14 +1058,14 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspAccountDetail> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void canGrab(String userId, String redId, MIPresent miPresent) {
+    public void canGrab(AppCompatActivity activity,String userId, String redId, MIPresent miPresent) {
 //        LoadingDialogMy loadingDialogMy=new LoadingDialogMy(AppContext.getsActivity(),"");
 //        loadingDialogMy.show();
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         map.put("redPacId",redId);
@@ -1076,7 +1075,7 @@ public class API implements APIConstants {
             public void onResponse(Call<RspCanGrab> call, Response<RspCanGrab> response) {
 //                if (loadingDialogMy!=null)
 //                    loadingDialogMy.close();
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspCanGrab rspCanGrab=response.body();
                     miPresent.analyzeCanRed(rspCanGrab);
@@ -1087,13 +1086,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspCanGrab> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void transfer(String userId, String requestNum, String toUserId, String amount, RechargePresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void transfer(AppCompatActivity activity,String userId, String requestNum, String toUserId, String amount, RechargePresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         map.put("requestNum",requestNum );
@@ -1103,7 +1102,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspTransfer>() {
             @Override
             public void onResponse(Call<RspTransfer> call, Response<RspTransfer> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspTransfer transfer=response.body();
                     present.analyzeRes(transfer);
@@ -1114,12 +1113,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspTransfer> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void subUserList(String userId, String sordType, String subUserIdenti, String page,String pageSize, SubUsersPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void subUserList(AppCompatActivity activity,String userId, String sordType, String subUserIdenti, String page,String pageSize, SubUsersPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         if (!TextUtils.isEmpty(sordType))
@@ -1134,7 +1133,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspSubUsers>() {
             @Override
             public void onResponse(Call<RspSubUsers> call, Response<RspSubUsers> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspSubUsers transfer=response.body();
                     present.analyzeRes(transfer);
@@ -1145,12 +1144,12 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspSubUsers> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void redDetailList(String redPacId, String groupId,RedDetailPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void redDetailList(AppCompatActivity activity,String redPacId, String groupId,RedDetailPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("redPacId",redPacId );
         map.put("groupId",groupId );
@@ -1158,7 +1157,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspRedDetail>() {
             @Override
             public void onResponse(Call<RspRedDetail> call, Response<RspRedDetail> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspRedDetail rspRedDetail=response.body();
                     present.analyzeRes(rspRedDetail);
@@ -1169,13 +1168,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspRedDetail> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void inputMoney(String pay_id,String type,String price ,InputMoneyPresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void inputMoney(AppCompatActivity activity,String pay_id,String type,String price ,InputMoneyPresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("pay_id",pay_id );
         map.put("type",type );
@@ -1184,7 +1183,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspInMoney>() {
             @Override
             public void onResponse(Call<RspInMoney> call, Response<RspInMoney> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspInMoney rspInMoney=response.body();
                     present.analyzeInputMoney(rspInMoney);
@@ -1195,13 +1194,13 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspInMoney> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void groupSave(RspGroupInfo.GroupInfo reqGroup, AddGroupPresent present,String updateUser,int flag) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void groupSave(AppCompatActivity activity,RspGroupInfo.GroupInfo reqGroup, AddGroupPresent present,String updateUser,int flag) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         if (!TextUtils.isEmpty(reqGroup.getGroupName()))
              map.put("groupName",reqGroup.getGroupName());
@@ -1240,7 +1239,7 @@ public class API implements APIConstants {
         call.enqueue(new Callback<RspGroupSave>() {
             @Override
             public void onResponse(Call<RspGroupSave> call, Response<RspGroupSave> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspGroupSave rspGroupSave=response.body();
                     present.analyzeAddGroup(rspGroupSave);
@@ -1251,19 +1250,19 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspGroupSave> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getNotices(String type, SysNoticePresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getNotices(AppCompatActivity activity,String type, SysNoticePresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String, String> map = new HashMap<>();
         map.put("type", type);
         Call<RspNotice> call=apiService.getNotices(map);
         call.enqueue(new Callback<RspNotice>() {
             @Override
             public void onResponse(Call<RspNotice> call, Response<RspNotice> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspNotice rspGroupSave=response.body();
                     present.analyze(rspGroupSave);
@@ -1274,20 +1273,20 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspNotice> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
 
-    public void getMoney(String type, SysNoticePresent present) {
-        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
+    public void getMoney(AppCompatActivity activity,String type, SysNoticePresent present) {
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String, String> map = new HashMap<>();
         map.put("type", type);
         Call<RspMoney> call=apiService.getMoneyPic(map);
         call.enqueue(new Callback<RspMoney>() {
             @Override
             public void onResponse(Call<RspMoney> call, Response<RspMoney> response) {
-                LoadingDialog.Loading_Exit(AppContext.getActivitiesStack().peek().getSupportFragmentManager());
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
                 try {
                     RspMoney rspMoney=response.body();
                     present.analyzeMoney(rspMoney);
@@ -1298,11 +1297,11 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspMoney> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }
-    public void getConfig(String key, SysNoticePresent present) {
+    public void getConfig(AppCompatActivity activity,String key, SysNoticePresent present) {
 //        LoadingDialog.Loading_Show(AppContext.getActivitiesStack().peek().getSupportFragmentManager(),isCancle);
         Map<String, String> map = new HashMap<>();
         map.put("key", key);
@@ -1321,7 +1320,7 @@ public class API implements APIConstants {
 
             @Override
             public void onFailure(Call<RspConfig> call, Throwable t) {
-                noNetTips();
+                noNetTips(activity);
             }
         });
     }

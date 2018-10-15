@@ -93,8 +93,8 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.my_title);
         unbinder = ButterKnife.bind(this, contentView);
-        present=new LoginPresent(this);
-        sysNoticePresent=new SysNoticePresent(this);
+        present=new LoginPresent(this,activity);
+        sysNoticePresent=new SysNoticePresent(this,activity);
         init();
     }
 

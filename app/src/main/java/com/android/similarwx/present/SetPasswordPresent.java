@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.User;
@@ -16,11 +18,13 @@ import java.util.List;
 
 public class SetPasswordPresent {
     SetPasswordViewInterface mView;
-    public SetPasswordPresent(SetPasswordViewInterface view){
+    AppCompatActivity activity;
+    public SetPasswordPresent(SetPasswordViewInterface view,AppCompatActivity activity){
         this.mView=view;
+        this.activity=activity;
     }
     public void setPassword(String mobile,String userId,String paymentPasswd,String passwdStr,String verifyCode){
-        API.getInstance().setPaymentPasswd(mobile,userId,paymentPasswd,passwdStr,verifyCode,this);
+        API.getInstance().setPaymentPasswd(activity,mobile,userId,paymentPasswd,passwdStr,verifyCode,this);
     }
 
     public void analyzeRes(RspSetPassword rspGroup) {

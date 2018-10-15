@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.AppConstants;
@@ -18,12 +20,14 @@ import java.util.List;
 
 public class SubUsersPresent {
     SubUsersViewInterface view;
-    public SubUsersPresent(SubUsersViewInterface view){
+    AppCompatActivity activity;
+    public SubUsersPresent(SubUsersViewInterface view,AppCompatActivity activity){
         this.view=view;
+        this.activity=activity;
     }
     public void getSubUsers(String sordType, String subUserIdenti, String page,String pageSize){
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().subUserList(userId,sordType,subUserIdenti,page,pageSize,this);
+        API.getInstance().subUserList(activity,userId,sordType,subUserIdenti,page,pageSize,this);
     }
     public void analyzeRes(RspSubUsers rspGroup) {
         if (rspGroup!=null){

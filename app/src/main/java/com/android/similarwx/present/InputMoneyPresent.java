@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.AppConstants;
@@ -15,12 +17,14 @@ import com.android.similarwx.utils.SharePreferenceUtil;
 public class InputMoneyPresent {
 
     private InMoneyViewInterface mView;
-    public InputMoneyPresent(InMoneyViewInterface mView){
+    AppCompatActivity activity;
+    public InputMoneyPresent(InMoneyViewInterface mView,AppCompatActivity activity){
         this.mView=mView;
+        this.activity=activity;
     }
     public void inputMoney(String type,String price){
         String userId= SharePreferenceUtil.getString(AppContext.getContext(), AppConstants.USER_ID,"无");
-        API.getInstance().inputMoney(userId,type,price,this);
+        API.getInstance().inputMoney(activity,userId,type,price,this);
     }
 
     public void analyzeInputMoney(RspInMoney transfer) {

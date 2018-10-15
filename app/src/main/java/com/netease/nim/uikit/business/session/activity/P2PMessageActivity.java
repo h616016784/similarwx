@@ -72,8 +72,8 @@ public class P2PMessageActivity extends BaseMessageActivity implements SysNotice
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresent=new ClientDetailInfoPresent(this);
-        sysNoticePresent=new SysNoticePresent(this);
+        mPresent=new ClientDetailInfoPresent(this,this);
+        sysNoticePresent=new SysNoticePresent(this,this);
         User mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
         int serviceFlag=mUser.getServiceFlg();
         int systermFlay=mUser.getSystemFlg();

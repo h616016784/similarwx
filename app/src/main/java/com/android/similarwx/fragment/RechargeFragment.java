@@ -52,7 +52,7 @@ public class RechargeFragment extends BaseFragment implements InMoneyViewInterfa
         super.onInitView(contentView);
         mActionbar.setTitle("充值");
         unbinder = ButterKnife.bind(this, contentView);
-        mPresent=new InputMoneyPresent(this);
+        mPresent=new InputMoneyPresent(this,activity);
     }
 
     @Override

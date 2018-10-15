@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,7 +149,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             mSendRedBean= (SendRed.SendRedBean) bundle.getSerializable("info");
             message= (IMMessage) bundle.getSerializable("message");
             sessionId= bundle.getString("sessionId");
-            miPresent=new MIPresent(this);
+            miPresent=new MIPresent(this, (AppCompatActivity) getActivity());
             if (mSendRedBean!=null){
                 miPresent.canGrab(mSendRedBean.getRedPacId());//请求是否能抢红包
                 String accid=mSendRedBean.getMyUserId();//云信的accid
@@ -287,7 +288,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                     public void run() {
                         if (animationDrawable.isRunning())
                             animationDrawable.stop();
-                        miPresent.grabRed(mSendRedBean.getRedPacId(),getActivity());
+                        miPresent.grabRed(mSendRedBean.getRedPacId(), (AppCompatActivity) getActivity());
                     }
                 },1000);
                 break;

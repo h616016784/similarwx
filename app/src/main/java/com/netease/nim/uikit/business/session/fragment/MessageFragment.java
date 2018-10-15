@@ -124,7 +124,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
                 .statusBarDarkFont(false, 0.2f)
                 .statusBarColor(R.color.color_black_383A3E)
                 .init();
-        miPresent=new MIPresent(this);
+        miPresent=new MIPresent(this, (AppCompatActivity) getActivity());
 
         gson=new Gson();
         sound=SharePreferenceUtil.getInt(getActivity(),AppConstants.USER_SOUND_SET);

@@ -12,6 +12,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
+import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.beans.AccToken;
 import com.android.similarwx.beans.User;
@@ -49,7 +50,7 @@ import java.util.Map;
  * Created by hanhuailong on 2018/7/18.
  */
 
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxViewInterface, LoginViewInterface {
+public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler, WxViewInterface, LoginViewInterface {
 
     private IWXAPI api;
     private WxPresent present;
@@ -68,8 +69,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         api =  WXAPIFactory.createWXAPI(this, AppConstants.WX_APP_ID,false);
-        present=new WxPresent(this);
-        loginPresent = new LoginPresent(this);
+        present=new WxPresent(this,this);
+        loginPresent = new LoginPresent(this,this);
         try {
             api.handleIntent(getIntent(), this);
         } catch (Exception e) {
@@ -239,7 +240,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler, WxV
     private void doNext(User user) {
         if (user!=null){
             String id=user.getId();
-            API.getInstance().updateUserByWX(id,userInfoWXTemp.getNickname(), userInfoWXTemp.getHeadimgurl(), userInfoWXTemp.getSex() + "", new YCallBack<User>() {
+            API.getInstance().updateUserByWX(this,id,userInfoWXTemp.getNickname(), userInfoWXTemp.getHeadimgurl(), userInfoWXTemp.getSex() + "", new YCallBack<User>() {
 
                 @Override
                 public void callBack(User user) {

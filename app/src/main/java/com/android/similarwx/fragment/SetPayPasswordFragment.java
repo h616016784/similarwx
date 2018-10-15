@@ -55,7 +55,7 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
-        present=new SetPasswordPresent(this);
+        present=new SetPasswordPresent(this,activity);
         unbinder = ButterKnife.bind(this, contentView);
         type=getArguments().getString(AppConstants.TRANSFER_PASSWORD_TYPE);
         code=getArguments().getString(AppConstants.TRANSFER_VERCODE);

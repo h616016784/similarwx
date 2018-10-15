@@ -71,8 +71,8 @@
 
     <ImageView
         android:id="@+id/emoji_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignBottom="@id/audioTextSwitchLayout"
         android:layout_marginRight="@dimen/bottom_component_margin_horizontal"
         android:layout_toLeftOf="@+id/sendLayout"
@@ -90,8 +90,8 @@
 
         <ImageView
             android:id="@+id/buttonMoreFuntionInText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
             android:background="@drawable/nim_message_button_bottom_add_selector"
             android:contentDescription="@string/empty"

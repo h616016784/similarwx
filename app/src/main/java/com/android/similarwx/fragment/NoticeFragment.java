@@ -55,7 +55,7 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.notice_title);
         unbinder = ButterKnife.bind(this, contentView);
-        noticePresent=new NoticePresent(this);
+        noticePresent=new NoticePresent(this,activity);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(activity);
         noticeRecycler.setLayoutManager(linearLayoutManager);
 //        noticeAdapter=new NoticeAdapter2(R.layout.item_notice);

@@ -74,7 +74,7 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
         }else
             mActionbar.setTitle(R.string.sys_notice_title);
         unbinder = ButterKnife.bind(this, contentView);
-        present=new SysNoticePresent(this);
+        present=new SysNoticePresent(this,activity);
         init();
     }
 

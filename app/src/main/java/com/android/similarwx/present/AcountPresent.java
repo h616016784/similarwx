@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.base.AppConstants;
@@ -22,16 +24,18 @@ import java.util.List;
 
 public class AcountPresent extends BasePresent {
     private AcountViewInterface mView;
-    public AcountPresent(AcountViewInterface view){
+    private AppCompatActivity activity;
+    public AcountPresent(AcountViewInterface view,AppCompatActivity activity){
         this.mView=view;
+        this.activity=activity;
     }
 
     public void getAcountList(String userId,String type,String rebateToUserId,String startDate,String endDate,String page,String rows){
-        API.getInstance().getBill(userId,type,rebateToUserId,startDate,endDate,page,rows,this);
+        API.getInstance().getBill(activity,userId,type,rebateToUserId,startDate,endDate,page,rows,this);
     }
 
     public void getAccountDetail(String accountDetailId){
-        API.getInstance().getAccountDetail(accountDetailId,this);
+        API.getInstance().getAccountDetail(activity,accountDetailId,this);
     }
     public void analyzeRes(RspBill rspBill) {
         if (rspBill!=null){

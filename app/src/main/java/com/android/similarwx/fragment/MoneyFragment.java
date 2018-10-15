@@ -80,7 +80,7 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.money_title);
         unbinder = ButterKnife.bind(this, contentView);
-        present=new SysNoticePresent(this);
+        present=new SysNoticePresent(this,activity);
         init();
     }
     private void init() {

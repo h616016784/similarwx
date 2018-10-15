@@ -83,8 +83,8 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             my=bundle.getBoolean(AppConstants.TRANSFER_BASE);
             you=bundle.getBoolean(AppConstants.TRANSFER_ISHOST);
             unbinder = ButterKnife.bind(this, contentView);
-            mPresent=new RechargePresent(this);
-            present=new ClientDetailInfoPresent(this);
+            mPresent=new RechargePresent(this,activity);
+            present=new ClientDetailInfoPresent(this,activity);
             present.getUserInfoByParams("",account);
             mActionbar.setTitle("转账");
             mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);

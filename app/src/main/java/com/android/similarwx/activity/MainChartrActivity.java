@@ -149,8 +149,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mian_lt);
         unbinder = ButterKnife.bind(this);
-        groupPresent = new GroupPresent(this);
-        noticePresent=new NoticePresent(this);
+        groupPresent = new GroupPresent(this,this);
+        noticePresent=new NoticePresent(this,this);
         initYunXinSystemMsgListener();
         registerMsgUnreadInfoObserver(true);
         registerUserOnlineStatus(true);
@@ -185,11 +185,23 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         registerReceiver(mFinishReceiver, new IntentFilter(ACTION_FINISH_MAIN));
         hideKeyboard();
         for (Activity activity:AppContext.getActivitiesStack()){
-            if (activity !=this){
+            if (!(activity instanceof MainChartrActivity)){
                 activity.finish();
             }
         }
+        Intent intent = new Intent();
+        intent.setAction(ACTION_FINISH);
+        sendBroadcast(intent);
+        Intent intent1 = new Intent();
+        intent1.setAction(ARGUMENT_EXTRA_ANIMATION_LOGIN);
+        sendBroadcast(intent1);
     }
+
+    @Override
+    public boolean getRegisterAble() {
+        return false;
+    }
+
     private void initYunXinSystemMsgListener() {
         NIMClient.getService(SystemMessageObserver.class)
                 .observeReceiveSystemMsg(new Observer<SystemMessage>() {

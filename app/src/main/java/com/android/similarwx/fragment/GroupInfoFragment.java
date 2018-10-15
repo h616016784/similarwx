@@ -121,7 +121,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
         mActionbar.setTitle("群信息");
         unbinder = ButterKnife.bind(this, contentView);
         isClose=SharePreferenceUtil.getInt(activity,AppConstants.USER_MSSAGE_SET+accountId);
-        groupInfoPresent=new GroupInfoPresent(this);
+        groupInfoPresent=new GroupInfoPresent(this,activity);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(activity);
         groupInfoRuleRv.setLayoutManager(mLayoutManager);
@@ -137,7 +137,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
         groupInfoRuleRv.setAdapter(ruleAdapter);
 
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
-        present=new SendRedPresent(this);
+        present=new SendRedPresent(this,activity);
 
 
         groupInfoMemberRv.setLayoutManager(new GridLayoutManager(activity, 4));

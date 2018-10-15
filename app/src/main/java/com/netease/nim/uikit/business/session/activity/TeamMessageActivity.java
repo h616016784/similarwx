@@ -238,7 +238,7 @@ public class TeamMessageActivity extends BaseMessageActivity implements GroupInf
         fragment.setArguments(arguments);
         fragment.setContainerId(R.id.message_fragment_container);
         String userId= SharePreferenceUtil.getString(this,AppConstants.USER_ACCID,"");
-        groupInfoPresent=new GroupInfoPresent(this);
+        groupInfoPresent=new GroupInfoPresent(this,this);
         groupInfoPresent.getGroupUser(sessionId,userId);
         return fragment;
 

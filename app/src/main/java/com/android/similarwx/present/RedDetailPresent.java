@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.response.RspRedDetail;
 import com.android.similarwx.inteface.RedDetailViewInterface;
@@ -11,11 +13,13 @@ import com.android.similarwx.model.API;
 
 public class RedDetailPresent {
     private RedDetailViewInterface mView;
-    public RedDetailPresent(RedDetailViewInterface mView){
+    AppCompatActivity activity;
+    public RedDetailPresent(RedDetailViewInterface mView,AppCompatActivity activity){
         this.mView=mView;
+        this.activity=activity;
     }
     public void redDetailList(String redPacId,String groupId){
-        API.getInstance().redDetailList(redPacId,groupId,this);
+        API.getInstance().redDetailList(activity,redPacId,groupId,this);
     }
     public void analyzeRes(RspRedDetail rspRedDetail) {
         if (rspRedDetail!=null){

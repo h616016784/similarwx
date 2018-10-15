@@ -60,8 +60,8 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
         super.onInitView(contentView);
         mActionbar.setTitle("验证");
         unbinder = ButterKnife.bind(this, contentView);
-        present=new PhoneVerifyPresent(this);
-        myBasePresent=new MyBasePresent(this);
+        present=new PhoneVerifyPresent(this,activity);
+        myBasePresent=new MyBasePresent(this,activity);
         type=getArguments().getString(AppConstants.TRANSFER_PASSWORD_TYPE);
         muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);
         timer = new CountDownTimer(60 * 1000, 1000) {

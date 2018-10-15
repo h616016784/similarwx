@@ -1,5 +1,7 @@
 package com.android.similarwx.present;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGroupInfo;
@@ -12,11 +14,13 @@ import com.android.similarwx.model.API;
 
 public class SendRedPresent {
     private SendRedViewInterface view;
-    public SendRedPresent(SendRedViewInterface view){
+    AppCompatActivity activity;
+    public SendRedPresent(SendRedViewInterface view,AppCompatActivity activity){
         this.view=view;
+        this.activity=activity;
     }
     public void getGroupByIdOrGroupId(String id,String groupId){
-        API.getInstance().getGroupByGroupId(id,groupId,this);
+        API.getInstance().getGroupByGroupId(activity,id,groupId,this);
     }
     public void analyzeRes(RspGroupInfo rspGroupInfo) {
         if (rspGroupInfo!=null){
