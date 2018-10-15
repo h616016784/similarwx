@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.outbaselibrary.utils.Toaster;
@@ -62,6 +63,8 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
     BaseItemView myBaseSignBv;
     @BindView(R.id.view_base_iv)
     ImageView viewBaseIv;
+    @BindView(R.id.view_rl)
+    RelativeLayout viewRv;
     Unbinder unbinder;
 
 
@@ -86,11 +89,11 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
         super.onInitView(contentView);
         mActionbar.setTitle(R.string.my_base_title);
         unbinder = ButterKnife.bind(this, contentView);
+        myBasePresent=new MyBasePresent(this,activity);
         init();
     }
 
     private void init() {
-        myBasePresent=new MyBasePresent(this,activity);
         myBaseHeadBv.setNameText(R.string.my_base_head);
         myBaseHeadBv.setImageView(R.drawable.rp_avatar);
         myBaseNikenameBv.setNameText(R.string.my_base_nick);
@@ -141,7 +144,7 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
     public void onViewClicked(View view) {
         Bundle bundle;
         switch (view.getId()) {
-            case R.id.my_base_head_bv:
+            case R.id.view_rl:
                 showHeadDialog();
                 break;
             case R.id.my_base_nikename_bv:

@@ -716,18 +716,20 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                         adapter.setRecentContacts(recents);
                         adapter.addData(mListData);
 
-                        for (RecentContact recentContact:recents){
-                            if (recentContact.getSessionType()== SessionTypeEnum.P2P){
-                                int unReadCount=recentContact.getUnreadCount();
+                        if (recents!=null){
+                            for (RecentContact recentContact:recents){
+                                if (recentContact.getSessionType()== SessionTypeEnum.P2P){
+                                    int unReadCount=recentContact.getUnreadCount();
 
-                                int unread = NIMClient.getService(SystemMessageService.class) .querySystemMessageUnreadCountBlock();
-                                unReadCount+=unread;
-                                if (unReadCount>0){
-                                    mainChartRedIv.setVisibility(View.VISIBLE);
-                                    break;
+                                    int unread = NIMClient.getService(SystemMessageService.class) .querySystemMessageUnreadCountBlock();
+                                    unReadCount+=unread;
+                                    if (unReadCount>0){
+                                        mainChartRedIv.setVisibility(View.VISIBLE);
+                                        break;
+                                    }
                                 }
+                                mainChartRedIv.setVisibility(View.GONE);
                             }
-                            mainChartRedIv.setVisibility(View.GONE);
                         }
                     }
                 });

@@ -3,6 +3,7 @@ package com.android.similarwx.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -50,7 +51,7 @@ import java.util.Map;
  * Created by hanhuailong on 2018/7/18.
  */
 
-public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler, WxViewInterface, LoginViewInterface {
+public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler, WxViewInterface, LoginViewInterface {
 
     private IWXAPI api;
     private WxPresent present;
