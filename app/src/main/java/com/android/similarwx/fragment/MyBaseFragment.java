@@ -94,8 +94,8 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
     }
 
     private void init() {
-        myBaseHeadBv.setNameText(R.string.my_base_head);
-        myBaseHeadBv.setImageView(R.drawable.rp_avatar);
+//        myBaseHeadBv.setNameText(R.string.my_base_head);
+//        myBaseHeadBv.setImageView(R.drawable.rp_avatar);
         myBaseNikenameBv.setNameText(R.string.my_base_nick);
         myBaseNikenameBv.setImageView(R.drawable.em_right);
         myBaseAccountBv.setNameText(R.string.my_base_account);
@@ -140,7 +140,7 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
         unbinder.unbind();
     }
 
-    @OnClick({R.id.my_base_head_bv, R.id.my_base_nikename_bv, R.id.my_base_sex_bv, R.id.my_base_sign_bv})
+    @OnClick({R.id.my_base_head_bv, R.id.my_base_nikename_bv, R.id.my_base_sex_bv, R.id.my_base_sign_bv,R.id.view_rl})
     public void onViewClicked(View view) {
         Bundle bundle;
         switch (view.getId()) {
@@ -375,13 +375,7 @@ public class MyBaseFragment extends BaseFragment implements MyBaseViewInterface{
             }
             String icon=user.getIcon();
             if (!TextUtils.isEmpty(icon)){
-                Glide.with(activity)
-                        .load(icon)
-//                        .override(120,120)
-//                        .transform(new CircleCrop(activity))
-//                        .placeholder(R.drawable.rp_avatar)
-//                        .error(R.drawable.rp_avatar)
-                        .into(myBaseHeadBv.getRightImageView());
+                NetImageUtil.glideImageNormalWithSize(activity,icon,viewBaseIv,240,240);
             }
         }
     }

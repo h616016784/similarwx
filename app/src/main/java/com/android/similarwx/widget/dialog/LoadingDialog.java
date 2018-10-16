@@ -52,7 +52,8 @@ public class LoadingDialog extends DialogFragment{
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(loadingDialog, DIALOG_TAG_LOAD);
         transaction.show(loadingDialog);
-        transaction.commit();
+//        transaction.commit();
+        transaction.commitAllowingStateLoss ();
 //        fragmentManager.executePendingTransactions();
     }
     public static void Loading_Show(FragmentManager fragmentManager,

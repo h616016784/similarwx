@@ -212,13 +212,13 @@
             android:textColor="@color/black"/>
         <EditText
             android:id="@+id/send_red_descript_tv"
-            android:text="恭喜发财 大吉大利"
+            android:hint="恭喜发财 大吉大利"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
             android:minWidth="@dimen/distance_bigger"
             android:textSize="@dimen/text_content_or_button"
-            android:textColor="@color/black_gray"
+            android:textColor="@color/black"
             android:gravity="right"
             android:layout_marginRight="@dimen/distance_smallest"
             android:layout_alignParentRight="true"/>

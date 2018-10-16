@@ -133,19 +133,6 @@ public class SendRedFragment extends BaseFragment {
         sendRedSumEt.addTextChangedListener(textWatcher);
         sendRedLeiEt.addTextChangedListener(leiWatcher);
         sendRedDescripTv.addTextChangedListener(scripWatcher);
-        sendRedDescripTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    String content=sendRedDescripTv.getText().toString();
-                    if (!TextUtils.isEmpty(content)){
-                        if (content.equals("恭喜发财 大吉大利")){
-                            sendRedDescripTv.setText("");
-                        }
-                    }
-                }
-            }
-        });
     }
 
     private void initSendView(RspGroupInfo.GroupInfo groupInfo) {
@@ -259,6 +246,9 @@ public class SendRedFragment extends BaseFragment {
                     String lei=sendRedLeiEt.getText().toString();
                     String count=sendRedCountEt.getText().toString();
                     String content=sendRedDescripTv.getText().toString();
+                    if (TextUtils.isEmpty(content)){
+                        content=sendRedDescripTv.getHint().toString();
+                    }
                     Intent intent=new Intent();
                     SendRed sendRed=new SendRed();
                     SendRed.SendRedBean bean=new SendRed.SendRedBean();

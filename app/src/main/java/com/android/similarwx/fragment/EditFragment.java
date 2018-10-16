@@ -12,6 +12,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.base.NormalActivity;
 import com.android.similarwx.utils.CodeUtils;
 
 import butterknife.BindView;
