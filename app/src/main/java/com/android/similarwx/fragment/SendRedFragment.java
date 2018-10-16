@@ -38,6 +38,7 @@ import com.android.similarwx.widget.InputPasswordDialog;
 import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.android.similarwx.widget.input.sessions.Extras;
 import com.android.similarwx.widget.input.sessions.SessionCustomization;
+import com.gyf.barlibrary.ImmersionBar;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import java.util.ArrayList;
@@ -100,6 +101,7 @@ public class SendRedFragment extends BaseFragment {
     RspGroupInfo.GroupInfo groupInfo;
     private boolean first=false;//两个输入栏是否输入正确
     private boolean second=false;//两个输入栏是否输入正确
+    public ImmersionBar mImmersionBar;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_send_red;
@@ -109,6 +111,13 @@ public class SendRedFragment extends BaseFragment {
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
         mActionbar.setTitle("发红包");
+        mActionbar.setLeftImage(R.drawable.left_red_new);
+        mActionbar.setWholeBackground(R.color.colorRed3);
+        mActionbar.setDividerBackground(R.color.colorRed3);
+        mImmersionBar = ImmersionBar.with(activity);
+        mImmersionBar.statusBarDarkFont(false, 0.2f)
+                .statusBarColor(R.color.colorRed3)
+                .fitsSystemWindows(false).init();
         unbinder = ButterKnife.bind(this, contentView);
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
         Bundle bundle=getArguments();
@@ -201,6 +210,8 @@ public class SendRedFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
     }
 
     @OnClick(R.id.send_red_bt)

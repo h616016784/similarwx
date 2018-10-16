@@ -109,7 +109,6 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             sendRed= (SendRed.SendRedBean) bundle.getSerializable(SENDRED);
 //            grabRedBean= (RspGrabRed.GrabRedBean) bundle.getSerializable(GRAB);
             if (sendRed!=null){
-
                 String accid=sendRed.getMyUserId();//云信的accid
                 List accounts=new ArrayList();
                 accounts.add(accid);
