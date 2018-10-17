@@ -107,9 +107,10 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
         }
         String transfer= AppConstants.USER_TRANSFER;
         if (!TextUtils.isEmpty(transfer)){
-            if (transfer.equals("1")){
+            if (transfer.equals("0")){
                 if (my && you){
                     Toaster.toastShort("已禁止转账！");
+                    activity.finish();
                     return ;
                 }
             }
