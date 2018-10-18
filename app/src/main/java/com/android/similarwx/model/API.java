@@ -1038,6 +1038,36 @@ public class API implements APIConstants {
             }
         });
     }
+
+    public void getSendRedBill(AppCompatActivity activity,String userId,String rebateToUserId,String startDate,String endDate,String page,String rows,AcountPresent present){
+        LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
+        Map<String,String> map=new HashMap<>();
+        map.put("userId",userId );
+        if (!TextUtils.isEmpty(rebateToUserId))
+            map.put("rebateToUserId",rebateToUserId );
+        map.put("beginDate",startDate );
+        map.put("endDate",endDate );
+        map.put("page",page );
+        map.put("rows",rows );
+        Call<RspBill> call=apiService.getSendRedBill(map);
+        call.enqueue(new Callback<RspBill>() {
+            @Override
+            public void onResponse(Call<RspBill> call, Response<RspBill> response) {
+                LoadingDialog.Loading_Exit(activity.getSupportFragmentManager());
+                try {
+                    RspBill rspService=response.body();
+                    present.analyzeRes(rspService);
+                }catch (Exception e){
+                    Toaster.toastShort(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspBill> call, Throwable t) {
+                noNetTips(activity);
+            }
+        });
+    }
     public void getAccountDetail(AppCompatActivity activity,String accountDetailId,AcountPresent present){
         LoadingDialog.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();

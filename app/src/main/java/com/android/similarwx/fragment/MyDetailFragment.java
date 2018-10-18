@@ -139,6 +139,9 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             @Override
             protected void convert(BaseViewHolder helper, Bill.BillDetail item) {
                 String type=item.getTradeType();
+                if (TextUtils.isEmpty(type)){
+                    type=BillType.SEND_PACKAGE.toString();
+                }
                 helper.setText(R.id.item_my_detail_time_tv,item.getCreateDate());
                 String amount;
                 if (TextUtils.isEmpty(transferId)){
@@ -146,7 +149,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                     amount=String.format("%.2f", item.getAmount());
                 }else {
                     helper.setGone(R.id.item_my_detail_name_right_tv,true);
-                    helper.setText(R.id.item_my_detail_name_right_tv,"-"+item.getAmount());
+                    helper.setText(R.id.item_my_detail_name_right_tv,"-"+item.getSendAmount());
                     amount=String.format("%.2f", item.getRebateAmount());
                 }
                 if (type.equals(BillType.ALL.toString())){
@@ -235,7 +238,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 if (TextUtils.isEmpty(transferId)){
                     mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
                 }else
-                    mPresent.getAcountList(transferId,mType,userId,mStart,mEnd,page+"",rows+"");
+                    mPresent.getSendRedList(transferId,userId,mStart,mEnd,page+"",rows+"");
             }
         },myDetailRv);
         myDetailRv.setAdapter(adapter);
@@ -243,9 +246,13 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Bill.BillDetail billDetail= (Bill.BillDetail) adapter.getData().get(position);
+                String id=billDetail.getId();
+                if (TextUtils.isEmpty(id)){
+                    id=billDetail.getDetailid();
+                }
                 Bundle bundle=new Bundle();
                 bundle.putSerializable(AppConstants.TRANSFER_BILL_BEAN,billDetail);
-                bundle.putSerializable(AppConstants.TRANSFER_ACCOUNT,billDetail.getId());
+                bundle.putSerializable(AppConstants.TRANSFER_ACCOUNT,id);
                 FragmentUtils.navigateToNormalActivity(getActivity(),new TransDetailFragment(),bundle);
             }
         });
@@ -261,7 +268,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         if (TextUtils.isEmpty(transferId)){
             mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
         }else
-            mPresent.getAcountList(transferId,mType,userId,mStart,mEnd,page+"",rows+"");
+            mPresent.getSendRedList(transferId,userId,mStart,mEnd,page+"",rows+"");
 
         pvTime=new TimePickerBuilder(activity, new OnTimeSelectListener() {
             @Override
@@ -279,7 +286,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 if (TextUtils.isEmpty(transferId)){
                     mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
                 }else
-                    mPresent.getAcountList(transferId,mType,userId,mStart,mEnd,page+"",rows+"");
+                    mPresent.getSendRedList(transferId,userId,mStart,mEnd,page+"",rows+"");
             }
         }).build();
         //展示类别list
@@ -300,7 +307,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 if (TextUtils.isEmpty(transferId)){
                     mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
                 }else
-                    mPresent.getAcountList(transferId,mType,userId,mStart,mEnd,page+"",rows+"");
+                    mPresent.getSendRedList(transferId,userId,mStart,mEnd,page+"",rows+"");
                 if (listPopupWindow!=null){
                     listPopupWindow.dismiss();
                 }
@@ -412,13 +419,26 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             }
             myDetailFreezeTv.setText(bill.getFreezeAmount());
             String sunAmount=bill.getSumAmount();
-            if (TextUtils.isEmpty(sunAmount)){
-                myDetailSumTv.setText("0.00");
+            List<Bill.BillDetail> billDetails=null;
+            if (TextUtils.isEmpty(transferId)){
+                if (TextUtils.isEmpty(sunAmount)){
+                    myDetailSumTv.setText("0.00");
+                }else {
+                    myDetailSumTv.setText(String.format("%.2f", Double.parseDouble(bill.getSumAmount())));
+                }
+            }else{
+                if (TextUtils.isEmpty(totalAmount)){
+                    myDetailSumTv.setText("0.00");
+                }else {
+                    myDetailSumTv.setText(String.format("%.2f", Double.parseDouble(bill.getTotalAmount())));
+                }
+            }
+            if (TextUtils.isEmpty(transferId)){
+                billDetails=bill.getAccountDetailList();
             }else {
-                myDetailSumTv.setText(String.format("%.2f", Double.parseDouble(bill.getSumAmount())));
+                billDetails=bill.getSendPacDetailList();
             }
 
-            List<Bill.BillDetail> billDetails=bill.getAccountDetailList();
             if (billDetails==null){
                 adapter.loadMoreEnd();
             }else{

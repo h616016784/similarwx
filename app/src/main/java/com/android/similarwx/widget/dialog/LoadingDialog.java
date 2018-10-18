@@ -1,5 +1,7 @@
 package com.android.similarwx.widget.dialog;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -29,7 +31,7 @@ public class LoadingDialog extends DialogFragment{
         }else{
             setDialog_text("正在加载...");
         }
-
+//        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return view;
     }
 
@@ -60,7 +62,7 @@ public class LoadingDialog extends DialogFragment{
                                              boolean cancelable,String title) {
         Loading_Exit(fragmentManager);
         LoadingDialog loadingDialog = new LoadingDialog();
-        loadingDialog.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CommonDialog);
+        loadingDialog.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.TransCommonDialog);
         Bundle bundle = new Bundle();
         bundle.putString("TITLE",title);
         loadingDialog.setArguments(bundle);

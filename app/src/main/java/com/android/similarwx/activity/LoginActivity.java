@@ -21,6 +21,7 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.config.UserPreferences;
 import com.android.similarwx.fragment.AddGroupFragment;
 import com.android.similarwx.fragment.DealFragment;
 import com.android.similarwx.fragment.PhoneVerifyFragment;
@@ -35,6 +36,9 @@ import com.android.similarwx.widget.dialog.EditDialogBuilder;
 import com.android.similarwx.wxapi.WXEntryActivity;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.netease.nim.uikit.business.team.DemoCache;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -209,6 +213,21 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
             startActivity(new Intent(this, MainChartrActivity.class));
         }
     }
+
+    private void initNotificationConfig() {
+        // 初始化消息提醒
+        NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
+
+        // 加载状态栏配置
+        StatusBarNotificationConfig statusBarNotificationConfig = UserPreferences.getStatusConfig();
+        if (statusBarNotificationConfig == null) {
+            statusBarNotificationConfig = DemoCache.getNotificationConfig();
+            UserPreferences.setStatusConfig(statusBarNotificationConfig);
+        }
+        // 更新配置
+        NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
+    }
+
 
     private void doInputInviter(String userId,String invitationCode) {
         loginPresent.setInvitationCode(userId,invitationCode);

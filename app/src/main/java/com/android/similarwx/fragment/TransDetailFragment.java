@@ -54,6 +54,7 @@ public class TransDetailFragment extends BaseFragment implements AcountViewInter
         return R.layout.fragment_trans_detail;
     }
     String type;
+    String value;
     @Override
     protected void onInitView(View contentView) {
         super.onInitView(contentView);
@@ -61,15 +62,18 @@ public class TransDetailFragment extends BaseFragment implements AcountViewInter
         unbinder = ButterKnife.bind(this, contentView);
         mPresent=new AcountPresent(this,activity);
         infoPresent=new ClientDetailInfoPresent(this,activity);
-//        User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
-//        if (user!=null)
-//            userFlag=user.getSystemFlg();
+        User user= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+        if (user!=null)
+            userFlag=user.getSystemFlg();
         Bundle bundle=getArguments();
         if (bundle!=null){
             billDetail= (Bill.BillDetail) bundle.getSerializable(AppConstants.TRANSFER_BILL_BEAN);
             tranId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);
             transDetailTime.setText(billDetail.getCreateDate());
             type=billDetail.getTradeType();
+            if (TextUtils.isEmpty(type)){
+                type=BillType.SEND_PACKAGE.toString();
+            }
             double amount=Double.parseDouble(String.format("%.2f", billDetail.getAmount()));
             if (type.equals(BillType.ALL.toString())){
                 transDetailTurn.setText(BillType.ALL.toName());
@@ -187,6 +191,9 @@ public class TransDetailFragment extends BaseFragment implements AcountViewInter
             if (!TextUtils.isEmpty(oppositeId)){
                 infoPresent.getUserInfoByParams(oppositeId,"");
             }
+            if (type.equals(BillType.PACKAGE_REWARD.toString())) { //红包奖励
+                value=accountDetailBean.getValue();
+            }
         }
     }
 
@@ -199,13 +206,13 @@ public class TransDetailFragment extends BaseFragment implements AcountViewInter
                 if (userFlag==1){
                     transDetailState.setText(user.getName()+"获得了推荐佣金");
                 }else {
-                    transDetailState.setText("获得"+user.getName()+"的游戏返佣");
+                    transDetailState.setText("你获得游戏返佣");
                 }
             }else if (type.equals(BillType.PACKAGE_REWARD.toString())){ //红包奖励
                 if (userFlag==1){
-                    transDetailState.setText(user.getName()+"抢到了幸运数字（"+Double.parseDouble(String.format("%.2f", billDetail.getLuckAmount()))+"）");
+                    transDetailState.setText(user.getName()+"抢到了幸运数字（"+Double.parseDouble(String.format("%.2s", value))+"）");
                 }else {
-                    transDetailState.setText(billDetail.getNickName()+"抢到幸运数字（"+Double.parseDouble(String.format("%.2f", billDetail.getLuckAmount()))+"）");
+                    transDetailState.setText("你抢到幸运数字（"+Double.parseDouble(String.format("%.2s", value))+"）");
                 }
             }else if (type.equals(BillType.THUNDER_PACKAGE.toString())){ //雷包扣款
                 transDetailState.setText("你踩了"+user.getName()+"的红包地雷");

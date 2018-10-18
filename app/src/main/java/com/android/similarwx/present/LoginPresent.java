@@ -10,6 +10,7 @@ import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspUser;
+import com.android.similarwx.config.UserPreferences;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.utils.SharePreferenceUtil;
@@ -18,6 +19,7 @@ import com.netease.nim.uikit.business.team.DemoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.uinfo.UserService;
@@ -128,8 +130,8 @@ public class LoginPresent extends BasePresent {
                 loginViewInterface.refreshDoYunxinLocal(user);
 //                saveLoginInfo(account, token);
 //
-//                // 初始化消息提醒配置
-//                initNotificationConfig();
+                // 初始化消息提醒配置
+                initNotificationConfig();
 
             }
 
@@ -148,7 +150,19 @@ public class LoginPresent extends BasePresent {
             }
         });
     }
+    private void initNotificationConfig() {
+        // 初始化消息提醒
+        NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
 
+        // 加载状态栏配置
+        StatusBarNotificationConfig statusBarNotificationConfig = UserPreferences.getStatusConfig();
+        if (statusBarNotificationConfig == null) {
+            statusBarNotificationConfig = DemoCache.getNotificationConfig();
+            UserPreferences.setStatusConfig(statusBarNotificationConfig);
+        }
+        // 更新配置
+        NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
+    }
     private void doYunXinLogin(LoginInfo loginInfo, final User user) {
         RequestCallback<LoginInfo> callback=new RequestCallback<LoginInfo>() {
             @Override

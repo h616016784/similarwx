@@ -15,6 +15,9 @@ import com.android.similarwx.activity.RobotProfileActivity;
 import com.android.similarwx.activity.UserProfileActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.fragment.ClientDetailInfoFragment;
+import com.android.similarwx.inteface.message.CustomAttachParser;
+import com.android.similarwx.inteface.message.RedCustomAttachment;
+import com.android.similarwx.inteface.message.TransCustomAttachment;
 import com.android.similarwx.utils.FragmentUtils;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.recent.RecentCustomization;
@@ -30,6 +33,9 @@ import com.netease.nim.uikit.business.session.extension.StickerAttachment;
 import com.netease.nim.uikit.business.session.helper.MessageListPanelHelper;
 import com.netease.nim.uikit.business.session.module.MsgForwardFilter;
 import com.netease.nim.uikit.business.session.module.MsgRevokeFilter;
+import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRed;
+import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRedTip;
+import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderTrans;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderUnknown;
 import com.netease.nim.uikit.business.team.DemoCache;
 import com.netease.nim.uikit.business.team.model.TeamExtras;
@@ -83,9 +89,9 @@ public class SessionHelper {
     public static void init() {
         // 注册自定义消息附件解析器
 //        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new CustomAttachParser());
-
+        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new CustomAttachParser());
         // 注册各种扩展消息类型的显示ViewHolder
-//        registerViewHolders();
+        registerViewHolders();
 
         // 设置会话中点击事件响应处理
         setSessionListener();
@@ -444,6 +450,9 @@ public class SessionHelper {
     }
 
     private static void registerViewHolders() {
+        NimUIKit.registerMsgItemViewHolder(RedCustomAttachment.class, MsgViewHolderRed.class);//红包
+        NimUIKit.registerMsgItemViewHolder(TransCustomAttachment.class, MsgViewHolderTrans.class);//转账
+        NimUIKit.registerTipMsgViewHolder(MsgViewHolderRedTip.class);//红包提示
 //        NimUIKit.registerMsgItemViewHolder(FileAttachment.class, MsgViewHolderFile.class);
 //        NimUIKit.registerMsgItemViewHolder(AVChatAttachment.class, MsgViewHolderAVChat.class);
 //        NimUIKit.registerMsgItemViewHolder(GuessAttachment.class, MsgViewHolderGuess.class);

@@ -25,6 +25,7 @@ import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.beans.GroupMessageBean;
 import com.android.similarwx.beans.PopMoreBean;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.config.UserPreferences;
 import com.android.similarwx.fragment.AddGroupFragment;
 import com.android.similarwx.fragment.ChartFragment;
 import com.android.similarwx.fragment.ExplainFragment;
@@ -55,18 +56,24 @@ import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
 import com.android.similarwx.widget.dialog.EditDialogBuilder;
 import com.android.similarwx.widget.dialog.EditDialogSimple;
+import com.android.similarwx.widget.dialog.LoadingDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.SimpleCallback;
+import com.netease.nim.uikit.api.model.main.LoginSyncDataStatusObserver;
 import com.netease.nim.uikit.api.model.team.TeamDataChangedObserver;
 import com.netease.nim.uikit.business.recent.TeamMemberAitHelper;
 import com.netease.nim.uikit.business.session.activity.TeamMessageActivity;
+import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
+import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
+import com.netease.nimlib.sdk.mixpush.MixPushService;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
@@ -155,6 +162,25 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         registerMsgUnreadInfoObserver(true);
         registerUserOnlineStatus(true);
         registerTeamUpdateObserver(true);//注册群信息变化（主要是自己被踢出）
+
+        // 等待同步数据完成
+        boolean syncCompleted = LoginSyncDataStatusObserver.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {
+            @Override
+            public void onEvent(Void v) {
+
+                syncPushNoDisturb(UserPreferences.getStatusConfig());
+
+                DialogMaker.dismissProgressDialog();
+            }
+        });
+
+        if (!syncCompleted) {
+            DialogMaker.showProgressDialog(this, getString(R.string.prepare_data)).setCanceledOnTouchOutside(false);
+        } else {
+            syncPushNoDisturb(UserPreferences.getStatusConfig());
+        }
+
+
 //        requestSystemMessageUnreadCount();
         mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(this,AppConstants.USER_OBJECT);
 
@@ -195,6 +221,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         Intent intent1 = new Intent();
         intent1.setAction(ARGUMENT_EXTRA_ANIMATION_LOGIN);
         sendBroadcast(intent1);
+//        LoadingDialog.Loading_Show(this.getSupportFragmentManager(),true);
     }
 
     @Override
@@ -295,6 +322,23 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 //        listPopWindowHelper.destroy();
     }
 
+    /**
+     * 若增加第三方推送免打扰（V3.2.0新增功能），则：
+     * 1.添加下面逻辑使得 push 免打扰与先前的设置同步。
+     * 2.设置界面{@link com.netease.nim.demo.main.activity.SettingsActivity} 以及
+     * 免打扰设置界面{@link com.netease.nim.demo.main.activity.NoDisturbActivity} 也应添加 push 免打扰的逻辑
+     * <p>
+     * 注意：isPushDndValid 返回 false， 表示未设置过push 免打扰。
+     */
+    private void syncPushNoDisturb(StatusBarNotificationConfig staConfig) {
+
+        boolean isNoDisbConfigExist = NIMClient.getService(MixPushService.class).isPushNoDisturbConfigExist();
+
+        if (!isNoDisbConfigExist && staConfig.downTimeToggle) {
+            NIMClient.getService(MixPushService.class).setPushNoDisturbConfig(staConfig.downTimeToggle,
+                    staConfig.downTimeBegin, staConfig.downTimeEnd);
+        }
+    }
     private void registerTeamUpdateObserver(boolean register) {
         NimUIKit.getTeamChangedObservable().registerTeamDataChangedObserver(teamDataChangedObserver, register);
     }

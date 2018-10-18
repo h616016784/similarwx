@@ -33,7 +33,9 @@ public class AcountPresent extends BasePresent {
     public void getAcountList(String userId,String type,String rebateToUserId,String startDate,String endDate,String page,String rows){
         API.getInstance().getBill(activity,userId,type,rebateToUserId,startDate,endDate,page,rows,this);
     }
-
+    public void getSendRedList(String userId,String rebateToUserId,String startDate,String endDate,String page,String rows){
+        API.getInstance().getSendRedBill(activity,userId,rebateToUserId,startDate,endDate,page,rows,this);
+    }
     public void getAccountDetail(String accountDetailId){
         API.getInstance().getAccountDetail(activity,accountDetailId,this);
     }

@@ -13,6 +13,17 @@ public class Bill extends BaseBean {
     private  String totalAmount;
     private  String sumAmount;
 
+    private List<BillDetail> accountDetailList;
+    private List<BillDetail> sendPacDetailList;
+
+    public List<BillDetail> getSendPacDetailList() {
+        return sendPacDetailList;
+    }
+
+    public void setSendPacDetailList(List<BillDetail> sendPacDetailList) {
+        this.sendPacDetailList = sendPacDetailList;
+    }
+
     public String getTotalAmount() {
         return totalAmount;
     }
@@ -37,7 +48,6 @@ public class Bill extends BaseBean {
         this.freezeAmount = freezeAmount;
     }
 
-    private List<BillDetail> accountDetailList;
 
     public String getCount() {
         return count;
@@ -88,6 +98,26 @@ public class Bill extends BaseBean {
         private String redPacAmount;
         private double rebateAmount;
         private double luckAmount;
+
+
+        private String detailid;
+        private String sendAmount;
+
+        public String getDetailid() {
+            return detailid;
+        }
+
+        public void setDetailid(String detailid) {
+            this.detailid = detailid;
+        }
+
+        public String getSendAmount() {
+            return sendAmount;
+        }
+
+        public void setSendAmount(String sendAmount) {
+            this.sendAmount = sendAmount;
+        }
 
         public double getLuckAmount() {
             return luckAmount;

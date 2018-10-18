@@ -11,6 +11,7 @@ import com.android.similarwx.activity.MainChartrActivity;
 import com.netease.nim.uikit.api.wrapper.MessageRevokeTip;
 import com.netease.nim.uikit.api.wrapper.NimUserInfoProvider;
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderThumbBase;
+import com.netease.nim.uikit.business.team.DemoCache;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.ServerAddresses;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
@@ -71,7 +72,7 @@ public class NimSDKOptionConfig {
         options.mixPushConfig = buildMixPushConfig();
 
         // 云信私有化配置项
-//        configServerAddress(options);
+        configServerAddress(options);
 
         return options;
     }
@@ -98,7 +99,17 @@ public class NimSDKOptionConfig {
 
         return storageRootPath;
     }
+    private static void configServerAddress(final SDKOptions options) {
+        String appKey = PrivatizationConfig.getAppKey();
+        if (!TextUtils.isEmpty(appKey)) {
+            options.appKey = appKey;
+        }
 
+        ServerAddresses serverConfig = PrivatizationConfig.getServerAddresses();
+        if (serverConfig != null) {
+            options.serverConfig = serverConfig;
+        }
+    }
     private static void initStatusBarNotificationConfig(SDKOptions options) {
         // load 应用的状态栏配置
         StatusBarNotificationConfig config = loadStatusBarNotificationConfig();
@@ -139,7 +150,7 @@ public class NimSDKOptionConfig {
         config.showBadge = true;
 
         // save cache，留做切换账号备用
-//        DemoCache.setNotificationConfig(config);
+        DemoCache.setNotificationConfig(config);
         return config;
     }
 

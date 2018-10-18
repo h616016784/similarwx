@@ -126,6 +126,9 @@ public interface APIService {
     @POST("trade/accountList")
     Call<RspBill> getBill(@QueryMap Map<String, String> map);
 
+    @POST("redPac/sendPaclist")
+    Call<RspBill> getSendRedBill(@QueryMap Map<String, String> map);
+
     @POST("trade/accountDetail")
     Call<RspAccountDetail> getAccountDetail(@QueryMap Map<String, String> map);
 

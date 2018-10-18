@@ -33,8 +33,10 @@ import com.android.similarwx.present.CashPresent;
 import com.android.similarwx.present.ClientDetailInfoPresent;
 import com.android.similarwx.present.RechargePresent;
 import com.android.similarwx.utils.DigestUtil;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.widget.InputPasswordDialog;
+import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.bumptech.glide.Glide;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
@@ -116,20 +118,49 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             }
         }
         if (!TextUtils.isEmpty(id)){
-            InputPasswordDialog dialog=InputPasswordDialog.newInstance("转账", money, new InputPasswordDialog.OnInputFinishListener() {
-                @Override
-                public void onInputFinish(String password) {
-                    if (DigestUtil.sha1(password).equals(mUser.getPaymentPasswd())){
-                        mPresent.transfer(id,money);
-                    }else
-                        Toaster.toastShort("支付密码不正确！");
-                }
-            });
-            FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
-            transaction.add(dialog,"transDialog");
-            transaction.addToBackStack(null);
-            transaction.commit();
+            if (TextUtils.isEmpty(mUser.getPaymentPasswd())){
+                showDialog();
+            }else {
+                InputPasswordDialog dialog=InputPasswordDialog.newInstance("转账", money, new InputPasswordDialog.OnInputFinishListener() {
+                    @Override
+                    public void onInputFinish(String password) {
+                        if (DigestUtil.sha1(password).equals(mUser.getPaymentPasswd())){
+                            mPresent.transfer(id,money);
+                        }else
+                            Toaster.toastShort("支付密码不正确！");
+                    }
+                });
+                FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
+                transaction.add(dialog,"transDialog");
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
         }
+    }
+    private void showDialog() {
+        final CancelDialogBuilder cancel_dialogBuilder = CancelDialogBuilder
+                .getInstance(getActivity());
+
+        cancel_dialogBuilder.setTitleText("无支付密码，是否要设置？");
+        cancel_dialogBuilder.setDetermineText("确定");
+
+        cancel_dialogBuilder.isCancelableOnTouchOutside(true)
+                .setButton1Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancel_dialogBuilder.dismiss();
+                    }
+                }).setButton2Click(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel_dialogBuilder.dismiss();
+                Bundle bundle=new Bundle();
+                bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,SetPayPasswordFragment.PAY_PSD);
+                bundle.putInt(SetPayPasswordFragment.MOBILE,0);
+                FragmentUtils.navigateToNormalActivity(activity, new SetPayPasswordFragment(), bundle);
+//                activity.finish();
+            }
+        }).show();
     }
     private TextWatcher textWatcher=new TextWatcher() {
         @Override

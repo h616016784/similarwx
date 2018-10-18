@@ -183,7 +183,7 @@
     <string name="pay_detail_money">应付金额</string>
     <string name="trans_detail_title">交易详情</string>
     <string name="trans_detail_money">付款金额</string>
-    <string name="trans_detail_turn">转账说明</string>
+    <string name="trans_detail_turn">说明</string>
     <string name="trans_detail_state">当前状态</string>
     <string name="trans_detail_time">交易时间</string>
 
@@ -403,6 +403,7 @@
     <string name="message_info">聊天信息</string>
     <string name="black_list">黑名单</string>
     <string name="msg_notice">消息提醒</string>
+    <string name="prepare_data">正在准备数据...</string>
     <!-- image picker -->
     <string name="picker_image_preview">预览</string>
     <string name="picker_image_send">发送</string>
