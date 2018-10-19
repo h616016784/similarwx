@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.android.similarwx.R;
@@ -35,6 +37,16 @@ public class LoadingDialog extends DialogFragment{
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Window window = getDialog().getWindow();
+        WindowManager.LayoutParams windowParams = window.getAttributes();
+        windowParams.dimAmount = 0.0f;
+
+        window.setAttributes(windowParams);
+    }
+
     private void setDialog_text(String text){
         if(null != dialog_text){
             dialog_text.setText(text);
@@ -48,7 +60,7 @@ public class LoadingDialog extends DialogFragment{
             loadingDialog = new LoadingDialog();
         }
 //        Loading_Exit(fragmentManager);
-        loadingDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.CommonDialog);
+        loadingDialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.TransCommonDialog);
         loadingDialog.setCancelable(cancelable);
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();

@@ -221,7 +221,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         Intent intent1 = new Intent();
         intent1.setAction(ARGUMENT_EXTRA_ANIMATION_LOGIN);
         sendBroadcast(intent1);
-//        LoadingDialog.Loading_Show(this.getSupportFragmentManager(),true);
+        LoadingDialog.Loading_Show(this.getSupportFragmentManager(),true);
     }
 
     @Override
