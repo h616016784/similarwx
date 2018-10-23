@@ -100,15 +100,15 @@ public class Bill extends BaseBean {
         private double luckAmount;
 
 
-        private String detailid;
+        private String detailId;
         private String sendAmount;
 
-        public String getDetailid() {
-            return detailid;
+        public String getDetailId() {
+            return detailId;
         }
 
-        public void setDetailid(String detailid) {
-            this.detailid = detailid;
+        public void setDetailId(String detailId) {
+            this.detailId = detailId;
         }
 
         public String getSendAmount() {

@@ -30,24 +30,25 @@ public class NoticeAdapter2 extends BaseQuickAdapter<SystemMessage,BaseViewHolde
 
     @Override
     protected void convert(BaseViewHolder helper, SystemMessage item) {
-
         NimUserInfo user = NIMClient.getService(UserService.class).getUserInfo(item.getFromAccount());//用户详情
 
-//        Gson gson=new Gson();
-//        User user = null;
-//        String content=item.getContent();
-//        try {
-//            user =gson.fromJson(content, User.class);
-//        }catch (Exception e){
-//
-//        }
+        Gson gson=new Gson();
+        User userContent = null;
+        String content=item.getContent();
+        try {
+            userContent =gson.fromJson(content, User.class);
+        }catch (Exception e){
+
+        }
         if (user!=null){
             helper.setText(R.id.item_sys_notice_name_tv,user.getName());
             ImageView imageView=helper.getView(R.id.item_sys_notice_iv);
             NetImageUtil.glideImageCircle(imageView.getContext(),user.getAvatar(),imageView);
         }
+        if (userContent!=null){
+            helper.setText(R.id.item_sys_notice_account_tv,userContent.getId());
+        }
 
-        helper.setText(R.id.item_sys_notice_account_tv,item.getFromAccount());
         helper.setText(R.id.item_sys_notice_time_tv, TimeUtil.timestampToString(item.getTime()));
 
 

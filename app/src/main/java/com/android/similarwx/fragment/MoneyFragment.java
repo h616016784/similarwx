@@ -27,6 +27,7 @@ import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspConfig;
 import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.inteface.YCallBack;
+import com.android.similarwx.misdk.ScreenUtil;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.utils.BitmapUtil;
 import com.android.similarwx.utils.FileUtils;
@@ -138,11 +139,13 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
 
     @Override
     public void refreshSysMoney(String url) {
+        int width=myMoneyIv.getWidth();
+        int height=myMoneyIv.getHeight();
         NetImageUtil.glideToBitmap(activity, url, new YCallBack<Bitmap>() {
             @Override
             public void callBack(Bitmap bitmap) {
                 if (bitmap!=null){
-                    bitmap=BitmapUtil.addWatermarkBitmap(bitmap,"推荐码  "+mUser.getInviter());
+                    bitmap=BitmapUtil.addWatermarkBitmap(bitmap,"推荐码  "+mUser.getInviter(),width,height);
                     myMoneyIv.setImageBitmap(bitmap);
                 }
             }

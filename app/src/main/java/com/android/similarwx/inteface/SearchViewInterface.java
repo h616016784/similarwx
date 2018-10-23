@@ -1,5 +1,6 @@
 package com.android.similarwx.inteface;
 
+import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.User;
 
 /**
@@ -9,4 +10,6 @@ import com.android.similarwx.beans.User;
 public interface SearchViewInterface extends ViewInterface {
     void refreshSearchUser();
     void refreshSearchUser(User user);
+
+    void refreshSearchUser(GroupUser data);
 }

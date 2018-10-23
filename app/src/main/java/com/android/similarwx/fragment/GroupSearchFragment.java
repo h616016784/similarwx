@@ -119,6 +119,15 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
     }
 
     @Override
+    public void refreshSearchUser(GroupUser groupUser) {
+        if (groupUser!=null){
+            List<GroupUser.ListBean> userList = groupUser.getList();
+            groupAdapter.getData().clear();
+            groupAdapter.addData(userList);
+        }
+    }
+
+    @Override
     public void showErrorMessage(String err) {
 
     }

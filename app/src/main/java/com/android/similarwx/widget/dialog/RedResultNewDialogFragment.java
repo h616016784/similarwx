@@ -346,8 +346,22 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                             doToRedDetail(bena);
                     }else if (code.equals("8889")){
                         setErrorText("手慢了，红包派完了");
+                        if (message!=null){
+                            RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+                            mSendRedBean.setClick("8889");
+                            attachment.setSendRedBean(mSendRedBean);
+                            message.setAttachment(attachment);
+                            NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+                        }
                     }else {
                         setErrorText(bena.getRetMsg());
+                        if (message!=null){
+                            RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+                            mSendRedBean.setClick(code);
+                            attachment.setSendRedBean(mSendRedBean);
+                            message.setAttachment(attachment);
+                            NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+                        }
                     }
                 }
             }else {
@@ -464,7 +478,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 setErrorText("您的积分不足请充值");
                 if (message!=null){
                     RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
-                    mSendRedBean.setClick("9000");
+                    mSendRedBean.setClick("0010");
                     attachment.setSendRedBean(mSendRedBean);
                     message.setAttachment(attachment);
                     NIMClient.getService(MsgService.class).updateIMMessageStatus(message);

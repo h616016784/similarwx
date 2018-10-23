@@ -25,10 +25,11 @@
             android:layout_height="match_parent"
             android:padding="@dimen/distance_smallest"
             android:background="@drawable/shape_biankuang_bg">
-            <EditText
+            <TextView
                 android:id="@+id/recharge_money_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="180dp"
                 android:layout_centerVertical="true"
                 android:hint="请输入金额"
                 android:background="@null"

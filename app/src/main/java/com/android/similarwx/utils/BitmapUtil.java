@@ -9,6 +9,8 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
+import com.android.similarwx.misdk.ScreenUtil;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -70,9 +72,11 @@ public class BitmapUtil {
         return bitmap;
     }
 
-    public static Bitmap addWatermarkBitmap(Bitmap bitmap,String str) {
-        int destWidth = bitmap.getWidth();   //此处的bitmap已经限定好宽高
-        int destHeight = bitmap.getHeight();
+    public static Bitmap addWatermarkBitmap(Bitmap bitmap,String str,int putDestWidth,int putDestHeight) {
+        int destWidth= putDestWidth;
+        int destHeight=putDestHeight;
+//        int destWidth = bitmap.getWidth();   //此处的bitmap已经限定好宽高
+//        int destHeight = bitmap.getHeight();
         Bitmap icon = Bitmap.createBitmap(destWidth, destHeight, Bitmap.Config.ARGB_8888); //定好宽高的全彩bitmap
         Canvas canvas = new Canvas(icon);//初始化画布绘制的图像到icon上
 

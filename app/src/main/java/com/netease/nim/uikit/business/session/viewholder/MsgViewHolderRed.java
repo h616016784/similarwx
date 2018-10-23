@@ -9,9 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.outbaselibrary.primary.AppContext;
 import com.android.similarwx.R;
-import com.android.similarwx.beans.BaseBean;
 import com.android.similarwx.beans.CanGrabBean;
 import com.android.similarwx.beans.SendRed;
 import com.android.similarwx.beans.response.RspGrabRed;
@@ -20,22 +18,14 @@ import com.android.similarwx.inteface.MiViewInterface;
 import com.android.similarwx.inteface.message.RedCustomAttachment;
 import com.android.similarwx.present.MIPresent;
 import com.android.similarwx.utils.FragmentUtils;
-import com.android.similarwx.widget.dialog.LoadingDialog;
 import com.android.similarwx.widget.dialog.RedResultNewDialogFragment;
 import com.netease.nim.uikit.business.chatroom.adapter.ChatRoomMsgAdapter;
 import com.netease.nim.uikit.business.session.module.ModuleProxy;
 import com.netease.nim.uikit.business.session.module.list.MsgAdapter;
 import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLoadAdapter;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by hanhuailong on 2018/7/11.

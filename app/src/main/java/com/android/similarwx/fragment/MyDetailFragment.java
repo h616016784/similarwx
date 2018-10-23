@@ -248,7 +248,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 Bill.BillDetail billDetail= (Bill.BillDetail) adapter.getData().get(position);
                 String id=billDetail.getId();
                 if (TextUtils.isEmpty(id)){
-                    id=billDetail.getDetailid();
+                    id=billDetail.getDetailId();
                 }
                 Bundle bundle=new Bundle();
                 bundle.putSerializable(AppConstants.TRANSFER_BILL_BEAN,billDetail);

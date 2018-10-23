@@ -194,12 +194,12 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             }else if (time>=60 && time<60*60){//分钟
                 int yu= time%60;
                 if (yu==0)
-                    redDetailTakeTimeTv.setText(time/60+"分钟被抢光");
+                    redDetailTakeTimeTv.setText(time/60+"分被抢光");
                 else{
                     if (yu<10){
-                        redDetailTakeTimeTv.setText(time/60+"分钟0"+yu+"秒被抢光");
+                        redDetailTakeTimeTv.setText(time/60+"分0"+yu+"秒被抢光");
                     }else
-                        redDetailTakeTimeTv.setText(time/60+"分钟"+yu+"秒被抢光");
+                        redDetailTakeTimeTv.setText(time/60+"分"+yu+"秒被抢光");
                 }
             }else {
                 redDetailTakeTimeTv.setText("1小时以上被抢光！");

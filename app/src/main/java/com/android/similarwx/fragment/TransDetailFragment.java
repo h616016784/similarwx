@@ -220,6 +220,16 @@ public class TransDetailFragment extends BaseFragment implements AcountViewInter
                 transDetailState.setText("你转账给"+user.getName());
             }else if (type.equals(BillType.REC_TRANSFER.toString())){//收到转账
                 transDetailState.setText("你收到"+user.getName()+"的转账");
+            }else if (type.equals(BillType.SEND_PACKAGE.toString())){
+                double amount=Double.parseDouble(String.format("%.2f", billDetail.getAmount()));
+                if (amount==0){
+                    transDetailMoney.setText(String.format("%.2f", billDetail.getRebateAmount()));
+                    transDetailState.setText("你获得了返点");
+                }else {
+                    transDetailMoney.setText("-"+amount+"");
+                    transDetailState.setText("你发了红包");
+                }
+
             }
         }
     }

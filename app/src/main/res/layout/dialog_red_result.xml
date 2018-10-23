@@ -66,7 +66,7 @@
                 android:layout_below="@id/dialog_red_result_tips_tv"
                 android:layout_marginTop="@dimen/distance_bigger"
                 android:gravity="center_horizontal"
-                android:text="恭喜发财，大吉大利"
+                android:text=""
                 android:textColor="@color/light_orange_size"
                 android:textSize="18sp"/>
         </RelativeLayout>

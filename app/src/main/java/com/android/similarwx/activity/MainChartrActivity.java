@@ -1,18 +1,20 @@
 package com.android.similarwx.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.primary.Log;
@@ -30,18 +32,15 @@ import com.android.similarwx.fragment.AddGroupFragment;
 import com.android.similarwx.fragment.ChartFragment;
 import com.android.similarwx.fragment.ExplainFragment;
 import com.android.similarwx.fragment.MIFragment;
-import com.android.similarwx.fragment.MIFragmentNew;
 import com.android.similarwx.fragment.MyFragment;
-import com.android.similarwx.fragment.NoticeFragment;
 import com.android.similarwx.fragment.SearchFragment;
 import com.android.similarwx.fragment.ServiceFragment;
-import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.MainGroupView;
 import com.android.similarwx.inteface.NoticeViewInterface;
 import com.android.similarwx.inteface.YCallBack;
+import com.android.similarwx.misdk.helper.SystemMessageUnreadManager;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.GroupPresent;
-import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.service.reminder.ReminderItem;
 import com.android.similarwx.service.reminder.ReminderManager;
@@ -54,8 +53,6 @@ import com.android.similarwx.widget.ListPopWindowHelper;
 import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.android.similarwx.widget.dialog.EasyAlertDialog;
 import com.android.similarwx.widget.dialog.EasyAlertDialogHelper;
-import com.android.similarwx.widget.dialog.EditDialogBuilder;
-import com.android.similarwx.widget.dialog.EditDialogSimple;
 import com.android.similarwx.widget.dialog.LoadingDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
@@ -63,10 +60,12 @@ import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.SimpleCallback;
 import com.netease.nim.uikit.api.model.main.LoginSyncDataStatusObserver;
 import com.netease.nim.uikit.api.model.team.TeamDataChangedObserver;
-import com.netease.nim.uikit.business.recent.TeamMemberAitHelper;
-import com.netease.nim.uikit.business.session.activity.TeamMessageActivity;
+import com.netease.nim.uikit.common.badger.Badger;
 import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
-import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.netease.nim.uikit.support.permission.MPermission;
+import com.netease.nim.uikit.support.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.support.permission.annotation.OnMPermissionGranted;
+import com.netease.nim.uikit.support.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -78,9 +77,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.SystemMessageService;
-import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.SystemMessage;
@@ -89,16 +86,11 @@ import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,6 +103,7 @@ import butterknife.Unbinder;
 
 public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, NoticeViewInterface, ReminderManager.UnreadNumChangedCallback {
     public static final String ACTION_FINISH_MAIN = "com.similarwx.action.main.finish";
+    private static final int BASIC_PERMISSION_REQUEST_CODE = 100;
     Unbinder unbinder;
     @BindView(R.id.main_search_iv)
     ImageView mainSearchIv;
@@ -150,7 +143,53 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         Intent intent = new Intent(context, MainChartrActivity.class);
         context.startActivity(intent);
     }
+    /**
+     * 基本权限管理
+     */
+    private final String[] BASIC_PERMISSIONS = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO
+//            Manifest.permission.ACCESS_COARSE_LOCATION,
+//            Manifest.permission.ACCESS_FINE_LOCATION
+    };
 
+    private void requestBasicPermission() {
+        MPermission.printMPermissionResult(true, this, BASIC_PERMISSIONS);
+        MPermission.with(MainChartrActivity.this)
+                .setRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                .permissions(BASIC_PERMISSIONS)
+                .request();
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess() {
+        try {
+//            Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        MPermission.printMPermissionResult(false, this, BASIC_PERMISSIONS);
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    @OnMPermissionNeverAskAgain(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed() {
+        try {
+            Toast.makeText(this, "未全部授权，部分功能可能无法正常运行！", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        MPermission.printMPermissionResult(false, this, BASIC_PERMISSIONS);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,9 +197,13 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         unbinder = ButterKnife.bind(this);
         groupPresent = new GroupPresent(this,this);
         noticePresent=new NoticePresent(this,this);
+        requestBasicPermission();
         initYunXinSystemMsgListener();
         registerMsgUnreadInfoObserver(true);
         registerUserOnlineStatus(true);
+
+        registerSystemMessageObservers(true);
+        requestSystemMessageUnreadCount();
         registerTeamUpdateObserver(true);//注册群信息变化（主要是自己被踢出）
 
         // 等待同步数据完成
@@ -221,7 +264,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         Intent intent1 = new Intent();
         intent1.setAction(ARGUMENT_EXTRA_ANIMATION_LOGIN);
         sendBroadcast(intent1);
-        LoadingDialog.Loading_Show(this.getSupportFragmentManager(),true);
+//        LoadingDialog.Loading_Show(this.getSupportFragmentManager(),true);
     }
 
     @Override
@@ -319,14 +362,16 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         unbinder.unbind();
         registerUserOnlineStatus(false);
         registerTeamUpdateObserver(false);
+        registerMsgUnreadInfoObserver(false);
+        registerSystemMessageObservers(false);
 //        listPopWindowHelper.destroy();
     }
 
     /**
      * 若增加第三方推送免打扰（V3.2.0新增功能），则：
      * 1.添加下面逻辑使得 push 免打扰与先前的设置同步。
-     * 2.设置界面{@link com.netease.nim.demo.main.activity.SettingsActivity} 以及
-     * 免打扰设置界面{@link com.netease.nim.demo.main.activity.NoDisturbActivity} 也应添加 push 免打扰的逻辑
+     * 2.设置界面{ com.netease.nim.demo.main.activity.SettingsActivity} 以及
+     * 免打扰设置界面{com.netease.nim.demo.main.activity.NoDisturbActivity} 也应添加 push 免打扰的逻辑
      * <p>
      * 注意：isPushDndValid 返回 false， 表示未设置过push 免打扰。
      */
@@ -364,7 +409,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                 map.put(team.getId(),"");
             }
             SharePreferenceUtil.putHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT,map);
-
         }
     };
     private void checkNet() {
@@ -460,14 +504,19 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                                             }
                                             @Override
                                             public void doOkAction() {
-                                                Gson gson=new Gson();
+                                                String content="";
+                                                if (mUser!=null){
+                                                    Gson gson=new Gson();
+                                                    content=gson.toJson(mUser);
+                                                }
+
                                                 mUser.setPasswd("申请加入该群");
                                                 mUser.setPasswdStr(bean.getGroupName());
                                                 Map<String,String> map=SharePreferenceUtil.getHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT);
                                                 if (map!=null){
                                                     String applyFlag=map.get(bean.getGroupId());
                                                     if (TextUtils.isEmpty(applyFlag)){
-                                                        APIYUNXIN.applyJoinTeam(MainChartrActivity.this,bean.getGroupId(), "", new YCallBack<Team>() {
+                                                        APIYUNXIN.applyJoinTeam(MainChartrActivity.this,bean.getGroupId(), content, new YCallBack<Team>() {
                                                             @Override
                                                             public void callBack(Team team) {
                                                                 Toaster.toastShort("申请成功，等待群主审批");
@@ -492,14 +541,18 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                                         }
                                         @Override
                                         public void doOkAction() {
-                                            Gson gson=new Gson();
+                                            String content="";
+                                            if (mUser!=null){
+                                                Gson gson=new Gson();
+                                                content=gson.toJson(mUser);
+                                            }
                                             mUser.setPasswd("申请加入该群");
                                             mUser.setPasswdStr(bean.getGroupName());
                                              Map<String,String> map=SharePreferenceUtil.getHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT);
                                             if (map!=null){
                                                 String applyFlag=map.get(bean.getGroupId());
                                                 if (TextUtils.isEmpty(applyFlag)){
-                                                    APIYUNXIN.applyJoinTeam(MainChartrActivity.this,bean.getGroupId(), "", new YCallBack<Team>() {
+                                                    APIYUNXIN.applyJoinTeam(MainChartrActivity.this,bean.getGroupId(), content, new YCallBack<Team>() {
                                                         @Override
                                                         public void callBack(Team team) {
                                                             Toaster.toastShort("申请成功，等待群主审批");
@@ -562,22 +615,40 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private void doGroupApply(String groupId) {
         groupPresent.doGroupAppley(groupId);
     }
+
     /**
-     * 查询系统消息未读数,这个项目没有用到
+     * 注册/注销系统消息未读数变化
+     *
+     * @param register
+     */
+    private void registerSystemMessageObservers(boolean register) {
+        NIMClient.getService(SystemMessageObserver.class).observeUnreadCountChange(sysMsgUnreadCountChangedObserver,
+                register);
+    }
+    private Observer<Integer> sysMsgUnreadCountChangedObserver = new Observer<Integer>() {
+        @Override
+        public void onEvent(Integer unreadCount) {
+            SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unreadCount);
+            ReminderManager.getInstance().updateContactUnreadNum(unreadCount);
+        }
+    };
+    /**
+     * 查询系统消息未读数
      */
     private void requestSystemMessageUnreadCount() {
         int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
+        SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unread);
         ReminderManager.getInstance().updateContactUnreadNum(unread);
     }
     /**
      * 注册未读消息数量观察者
      */
     private void registerMsgUnreadInfoObserver(boolean register) {
-//        if (register) {
-//            ReminderManager.getInstance().registerUnreadNumChangedCallback(this);
-//        } else {
-//            ReminderManager.getInstance().unregisterUnreadNumChangedCallback(this);
-//        }
+        if (register) {
+            ReminderManager.getInstance().registerUnreadNumChangedCallback(this);
+        } else {
+            ReminderManager.getInstance().unregisterUnreadNumChangedCallback(this);
+        }
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeReceiveMessage(messageReceiverObserver, register);
     }
@@ -647,7 +718,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     };
     @Override
     public void onUnreadNumChanged(ReminderItem item) {
-
+//        Badger.updateBadgerCount(item.getUnread());
     }
     @Override
     public void hideKeyboard() {

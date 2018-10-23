@@ -48,6 +48,22 @@ public class NetImageUtil {
             }
         });
     }
+    public static void glideToBitmapWithSize(Context context, String url, YCallBack<Bitmap> callBack,int width,int height){
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.em_default_avatar)
+                .error(R.drawable.nim_default_img_failed)
+                .override(width,height)
+                .priority(Priority.HIGH)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
+
+        Glide.with(context).asBitmap().load(url).apply(options).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                callBack.callBack(resource);
+            }
+        });
+    }
     public static void glideImageNormalListener(Context context, String url, ImageView imageView, RequestListener requestListener){
         RequestOptions options = new RequestOptions()
                 .centerCrop()

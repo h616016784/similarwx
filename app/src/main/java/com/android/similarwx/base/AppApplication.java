@@ -89,7 +89,8 @@ public class AppApplication extends BaseApplication {
         NimUIKit.setOnlineStateContentProvider(new DemoOnlineStateContentProvider());
 
         // 初始化消息提醒
-        NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
+//        NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
+        NIMClient.toggleNotification(true);
         // 云信sdk相关业务初始化
         NIMInitManager.getInstance().init(true);
     }

@@ -46,7 +46,7 @@ public class SearchPresent extends BasePresent {
         if (result.equals("success")){
             String code=rspGroup.getErrorCode();
             if (code.equals("0000")){
-                view.refreshSearchUser();
+                view.refreshSearchUser(rspGroup.getData());
             }else
                 Toaster.toastShort(rspGroup.getErrorMsg());
         }else

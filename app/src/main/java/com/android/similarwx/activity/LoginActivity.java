@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
@@ -37,6 +38,10 @@ import com.android.similarwx.wxapi.WXEntryActivity;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.netease.nim.uikit.business.team.DemoCache;
+import com.netease.nim.uikit.support.permission.MPermission;
+import com.netease.nim.uikit.support.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.support.permission.annotation.OnMPermissionGranted;
+import com.netease.nim.uikit.support.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -58,6 +63,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class LoginActivity extends BaseActivity implements LoginViewInterface {
+    private final int BASIC_PERMISSION_REQUEST_CODE = 110;
     private IWXAPI api;
 
     @BindView(R.id.regist)
@@ -86,12 +92,28 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
     }
+    /**
+     * 基本权限管理
+     */
+
+    private final String[] BASIC_PERMISSIONS = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
+    private void requestBasicPermission() {
+        MPermission.with(LoginActivity.this)
+                .setRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                .permissions(BASIC_PERMISSIONS)
+                .request();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         //初始化butterKnife
         ButterKnife.bind(this);
+        requestBasicPermission();
         loginPresent = new LoginPresent(this,this);
         initPerssion();
 
@@ -152,6 +174,21 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
                         // Need to go to the settings
                     }
                 });
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess() {
+//        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    @OnMPermissionNeverAskAgain(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed() {
+        Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick({R.id.login, R.id.regist, R.id.login_forget_password, R.id.login_wx_iv,R.id.login_deal_tv})
@@ -214,19 +251,6 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         }
     }
 
-    private void initNotificationConfig() {
-        // 初始化消息提醒
-        NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
-
-        // 加载状态栏配置
-        StatusBarNotificationConfig statusBarNotificationConfig = UserPreferences.getStatusConfig();
-        if (statusBarNotificationConfig == null) {
-            statusBarNotificationConfig = DemoCache.getNotificationConfig();
-            UserPreferences.setStatusConfig(statusBarNotificationConfig);
-        }
-        // 更新配置
-        NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
-    }
 
 
     private void doInputInviter(String userId,String invitationCode) {

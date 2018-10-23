@@ -18,6 +18,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.inteface.NoticeViewInterface;
@@ -251,6 +252,11 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
                 searchUserIv.setImageResource(R.drawable.ease_default_image);
             }
         }
+    }
+
+    @Override
+    public void refreshSearchUser(GroupUser data) {
+
     }
 
     @Override

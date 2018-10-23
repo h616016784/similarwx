@@ -11,6 +11,7 @@ import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.netease.nim.uikit.common.badger.Badger;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
@@ -24,6 +25,7 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
     private Context context;
     private List<RecentContact> recents;
     private ImageView mainChartRedIv,mainExplainRedIv;
+    private int unreadNum=0;
     public HomeAdapter(int layoutResId,Context context,List<GroupMessageBean.ListBean> mListData,ImageView mainChartRedIv,ImageView mainExplainRedIv){
         super(layoutResId,mListData);
         this.mainChartRedIv=mainChartRedIv;
@@ -60,6 +62,7 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
                                 if (recentContact.getContactId().equals(item.getGroupId())){
                                     int unReadCount=recentContact.getUnreadCount();
                                     if (unReadCount>0){
+                                        unreadNum+=unReadCount;
                                         helper.setGone(R.id.item_group_count_tv,true);
                                         if (unReadCount>=10)
                                             helper.setText(R.id.item_group_count_tv,"9+");
@@ -80,7 +83,7 @@ public class HomeAdapter extends BaseQuickAdapter<GroupMessageBean.ListBean,Base
             }
 
         }
-
+        Badger.updateBadgerCount(unreadNum);
     }
     public void setRecentContacts(List<RecentContact> recents){
         this.recents=recents;
