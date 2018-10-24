@@ -80,7 +80,7 @@ public class LoginPresent extends BasePresent {
         if (user.getToken()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,user.getToken());
         else
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"");
         if (user.getName()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_NICK,user.getName());
         if (user.getEmail()!=null)
@@ -124,14 +124,8 @@ public class LoginPresent extends BasePresent {
 
                 NIMClient.getService(AuthService.class).openLocalCache(loginInfo.getAccount());
 
-                //跟新本地用户资料
+                //跟新本地用户资料并跳
                 doUpdateLocalYunxin(user);
-                DemoCache.setAccount(user.getAccId());
-                loginViewInterface.refreshDoYunxinLocal(user);
-//                saveLoginInfo(account, token);
-//
-                // 初始化消息提醒配置
-                initNotificationConfig();
 
             }
 
@@ -152,7 +146,7 @@ public class LoginPresent extends BasePresent {
     }
     private void initNotificationConfig() {
         // 初始化消息提醒
-        NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
+        NIMClient.toggleNotification(true);
 
         // 加载状态栏配置
         StatusBarNotificationConfig statusBarNotificationConfig = UserPreferences.getStatusConfig();
@@ -169,7 +163,7 @@ public class LoginPresent extends BasePresent {
             public void onSuccess(LoginInfo param) {
                 Log.e("onSuccess",param.getAccount()+","+param.getAppKey()+","+param.getToken());
 
-                String accid= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ACCID,"paopaotest1");
+                String accid= (String) SharePreferenceUtil.getObject(AppContext.getContext(),AppConstants.USER_ACCID,null);
                 NIMClient.getService(AuthService.class).openLocalCache(accid);
 
                 //跟新本地用户资料
@@ -205,6 +199,12 @@ public class LoginPresent extends BasePresent {
                     @Override
                     public void onResult(int code, Void result, Throwable exception) {
                         Log.e("UserService.class","保存本地用户信息");
+                        DemoCache.setAccount(user.getAccId());
+//                saveLoginInfo(account, token);
+//
+                        // 初始化消息提醒配置
+                        initNotificationConfig();
+                        loginViewInterface.refreshDoYunxinLocal(user);
                     }
                 });
     }

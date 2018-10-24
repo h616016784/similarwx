@@ -16,15 +16,18 @@ import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseActivity;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.config.UserPreferences;
 import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.WxViewInterface;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.WxPresent;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.business.team.DemoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.uinfo.UserService;
@@ -167,6 +170,9 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
                     @Override
                     public void onResult(int code, Void result, Throwable exception) {
                         Log.e("UserService.class","保存本地用户信息");
+                        DemoCache.setAccount(user.getAccId());
+                        initNotificationConfig();
+                        MainChartrActivity.start(SplashActivity.this);
                     }
                 });
     }
@@ -178,7 +184,6 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
                 NIMClient.getService(AuthService.class).openLocalCache(loginInfo.getAccount());
                 //跟新本地用户资料
                 doUpdateLocalYunxin(user);
-                MainChartrActivity.start(SplashActivity.this);
             }
 
             @Override
@@ -197,6 +202,19 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
                 startActivity(new Intent(SplashActivity.this,LoginActivity.class));
             }
         });
+    }
+    private void initNotificationConfig() {
+        // 初始化消息提醒
+        NIMClient.toggleNotification(true);
+
+        // 加载状态栏配置
+        StatusBarNotificationConfig statusBarNotificationConfig = UserPreferences.getStatusConfig();
+        if (statusBarNotificationConfig == null) {
+            statusBarNotificationConfig = DemoCache.getNotificationConfig();
+            UserPreferences.setStatusConfig(statusBarNotificationConfig);
+        }
+        // 更新配置
+        NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
     }
     @Override
     protected void onDestroy() {

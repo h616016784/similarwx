@@ -154,12 +154,12 @@ public class OnlineStateEventManager {
                         }
                     }
                 }
-
+                LogUtil.e("registerOnlineStatusObserver","status change to login so publish state and subscribe"+statusCode.getValue());
                 if (statusCode != StatusCode.LOGINED) {
                     return;
                 }
 
-                LogUtil.ui("status change to login so publish state and subscribe");
+
 
                 // 发布自己的在线状态
                 pubNetState = -1;
@@ -461,7 +461,8 @@ public class OnlineStateEventManager {
      * 允许在线状态事件,开发者开通在线状态后修改此处直接返回true
      */
     private static boolean enableOnlineStateEvent() {
-        String packageName = DemoCache.getContext().getPackageName();
-        return enable = (packageName != null && packageName.equals("com.netease.nim.demo"));
+//        String packageName = DemoCache.getContext().getPackageName();
+//        return enable = (packageName != null && packageName.equals("com.netease.nim.demo"));
+        return  true;
     }
 }

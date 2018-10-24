@@ -97,8 +97,12 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
      */
 
     private final String[] BASIC_PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO
     };
 
     private void requestBasicPermission() {
@@ -159,11 +163,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
     private void initPerssion() {
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions
-                .requestEach(Manifest.permission.CAMERA,
-                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO)
+                .requestEach(Manifest.permission.READ_PHONE_STATE)
                 .subscribe(permission -> { // will emit 2 Permission objects
                     if (permission.granted) {
                         // `permission.name` is granted !
@@ -247,7 +247,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         }else {
             loginPresent.saveUser(user);
             //之后跳转界面
-            startActivity(new Intent(this, MainChartrActivity.class));
+//            startActivity(new Intent(this, MainChartrActivity.class));
         }
     }
 

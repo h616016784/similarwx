@@ -198,13 +198,6 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         groupPresent = new GroupPresent(this,this);
         noticePresent=new NoticePresent(this,this);
         requestBasicPermission();
-        initYunXinSystemMsgListener();
-        registerMsgUnreadInfoObserver(true);
-        registerUserOnlineStatus(true);
-
-        registerSystemMessageObservers(true);
-        requestSystemMessageUnreadCount();
-        registerTeamUpdateObserver(true);//注册群信息变化（主要是自己被踢出）
 
         // 等待同步数据完成
         boolean syncCompleted = LoginSyncDataStatusObserver.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {
@@ -222,6 +215,13 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         } else {
             syncPushNoDisturb(UserPreferences.getStatusConfig());
         }
+        initYunXinSystemMsgListener();
+        registerMsgUnreadInfoObserver(true);
+        registerUserOnlineStatus(true);
+        registerSystemMessageObservers(true);
+        requestSystemMessageUnreadCount();
+        registerTeamUpdateObserver(true);//注册群信息变化（主要是自己被踢出）
+
 
 
 //        requestSystemMessageUnreadCount();

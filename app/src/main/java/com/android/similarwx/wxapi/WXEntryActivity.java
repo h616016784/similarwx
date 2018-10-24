@@ -192,10 +192,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
                 //跟新本地用户资料
                 doUpdateLocalYunxin(user);
-                DemoCache.setAccount(user.getAccId());
 
-                // 初始化消息提醒配置
-                initNotificationConfig();
             }
 
             @Override
@@ -227,6 +224,14 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     @Override
                     public void onResult(int code, Void result, Throwable exception) {
                         Log.e("UserService.class","保存本地用户信息");
+                        DemoCache.setAccount(user.getAccId());
+
+                        // 初始化消息提醒配置
+                        initNotificationConfig();
+                        if (dialog!=null)
+                            dialog.dismiss();
+                        //之后跳转界面
+                        startActivity(new Intent(WXEntryActivity.this, MainChartrActivity.class));
                     }
                 });
     }
@@ -281,10 +286,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         dialog.show();
                     }else {
                         saveUser(user);
-                        if (dialog!=null)
-                            dialog.dismiss();
-                        //之后跳转界面
-                        startActivity(new Intent(WXEntryActivity.this, MainChartrActivity.class));
                     }
                 }
             });
@@ -315,10 +316,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     public void refreshTotalBalance(User user) {
         if (user!=null){
             saveUser(user);
-            if (dialog!=null)
-                dialog.dismiss();
-            //之后跳转界面
-            startActivity(new Intent(this, MainChartrActivity.class));
         }
     }
 

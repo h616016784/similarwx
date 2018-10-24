@@ -11,6 +11,7 @@ import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspUser;
+import com.android.similarwx.config.UserPreferences;
 import com.android.similarwx.inteface.RegisterViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.utils.SharePreferenceUtil;
@@ -19,6 +20,7 @@ import com.netease.nim.uikit.business.team.DemoCache;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.uinfo.UserService;
@@ -120,8 +122,7 @@ public class RegisterPresent extends BasePresent {
 
                 //跟新本地用户资料
                 doUpdateLocalYunxin(user);
-                DemoCache.setAccount(user.getAccId());
-                registerViewInterface.loginScucces(user);
+
 
             }
 
@@ -154,11 +155,27 @@ public class RegisterPresent extends BasePresent {
                     @Override
                     public void onResult(int code, Void result, Throwable exception) {
                         Log.e("UserService.class","保存本地用户信息");
+                        DemoCache.setAccount(user.getAccId());
+                        // 初始化消息提醒配置
+                        initNotificationConfig();
+                        registerViewInterface.loginScucces(user);
                     }
                 });
     }
 
+    private void initNotificationConfig() {
+        // 初始化消息提醒
+        NIMClient.toggleNotification(true);
 
+        // 加载状态栏配置
+        StatusBarNotificationConfig statusBarNotificationConfig = UserPreferences.getStatusConfig();
+        if (statusBarNotificationConfig == null) {
+            statusBarNotificationConfig = DemoCache.getNotificationConfig();
+            UserPreferences.setStatusConfig(statusBarNotificationConfig);
+        }
+        // 更新配置
+        NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
+    }
     public boolean isEmpty(String name) {
         if (TextUtils.isEmpty(name)) {
             registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_acc_notnull));
