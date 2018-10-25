@@ -114,19 +114,22 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 result = R.string.errcode_cancel;
+                finish();
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 result = R.string.errcode_deny;
+                finish();
                 break;
             case BaseResp.ErrCode.ERR_UNSUPPORT:
                 result = R.string.errcode_unsupported;
+                finish();
                 break;
             default:
                 result = R.string.errcode_unknown;
+                finish();
                 break;
         }
 
-        finish();
     }
 
     /**
@@ -192,7 +195,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
                 //跟新本地用户资料
                 doUpdateLocalYunxin(user);
-
             }
 
             @Override
@@ -202,11 +204,13 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 } else {
                     Toaster.toastShort("登录失败");
                 }
+                finish();
             }
 
             @Override
             public void onException(Throwable exception) {
                 Toaster.toastShort("登录异常");
+                finish();
             }
         });
     }
@@ -232,6 +236,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             dialog.dismiss();
                         //之后跳转界面
                         startActivity(new Intent(WXEntryActivity.this, MainChartrActivity.class));
+                        finish();
                     }
                 });
     }
@@ -280,6 +285,12 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                                             Toaster.toastShort("推荐码不能为空！");
                                         else
                                             doInputInviter(user.getId(),str);
+                                    }
+                                })
+                                .setCancelButton(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        finish();
                                     }
                                 })
                                 .create();

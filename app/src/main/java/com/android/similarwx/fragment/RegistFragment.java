@@ -15,13 +15,17 @@ import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
+import com.android.similarwx.base.BaseDialog;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.VerifyCodeResponse;
+import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.PhoneVerifyViewInterface;
 import com.android.similarwx.inteface.RegisterViewInterface;
+import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.PhoneVerifyPresent;
 import com.android.similarwx.present.RegisterPresent;
+import com.android.similarwx.widget.dialog.EditDialogBuilder;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,7 +39,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/3/31.
  */
 
-public class RegistFragment extends BaseFragment implements RegisterViewInterface, PhoneVerifyViewInterface {
+public class RegistFragment extends BaseFragment implements RegisterViewInterface, PhoneVerifyViewInterface, LoginViewInterface {
 
     @BindView(R.id.login_account)
     TextView loginAccount;
@@ -75,9 +79,11 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
     Button registerComplete;
     Unbinder unbinder;
     private RegisterPresent registerPresent;
+    private LoginPresent loginPresent;
     private PhoneVerifyPresent phoneVerifyPresent;
     Timer timer;
     Integer pos = 60;
+    BaseDialog dialog;
 
     @Override
     protected int getLayoutResource() {
@@ -110,6 +116,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
         mActionbar.setTitle(R.string.login_bar_registe);
         registerPresent = new RegisterPresent(this,activity);
         phoneVerifyPresent=new PhoneVerifyPresent(this,activity);
+        loginPresent = new LoginPresent(this,activity);
         timer = new Timer();
     }
 
@@ -162,9 +169,59 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
     @Override
     public void loginScucces(User user) {
         registerErrror.setVisibility(View.GONE);
-        MainChartrActivity.start(activity);
+        //判断是否有邀请码
+        String inviter=user.getInviter();
+        if (TextUtils.isEmpty(inviter)){
+            dialog=new EditDialogBuilder(activity)
+                    .setMessage("请输入推荐码")
+                    .setConfirmButtonNoDismiss(new EditDialogBuilder.ButtonClicker() {
+                        @Override
+                        public void onButtonClick(String str) {
+                            if (TextUtils.isEmpty(str))
+                                Toaster.toastShort("推荐码不能为空！");
+                            else
+                                doInputInviter(user.getId(),str);
+                        }
+                    })
+                    .setCancelButton(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            activity.finish();
+                        }
+                    })
+                    .create();
+            dialog.show();
+        }else {
+            if (user!=null){
+                loginPresent.saveUser(user);
+            }
+        }
+
     }
 
+    @Override
+    public void logoutScucces(User user) {
+
+    }
+
+    @Override
+    public void refreshTotalBalance(User user) {
+        if (user!=null){
+            loginPresent.saveUser(user);
+        }
+    }
+
+    @Override
+    public void refreshDoYunxinLocal(User user) {
+        if (user!=null){
+            //之后跳转界面
+            MainChartrActivity.start(activity);
+        }
+    }
+
+    private void doInputInviter(String userId,String invitationCode) {
+        loginPresent.setInvitationCode(userId,invitationCode);
+    }
     @Override
     public void getCodeScucces(Integer code) {
 //        registerCodeEt.setText(code+"");

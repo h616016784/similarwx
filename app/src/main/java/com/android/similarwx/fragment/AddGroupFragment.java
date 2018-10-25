@@ -95,6 +95,8 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
     RelativeLayout createGroupNumRl;
     @BindView(R.id.create_group_lei_et)
     TextView createGroupLeiEt;
+    @BindView(R.id.create_group_add_rule_tv)
+    TextView createGroupAddRuleTv;
     @BindView(R.id.create_group_in_set_tv)
     TextView createGroupInSetTv;
     @BindView(R.id.create_group_in_set_rl)
@@ -369,7 +371,8 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
 
 
     @OnClick({R.id.create_group_set_rl, R.id.create_group_home_rl, R.id.create_group_in_set_rl, R.id.create_group_add_rule_iv,R.id.create_group_lei_ll
-            ,R.id.create_group_num_rl,R.id.create_group_range_high_rl,R.id.create_group_range_low_rl,R.id.create_group_must_rl,R.id.create_group_notice_rl,R.id.create_group_name_rl})
+            ,R.id.create_group_num_rl,R.id.create_group_range_high_rl,R.id.create_group_range_low_rl,R.id.create_group_must_rl,R.id.create_group_notice_rl,R.id.create_group_name_rl
+        ,R.id.create_group_add_rule_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.create_group_set_rl:
@@ -614,6 +617,7 @@ public class AddGroupFragment extends BaseFragment implements AddGroupViewInterf
                 dialogSet.show();
                 break;
             case R.id.create_group_add_rule_iv:
+            case R.id.create_group_add_rule_tv:
                 if (groupInfo!=null){
                     Toaster.toastShort("不能修改奖励规则");
                     return;

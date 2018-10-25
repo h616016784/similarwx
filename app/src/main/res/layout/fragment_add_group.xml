@@ -376,6 +376,7 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/message_button_bottom_add_selector"/>
             <TextView
+                android:id="@+id/create_group_add_rule_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/create_group_add_rule_iv"

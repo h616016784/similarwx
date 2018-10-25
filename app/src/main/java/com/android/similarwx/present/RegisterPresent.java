@@ -65,7 +65,8 @@ public class RegisterPresent extends BasePresent {
         if (result.equals("success")){
             User user=rspUser.getData();
             if (user!=null)
-                 saveUser(user);
+                registerViewInterface.loginScucces(user);
+//                 saveUser(user);
             else
                 Toaster.toastShort("数据解析异常");
         }else {
@@ -122,8 +123,6 @@ public class RegisterPresent extends BasePresent {
 
                 //跟新本地用户资料
                 doUpdateLocalYunxin(user);
-
-
             }
 
             @Override
