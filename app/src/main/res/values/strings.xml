@@ -58,8 +58,7 @@
     <string name="register_confirm_password_hint">请输入确认密码</string>
     <string name="register_hint">温馨提示：\n你注册成功后，随便更改即可</string>
     <string name="register_complete">完成</string>
-    <string name="set_pay_password_hint">请填写全民红包游戏密码。您可以绑定的\n账号+密码登录，比如使用手机号码+密码登录
-            全民红包游戏，更快捷。</string>
+    <string name="set_pay_password_hint">请您设置六位数字的泡泡社交支付密码，设置支付密码后发红包、转账更安全。</string>
     <!--设置支付密码-->
     <string name="login_pay_password_hint">请输入支付密码</string>
     <string name="set_pay_password_title">设置支付密码</string>

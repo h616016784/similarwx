@@ -244,7 +244,7 @@ public class LoginPresent extends BasePresent {
                     Toaster.toastShort("数据解析异常");
             }else{
                 Toaster.toastShort(rspUser.getErrorMsg());
-                loginViewInterface.showErrorMessage(rspUser.getErrorCode());
+                loginViewInterface.showErrorMessage(rspUser.getErrorMsg());
             }
 
         }else {

@@ -60,7 +60,7 @@ public class OnlineStateEventManager {
     // 已发布的网络状态
     private static int pubNetState = -1;
 
-    private static boolean enable = false;
+    private static boolean enable = true;
 
 
     public static void init() {

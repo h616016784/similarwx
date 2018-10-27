@@ -287,27 +287,35 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                             String account=message.getFromAccount();
                             String target=message.getTargetId();
                             NimUserInfo fromUser = NIMClient.getService(UserService.class).getUserInfo(account);//发来群消息的用户信息
+                            String fromName = null;
+                            if (fromUser!=null){
+                                fromName=fromUser.getName();
+                            }
+                            if (TextUtils.isEmpty(fromName))
+                                fromName="";
                             Team team=NIMClient.getService(TeamService.class).queryTeamBlock(target);
-                            String teamName=team.getName();
+                            String teamName=null;
+                            if (team!=null)
+                                teamName=team.getName();
                             if (TextUtils.isEmpty(teamName))
                                 teamName="";
                             NotificationUtil.NotificationConfig config=new NotificationUtil.NotificationConfig();
                             config.setContentTitle("群组通知");
                             switch (message.getType().getValue()){
                                 case 0:
-                                    config.setContentText(fromUser.getName()+" 入群申请 "+teamName);
+                                    config.setContentText(fromName+" 入群申请 "+teamName);
                                     break;
                                 case 1:
-                                    config.setContentText(fromUser.getName()+" 拒绝入群 "+teamName);
+                                    config.setContentText(fromName+" 拒绝入群 "+teamName);
                                     break;
                                 case 2:
-                                    config.setContentText(fromUser.getName()+" 邀请入群 "+teamName );
+                                    config.setContentText(fromName+" 邀请入群 "+teamName );
                                     break;
                                 case 3:
-                                    config.setContentText(fromUser.getName()+" 拒绝邀请 "+teamName);
+                                    config.setContentText(fromName+" 拒绝邀请 "+teamName);
                                     break;
                                 case 5:
-                                    config.setContentText(fromUser.getName()+" 添加好友 "+teamName);
+                                    config.setContentText(fromName+" 添加好友 "+teamName);
                                     break;
                                 default:
                                     config.setContentText("未知");
@@ -360,7 +368,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-        registerUserOnlineStatus(false);
+//        registerUserOnlineStatus(false);
         registerTeamUpdateObserver(false);
         registerMsgUnreadInfoObserver(false);
         registerSystemMessageObservers(false);

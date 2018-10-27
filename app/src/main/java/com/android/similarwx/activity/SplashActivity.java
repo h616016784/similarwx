@@ -130,7 +130,7 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
         if (user.getToken()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,user.getToken());
         else
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"");
         if (user.getName()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_NICK,user.getName());
         if (user.getEmail()!=null)
@@ -250,7 +250,9 @@ public class SplashActivity extends BaseActivity implements LoginViewInterface, 
 
     @Override
     public void refreshDoYunxinLocal(User user) {
-        MainChartrActivity.start(SplashActivity.this);
+        if (user!=null){
+            MainChartrActivity.start(SplashActivity.this);
+        }
     }
 
     @Override

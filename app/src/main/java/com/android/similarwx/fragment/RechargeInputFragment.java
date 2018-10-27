@@ -89,7 +89,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             present=new ClientDetailInfoPresent(this,activity);
             present.getUserInfoByParams("",account);
             mActionbar.setTitle("转账");
-            mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
+
             rechargeInputEt.addTextChangedListener(textWatcher);
         }
     }
@@ -102,6 +102,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
 
     @OnClick(R.id.transfer)
     public void onViewClicked() {
+        mUser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity,AppConstants.USER_OBJECT);
         String money=rechargeInputEt.getText().toString();
         if (TextUtils.isEmpty(money)){
             Toaster.toastShort("转账金额不能为空！");

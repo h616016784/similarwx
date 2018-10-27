@@ -65,7 +65,7 @@
                 android:textSize="@dimen/text_content_or_button"
                 android:layout_below="@id/red_detail_name_ll"
                 android:layout_centerHorizontal="true"
-                android:text="0-0"/>
+                android:text=""/>
             <LinearLayout
                 android:id="@+id/red_detail_acount_ll"
                 android:layout_width="wrap_content"
@@ -78,10 +78,11 @@
                     android:id="@+id/red_detail_acount_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minWidth="@dimen/distance_big"
                     android:textSize="40sp"
                     android:layout_below="@id/red_detail_count"
                     android:layout_centerHorizontal="true"
-                    android:text="0.11"
+                    android:text=""
                     android:textColor="@color/black"
                     android:typeface="normal"
                     android:textStyle="bold"/>

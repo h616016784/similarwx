@@ -159,7 +159,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         if (user.getToken()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,user.getToken());
         else
-            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"a170417844a19c6bfebb4ab1a137fc31");
+            SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_TOKEN,"");
         if (user.getName()!=null)
             SharePreferenceUtil.putObject(AppContext.getContext(),AppConstants.USER_NICK,user.getName());
         if (user.getEmail()!=null)
