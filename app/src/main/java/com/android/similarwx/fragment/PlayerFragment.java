@@ -79,6 +79,7 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
                 SubUser item= (SubUser) adapter.getData().get(position);
                 Bundle bundle=new Bundle();
                 bundle.putString(AppConstants.TRANSFER_ACCOUNT,item.getUserId());
+                bundle.putString(AppConstants.TRANSFER_BASE,item.getUserInfo().getName());
                 FragmentUtils.navigateToNormalActivity(getActivity(),new MyDetailFragment(),bundle);
             }
         });

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -86,6 +87,8 @@ import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -307,6 +310,12 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                                     break;
                                 case 1:
                                     config.setContentText(fromName+" 拒绝入群 "+teamName);
+                                    //清除本地痕迹
+                                    Map<String,String> map=SharePreferenceUtil.getHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT);
+                                    if (map!=null){
+                                        map.put(team.getId(),"");
+                                    }
+                                    SharePreferenceUtil.putHashMapData(MainChartrActivity.this,AppConstants.USER_MAP_OBJECT,map);
                                     break;
                                 case 2:
                                     config.setContentText(fromName+" 邀请入群 "+teamName );
@@ -322,7 +331,10 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                             }
                             config.setTicker("通知消息");
                             NotificationUtil.getInstance(MainChartrActivity.this,config).notification();
-
+                            int unread = NIMClient.getService(SystemMessageService.class) .querySystemMessageUnreadCountBlock();
+                            if (unread>0){
+                                mainChartRedIv.setVisibility(View.VISIBLE);
+                            }
                             tempMsgId=message.getMessageId();
                         }
                     }
@@ -352,6 +364,13 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     @Override
     protected void onResume() {
         super.onResume();
+        try {
+            AssetFileDescriptor aFD=getAssets().openFd("team_notices.mp3");
+            String fileNames[] = getAssets().list("");
+            String s=aFD.getFileDescriptor().toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         groupPresent.getGroupList();
         mainLoadRl.setVisibility(View.VISIBLE);
         checkNet();

@@ -122,7 +122,8 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
             }else {
                 myDetailZongLl.setVisibility(View.GONE);
                 myDetailClassLl.setVisibility(View.GONE);
-                mActionbar.setTitle("流水明细");
+                String name=bundle.getString(AppConstants.TRANSFER_BASE);
+                mActionbar.setTitle(name+"的流水明细");
                 mType=BillType.SEND_PACKAGE.toString();
             }
         }else

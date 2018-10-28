@@ -108,6 +108,7 @@ public class NoticeFragment extends BaseFragment implements NoticeViewInterface{
                 }
             }
         });
+        NIMClient.getService(SystemMessageService.class).resetSystemMessageUnreadCount();
     }
 
     @Override
