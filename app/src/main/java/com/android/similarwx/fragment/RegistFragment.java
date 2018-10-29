@@ -25,6 +25,7 @@ import com.android.similarwx.inteface.RegisterViewInterface;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.PhoneVerifyPresent;
 import com.android.similarwx.present.RegisterPresent;
+import com.android.similarwx.utils.PhoneUtil;
 import com.android.similarwx.widget.dialog.EditDialogBuilder;
 
 import java.util.Timer;
@@ -98,6 +99,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
                 switch (msg.what) {
                     case 0://结束倒计时
                         registerGetCode.setText(AppContext.getContext().getString(R.string.register_get_code));
+                        registerGetCode.setClickable(true);
                         cancelTimer();
                         break;
                     case 1:
@@ -128,18 +130,21 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
                 if (registerPresent.isEmpty(phoneNum)) {
                     Toaster.toastShort("手机号不能为空！");
                 } else {
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-
-                            if (pos == 0) {
-                                mHandler.sendEmptyMessage(0);
-                            } else {
-                                mHandler.sendEmptyMessage(1);
+                    if (!PhoneUtil.isPhoneLegal(phoneNum)){
+                        Toaster.toastShort("不是手机号！");
+                    }else {
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                if (pos == 0) {
+                                    mHandler.sendEmptyMessage(0);
+                                } else {
+                                    mHandler.sendEmptyMessage(1);
+                                }
                             }
-                        }
-                    }, 50, 1000);
-                    phoneVerifyPresent.getMobileVerifyCode(phoneNum);
+                        }, 50, 1000);
+                        phoneVerifyPresent.getMobileVerifyCode(phoneNum);
+                    }
                 }
                 break;
             case R.id.register_complete:
@@ -155,6 +160,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
                     Toaster.toastShort("验证码不能为空！");
                     return;
                 }
+
                 registerPresent.register(phone,weixinAccount,email,phone, psd, confirm,nick,null,null,null,null,code);
                 break;
         }
@@ -250,6 +256,6 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
 
     @Override
     public void refreshGettMobileVerifyCode(VerifyCodeResponse.VerifyCodeBean bean) {
-
+        registerGetCode.setClickable(false);
     }
 }

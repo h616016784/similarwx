@@ -64,11 +64,16 @@ public class RegisterPresent extends BasePresent {
         String result=rspUser.getResult();
         if (result.equals("success")){
             User user=rspUser.getData();
-            if (user!=null)
-                registerViewInterface.loginScucces(user);
+            if (rspUser.getErrorCode().equals("0000")){
+                if (user!=null)
+                    registerViewInterface.loginScucces(user);
 //                 saveUser(user);
-            else
-                Toaster.toastShort("数据解析异常");
+                else
+                    Toaster.toastShort("数据解析异常");
+            }else {
+                Toaster.toastShort(rspUser.getErrorMsg());
+            }
+
         }else {
             Toaster.toastShort(rspUser.getErrorMsg());
         }

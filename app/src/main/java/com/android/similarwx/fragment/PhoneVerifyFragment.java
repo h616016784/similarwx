@@ -22,6 +22,7 @@ import com.android.similarwx.inteface.PhoneVerifyViewInterface;
 import com.android.similarwx.present.MyBasePresent;
 import com.android.similarwx.present.PhoneVerifyPresent;
 import com.android.similarwx.utils.FragmentUtils;
+import com.android.similarwx.utils.PhoneUtil;
 import com.android.similarwx.utils.SharePreferenceUtil;
 
 import butterknife.BindView;
@@ -97,8 +98,13 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
                 String text = verifyPhoneEt.getText().toString();
                 if (TextUtils.isEmpty(text))
                     Toaster.toastShort("手机号不能为空");
-                else
-                    present.getMobileVerifyCode(text);
+                else{
+                    if (!PhoneUtil.isPhoneLegal(text)){
+                        Toaster.toastShort("不是手机号");
+                    }else {
+                        present.getMobileVerifyCode(text);
+                    }
+                }
                 break;
             case R.id.verify_next:
                 String textCode = verifyCodeEt.getText().toString();
