@@ -3,33 +3,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/distance_smaller"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/search_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/distance_smaller"
-            android:layout_marginLeft="@dimen/distance_small"
-            android:minWidth="@dimen/distance_big"
-            android:minHeight="@dimen/distance_big"
-            android:src="@drawable/img_search"/>
+        android:layout_height="@dimen/normal_header_height"
+        android:paddingLeft="@dimen/normal_large_margin"
+        android:paddingRight="@dimen/normal_large_margin"
+        android:paddingTop="@dimen/normal_middle_margin"
+        android:paddingBottom="@dimen/normal_middle_margin"
+        android:background="@color/white">
+
         <EditText
             android:id="@+id/search_et"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/distance_middle"
-            android:layout_marginTop="@dimen/distance_small"
-            android:layout_toRightOf="@id/main_search_iv"
-            android:background="@null"
-            android:textSize="@dimen/text_content_or_button"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="@color/fade_black"
             android:hint="输入内容"
-            android:lines="1"
-            />
-    </LinearLayout>
+            android:singleLine="true"
+            android:textColorHint="@color/gray"
+            android:paddingLeft="@dimen/normal_widget_margin"
+            android:paddingRight="@dimen/normal_widget_margin"
+            android:background="@drawable/gray_border_edit_bg" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="@dimen/normal_small_margin">
+
+            <FrameLayout
+                android:id="@+id/clear_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/normal_small_margin"
+                android:paddingRight="@dimen/normal_small_margin"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/close"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/search_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/normal_small_margin"
+                android:paddingRight="@dimen/normal_small_margin">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/search_black"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
     <include layout="@layout/include_divider"/>
     <LinearLayout
         android:id="@+id/search_user_ll"

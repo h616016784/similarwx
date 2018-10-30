@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -56,7 +57,7 @@ import butterknife.Unbinder;
 public class SearchFragment extends BaseFragment implements SearchViewInterface, SendRedViewInterface, NoticeViewInterface {
 
     @BindView(R.id.search_iv)
-    ImageView searchIv;
+    FrameLayout searchIv;
     @BindView(R.id.search_et)
     EditText searchEt;
     @BindView(R.id.search_recyclerView)

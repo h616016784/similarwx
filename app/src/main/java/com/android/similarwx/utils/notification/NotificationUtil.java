@@ -90,8 +90,12 @@ public class NotificationUtil {
         int sound= SharePreferenceUtil.getInt(context, AppConstants.USER_SOUND_SET);
         if (sound==1){
             mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
-            if (uri!=null)
-                 mBuilder.setSound(uri);
+            try {
+                if (uri!=null)
+                    mBuilder.setSound(uri);
+            }catch (Exception e){
+
+            }
         }
         else
             mBuilder.setDefaults(NotificationCompat.DEFAULT_VIBRATE);
