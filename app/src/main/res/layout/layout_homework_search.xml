@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/normal_header_height"
+    android:paddingLeft="@dimen/normal_large_margin"
+    android:paddingRight="@dimen/normal_large_margin"
+    android:paddingTop="@dimen/normal_middle_margin"
+    android:paddingBottom="@dimen/normal_middle_margin"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/filter_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="14sp"
+        android:textColor="@color/fade_black"
+        android:hint="请输入"
+        android:singleLine="true"
+        android:textColorHint="@color/gray"
+        android:paddingLeft="@dimen/normal_widget_margin"
+        android:paddingRight="@dimen/normal_widget_margin"
+        android:background="@drawable/gray_border_edit_bg" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="@dimen/normal_small_margin">
+
+        <FrameLayout
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/normal_small_margin"
+            android:paddingRight="@dimen/normal_small_margin"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/close"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/normal_small_margin"
+            android:paddingRight="@dimen/normal_small_margin">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search_black"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </LinearLayout>
+
+
+</FrameLayout>
