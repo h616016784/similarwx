@@ -30,6 +30,7 @@
     <string name="login_wx_login">点击微信直接登录</string>
     <string name="login_error_acc_notnull">账号不能为空！</string>
     <string name="login_error_psd_notnull">密码不能为空！</string>
+    <string name="login_error_psd_more_5">密码不能少于5位！</string>
     <string name="login_error_nick_notnull">昵称不能为空！</string>
     <string name="login_error_weixin_notnull">微信号不能为空！</string>
     <string name="login_error_email_notnull">邮箱不能为空！</string>

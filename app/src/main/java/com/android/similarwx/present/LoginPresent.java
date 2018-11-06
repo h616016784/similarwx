@@ -2,23 +2,28 @@ package com.android.similarwx.present;
 
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.primary.Log;
 import com.android.outbaselibrary.utils.Toaster;
+import com.android.similarwx.R;
 import com.android.similarwx.activity.MainChartrActivity;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.beans.User;
 import com.android.similarwx.beans.response.RspUser;
 import com.android.similarwx.config.UserPreferences;
 import com.android.similarwx.inteface.LoginViewInterface;
+import com.android.similarwx.misdk.helper.UserUpdateHelper;
 import com.android.similarwx.model.API;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.business.team.DemoCache;
+import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
@@ -33,6 +38,7 @@ import java.util.Map;
  */
 
 public class LoginPresent extends BasePresent {
+    private static final String TAG = LoginPresent.class.getSimpleName();
     private String password;
     private LoginViewInterface loginViewInterface;
     private AppCompatActivity activity;
@@ -187,26 +193,57 @@ public class LoginPresent extends BasePresent {
 
     private void doUpdateLocalYunxin(User user) {
         Map<UserInfoFieldEnum, Object> fields = new HashMap<>(1);
-        fields.put(UserInfoFieldEnum.Name, user.getName());//昵称
-        fields.put(UserInfoFieldEnum.AVATAR, user.getIcon());//头像
-        fields.put(UserInfoFieldEnum.SIGNATURE, user.getPersonalitySignature());//签名
-        fields.put(UserInfoFieldEnum.GENDER, user.getGender());//性别
-        fields.put(UserInfoFieldEnum.EMAIL, user.getEmail());//电子邮箱
-        fields.put(UserInfoFieldEnum.BIRTHDAY, user.getBirth());//生日
-        fields.put(UserInfoFieldEnum.MOBILE, user.getMobile());//手机
-        NIMClient.getService(UserService.class).updateUserInfo(fields)
-                .setCallback(new RequestCallbackWrapper<Void>() {
-                    @Override
-                    public void onResult(int code, Void result, Throwable exception) {
-                        Log.e("UserService.class","保存本地用户信息");
-                        DemoCache.setAccount(user.getAccId());
+        if (!TextUtils.isEmpty(user.getName()))
+            fields.put(UserInfoFieldEnum.Name, user.getName());//昵称
+        if (!TextUtils.isEmpty(user.getIcon()))
+            fields.put(UserInfoFieldEnum.AVATAR, user.getIcon());//头像
+        if (!TextUtils.isEmpty(user.getPersonalitySignature()))
+            fields.put(UserInfoFieldEnum.SIGNATURE, user.getPersonalitySignature());//签名
+        if (!TextUtils.isEmpty(user.getGender()))
+            fields.put(UserInfoFieldEnum.GENDER, Integer.parseInt(user.getGender()));//性别
+        if (!TextUtils.isEmpty(user.getEmail()))
+            fields.put(UserInfoFieldEnum.EMAIL, user.getEmail());//电子邮箱
+
+        if (!TextUtils.isEmpty(user.getBirth()))
+            fields.put(UserInfoFieldEnum.BIRTHDAY, user.getBirth());//生日
+        else
+            fields.put(UserInfoFieldEnum.BIRTHDAY, "1988-10-01");//生日
+        if (!TextUtils.isEmpty(user.getMobile()))
+            fields.put(UserInfoFieldEnum.MOBILE, user.getMobile());//手机
+
+        NIMClient.getService(UserService.class).updateUserInfo(fields).setCallback(new RequestCallbackWrapper<Void>() {
+            @Override
+            public void onResult(int code, Void result, Throwable exception) {
+
+                if (code == ResponseCode.RES_SUCCESS) {
+                    LogUtil.i(TAG, "update userInfo success, update fields count=" + fields.size());
+                } else {
+                    if (exception != null) {
+                        Toast.makeText(DemoCache.getContext(), R.string.user_info_update_failed, Toast.LENGTH_SHORT).show();
+                        LogUtil.i(TAG, "update userInfo failed, exception=" + exception.getMessage());
+                    }
+                }
+                DemoCache.setAccount(user.getAccId());
 //                saveLoginInfo(account, token);
 //
-                        // 初始化消息提醒配置
-                        initNotificationConfig();
-                        loginViewInterface.refreshDoYunxinLocal(user);
-                    }
-                });
+                // 初始化消息提醒配置
+                initNotificationConfig();
+                loginViewInterface.refreshDoYunxinLocal(user);
+            }
+        });
+//        NIMClient.getService(UserService.class).updateUserInfo(fields)
+//                .setCallback(new RequestCallbackWrapper<Void>() {
+//                    @Override
+//                    public void onResult(int code, Void result, Throwable exception) {
+//                        Log.e("UserService.class","保存本地用户信息");
+//                        DemoCache.setAccount(user.getAccId());
+////                saveLoginInfo(account, token);
+////
+//                        // 初始化消息提醒配置
+//                        initNotificationConfig();
+//                        loginViewInterface.refreshDoYunxinLocal(user);
+//                    }
+//                });
     }
 
 

@@ -39,6 +39,7 @@ import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.ItemView;
 import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.bumptech.glide.Glide;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.AuthService;
 
@@ -240,6 +241,7 @@ public class MyFragment extends BaseFragment implements LoginViewInterface, SysN
 
     @Override
     public void logoutScucces(User user) {
+        NimUIKit.logout();
         NIMClient.getService(AuthService.class).logout();
         LoginActivity.start(activity);
         Intent intent = new Intent();

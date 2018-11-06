@@ -57,7 +57,7 @@ import butterknife.Unbinder;
 public class SearchFragment extends BaseFragment implements SearchViewInterface, SendRedViewInterface, NoticeViewInterface {
 
     @BindView(R.id.search_iv)
-    FrameLayout searchIv;
+    ImageView searchIv;
     @BindView(R.id.search_et)
     EditText searchEt;
     @BindView(R.id.search_recyclerView)

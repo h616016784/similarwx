@@ -3,7 +3,9 @@ package com.android.similarwx.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,6 +122,9 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
         phoneVerifyPresent=new PhoneVerifyPresent(this,activity);
         loginPresent = new LoginPresent(this,activity);
         timer = new Timer();
+        loginNickEt.addTextChangedListener(textWatcherPhone);
+        registerPasswordEt.addTextChangedListener(textWatcherPsd);
+        registerConfirmEt.addTextChangedListener(textWatcherPsd);
     }
 
     @OnClick({R.id.register_get_code, R.id.register_complete})
@@ -165,6 +170,49 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
                 break;
         }
     }
+
+    private TextWatcher textWatcherPhone=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String temp = s.toString();
+            int posDot = temp.length();
+            if (posDot > 15)
+            {
+                s.delete(posDot -1, posDot );
+            }
+        }
+    };
+    private TextWatcher textWatcherPsd=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String temp = s.toString();
+            int posDot = temp.length();
+            if (posDot > 20)
+            {
+                s.delete(posDot -1, posDot );
+            }
+        }
+    };
 
     @Override
     public void showErrorMessage(String err) {

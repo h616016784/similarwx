@@ -49,6 +49,7 @@ public class NoticeAdapter2 extends BaseQuickAdapter<SystemMessage,BaseViewHolde
             helper.setText(R.id.item_sys_notice_account_tv,userContent.getId());
         }
 
+//        helper.setText(R.id.item_sys_notice_time_tv, item.getTime()+"");
         helper.setText(R.id.item_sys_notice_time_tv, TimeUtil.timestampToString(item.getTime()));
 
 

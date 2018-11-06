@@ -3,6 +3,7 @@ package com.android.similarwx.utils;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by hanhuailong on 2018/7/3.
@@ -10,7 +11,7 @@ import java.text.SimpleDateFormat;
 
 public class TimeUtil {
     public static String timestampToString(long timestamp){
-        return timestampToString(timestamp,"yyyy-mm-dd hh:mm:ss");
+        return getDateToString(timestamp,"yyyy-mm-dd hh:mm:ss");
     }
     public static String timestampToString(long timestamp,String format){
         String tsStr = "";
@@ -24,5 +25,11 @@ public class TimeUtil {
             return tsStr;
         }
         return tsStr;
+    }
+
+    public static String getDateToString(long milSecond, String pattern) {
+        Date date = new Date(milSecond);
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        return format.format(date);
     }
 }

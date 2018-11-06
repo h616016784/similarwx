@@ -190,7 +190,7 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
             redDetailTakeTimeTv.setVisibility(View.VISIBLE);
             int time=Integer.parseInt(redListData.getSpendSecond());
             if (time<60){
-                redDetailTakeTimeTv.setText(time+"秒内被抢光");
+                redDetailTakeTimeTv.setText(time+"秒被抢光");
             }else if (time>=60 && time<60*60){//分钟
                 int yu= time%60;
                 if (yu==0)

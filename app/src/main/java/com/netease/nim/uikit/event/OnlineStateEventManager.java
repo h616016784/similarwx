@@ -163,7 +163,7 @@ public class OnlineStateEventManager {
 
                 // 发布自己的在线状态
                 pubNetState = -1;
-                publishOnlineStateEvent(false);
+                publishOnlineStateEvent(true);
 
                 // 订阅在线状态，包括好友以及最近联系人
                 OnlineStateEventSubscribe.initSubscribes();

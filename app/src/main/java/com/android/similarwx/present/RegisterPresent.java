@@ -228,6 +228,11 @@ public class RegisterPresent extends BasePresent {
         }else if (TextUtils.isEmpty(password)){
             registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_notnull));
             return true;
+        }else if (!TextUtils.isEmpty(password)){
+            if (password.length()<5){
+                registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_psd_more_5));
+                return true;
+            }
         }else if (TextUtils.isEmpty(confirm)){
             registerViewInterface.showErrorMessage(AppContext.getContext().getString(R.string.login_error_confirm_notnull));
             return true;
