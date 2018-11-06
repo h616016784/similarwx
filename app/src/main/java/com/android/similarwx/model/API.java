@@ -1033,12 +1033,14 @@ public class API implements APIConstants {
         });
     }
 
-    public void getSendRedBill(AppCompatActivity activity,String userId,String rebateToUserId,String startDate,String endDate,String page,String rows,AcountPresent present){
+    public void getSendRedBill(AppCompatActivity activity,String userId,String rebateToUserId,String type ,String startDate,String endDate,String page,String rows,AcountPresent present){
         LoadingDialogN.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         if (!TextUtils.isEmpty(rebateToUserId))
             map.put("rebateToUserId",rebateToUserId );
+        if (!TextUtils.isEmpty(type))
+            map.put("type",type );
         map.put("beginDate",startDate );
         map.put("endDate",endDate );
         map.put("page",page );

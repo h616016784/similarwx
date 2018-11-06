@@ -124,7 +124,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 myDetailClassLl.setVisibility(View.GONE);
                 String name=bundle.getString(AppConstants.TRANSFER_BASE);
                 mActionbar.setTitle(name+"的流水明细");
-                mType=BillType.SEND_PACKAGE.toString();
+                mType=BillType.PACKAGE_REBATE.toString();
             }
         }else
             mType=BillType.ALL.toString();
@@ -239,7 +239,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 if (TextUtils.isEmpty(transferId)){
                     mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
                 }else
-                    mPresent.getSendRedList(transferId,userId,mStart,mEnd,page+"",rows+"");
+                    mPresent.getSendRedList(transferId,userId,mType,mStart,mEnd,page+"",rows+"");
             }
         },myDetailRv);
         myDetailRv.setAdapter(adapter);
@@ -269,7 +269,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         if (TextUtils.isEmpty(transferId)){
             mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
         }else
-            mPresent.getSendRedList(transferId,userId,mStart,mEnd,page+"",rows+"");
+            mPresent.getSendRedList(transferId,userId,mType,mStart,mEnd,page+"",rows+"");
 
         pvTime=new TimePickerBuilder(activity, new OnTimeSelectListener() {
             @Override
@@ -287,7 +287,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 if (TextUtils.isEmpty(transferId)){
                     mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
                 }else
-                    mPresent.getSendRedList(transferId,userId,mStart,mEnd,page+"",rows+"");
+                    mPresent.getSendRedList(transferId,userId,mType,mStart,mEnd,page+"",rows+"");
             }
         }).build();
         //展示类别list
@@ -308,7 +308,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
                 if (TextUtils.isEmpty(transferId)){
                     mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
                 }else
-                    mPresent.getSendRedList(transferId,userId,mStart,mEnd,page+"",rows+"");
+                    mPresent.getSendRedList(transferId,userId,mType,mStart,mEnd,page+"",rows+"");
                 if (listPopupWindow!=null){
                     listPopupWindow.dismiss();
                 }
