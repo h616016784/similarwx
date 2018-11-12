@@ -1038,7 +1038,7 @@ public class API implements APIConstants {
         Map<String,String> map=new HashMap<>();
         map.put("userId",userId );
         if (!TextUtils.isEmpty(rebateToUserId))
-            map.put("rebateToUserId",rebateToUserId );
+            map.put("rebateUserId",rebateToUserId );
         if (!TextUtils.isEmpty(type))
             map.put("type",type );
         map.put("beginDate",startDate );

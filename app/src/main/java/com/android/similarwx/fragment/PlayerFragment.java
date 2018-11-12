@@ -14,6 +14,7 @@ import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
+import com.android.similarwx.base.BillType;
 import com.android.similarwx.beans.SubUser;
 import com.android.similarwx.inteface.SubUsersViewInterface;
 import com.android.similarwx.present.SubUsersPresent;
@@ -44,6 +45,7 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
 
     private BaseQuickAdapter adapter;
     private SubUsersPresent present;
+    private String type;
 
     @Override
     protected int getLayoutResource() {
@@ -56,7 +58,7 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
         mActionbar.setTitle(R.string.player_title);
         unbinder = ButterKnife.bind(this, contentView);
         present = new SubUsersPresent(this,activity);
-
+        type= BillType.SEND_PACKAGE.toString();
         myPlayerRv.setLayoutManager(new LinearLayoutManager(activity));
         adapter = new BaseQuickAdapter<SubUser, BaseViewHolder>(R.layout.item_my_player, null) {
             @Override
@@ -83,7 +85,7 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
                 FragmentUtils.navigateToNormalActivity(getActivity(),new MyDetailFragment(),bundle);
             }
         });
-        present.getSubUsers(null, null, null, null);
+        present.getSubUsers(type, null, null, null);
     }
 
 
@@ -94,7 +96,7 @@ public class PlayerFragment extends BaseFragment implements SubUsersViewInterfac
             Toaster.toastShort("搜索内容不能为空！");
             return;
         }
-        present.getSubUsers(null, content, null, null);
+        present.getSubUsers(type, content, null, null);
     }
 
     @Override
