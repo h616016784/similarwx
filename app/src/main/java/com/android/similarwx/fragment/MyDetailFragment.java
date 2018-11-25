@@ -261,6 +261,7 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         Calendar cal=Calendar.getInstance();
         Date endTime=cal.getTime();
         mEnd=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime);
+
         cal.add(Calendar.DATE,-1);
         Date starTime=cal.getTime();
         mStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(starTime);
