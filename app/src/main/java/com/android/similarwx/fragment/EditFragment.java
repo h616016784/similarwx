@@ -62,6 +62,11 @@ public class EditFragment extends BaseFragment {
                 if (TextUtils.isEmpty(str)){
                     Toaster.toastShort("不能为空！");
                     return;
+                }else {
+                    if (str.length()>15){
+                        Toaster.toastShort("字数不能超过15！");
+                        return;
+                    }
                 }
                 Intent intent=new Intent();
                 intent.putExtra(AppConstants.USER_CONTENT, str);

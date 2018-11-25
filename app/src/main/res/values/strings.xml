@@ -46,7 +46,7 @@
     <string name="register_weixin_account">微信账号</string>
     <string name="register_email">邮箱</string>
     <string name="register_phone_hint">请输入手机号</string>
-    <string name="register_nick_hint">请输入昵称</string>
+    <string name="register_nick_hint">请输入昵称,只能是汉字、字母和数字</string>
     <string name="register_account_hint">请输入账号</string>
     <string name="register_weixin_account_hint">请输入微信账号</string>
     <string name="register_email_hint">请输入邮箱</string>

@@ -264,8 +264,12 @@ public class MyDetailFragment extends BaseFragment implements AcountViewInterfac
         cal.add(Calendar.DATE,-1);
         Date starTime=cal.getTime();
         mStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(starTime);
-        myDetailStartTv.setText(mStart);
-        myDetailEndTv.setText(mEnd);
+//        myDetailStartTv.setText(mStart);
+//        myDetailEndTv.setText(mEnd);
+        myDetailStartTv.setText("全部");
+        myDetailEndTv.setText("全部");
+        mStart="";
+        mEnd="";
         if (TextUtils.isEmpty(transferId)){
             mPresent.getAcountList(userId,mType,transferId,mStart,mEnd,page+"",rows+"");
         }else

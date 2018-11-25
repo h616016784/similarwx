@@ -49,18 +49,27 @@
             android:name="com.netease.nim.uikit.support.glide.NIMGlideModule"
             android:value="GlideModule" />
 
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.MIActivity" />
         <activity
             android:name=".activity.MainChartrActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
-        <activity android:name=".base.NormalActivity"></activity>
-        <activity android:name=".activity.SysNoticeActivity" />
-        <activity android:name=".activity.RobotProfileActivity" />
-        <activity android:name=".activity.UserProfileActivity" />
-        <activity android:name=".activity.UserProfileEditItemActivity" />
-        <activity android:name=".activity.UserProfileSettingActivity" />
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".base.NormalActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.SysNoticeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.RobotProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.UserProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.UserProfileEditItemActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.UserProfileSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,14 +77,21 @@
             </intent-filter>
         </activity>
         <!-- 网易云信的activity -->
-        <activity android:name=".misdk.activity.CropImageActivity" />
-        <activity android:name=".misdk.activity.PickerAlbumActivity" />
-        <activity android:name=".misdk.activity.PickerAlbumPreviewActivity" />
-        <activity android:name=".misdk.activity.PickImageActivity" />
-        <activity android:name=".misdk.activity.PreviewImageFromCameraActivity" />
-        <activity android:name=".misdk.activity.PreviewImageFromLocalActivity" />
+        <activity android:name=".misdk.activity.CropImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".misdk.activity.PickerAlbumActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".misdk.activity.PickerAlbumPreviewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".misdk.activity.PickImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".misdk.activity.PreviewImageFromCameraActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".misdk.activity.PreviewImageFromLocalActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
 

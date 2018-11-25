@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class TimeUtil {
     public static String timestampToString(long timestamp){
-        return getDateToString(timestamp,"yyyy-mm-dd hh:mm:ss");
+        return getDateToString(timestamp,"yyyy-MM-dd HH:mm:ss");
     }
     public static String timestampToString(long timestamp,String format){
         String tsStr = "";

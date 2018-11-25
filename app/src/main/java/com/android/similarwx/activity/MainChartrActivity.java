@@ -36,12 +36,14 @@ import com.android.similarwx.fragment.MIFragment;
 import com.android.similarwx.fragment.MyFragment;
 import com.android.similarwx.fragment.SearchFragment;
 import com.android.similarwx.fragment.ServiceFragment;
+import com.android.similarwx.inteface.LoginViewInterface;
 import com.android.similarwx.inteface.MainGroupView;
 import com.android.similarwx.inteface.NoticeViewInterface;
 import com.android.similarwx.inteface.YCallBack;
 import com.android.similarwx.misdk.helper.SystemMessageUnreadManager;
 import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.GroupPresent;
+import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.service.reminder.ReminderItem;
 import com.android.similarwx.service.reminder.ReminderManager;
@@ -104,7 +106,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/1.
  */
 
-public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, NoticeViewInterface, ReminderManager.UnreadNumChangedCallback {
+public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, MainGroupView, NoticeViewInterface, ReminderManager.UnreadNumChangedCallback, LoginViewInterface {
     public static final String ACTION_FINISH_MAIN = "com.similarwx.action.main.finish";
     private static final int BASIC_PERMISSION_REQUEST_CODE = 100;
     Unbinder unbinder;
@@ -134,6 +136,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
     private HomeAdapter adapter;
     private List<GroupMessageBean.ListBean> mListData;
     GroupPresent groupPresent;
+    LoginPresent loginPresent;
     private ListPopWindowHelper listPopWindowHelper=null;
     private List<PopMoreBean> listMore=null;
 
@@ -200,6 +203,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         unbinder = ButterKnife.bind(this);
         groupPresent = new GroupPresent(this,this);
         noticePresent=new NoticePresent(this,this);
+        loginPresent=new LoginPresent(this,this);
         requestBasicPermission();
 
         // 等待同步数据完成
@@ -682,7 +686,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
 
     /**
      * 注册用户在线状态
-     * @param b
+     * @param bE
      */
     private void registerUserOnlineStatus(boolean b) {
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(
@@ -691,6 +695,7 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                         if (status==StatusCode.KICKOUT) {
                             // 被踢出
                             Toaster.toastShort("用户在其他设备上登录！！！！");
+                            loginPresent.logout();
                             finish();
                             startActivity(new Intent(MainChartrActivity.this,LoginActivity.class));
                         }
@@ -908,5 +913,24 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
             }
         }
     }
+//================以下都没有用到
+    @Override
+    public void loginScucces(User user) {
 
+    }
+
+    @Override
+    public void logoutScucces(User user) {
+
+    }
+
+    @Override
+    public void refreshTotalBalance(User user) {
+
+    }
+
+    @Override
+    public void refreshDoYunxinLocal(User user) {
+
+    }
 }

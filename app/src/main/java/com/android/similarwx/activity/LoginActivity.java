@@ -102,7 +102,9 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
             Manifest.permission.INTERNET,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.VIBRATE,
+            Manifest.permission.ACCESS_FINE_LOCATION
     };
 
     private void requestBasicPermission() {
@@ -117,7 +119,7 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
         setContentView(R.layout.activity_login);
         //初始化butterKnife
         ButterKnife.bind(this);
-        requestBasicPermission();
+//        requestBasicPermission();
         loginPresent = new LoginPresent(this,this);
         initPerssion();
 
@@ -163,7 +165,15 @@ public class LoginActivity extends BaseActivity implements LoginViewInterface {
     private void initPerssion() {
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions
-                .requestEach(Manifest.permission.READ_PHONE_STATE)
+                .requestEach(Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.VIBRATE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_NETWORK_STATE)
                 .subscribe(permission -> { // will emit 2 Permission objects
                     if (permission.granted) {
                         // `permission.name` is granted !

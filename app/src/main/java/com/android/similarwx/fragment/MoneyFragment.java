@@ -34,6 +34,7 @@ import com.android.similarwx.utils.FileUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.WXUtil;
 import com.android.similarwx.utils.glide.NetImageUtil;
+import com.android.similarwx.widget.dialog.LoadingDialogN;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -141,13 +142,15 @@ public class MoneyFragment extends BaseFragment implements SysNoticeViewInterfac
     public void refreshSysMoney(String url) {
         int width=myMoneyIv.getWidth();
         int height=myMoneyIv.getHeight();
+        LoadingDialogN.Loading_Show(activity.getSupportFragmentManager(),true);
         NetImageUtil.glideToBitmap(activity, url, new YCallBack<Bitmap>() {
             @Override
             public void callBack(Bitmap bitmap) {
                 if (bitmap!=null){
-                    bitmap=BitmapUtil.addWatermarkBitmap(bitmap,"推荐码  "+mUser.getInviter(),width,height);
+                    bitmap=BitmapUtil.addWatermarkBitmap(bitmap,"推荐码  "+mUser.getInvitationCode(),width,height);
                     myMoneyIv.setImageBitmap(bitmap);
                 }
+                LoadingDialogN.Loading_Exit(activity.getSupportFragmentManager());
             }
         });
 //        NetImageUtil.glideImageNormalListener(activity, url, myMoneyIv,new RequestListener() {

@@ -32,6 +32,9 @@ import com.android.similarwx.widget.dialog.EditDialogBuilder;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -165,12 +168,22 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
                     Toaster.toastShort("验证码不能为空！");
                     return;
                 }
-
+                String str = stringFilter(nick);
+                if(!nick.equals(str)){
+                    Toaster.toastShort("只允许字母、数字和汉字");
+                    return;
+                }
                 registerPresent.register(phone,weixinAccount,email,phone, psd, confirm,nick,null,null,null,null,code);
                 break;
         }
     }
-
+    public String stringFilter(String str)throws PatternSyntaxException {
+        // 只允许字母、数字和汉字
+        String   regEx  =  "[^a-zA-Z0-9\u4E00-\u9FA5]";
+        Pattern   p   =   Pattern.compile(regEx);
+        Matcher   m   =   p.matcher(str);
+        return   m.replaceAll("").trim();
+    }
     private TextWatcher textWatcherPhone=new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -179,7 +192,7 @@ public class RegistFragment extends BaseFragment implements RegisterViewInterfac
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+            // 只允许字母、数字和汉字
         }
 
         @Override

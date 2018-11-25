@@ -144,15 +144,15 @@ public class OnlineStateEventManager {
             public void onEvent(StatusCode statusCode) {
                 if (statusCode==StatusCode.KICKOUT) {
                     // 被踢出
-                    Toaster.toastShort("用户在其他设备上登录！！！！");
-                    while (!AppContext.getActivitiesStack().isEmpty()){
-                        AppCompatActivity activity=AppContext.getActivitiesStack().pop();
-                        if (activity instanceof LoginActivity){
-
-                        }else {
-                            activity.finish();
-                        }
-                    }
+//                    Toaster.toastShort("用户在其他设备上登录！！！！");
+//                    while (!AppContext.getActivitiesStack().isEmpty()){
+//                        AppCompatActivity activity=AppContext.getActivitiesStack().pop();
+//                        if (activity instanceof LoginActivity){
+//
+//                        }else {
+//                            activity.finish();
+//                        }
+//                    }
                 }
                 LogUtil.e("registerOnlineStatusObserver","status change to login so publish state and subscribe"+statusCode.getValue());
                 if (statusCode != StatusCode.LOGINED) {
