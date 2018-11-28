@@ -186,6 +186,7 @@ public class P2PMessageActivity extends BaseMessageActivity implements SysNotice
             return;
         }
         String detailContent = NimUIKitImpl.getOnlineStateContentProvider().getDetailDisplay(sessionId);
+        detailContent="";
         setSubTitle(detailContent);
     }
 

@@ -27,11 +27,11 @@ public class ServiceAdapter extends BaseQuickAdapter<RspService.DataBean.ResUser
     @Override
     protected void convert(BaseViewHolder helper, RspService.DataBean.ResUsersDetailListBean item) {
         String detailContent = NimUIKitImpl.getOnlineStateContentProvider().getDetailDisplay(item.getAccId());
-        if (TextUtils.isEmpty(detailContent)){
-            helper.setText(R.id.service_item_role_tv," (离线)");
-        }else {
-            helper.setText(R.id.service_item_role_tv," ("+detailContent+")");
-        }
+        helper.setText(R.id.service_item_role_tv," (在线)");
+//        if (TextUtils.isEmpty(detailContent)){
+//        }else {
+//            helper.setText(R.id.service_item_role_tv," ("+detailContent+")");
+//        }
         helper.setText(R.id.service_item_content_tv,item.getName());
 //        Glide.with(context).load(item.getImageUrl()).apply(options).into((ImageView) helper.getView(R.id.service_item_iv));
         Glide.with(context).load(item.getIcon()).into((ImageView) helper.getView(R.id.service_item_iv));
