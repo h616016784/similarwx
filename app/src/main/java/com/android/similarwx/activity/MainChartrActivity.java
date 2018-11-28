@@ -378,13 +378,13 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         groupPresent.getGroupList();
         mainLoadRl.setVisibility(View.VISIBLE);
         checkNet();
-        enableMsgNotification(false);
+//        enableMsgNotification(false);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        enableMsgNotification(true);
+//        enableMsgNotification(true);
     }
 
     @Override
