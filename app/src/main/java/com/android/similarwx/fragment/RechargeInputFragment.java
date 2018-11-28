@@ -211,7 +211,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             }else{
                 logFlag="离线";
             }
-            rechargeInputTv.setText(user.getName()+"("+logFlag+")");
+            rechargeInputTv.setText(user.getName());
             if (!TextUtils.isEmpty(user.getIcon())){
                 Glide.with(activity).load(user.getIcon()).into(rechargeInputIv);
             }
