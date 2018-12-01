@@ -449,6 +449,8 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                 initUserView(groupUser.getList().get(0).getGroupUserRule(),bean);
             }
 
+
+
         }
     }
 
