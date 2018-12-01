@@ -100,6 +100,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     String fromAccid;
     String teamId;
     int flag=0;
+    int userFlag=0;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_client_detail_info;
@@ -148,6 +149,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
             name=bean.getUserName();
         clientDetailNameTv.setText(name);
         clientDetailAccountTv.setText(""+bean.getId());
+
         rule=bean.getGroupUserRule();
         if (rule.equals("1")){//
             clientDetailIdTv.setText("普通用户");
@@ -184,12 +186,13 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     }
 
         initData();
+
     }
 
     private void initData() {
         list=new ArrayList<>();
         //获取用户信息
-        mPresent.getUserInfoByParams("",bean.getUserId());
+        mPresent.getUserInfoByParams("",bean.getUserId(),0);
     }
 
     @Override
@@ -388,15 +391,22 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     }
 
     @Override
-    public void refreshUserInfo(User user) {
+    public void refreshUserInfo(User user,int flag) {
         if (user!=null){
-            if (TextUtils.isEmpty(name)){
-                name=user.getName();
-                clientDetailNameTv.setText(name);
-            }
-            String icon=user.getIcon();
-            if (!TextUtils.isEmpty(icon)){
-                NetImageUtil.glideImageNormal(activity,icon,clientDetailAccountIv);
+            if (userFlag==0){
+                if (TextUtils.isEmpty(name)){
+                    name=user.getName();
+                    clientDetailNameTv.setText(name);
+                }
+                String icon=user.getIcon();
+                if (!TextUtils.isEmpty(icon)){
+                    NetImageUtil.glideImageNormal(activity,icon,clientDetailAccountIv);
+                }
+
+                mPresent.getUserInfoByParams("",bean.getUserId(),1);
+                userFlag=1;
+            }else {
+                clientDetailAccountTv.setText(""+user.getId());
             }
         }
     }

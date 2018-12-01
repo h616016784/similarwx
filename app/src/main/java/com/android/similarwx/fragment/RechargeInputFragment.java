@@ -87,7 +87,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
             unbinder = ButterKnife.bind(this, contentView);
             mPresent=new RechargePresent(this,activity);
             present=new ClientDetailInfoPresent(this,activity);
-            present.getUserInfoByParams("",account);
+            present.getUserInfoByParams("",account,0);
             mActionbar.setTitle("转账");
 
             rechargeInputEt.addTextChangedListener(textWatcher);
@@ -203,7 +203,7 @@ public class RechargeInputFragment extends BaseFragment implements RechargeViewI
     }
 
     @Override
-    public void refreshUserInfo(User user) {
+    public void refreshUserInfo(User user,int flag) {
         if (user!=null){
             String logFlag="";
             if (user.getLoginFlg()==1){

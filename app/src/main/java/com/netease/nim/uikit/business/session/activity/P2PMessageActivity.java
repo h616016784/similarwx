@@ -86,7 +86,7 @@ public class P2PMessageActivity extends BaseMessageActivity implements SysNotice
         }
         //获取用户信息
 //        if (!TextUtils.isEmpty(mUser.getAccId()))
-            mPresent.getUserInfoByParams("",sessionId);
+            mPresent.getUserInfoByParams("",sessionId,0);
 
         // 单聊特例话数据，包括个人信息，
         requestBuddyInfo();
@@ -289,7 +289,7 @@ public class P2PMessageActivity extends BaseMessageActivity implements SysNotice
     }
 
     @Override
-    public void refreshUserInfo(User user) {
+    public void refreshUserInfo(User user,int flag) {
         if (user!=null){
             int serviceFlag=user.getServiceFlg();
             int systermFlay=user.getSystemFlg();

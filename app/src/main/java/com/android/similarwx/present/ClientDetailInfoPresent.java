@@ -19,11 +19,13 @@ public class ClientDetailInfoPresent {
     ClientDetailInfoViewInterface mView;
     AppCompatActivity activity;
     private String userStatus;
+    private int flag=0;
     public ClientDetailInfoPresent(ClientDetailInfoViewInterface mView,AppCompatActivity activity){
         this.mView=mView;
         this.activity=activity;
     }
-    public void getUserInfoByParams(String userid,String accId){
+    public void getUserInfoByParams(String userid,String accId,int flag){
+        this.flag=flag;
         API.getInstance().getUserInfoByParams(activity,userid,accId,this);
     }
 
@@ -46,7 +48,7 @@ public class ClientDetailInfoPresent {
             if (rspUser.getErrorCode().equals("0000")){
                 User user=rspUser.getData();
                 if (user!=null){
-                    mView.refreshUserInfo(user);
+                    mView.refreshUserInfo(user,flag);
                 }else
                     Toaster.toastShort("数据解析异常");
             }else {

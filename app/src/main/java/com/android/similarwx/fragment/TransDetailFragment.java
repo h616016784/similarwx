@@ -189,7 +189,7 @@ public class TransDetailFragment extends BaseFragment implements AcountViewInter
         if (accountDetailBean!=null){
             String oppositeId = accountDetailBean.getOppositeId();
             if (!TextUtils.isEmpty(oppositeId)){
-                infoPresent.getUserInfoByParams(oppositeId,"");
+                infoPresent.getUserInfoByParams(oppositeId,"",0);
             }
             if (type.equals(BillType.PACKAGE_REWARD.toString())) { //红包奖励
                 value=accountDetailBean.getValue();
@@ -198,7 +198,7 @@ public class TransDetailFragment extends BaseFragment implements AcountViewInter
     }
 
     @Override
-    public void refreshUserInfo(User user) {
+    public void refreshUserInfo(User user,int flag) {
         if (user!=null){
             if (type.equals(BillType.GRAP_PACKAGE.toString())){ //红包领取
                 transDetailState.setText("你领取了"+user.getName()+"的红包");
