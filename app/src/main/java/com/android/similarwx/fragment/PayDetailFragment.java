@@ -20,6 +20,7 @@ import com.android.similarwx.utils.BitmapUtil;
 import com.android.similarwx.utils.FileUtils;
 import com.android.similarwx.utils.QRCodeUtil;
 import com.android.similarwx.utils.WXUtil;
+import com.android.similarwx.utils.glide.NetImageUtil;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 
 import java.io.File;
@@ -71,10 +72,11 @@ public class PayDetailFragment extends BaseFragment {
                 payDetailMoneyTv.setText(inMoneyBean.getMoney());
                 String qRcode=inMoneyBean.getQrcode();
                 if (!TextUtils.isEmpty(qRcode)){
-                    Bitmap bitmap=QRCodeUtil.createQRCodeN(qRcode, ScreenUtil.screenWidth/2);
-                    if (bitmap!=null){
-                        payDetailIv.setImageBitmap(bitmap);
-                    }
+                    NetImageUtil.glideImageNormal(activity,qRcode,payDetailIv);
+//                    Bitmap bitmap=QRCodeUtil.createQRCodeN(qRcode, ScreenUtil.screenWidth/2);
+//                    if (bitmap!=null){
+//                        payDetailIv.setImageBitmap(bitmap);
+//                    }
                 }
             }
         }

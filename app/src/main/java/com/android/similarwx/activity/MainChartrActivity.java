@@ -337,7 +337,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                             NotificationUtil.getInstance(MainChartrActivity.this,config).notification();
                             int unread = NIMClient.getService(SystemMessageService.class) .querySystemMessageUnreadCountBlock();
                             if (unread>0){
-                                mainChartRedIv.setVisibility(View.VISIBLE);
+                                if (mainChartRedIv!=null)
+                                    mainChartRedIv.setVisibility(View.VISIBLE);
                             }
                             tempMsgId=message.getMessageId();
                         }
@@ -730,7 +731,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                     if (imMessage.getSessionType()==SessionTypeEnum.Team)
                         isTeam=true;
                     else {
-                        mainChartRedIv.setVisibility(View.VISIBLE);
+                        if (mainChartRedIv!=null)
+                            mainChartRedIv.setVisibility(View.VISIBLE);
                     }
                     if (isTeam){
                         //查询最近联系人已获取未读数
@@ -871,11 +873,13 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
                                     int unread = NIMClient.getService(SystemMessageService.class) .querySystemMessageUnreadCountBlock();
                                     unReadCount+=unread;
                                     if (unReadCount>0){
-                                        mainChartRedIv.setVisibility(View.VISIBLE);
+                                        if (mainChartRedIv!=null)
+                                            mainChartRedIv.setVisibility(View.VISIBLE);
                                         break;
                                     }
                                 }
-                                mainChartRedIv.setVisibility(View.GONE);
+                                if (mainChartRedIv!=null)
+                                    mainChartRedIv.setVisibility(View.GONE);
                             }
                         }
                     }

@@ -486,6 +486,7 @@ public class MessageFragment extends TFragment implements ModuleProxy, MiViewInt
             tip.setStatus(MsgStatusEnum.success);
             CustomMessageConfig config = new CustomMessageConfig();
             config.enableUnreadCount = false;
+            config.enablePush=false;
             tip.setConfig(config);
             NIMClient.getService(MsgService.class).saveMessageToLocal(tip, true);
         }
