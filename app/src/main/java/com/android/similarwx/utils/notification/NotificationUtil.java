@@ -38,7 +38,7 @@ public class NotificationUtil {
         this.context=context;
         this.config=config;
 //        uri = Uri.parse("file:///android_asset/team_notices.mp3");
-        uri = Uri.parse("android.resource://com.android.similarwx/" + R.raw.team_notices);
+//        uri = Uri.parse("android.resource://com.android.similarwx/" + R.raw.team_notices);
     }
     private static NotificationUtil mNotificationUtil;
     public static NotificationUtil getInstance(Activity context,NotificationConfig config){
@@ -128,6 +128,7 @@ public class NotificationUtil {
         public void setContentTitle(String contentTitle) {
             this.contentTitle = contentTitle;
         }
+
 
         public String getContentText() {
             return contentText;

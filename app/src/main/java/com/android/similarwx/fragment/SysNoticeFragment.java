@@ -23,6 +23,7 @@ import com.android.similarwx.inteface.SysNoticeViewInterface;
 import com.android.similarwx.model.API;
 import com.android.similarwx.present.SysNoticePresent;
 import com.android.similarwx.utils.InputStreamUtil;
+import com.android.similarwx.widget.dialog.LoadingDialogN;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -70,7 +71,7 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
         if (TextUtils.isEmpty(tag))
             mActionbar.setTitle(R.string.sys_notice_title);
         else if(tag.equals("contract")){
-            mActionbar.setTitle("联系群主");
+            mActionbar.setTitle("赚取佣金");
         }else
             mActionbar.setTitle(R.string.sys_notice_title);
         unbinder = ButterKnife.bind(this, contentView);
@@ -93,6 +94,7 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
 //                    helper.setText(R.id.notice_item_content_detail,text);
 //                }
                 if (!TextUtils.isEmpty(content)){
+                    LoadingDialogN.Loading_Show(activity.getSupportFragmentManager(),true);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -130,13 +132,15 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
                                     return drawable;
                                 }
                             },null);
-
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    helper.setText(R.id.notice_item_content_detail,sp);
-                                }
-                            });
+                            if(getActivity()!=null){
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        helper.setText(R.id.notice_item_content_detail,sp);
+                                    }
+                                });
+                            }
+                            LoadingDialogN.Loading_Exit(activity.getSupportFragmentManager());
                         }
                     }).start();
 

@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/distance_small"
         android:layout_marginRight="@dimen/distance_small"
-        android:text="@string/notice_item_content"
+        android:text=""
         android:textSize="@dimen/text_content_or_button"/>
     <TextView
         android:id="@+id/notice_item_content_detail"
@@ -36,6 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/distance_small"
         android:layout_marginRight="@dimen/distance_small"
-        android:text="@string/notice_item_content_detail"
+        android:text=""
         android:textSize="@dimen/text_content_or_button"/>
 </LinearLayout>

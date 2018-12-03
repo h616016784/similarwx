@@ -345,7 +345,8 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         }else
                             doToRedDetail(bena);
                     }else if (code.equals("8889")){
-                        setErrorText("手慢了，红包派完了");
+                        setErrorText("手慢了，红包派光了");
+                        dialog_red_result_money_tv.setVisibility(View.GONE);
                         if (message!=null){
                             RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
                             mSendRedBean.setClick("8889");
@@ -355,6 +356,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         }
                     }else {
                         setErrorText(bena.getRetMsg());
+                        dialog_red_result_money_tv.setVisibility(View.GONE);
                         if (message!=null){
                             RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
                             mSendRedBean.setClick(code);
@@ -449,7 +451,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
                 dialog_red_result_money_tv.setVisibility(View.GONE);
                 canFlag=1;
-                setErrorText("手慢了，红包派完了");
+                setErrorText("手慢了，红包派光了");
                 if (message!=null){
                     RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
                     mSendRedBean.setClick("8889");
