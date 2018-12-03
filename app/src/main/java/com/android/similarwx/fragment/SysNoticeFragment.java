@@ -173,6 +173,7 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        LoadingDialogN.Loading_Exit(activity.getSupportFragmentManager());
     }
 
     @Override
