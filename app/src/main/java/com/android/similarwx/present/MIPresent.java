@@ -80,4 +80,7 @@ public class MIPresent extends BasePresent {
             }
         }
     }
+    public void showError(String error){
+        mView.showErrorMessage(error);
+    }
 }

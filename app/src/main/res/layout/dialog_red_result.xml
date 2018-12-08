@@ -54,7 +54,7 @@
                 android:layout_below="@id/dialog_red_result_name_tv"
                 android:layout_marginTop="@dimen/distance_small"
                 android:gravity="center_horizontal"
-                android:text="发了一个红包，金额随机"
+                android:text=""
                 android:textColor="@color/light_orange_size"
                 android:textSize="@dimen/text_tip"/>
             <TextView

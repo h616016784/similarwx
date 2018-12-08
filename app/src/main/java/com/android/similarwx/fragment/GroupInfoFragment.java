@@ -146,7 +146,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             protected void convert(BaseViewHolder helper, GroupUser.ListBean item) {
                 String icon=item.getUserIcon();
                 if (!TextUtils.isEmpty(icon)){
-                    NetImageUtil.glideImageNormal(activity,icon,(ImageView) helper.getView(R.id.item_group_member_iv));
+                    NetImageUtil.glideImageNormalWithSize(activity,icon,(ImageView) helper.getView(R.id.item_group_member_iv),120,120);
                 }
                 helper.setText(R.id.item_group_member_tv, item.getUserName());
             }

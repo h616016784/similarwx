@@ -15,6 +15,7 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ import com.android.similarwx.utils.audio.MediaManager;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.netease.nim.uikit.business.session.module.ModuleProxy;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -60,6 +62,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Administrator on 2018/4/9.
@@ -206,7 +213,39 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
     private void addClickListener() {
         dialog_red_result_cancel_iv.setOnClickListener(this);
         dialog_red_result_bottom_tv.setOnClickListener(this);
-        dialog_red_result_kai_tv.setOnClickListener(this);
+//        dialog_red_result_kai_tv.setOnClickListener(this);
+        RxView.clicks(dialog_red_result_kai_tv).throttleFirst(2, TimeUnit.SECONDS)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+                    @Override
+                    public void onNext(Object value) {
+                        dialog_red_result_kai_tv.setImageResource(R.drawable.red_loading);
+                        AnimationDrawable animationDrawable = (AnimationDrawable) dialog_red_result_kai_tv.getDrawable();
+                        animationDrawable.start();
+                        Handler handler=new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (animationDrawable.isRunning())
+                                    animationDrawable.stop();
+                                miPresent.grabRed(mSendRedBean.getRedPacId(), (AppCompatActivity) getActivity());
+                            }
+                        },1000);
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        Toaster.toastShort(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("onComplete","点击了！");
+                    }
+                });
     }
 
     public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,IMMessage imMessage){
@@ -279,18 +318,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                 break;
             case R.id.dialog_red_result_kai_tv://开红包
 
-                dialog_red_result_kai_tv.setImageResource(R.drawable.red_loading);
-                AnimationDrawable animationDrawable = (AnimationDrawable) dialog_red_result_kai_tv.getDrawable();
-                animationDrawable.start();
-                Handler handler=new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (animationDrawable.isRunning())
-                            animationDrawable.stop();
-                        miPresent.grabRed(mSendRedBean.getRedPacId(), (AppCompatActivity) getActivity());
-                    }
-                },1000);
+
                 break;
         }
     }
@@ -301,7 +329,9 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
 
     @Override
     public void showErrorMessage(String err) {
-
+        AnimationDrawable animationDrawable = (AnimationDrawable) dialog_red_result_kai_tv.getDrawable();
+        if (animationDrawable.isRunning())
+            animationDrawable.stop();
     }
 
     @Override

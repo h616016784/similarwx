@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.outbaselibrary.primary.AppContext;
 import com.android.outbaselibrary.utils.Toaster;
@@ -41,6 +42,8 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
     EditText setPayPasswordEt;
     @BindView(R.id.set_pay_password_confirm_et)
     EditText setPayPasswordConfirmEt;
+    @BindView(R.id.set_pay_password_hint)
+    TextView set_pay_password_hint;
     User muser;
     SetPasswordPresent present;
     private String type="";
@@ -64,6 +67,7 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
         if (!TextUtils.isEmpty(type)){
             if (type.equals(LOG_PSD)){
                 mActionbar.setTitle("设置登录密码");
+                set_pay_password_hint.setText("请您设置泡泡社交登录密码。");
             }else {
                 mActionbar.setTitle(R.string.set_pay_password_title);
                 setPayPasswordEt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);

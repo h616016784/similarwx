@@ -47,9 +47,10 @@ import retrofit2.http.QueryMap;
  */
 
 public interface APIService {
-
+    @FormUrlEncoded
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     @POST("resUsers/register")
-    Call<RspUser> registe(@QueryMap Map<String,String> map);
+    Call<RspUser> registe(@FieldMap Map<String,String> map);
 
     @POST("resUsers/login")
     Call<RspUser> login(@QueryMap Map<String,String> map);

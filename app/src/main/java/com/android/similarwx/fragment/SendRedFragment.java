@@ -204,7 +204,7 @@ public class SendRedFragment extends BaseFragment {
     @OnClick(R.id.send_red_bt)
     public void onViewClicked() {
         int type=NetUtil.getAPNType(activity);
-        if (type==0 || type==3){
+        if (type==0 ){
             Toaster.toastShort("网络异常！");
             return;
         }

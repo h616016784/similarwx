@@ -140,7 +140,8 @@ public class TeamMessageActivity extends BaseMessageActivity implements GroupInf
         team = d;
         fragment.setTeam(team);
 
-        setTitle(team == null ? sessionId : team.getName() + "(" + team.getMemberCount() + "人)");
+//        setTitle(team == null ? sessionId : team.getName() + "(" + team.getMemberCount() + "人)");
+        setTitle(team == null ? sessionId : team.getName() );
 
         invalidTeamTipText.setText(team.getType() == TeamTypeEnum.Normal ? R.string.normal_team_invalid_tip : R.string.team_invalid_tip);
         invalidTeamTipView.setVisibility(team.isMyTeam() ? View.GONE : View.VISIBLE);

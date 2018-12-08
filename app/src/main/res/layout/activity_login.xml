@@ -158,7 +158,7 @@
             android:textSize="@dimen/text_content_or_button"
             android:hint="@string/login_password_hint"
             android:password="true"
-            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnm"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:lines="1"
             />
 

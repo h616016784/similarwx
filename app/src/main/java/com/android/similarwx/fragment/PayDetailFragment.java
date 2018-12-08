@@ -62,7 +62,7 @@ public class PayDetailFragment extends BaseFragment {
         if (bundle!=null){
             inMoneyBean= (RspInMoney.InMoneyBean) bundle.getSerializable(INMONEY);
             type=  bundle.getString(TYPE);
-            if (TextUtils.isEmpty(type)){
+            if (!TextUtils.isEmpty(type)){
                 if ("1".equals(type))
                     mActionbar.setTitle(R.string.pay_detail_alipay_title);
                 else if ("3".equals(type))

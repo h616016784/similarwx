@@ -14,7 +14,7 @@
             android:id="@+id/client_detail_account_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/pic_1_50"/>
+            android:src="@drawable/rp_avatar"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/distance_normal"
-                android:text="客服"
+                android:text=""
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_sub_title"/>

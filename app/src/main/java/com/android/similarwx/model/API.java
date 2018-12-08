@@ -966,12 +966,14 @@ public class API implements APIConstants {
                     present.analyzeRes(grabRed);
                 }catch (Exception e){
                     Toaster.toastShort(e.getMessage());
+                    present.showError("解析异常");
                 }
             }
 
             @Override
             public void onFailure(Call<RspGrabRed> call, Throwable t) {
                 noNetTips(activity);
+                present.showError("网络异常");
             }
         });
     }

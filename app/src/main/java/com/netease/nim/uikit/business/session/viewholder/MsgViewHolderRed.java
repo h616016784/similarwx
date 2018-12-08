@@ -2,6 +2,7 @@ package com.netease.nim.uikit.business.session.viewholder;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.outbaselibrary.primary.Log;
 import com.android.similarwx.R;
 import com.android.similarwx.beans.CanGrabBean;
 import com.android.similarwx.beans.SendRed;
@@ -38,9 +40,12 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
     private TextView tv_bri_target_send, tv_bri_target_rev;    // 红包change
     private ImageView tv_bri_pic_send,tv_bri_pic_rev;//红包图标
     private MIPresent miPresent;
+    private boolean canPressd=true;
+    private TimeCount timeCount;
     public MsgViewHolderRed(BaseMultiItemFetchLoadAdapter adapter) {
         super(adapter);
         miPresent=new MIPresent(this, (AppCompatActivity) ((MsgAdapter) adapter).getContainer().activity);
+        timeCount=new TimeCount(2000,1000);
     }
 
     @Override
@@ -64,6 +69,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
     SendRed.SendRedBean sendRedBean;
     @Override
     protected void bindContentView() {
+        canPressd=true;
         RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
         String amount=null;
         String title=null;
@@ -172,17 +178,21 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
 
     @Override
     protected void onItemClick() {
-        if (sendRedBean!=null){
-            message.setStatus(MsgStatusEnum.read);
-            NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
-        }
+        if (canPressd){
+            Log.e("msgviewHolderRed",canPressd+"");
+            timeCount.start();
+            if (sendRedBean!=null){
+                message.setStatus(MsgStatusEnum.read);
+                NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+            }
 
-        RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+            RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
 
 //        message.getFromAccount(); message.getSessionId(); message.getSessionType();
-        miPresent.canGrab(attachment.getSendRedBean().getRedPacId());//请求是否能抢红包
+            miPresent.canGrab(attachment.getSendRedBean().getRedPacId());//请求是否能抢红包
 //        LoadingDialog.Loading_Show(((AppCompatActivity)context).getSupportFragmentManager(),true);
-
+            canPressd=false;
+        }
     }
 
     @Override
@@ -224,6 +234,30 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
                 }
                 RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean(),message.getSessionId(),message,proxy);
             }
+        }
+    }
+
+    class TimeCount extends CountDownTimer {
+
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            canPressd=true;
         }
     }
 }

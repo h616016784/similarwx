@@ -1,5 +1,6 @@
 package com.android.similarwx.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputType;
@@ -50,6 +51,7 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
     MyBasePresent myBasePresent;
     private String type="";
     private String verifyCode="";
+    private static final int chage=0;
     User muser;
     @Override
     protected int getLayoutResource() {
@@ -118,7 +120,7 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
                             bundle.putString(AppConstants.TRANSFER_VERCODE,textCode);
                             bundle.putString(SetPayPasswordFragment.MOBILENUMBER,verifyPhoneEt.getText().toString());
                             bundle.putInt(SetPayPasswordFragment.MOBILE,1);
-                            FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                            FragmentUtils.navigateToNormalActivityForResult(this,new SetPayPasswordFragment(),bundle,chage);
                         }else {
                             String mobile = muser.getMobile();
                             if (TextUtils.isEmpty(mobile)){
@@ -128,12 +130,20 @@ public class PhoneVerifyFragment extends BaseFragment implements PhoneVerifyView
                                 bundle.putString(AppConstants.TRANSFER_PASSWORD_TYPE,type);
                                 bundle.putString(AppConstants.TRANSFER_VERCODE,textCode);
                                 bundle.putInt(SetPayPasswordFragment.MOBILE,1);
-                                FragmentUtils.navigateToNormalActivity(activity,new SetPayPasswordFragment(),bundle);
+                                FragmentUtils.navigateToNormalActivityForResult(this,new SetPayPasswordFragment(),bundle,chage);
                             }
                         }
                     }
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==chage){
+            getActivity().finish();
         }
     }
 

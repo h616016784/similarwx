@@ -22,7 +22,7 @@ public class NetImageUtil {
     public static void glideImageNormal(Context context, String url, ImageView imageView){
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.em_default_avatar)
+                .placeholder(R.drawable.rp_avatar)
                 .error(R.drawable.nim_default_img_failed)
                 .dontAnimate()
                 .priority(Priority.HIGH);
@@ -36,7 +36,7 @@ public class NetImageUtil {
     public static void glideToBitmap(Context context, String url, YCallBack<Bitmap> callBack){
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.em_default_avatar)
+                .placeholder(R.drawable.rp_avatar)
                 .error(R.drawable.nim_default_img_failed)
                 .priority(Priority.HIGH)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
@@ -51,7 +51,7 @@ public class NetImageUtil {
     public static void glideToBitmapWithSize(Context context, String url, YCallBack<Bitmap> callBack,int width,int height){
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.em_default_avatar)
+                .placeholder(R.drawable.rp_avatar)
                 .error(R.drawable.nim_default_img_failed)
                 .override(width,height)
                 .priority(Priority.HIGH)
@@ -67,7 +67,7 @@ public class NetImageUtil {
     public static void glideImageNormalListener(Context context, String url, ImageView imageView, RequestListener requestListener){
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.em_default_avatar)
+                .placeholder(R.drawable.rp_avatar)
                 .error(R.drawable.nim_default_img_failed)
                 .priority(Priority.HIGH)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
@@ -81,7 +81,7 @@ public class NetImageUtil {
     public static void glideImageNormalListenerWithSize(Context context, String url, ImageView imageView, int width,int height,RequestListener requestListener){
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.em_default_avatar)
+                .placeholder(R.drawable.rp_avatar)
                 .error(R.drawable.nim_default_img_failed)
                 .override(width,height)
                 .priority(Priority.HIGH)
@@ -96,7 +96,7 @@ public class NetImageUtil {
     public static void glideImageNormalWithSize(Context context, String url, ImageView imageView,int width,int height){
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.em_default_avatar)
+                .placeholder(R.drawable.rp_avatar)
                 .error(R.drawable.nim_default_img_failed)
                 .override(width,height)
                 .priority(Priority.HIGH);
@@ -113,7 +113,7 @@ public class NetImageUtil {
     public static void glideImageCircle(Context context, String url, ImageView imageView,int width,int height){
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.em_default_avatar)
+                .placeholder(R.drawable.rp_avatar)
                 .error(R.drawable.nim_default_img_failed)
                 .transform(new CircleCrop(context))
                 .override(width,height)
@@ -131,7 +131,7 @@ public class NetImageUtil {
     public static void glideImageCorner(Context context, String url, ImageView imageView,int width,int height){
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.em_default_avatar)
+                .placeholder(R.drawable.rp_avatar)
                 .error(R.drawable.nim_default_img_failed)
                 .transform(new GlideRoundTransform(context))
                 .override(width,height)
