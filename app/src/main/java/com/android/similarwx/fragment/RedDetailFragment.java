@@ -211,6 +211,8 @@ public class RedDetailFragment extends BaseFragment implements RedDetailViewInte
 //                else
 //                    redDetailTakeTimeTv.setText((time/(60*60)+1)+"小时内被抢光");
 //            }
+        }else {
+            redDetailTakeTimeTv.setVisibility(View.GONE);
         }
         String textContent=sendRed.getThunder();
         if (TextUtils.isEmpty(sendRed.getThunder())){

@@ -232,7 +232,7 @@ public class MsgViewHolderRed extends MsgViewHolderBase implements MiViewInterfa
                 } else if (adapter instanceof ChatRoomMsgAdapter) {
                     proxy = ((ChatRoomMsgAdapter) adapter).getContainer().proxy;
                 }
-                RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean(),message.getSessionId(),message,proxy);
+                RedResultNewDialogFragment.show((Activity) context,attachment.getSendRedBean(),message.getSessionId(),message,proxy,bean);
             }
         }
     }

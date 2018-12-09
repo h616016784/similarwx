@@ -91,12 +91,13 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         redDialogFragment.setArguments(bundle);
         return redDialogFragment;
     }
-    public static RedResultNewDialogFragment newInstance(SendRed.SendRedBean sendRed,String sessionId,IMMessage imMessage) {
+    public static RedResultNewDialogFragment newInstance(SendRed.SendRedBean sendRed,String sessionId,IMMessage imMessage,CanGrabBean canGrabBean) {
         RedResultNewDialogFragment redDialogFragment = new RedResultNewDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("info", sendRed);
         bundle.putSerializable("sessionId", sessionId);
         bundle.putSerializable("message", imMessage);
+        bundle.putSerializable("canGrabBean", canGrabBean);
         redDialogFragment.setArguments(bundle);
         return redDialogFragment;
     }
@@ -121,6 +122,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
     SendRed.SendRedBean mSendRedBean;
     private MIPresent miPresent;
     IMMessage message;
+    private CanGrabBean canGrabBean;
     private String sessionId;
     int flag=0;//0是未抢完   1是抢完
     int canFlag=0;//0能抢包
@@ -155,10 +157,11 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         if (bundle!=null){
             mSendRedBean= (SendRed.SendRedBean) bundle.getSerializable("info");
             message= (IMMessage) bundle.getSerializable("message");
+            canGrabBean= (CanGrabBean) bundle.getSerializable("canGrabBean");
             sessionId= bundle.getString("sessionId");
             miPresent=new MIPresent(this, (AppCompatActivity) getActivity());
             if (mSendRedBean!=null){
-                miPresent.canGrab(mSendRedBean.getRedPacId());//请求是否能抢红包
+
                 String accid=mSendRedBean.getMyUserId();//云信的accid
                 List accounts=new ArrayList();
                 accounts.add(accid);
@@ -200,6 +203,11 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                         dialog_red_result_tips_tv.setText(mSendRedBean.getCotent());
                     }
                 }
+
+                if (canGrabBean!=null){
+                    initCanGrabView(canGrabBean);
+                }else
+                    miPresent.canGrab(mSendRedBean.getRedPacId());//请求是否能抢红包
             }
         }
 
@@ -210,6 +218,79 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
             e.printStackTrace();
         }
     }
+
+    private void initCanGrabView(CanGrabBean bean) {
+        if (bean!=null){
+            String code = bean.getRetCode();
+            if (code.equals("0000")) {
+                canFlag=0;
+                dialog_red_result_kai_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_tips_tv.setText("发了一个红包，金额随机");
+                if (mSendRedBean!=null){
+                    String text=null;
+                    if (TextUtils.isEmpty(mSendRedBean.getThunder())){
+                        text=mSendRedBean.getCount();
+                        dialog_red_result_money_tv.setText(mSendRedBean.getCotent());
+                    }else {
+                        text=mSendRedBean.getThunder();
+                        if (Util.isIntegerForDouble(Double.parseDouble(mSendRedBean.getAmount()))){
+                            dialog_red_result_money_tv.setText(mSendRedBean.getAmount()+"-"+text);
+                        }else {
+                            dialog_red_result_money_tv.setText(String.format("%.2f", Double.parseDouble(mSendRedBean.getAmount()))+"-"+text);
+                        }
+                    }
+                }
+            } else if (code.equals("8889")){//红包已拆分完毕。
+                dialog_red_result_kai_tv.setVisibility(View.GONE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.GONE);
+                canFlag=1;
+                setErrorText("手慢了，红包派光了");
+                if (message!=null){
+                    RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+                    mSendRedBean.setClick("8889");
+                    attachment.setSendRedBean(mSendRedBean);
+                    message.setAttachment(attachment);
+                    NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+                }
+            } else if (code.equals("9000")){//红包已过期退回。
+                dialog_red_result_kai_tv.setVisibility(View.GONE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.GONE);
+                canFlag=1;
+                setErrorText(bean.getRetMsg());
+                if (message!=null){
+                    RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+                    mSendRedBean.setClick("9000");
+                    attachment.setSendRedBean(mSendRedBean);
+                    message.setAttachment(attachment);
+                    NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+                }
+            } else if(code.equals("0010")){
+                dialog_red_result_kai_tv.setVisibility(View.GONE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.GONE);
+                canFlag=2;
+                setErrorText("您的积分不足请充值");
+                if (message!=null){
+                    RedCustomAttachment attachment = (RedCustomAttachment) message.getAttachment();
+                    mSendRedBean.setClick("0010");
+                    attachment.setSendRedBean(mSendRedBean);
+                    message.setAttachment(attachment);
+                    NIMClient.getService(MsgService.class).updateIMMessageStatus(message);
+                }
+            } else {
+                dialog_red_result_kai_tv.setVisibility(View.GONE);
+                dialog_red_result_bottom_tv.setVisibility(View.VISIBLE);
+                dialog_red_result_money_tv.setVisibility(View.GONE);
+                canFlag=2;
+                setErrorText(bean.getRetMsg());
+            }
+        }
+    }
+
     private void addClickListener() {
         dialog_red_result_cancel_iv.setOnClickListener(this);
         dialog_red_result_bottom_tv.setOnClickListener(this);
@@ -264,9 +345,9 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
         transaction.commit();
         return redResultDialogFragment;
     }
-    public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,String sessionId,IMMessage imMessage,ModuleProxy proxyN){
+    public static RedResultNewDialogFragment show(Activity activity, SendRed.SendRedBean sendRed,String sessionId,IMMessage imMessage,ModuleProxy proxyN,CanGrabBean canGrabBean){
         proxy=proxyN;
-        RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed,sessionId,imMessage);
+        RedResultNewDialogFragment redResultDialogFragment= RedResultNewDialogFragment.newInstance(sendRed,sessionId,imMessage,canGrabBean);
         FragmentTransaction transaction=activity.getFragmentManager().beginTransaction();
         transaction.add(redResultDialogFragment,"redResultDialogBean");
         transaction.addToBackStack(null);

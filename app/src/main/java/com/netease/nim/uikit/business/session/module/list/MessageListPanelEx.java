@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
+import com.android.similarwx.beans.SendRed;
+import com.google.gson.Gson;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.user.UserInfoObserver;
 import com.netease.nim.uikit.business.contact.selector.activity.ContactSelectActivity;
@@ -27,6 +29,7 @@ import com.netease.nim.uikit.business.session.helper.MessageHelper;
 import com.netease.nim.uikit.business.session.helper.MessageListPanelHelper;
 import com.netease.nim.uikit.business.session.module.Container;
 import com.netease.nim.uikit.business.session.viewholder.robot.RobotLinkView;
+import com.netease.nim.uikit.business.team.helper.TeamHelper;
 import com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialog;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
@@ -67,7 +70,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 基于RecyclerView的消息收发模块
@@ -281,9 +286,42 @@ public class MessageListPanelEx {
         List<IMMessage> addedListItems = new ArrayList<>(messages.size());
         for (IMMessage message : messages) {
             if (isMyMessage(message)) {
-                items.add(message);
-                addedListItems.add(message);
-                needRefresh = true;
+                MsgTypeEnum msgTypeEnum = message.getMsgType();
+                if (msgTypeEnum==MsgTypeEnum.tip){
+                    Map<String, Object> content=message.getRemoteExtension();
+                    if (content!=null){
+                        String sendRedJson= (String) content.get("sendRedBean");
+                        String redPacTipMessageType= (String) content.get("redPacTipMessageType");
+                        if (!TextUtils.isEmpty(redPacTipMessageType) && redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
+                            return;
+                        }
+                        Gson gson=new Gson();
+                        SendRed.SendRedBean sendRedBean = null;
+                        if (!TextUtils.isEmpty(sendRedJson)){
+                            sendRedBean=gson.fromJson(sendRedJson, SendRed.SendRedBean.class);
+                            if (sendRedBean!=null){
+                                String accid= (String) content.get("accId");
+                                String from= TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
+                                String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),sendRedBean.getMyUserId());
+                                if (!from.equals("我")&&!from.equals("你")&&!to.equals("我")&&!to.equals("你")){
+
+                                }else {
+                                    items.add(message);
+                                    addedListItems.add(message);
+                                    needRefresh = true;
+                                }
+                            }
+                            return;
+                        }
+                    }
+                    items.add(message);
+                    addedListItems.add(message);
+                    needRefresh = true;
+                }else {
+                    items.add(message);
+                    addedListItems.add(message);
+                    needRefresh = true;
+                }
             }
         }
         if (needRefresh) {
@@ -622,7 +660,37 @@ public class MessageListPanelEx {
             if (firstLoad && anchor != null) {
                 messages.add(anchor);
             }
-
+            //业务需求，过滤禁言和发红包的部分tips
+            Iterator<IMMessage> iterator=messages.iterator();
+            while (iterator.hasNext()){
+                IMMessage message=iterator.next();
+                MsgTypeEnum msgTypeEnum = message.getMsgType();
+                if (msgTypeEnum==MsgTypeEnum.tip){
+                    Map<String, Object> content=message.getRemoteExtension();
+                    if (content!=null){
+                        String sendRedJson= (String) content.get("sendRedBean");
+                        String redPacTipMessageType= (String) content.get("redPacTipMessageType");
+                        if (!TextUtils.isEmpty(redPacTipMessageType) && redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
+                            iterator.remove();
+                            return;
+                        }
+                        Gson gson=new Gson();
+                        SendRed.SendRedBean sendRedBean = null;
+                        if (!TextUtils.isEmpty(sendRedJson)){
+                            sendRedBean=gson.fromJson(sendRedJson, SendRed.SendRedBean.class);
+                            if (sendRedBean!=null){
+                                String accid= (String) content.get("accId");
+                                String from= TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
+                                String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),sendRedBean.getMyUserId());
+                                if (!from.equals("我")&&!from.equals("你")&&!to.equals("我")&&!to.equals("你")){
+                                    iterator.remove();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             // 在更新前，先确定一些标记
             List<IMMessage> total = new ArrayList<>();
             total.addAll(items);
@@ -665,7 +733,37 @@ public class MessageListPanelEx {
             if (messages == null) {
                 return;
             }
-
+            //业务需求，过滤禁言和发红包的部分tips
+            Iterator<IMMessage> iterator=messages.iterator();
+            while (iterator.hasNext()){
+                IMMessage message=iterator.next();
+                MsgTypeEnum msgTypeEnum = message.getMsgType();
+                if (msgTypeEnum==MsgTypeEnum.tip){
+                    Map<String, Object> content=message.getRemoteExtension();
+                    if (content!=null){
+                        String sendRedJson= (String) content.get("sendRedBean");
+                        String redPacTipMessageType= (String) content.get("redPacTipMessageType");
+                        if (!TextUtils.isEmpty(redPacTipMessageType) && redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
+                            iterator.remove();
+                            return;
+                        }
+                        Gson gson=new Gson();
+                        SendRed.SendRedBean sendRedBean = null;
+                        if (!TextUtils.isEmpty(sendRedJson)){
+                            sendRedBean=gson.fromJson(sendRedJson, SendRed.SendRedBean.class);
+                            if (sendRedBean!=null){
+                                String accid= (String) content.get("accId");
+                                String from= TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
+                                String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),sendRedBean.getMyUserId());
+                                if (!from.equals("我")&&!from.equals("你")&&!to.equals("我")&&!to.equals("你")){
+                                    iterator.remove();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             if (remote) {
                 Collections.reverse(messages);
             }

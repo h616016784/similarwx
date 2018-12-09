@@ -57,6 +57,7 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
         message_item_tips_ll=view.findViewById(R.id.message_item_tips_ll);
         message_item_tips_red_finish_tv=view.findViewById(R.id.message_item_tips_red_finish_tv);
         message_item_tips_iv=view.findViewById(R.id.message_item_tips_iv);
+        view.setVisibility(View.GONE);
         mPresent=new RedDetailPresent(this,(AppCompatActivity)context);
     }
 
@@ -76,9 +77,9 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
             String accid= (String) content.get("accId");
             String redPacTipMessageType= (String) content.get("redPacTipMessageType");
             if (redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
-                message_item_tips_ll.setVisibility(View.GONE);
+                view.setVisibility(View.GONE);
             }else {//抢红包的tip
-                message_item_tips_ll.setVisibility(View.VISIBLE);
+                view.setVisibility(View.VISIBLE);
                 String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
                 Object object= message.getRemoteExtension().get("finishFlag");
                 int finishFlag=0;

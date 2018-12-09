@@ -83,6 +83,7 @@ public class WatchMessagePictureActivity extends UI {
     private ViewPager imageViewPager;
     private PagerAdapter adapter;
     private AbortableFuture downloadFuture;
+    private TextView actionbar_save;
 
     public static void start(Context context, IMMessage message) {
         Intent intent = new Intent();
@@ -147,16 +148,25 @@ public class WatchMessagePictureActivity extends UI {
 
     private void initActionbar() {
         TextView menuBtn = findView(R.id.actionbar_menu);
+        TextView actionbar_save = findView(R.id.actionbar_save);
         if (isShowMenu) {
             menuBtn.setVisibility(View.VISIBLE);
+            actionbar_save.setVisibility(View.VISIBLE);
             menuBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     WatchPicAndVideoMenuActivity.startActivity(WatchMessagePictureActivity.this, message);
                 }
             });
+            actionbar_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    savePicture();
+                }
+            });
         } else {
             menuBtn.setVisibility(View.GONE);
+            actionbar_save.setVisibility(View.GONE);
         }
     }
 
