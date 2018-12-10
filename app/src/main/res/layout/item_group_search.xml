@@ -8,10 +8,10 @@
         android:padding="@dimen/distance_smaller">
         <ImageView
             android:id="@+id/item_group_member_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/em_default_avatar"/>
+            android:src="@drawable/rp_avatar"/>
         <TextView
             android:id="@+id/item_group_member_tv"
             android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
             android:layout_marginLeft="@dimen/distance_small"
             android:layout_toRightOf="@id/item_group_member_iv"
             android:textColor="@color/black"
-            android:text="免死"
+            android:text=""
             android:textSize="@dimen/text_sub_title"
             android:maxLines="1"/>
     </RelativeLayout>

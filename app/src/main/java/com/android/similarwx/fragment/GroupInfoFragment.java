@@ -271,6 +271,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
             case R.id.group_info_member_ll://全部成员
                 Bundle bundle=new Bundle();
                 bundle.putString(AppConstants.TRANSFER_ACCOUNT,listBean.getGroupId());
+                bundle.putSerializable(AppConstants.TRANSFER_AWARDRULE_BEAN,listBean);
                 FragmentUtils.navigateToNormalActivity(activity, new GroupSearchFragment(), bundle);
                 break;
             case R.id.group_info_quit_bt://退出

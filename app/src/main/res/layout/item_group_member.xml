@@ -8,8 +8,8 @@
         android:padding="@dimen/distance_smaller">
         <ImageView
             android:id="@+id/item_group_member_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/rp_avatar"/>
         <TextView

@@ -57,7 +57,6 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
         message_item_tips_ll=view.findViewById(R.id.message_item_tips_ll);
         message_item_tips_red_finish_tv=view.findViewById(R.id.message_item_tips_red_finish_tv);
         message_item_tips_iv=view.findViewById(R.id.message_item_tips_iv);
-        view.setVisibility(View.GONE);
         mPresent=new RedDetailPresent(this,(AppCompatActivity)context);
     }
 
@@ -68,25 +67,27 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
     protected String getDisplayText() {
 //        String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),message.getFromAccount());
         Map<String, Object> content=message.getRemoteExtension();
-
+        message_item_tips_ll.setVisibility(View.VISIBLE);
 //        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
+        message_item_tips_red_tv.setVisibility(View.GONE);
+        message_item_tips_iv.setVisibility(View.GONE);
         if (content!=null){
-            message_item_tips_red_tv.setVisibility(View.VISIBLE);
-            message_item_tips_iv.setVisibility(View.VISIBLE);
-
             String accid= (String) content.get("accId");
-            String redPacTipMessageType= (String) content.get("redPacTipMessageType");
-            if (redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
-                view.setVisibility(View.GONE);
-            }else {//抢红包的tip
-                view.setVisibility(View.VISIBLE);
+//            String redPacTipMessageType= (String) content.get("redPacTipMessageType");
+//            if (redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
+//                view.setVisibility(View.VISIBLE);
+//                return message.getContent();
+//            }
+            String sendRedJson= (String) content.get("sendRedBean");
+            if (!TextUtils.isEmpty(sendRedJson))  {//抢红包的tip
+                message_item_tips_red_tv.setVisibility(View.VISIBLE);
+                message_item_tips_iv.setVisibility(View.VISIBLE);
                 String from=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
                 Object object= message.getRemoteExtension().get("finishFlag");
                 int finishFlag=0;
                 if (object!=null){
                     finishFlag = (int)object;
                 }
-                String sendRedJson= (String) content.get("sendRedBean");
                 Gson gson=new Gson();
                 if (!TextUtils.isEmpty(sendRedJson)){
                     sendRedBean=gson.fromJson(sendRedJson, SendRed.SendRedBean.class);
@@ -108,9 +109,6 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
                 }
                 return from+"领取了"+to+"的";
             }
-        }else {
-            message_item_tips_red_tv.setVisibility(View.GONE);
-            message_item_tips_iv.setVisibility(View.GONE);
         }
         return message.getContent();
 //        return TeamNotificationHelper.getTeamNotificationText(message, message.getSessionId());

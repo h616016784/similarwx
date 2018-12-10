@@ -293,7 +293,10 @@ public class MessageListPanelEx {
                         String sendRedJson= (String) content.get("sendRedBean");
                         String redPacTipMessageType= (String) content.get("redPacTipMessageType");
                         if (!TextUtils.isEmpty(redPacTipMessageType) && redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
-                            return;
+                            items.add(message);
+                            addedListItems.add(message);
+                            needRefresh = true;
+                            continue;
                         }
                         Gson gson=new Gson();
                         SendRed.SendRedBean sendRedBean = null;
@@ -311,7 +314,7 @@ public class MessageListPanelEx {
                                     needRefresh = true;
                                 }
                             }
-                            return;
+                            continue;
                         }
                     }
                     items.add(message);
@@ -670,10 +673,10 @@ public class MessageListPanelEx {
                     if (content!=null){
                         String sendRedJson= (String) content.get("sendRedBean");
                         String redPacTipMessageType= (String) content.get("redPacTipMessageType");
-                        if (!TextUtils.isEmpty(redPacTipMessageType) && redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
-                            iterator.remove();
-                            return;
-                        }
+//                        if (!TextUtils.isEmpty(redPacTipMessageType) && redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
+//                            iterator.remove();
+//                            continue;
+//                        }
                         Gson gson=new Gson();
                         SendRed.SendRedBean sendRedBean = null;
                         if (!TextUtils.isEmpty(sendRedJson)){
@@ -684,7 +687,6 @@ public class MessageListPanelEx {
                                 String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),sendRedBean.getMyUserId());
                                 if (!from.equals("我")&&!from.equals("你")&&!to.equals("我")&&!to.equals("你")){
                                     iterator.remove();
-                                    return;
                                 }
                             }
                         }
@@ -742,11 +744,11 @@ public class MessageListPanelEx {
                     Map<String, Object> content=message.getRemoteExtension();
                     if (content!=null){
                         String sendRedJson= (String) content.get("sendRedBean");
-                        String redPacTipMessageType= (String) content.get("redPacTipMessageType");
-                        if (!TextUtils.isEmpty(redPacTipMessageType) && redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
-                            iterator.remove();
-                            return;
-                        }
+//                        String redPacTipMessageType= (String) content.get("redPacTipMessageType");
+//                        if (!TextUtils.isEmpty(redPacTipMessageType) && redPacTipMessageType.equals("emptyTipsMessage")) {//禁言tip
+//                            iterator.remove();
+//                            continue;
+//                        }
                         Gson gson=new Gson();
                         SendRed.SendRedBean sendRedBean = null;
                         if (!TextUtils.isEmpty(sendRedJson)){
@@ -757,7 +759,6 @@ public class MessageListPanelEx {
                                 String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),sendRedBean.getMyUserId());
                                 if (!from.equals("我")&&!from.equals("你")&&!to.equals("我")&&!to.equals("你")){
                                     iterator.remove();
-                                    return;
                                 }
                             }
                         }

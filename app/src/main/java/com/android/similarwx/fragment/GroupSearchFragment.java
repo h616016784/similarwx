@@ -15,6 +15,7 @@ import com.android.similarwx.base.AppConstants;
 import com.android.similarwx.base.BaseFragment;
 import com.android.similarwx.beans.GroupUser;
 import com.android.similarwx.beans.User;
+import com.android.similarwx.beans.response.RspGroupInfo;
 import com.android.similarwx.inteface.GroupInfoViewInterface;
 import com.android.similarwx.inteface.SearchViewInterface;
 import com.android.similarwx.inteface.YCallBack;
@@ -52,6 +53,7 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
 
     private BaseQuickAdapter groupAdapter;
     private List<GroupUser.ListBean> groupList;
+    public RspGroupInfo.GroupInfo listBean;
     private SearchPresent present;
     private String groupId;
 
@@ -70,6 +72,7 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
         Bundle bundle=getArguments();
         if (bundle!=null){
             groupId=bundle.getString(AppConstants.TRANSFER_ACCOUNT);
+            listBean = (RspGroupInfo.GroupInfo) bundle.getSerializable(AppConstants.TRANSFER_AWARDRULE_BEAN);
         }
         groupAdapter = new BaseQuickAdapter<GroupUser.ListBean, BaseViewHolder>(R.layout.item_group_search, groupList) {
             @Override
@@ -88,7 +91,12 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 List<GroupUser.ListBean> userList =groupAdapter.getData();
-                NimUIKit.startP2PSession(activity, userList.get(position).getUserId());
+                GroupUser.ListBean bean=userList.get(position);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable(AppConstants.TRANSFER_AWARDRULE,bean);
+                bundle.putString(AppConstants.TRANSFER_GROUP_USER_ROLE,listBean.getGroupUserRule());
+                FragmentUtils.navigateToNormalActivity(getActivity(),new ClientDetailInfoFragment(),bundle);
+//                NimUIKit.startP2PSession(activity, userList.get(position).getUserId());
             }
         });
         groupInfoPresent.getGroupUserList(groupId);

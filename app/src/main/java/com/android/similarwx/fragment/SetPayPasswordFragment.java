@@ -76,8 +76,8 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
         }
         setPayPasswordEt.addTextChangedListener(textWatcher1);
         setPayPasswordConfirmEt.addTextChangedListener(textWatcher2);
-        setPayPasswordEt.setInputType(InputType.TYPE_CLASS_NUMBER);
-        setPayPasswordConfirmEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+//        setPayPasswordEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+//        setPayPasswordConfirmEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         mActionbar.setRightText(R.string.register_complete);
         mActionbar.setRightOnClickListener(this);
         muser= (User) SharePreferenceUtil.getSerializableObjectDefault(activity, AppConstants.USER_OBJECT);

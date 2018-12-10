@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/distance_normal"
         android:gravity="center_horizontal"
-        android:text="管家（离线，晚上10点下分！）"
+        android:text=""
         android:textSize="@dimen/text_content_or_button"
         />
     <LinearLayout

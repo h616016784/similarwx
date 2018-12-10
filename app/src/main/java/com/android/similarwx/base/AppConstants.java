@@ -53,6 +53,7 @@ public class AppConstants extends BaseConstants {
     public static final String TRANSFER_TEAMID = "teamId";
     public static final String TRANSFER_OBJECT = "object";
     public static final String TRANSFER_AWARDRULE = "rewardRule";
+    public static final String TRANSFER_AWARDRULE_BEAN = "rewardRuleBean";
     public static final String TRANSFER_BASE = "tag";
     public static final String TRANSFER_CHAT_REDENTITY= "redDetail";
     public static final String TRANSFER_CHAT_TRANS= "tran";
