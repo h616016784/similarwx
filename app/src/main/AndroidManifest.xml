@@ -19,13 +19,12 @@
     <!-- 接收 SDK 消息广播权限， -->
     <uses-permission android:name="com.android.similarwx.permission.RECEIVE_MSG" />
 
-    <!--微信必须-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <!-- 微信必须 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".base.AppApplication"
@@ -49,26 +48,37 @@
             android:name="com.netease.nim.uikit.support.glide.NIMGlideModule"
             android:value="GlideModule" />
 
-        <activity android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.MIActivity" />
         <activity
             android:name=".activity.MainChartrActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
-        <activity android:name=".base.NormalActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.SysNoticeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.RobotProfileActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.UserProfileActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.UserProfileEditItemActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.UserProfileSettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SplashActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".base.NormalActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.LiveActivity"
+            android:theme="@style/LiveStyle"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.SysNoticeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RobotProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserProfileEditItemActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserProfileSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,23 +86,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".service.LiveService"
+            android:process=":live_service"/>
         <!-- 网易云信的activity -->
-        <activity android:name=".misdk.activity.CropImageActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".misdk.activity.PickerAlbumActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".misdk.activity.PickerAlbumPreviewActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".misdk.activity.PickImageActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".misdk.activity.PreviewImageFromCameraActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".misdk.activity.PreviewImageFromLocalActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".misdk.activity.CropImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".misdk.activity.PickerAlbumActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".misdk.activity.PickerAlbumPreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".misdk.activity.PickImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".misdk.activity.PreviewImageFromCameraActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".misdk.activity.PreviewImageFromLocalActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <!--
@@ -286,17 +305,21 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-       <!-- 微信-->
-        <activity android:name=".wxapi.WXEntryActivity"
-            android:label="@string/app_name"
+        <!-- 微信 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
             android:exported="true"
+            android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="paopao"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="paopao" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
