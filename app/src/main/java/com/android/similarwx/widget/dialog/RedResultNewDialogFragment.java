@@ -180,6 +180,7 @@ public class RedResultNewDialogFragment extends DialogFragment implements View.O
                                     }
                                 }
                             }
+
                             @Override
                             public void onFailed(int code) {
 
