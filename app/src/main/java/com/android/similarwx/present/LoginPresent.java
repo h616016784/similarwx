@@ -165,6 +165,7 @@ public class LoginPresent extends BasePresent {
     }
     private void doYunXinLogin(LoginInfo loginInfo, final User user) {
         RequestCallback<LoginInfo> callback=new RequestCallback<LoginInfo>() {
+
             @Override
             public void onSuccess(LoginInfo param) {
                 Log.e("onSuccess",param.getAccount()+","+param.getAppKey()+","+param.getToken());
