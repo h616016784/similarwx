@@ -71,6 +71,7 @@ public class MsgViewHolderRedTip extends MsgViewHolderBase implements RedDetailV
 //        String to=TeamHelper.getTeamMemberDisplayName(message.getSessionId(),accid);
         message_item_tips_red_tv.setVisibility(View.GONE);
         message_item_tips_iv.setVisibility(View.GONE);
+        message_item_tips_red_finish_tv.setVisibility(View.GONE);
         if (content!=null){
             String accid= (String) content.get("accId");
 //            String redPacTipMessageType= (String) content.get("redPacTipMessageType");

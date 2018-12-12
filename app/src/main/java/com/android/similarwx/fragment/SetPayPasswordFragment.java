@@ -96,12 +96,12 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
                 else if (!password.equals(confirmPassword))
                     Toaster.toastShort("密码前后不一致!");
                 else{
-                    if (password.length()>6){
-                        Toaster.toastShort("密码长度不能大于6");
+                    if (password.length()>26){
+                        Toaster.toastShort("密码长度不能大于26");
                         return;
                     }
-                    if (confirmPassword.length()>6){
-                        Toaster.toastShort("密码长度不能大于6");
+                    if (confirmPassword.length()>26){
+                        Toaster.toastShort("密码长度不能大于26");
                         return;
                     }
                     if (mobile==0){

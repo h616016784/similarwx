@@ -28,6 +28,8 @@ public class LoadingDialogN extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_loading_sm,container);
+//        getDialog().setCancelable(false);
+        getDialog().setCanceledOnTouchOutside(false);
 //        dialog_text = (TextView) view.findViewById(R.id.cip_dialog_loading_text);
 //        if(null != getArguments()){
 //            String title = getArguments().getString("TITLE","");

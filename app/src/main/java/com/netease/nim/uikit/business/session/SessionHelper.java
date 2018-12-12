@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.outbaselibrary.primary.AppContext;
+import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.activity.RobotProfileActivity;
 import com.android.similarwx.activity.UserProfileActivity;
@@ -46,6 +47,7 @@ import com.netease.nim.uikit.common.ui.popupmenu.PopupMenuItem;
 import com.netease.nim.uikit.common.util.sys.TimeUtil;
 import com.netease.nim.uikit.impl.customization.DefaultRecentCustomization;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.avchat.constant.AVChatRecordState;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.netease.nimlib.sdk.avchat.model.AVChatAttachment;
@@ -60,6 +62,7 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.robot.model.RobotAttachment;
+import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.constant.TeamMemberType;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
@@ -490,7 +493,19 @@ public class SessionHelper {
                     Bundle bundle=new Bundle();
                     bundle.putString(AppConstants.TRANSFER_ACCOUNT,message.getFromAccount());
                     bundle.putString(AppConstants.TRANSFER_TEAMID,message.getSessionId());
-                    FragmentUtils.navigateToNormalActivity((Activity) context,new ClientDetailInfoFragment(),bundle);
+                    NIMClient.getService(TeamService.class).queryMemberList(message.getSessionId()).setCallback(new RequestCallbackWrapper<List<TeamMember>>() {
+                        @Override
+                        public void onResult(int code, final List<TeamMember> members, Throwable exception) {
+                           String accid = message.getFromAccount();
+                           for (TeamMember teamMember:members){
+                               if (accid.equals(teamMember.getAccount())){
+                                   FragmentUtils.navigateToNormalActivity((Activity) context,new ClientDetailInfoFragment(),bundle);
+                                   return;
+                               }
+                           }
+                           Toaster.toastShort("用户不在群内");
+                        }
+                    });
                 }
 //                UserProfileActivity.start(context, message.getFromAccount());
             }
