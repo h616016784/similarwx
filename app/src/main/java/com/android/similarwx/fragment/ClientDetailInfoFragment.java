@@ -99,7 +99,7 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     String toAccid;
     String fromAccid;
     String teamId;
-    int flag=0;
+    private User searchUser;
     int userFlag=0;
     @Override
     protected int getLayoutResource() {
@@ -119,11 +119,17 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
             if (bean != null) {//从群信息界面跳转过来的
                 initUserView(groupUserType,bean);
             }else{//从聊天界面跳转过来的
-                toAccid= bundle.getString(AppConstants.TRANSFER_ACCOUNT);
-                fromAccid = SharePreferenceUtil.getString(activity,AppConstants.USER_ACCID,"");
-                teamId=bundle.getString(AppConstants.TRANSFER_TEAMID);
-                groupInfoPresent=new GroupInfoPresent(this,activity);
-                groupInfoPresent.getGroupUser(teamId,toAccid);
+                mActionbar.setTitle("个人名片");
+                searchUser= (User) bundle.getSerializable(AppConstants.TRANSFER_BASE);
+                if (searchUser!=null){
+                    initUser(searchUser);
+                }else {
+                    toAccid= bundle.getString(AppConstants.TRANSFER_ACCOUNT);
+                    fromAccid = SharePreferenceUtil.getString(activity,AppConstants.USER_ACCID,"");
+                    teamId=bundle.getString(AppConstants.TRANSFER_TEAMID);
+                    groupInfoPresent=new GroupInfoPresent(this,activity);
+                    groupInfoPresent.getGroupUser(teamId,toAccid);
+                }
             }
         }
         clientDetailAccountTv.setOnLongClickListener(new View.OnLongClickListener() {
@@ -148,8 +154,10 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
         if (!TextUtils.isEmpty(bean.getUserName()))
             name=bean.getUserName();
         clientDetailNameTv.setText(name);
-        clientDetailAccountTv.setText(""+bean.getId());
-
+        clientDetailAccountTv.setText(""+bean.getResUserId());
+        String icon = bean.getUserIcon();
+        if (!TextUtils.isEmpty(icon))
+            NetImageUtil.glideImageNormal(activity,icon,clientDetailAccountIv);
         rule=bean.getGroupUserRule();
         if (rule.equals("1")){//
             clientDetailIdTv.setText("普通用户");
@@ -192,9 +200,38 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     private void initData() {
         list=new ArrayList<>();
         //获取用户信息
-        mPresent.getUserInfoByParams("",bean.getUserId(),0);
+//        mPresent.getUserInfoByParams("",bean.getUserId(),0);
     }
-
+    private void initUserViewNormal(GroupUser.ListBean bean) {
+        if (!TextUtils.isEmpty(bean.getUserName()))
+            name=bean.getUserName();
+        clientDetailNameTv.setText(name);
+        clientDetailAccountTv.setText(""+bean.getResUserId());
+        String icon = bean.getUserIcon();
+        if (!TextUtils.isEmpty(icon))
+            NetImageUtil.glideImageNormal(activity,icon,clientDetailAccountIv);
+        rule=bean.getGroupUserRule();
+        if (rule.equals("1")){//
+            clientDetailIdTv.setText("普通用户");
+        }else if (rule.equals("2")){
+            clientDetailIdTv.setText("管理员");
+        }else if (rule.equals("3")){
+            clientDetailIdTv.setText("群主");
+        }else if (rule.equals("4")){
+            clientDetailIdTv.setText("系统用户");
+        }else if (rule.equals("1")){
+            clientDetailIdTv.setText("普通用户");
+        }
+    }
+    private void initUser(User bean) {
+        if (!TextUtils.isEmpty(bean.getName()))
+            name=bean.getName();
+        clientDetailNameTv.setText(name);
+        clientDetailAccountTv.setText(""+bean.getId());
+        String icon = bean.getIcon();
+        if (!TextUtils.isEmpty(icon))
+            NetImageUtil.glideImageNormal(activity,icon,clientDetailAccountIv);
+    }
     @Override
     protected void fetchData() {
         super.fetchData();
@@ -245,7 +282,10 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
                 mDialog.show();
                 break;
             case R.id.client_detail_sent_bt:
-                NimUIKit.startP2PSession(activity, bean.getUserId());
+                if (searchUser!=null){
+                    NimUIKit.startP2PSession(activity, searchUser.getAccId());
+                }else
+                    NimUIKit.startP2PSession(activity, bean.getUserId());
 //                if (bean != null) {
 //                    Bundle bundle = new Bundle();
 //                    bundle.putInt(MIFragment.MIFLAG, MIFragment.DELETE_THREE);
@@ -441,16 +481,8 @@ public class ClientDetailInfoFragment extends BaseFragment implements ClientDeta
     @Override
     public void refreshUserlist(GroupUser groupUser) {
         if (groupUser!=null){
-            if (flag==0){
-                bean=groupUser.getList().get(0);
-                groupInfoPresent.getGroupUser(teamId,fromAccid);
-                flag=1;
-            }else if (flag==1){//第二次的网络请求了
-                initUserView(groupUser.getList().get(0).getGroupUserRule(),bean);
-            }
-
-
-
+            bean=groupUser.getList().get(0);
+            initUserViewNormal(bean);
         }
     }
 

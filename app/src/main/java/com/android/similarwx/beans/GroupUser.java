@@ -73,6 +73,15 @@ public class GroupUser {
         private String userName;
         private String userIcon;
         private String groupUserRule;
+        private String resUserId;
+
+        public String getResUserId() {
+            return resUserId;
+        }
+
+        public void setResUserId(String resUserId) {
+            this.resUserId = resUserId;
+        }
 
         public int getId() {
             return id;

@@ -1,5 +1,6 @@
 package com.android.similarwx.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.NoticePresent;
 import com.android.similarwx.present.SearchPresent;
 import com.android.similarwx.present.SendRedPresent;
+import com.android.similarwx.utils.FragmentUtils;
 import com.android.similarwx.utils.SharePreferenceUtil;
 import com.android.similarwx.utils.glide.NetImageUtil;
 import com.android.similarwx.widget.dialog.CancelDialogBuilder;
@@ -156,8 +158,12 @@ public class SearchFragment extends BaseFragment implements SearchViewInterface,
                 }
                 break;
             case R.id.search_user_ll:
-                if (tempUser!=null)
-                    NimUIKit.startP2PSession(activity,tempUser.getAccId());
+                if (tempUser!=null){
+                    Bundle bundle=new Bundle();
+                    bundle.putSerializable(AppConstants.TRANSFER_BASE,tempUser);
+                    FragmentUtils.navigateToNormalActivity(activity,new ClientDetailInfoFragment(),bundle);
+//                    NimUIKit.startP2PSession(activity,tempUser.getAccId());
+                }
                 break;
         }
     }

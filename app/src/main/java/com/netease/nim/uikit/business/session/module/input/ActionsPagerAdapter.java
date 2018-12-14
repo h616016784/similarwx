@@ -1,6 +1,7 @@
 package com.netease.nim.uikit.business.session.module.input;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -9,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.android.outbaselibrary.primary.Log;
 import com.android.similarwx.R;
+import com.android.similarwx.widget.input.actions.RedAction;
 import com.netease.nim.uikit.business.session.actions.BaseAction;
+import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +32,14 @@ public class ActionsPagerAdapter extends PagerAdapter {
     private final ViewPager viewPager;
     private final int gridViewCount;
 
+    private boolean canPressd=true;
+    private TimeCount timeCount;
     public ActionsPagerAdapter(ViewPager viewPager, List<BaseAction> actions) {
         this.context = viewPager.getContext();
         this.actions = new ArrayList<>(actions);
         this.viewPager = viewPager;
         this.gridViewCount = (actions.size() + ITEM_COUNT_PER_GRID_VIEW - 1) / ITEM_COUNT_PER_GRID_VIEW;
+        timeCount=new TimeCount(1000,1000);
     }
 
     @Override
@@ -79,7 +86,11 @@ public class ActionsPagerAdapter extends PagerAdapter {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int index = ((Integer) parent.getTag()) * ITEM_COUNT_PER_GRID_VIEW + position;
-                actions.get(index).onClick();
+                if (canPressd){
+                    timeCount.start();
+                    actions.get(index).onClick();
+                    canPressd=false;
+                }
             }
         });
 
@@ -105,5 +116,22 @@ public class ActionsPagerAdapter extends PagerAdapter {
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;
+    }
+
+    class TimeCount extends CountDownTimer {
+
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            canPressd=true;
+        }
     }
 }

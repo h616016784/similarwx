@@ -89,13 +89,22 @@ public class SetPayPasswordFragment extends BaseFragment implements SetPasswordV
             case R.id.right_layout:
                 String password=setPayPasswordEt.getText().toString();
                 String confirmPassword=setPayPasswordConfirmEt.getText().toString();
-                if (TextUtils.isEmpty(password))
+                if (type.equals(LOG_PSD)){
+                    if (password.length()<5){
+                        Toaster.toastShort("密码长度不能小于5");
+                        return;
+                    }
+                }
+                if (TextUtils.isEmpty(password)) {
                     Toaster.toastShort("密码不能为空！");
-                else if (TextUtils.isEmpty(confirmPassword))
+                    return;
+                }else if (TextUtils.isEmpty(confirmPassword)) {
                     Toaster.toastShort("确认密码不能为空！");
-                else if (!password.equals(confirmPassword))
+                    return;
+                }else if (!password.equals(confirmPassword)) {
                     Toaster.toastShort("密码前后不一致!");
-                else{
+                    return;
+                }else{
                     if (password.length()>26){
                         Toaster.toastShort("密码长度不能大于26");
                         return;

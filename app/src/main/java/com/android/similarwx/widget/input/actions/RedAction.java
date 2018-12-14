@@ -2,6 +2,7 @@ package com.android.similarwx.widget.input.actions;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -29,6 +30,7 @@ import com.android.similarwx.widget.dialog.CancelDialogBuilder;
 import com.netease.nim.uikit.business.session.actions.BaseAction;
 import com.netease.nim.uikit.business.session.fragment.MessageFragment;
 import com.netease.nim.uikit.business.session.module.Container;
+import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderRed;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -41,6 +43,7 @@ public class RedAction extends BaseAction implements SendRedViewInterface {
     private MessageFragment fromFragment;
     private SendRedPresent present;
     private String myAccid;
+
     /**
      * 构造函数
      *
@@ -100,4 +103,5 @@ public class RedAction extends BaseAction implements SendRedViewInterface {
             FragmentUtilsV4.navigateToNormalActivityForResult(fromFragment.getActivity(),new SendRedFragment(),bundle, makeRequestCode(AppConstants.SEND_RED_REQUEST));
         }
     }
+
 }
