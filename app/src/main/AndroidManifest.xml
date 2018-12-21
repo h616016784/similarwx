@@ -113,6 +113,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <service android:name=".service.ForegroundService"
+        />
+        <service android:name=".service.InnerService"
+        />
 
         <!--
    APP key, 可以在这里设置，也可以在 SDKOptions 中提供。

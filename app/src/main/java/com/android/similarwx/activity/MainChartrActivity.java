@@ -45,6 +45,7 @@ import com.android.similarwx.model.APIYUNXIN;
 import com.android.similarwx.present.GroupPresent;
 import com.android.similarwx.present.LoginPresent;
 import com.android.similarwx.present.NoticePresent;
+import com.android.similarwx.service.ForegroundService;
 import com.android.similarwx.service.LiveService;
 import com.android.similarwx.service.reminder.ReminderItem;
 import com.android.similarwx.service.reminder.ReminderManager;
@@ -276,6 +277,8 @@ public class MainChartrActivity extends BaseActivity implements BaseQuickAdapter
         //保活
 //        Intent intent2=new Intent(this, LiveService.class);
 //        startService(intent2);
+        Intent intent2=new Intent(this, ForegroundService.class);
+        startService(intent2);
     }
 
     @Override
