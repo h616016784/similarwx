@@ -1,5 +1,7 @@
 package com.android.similarwx.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,11 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.outbaselibrary.primary.Log;
+import com.android.outbaselibrary.utils.ScreenUtil;
 import com.android.outbaselibrary.utils.Toaster;
 import com.android.similarwx.R;
 import com.android.similarwx.base.AppConstants;
@@ -112,22 +117,26 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
                                     try {
                                         Response response=call.execute();
                                         //得到从网上获取资源，转换成我们想要的类型
-                                        byte[] Picture_bt = response.body().bytes();
-                                        InputStream ins= null;
-                                        try {
-                                            ins = InputStreamUtil.byteTOInputStream(Picture_bt);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            return null;
-                                        }
-                                        drawable=Drawable.createFromStream(ins,"");
+//                                        byte[] Picture_bt = response.body().bytes();
+//                                        InputStream ins= null;
+//                                        try {
+//                                            ins = InputStreamUtil.byteTOInputStream(Picture_bt);
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                            return null;
+//                                        }
+//                                        drawable=Drawable.createFromStream(ins,"");
 
                                     } catch (IOException e) {
                                         e.printStackTrace();
-                                        return null;
                                     }
                                     if (drawable!=null)
                                         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                                    else {
+                                        drawable=getResources().getDrawable(R.drawable.img_get_money);
+                                        int right=ScreenUtil.getScreenWidth(getHolderActivity())-ScreenUtil.dip2px(getHolderActivity(),10);
+                                        drawable.setBounds(0, 0,right , drawable.getIntrinsicHeight());
+                                    }
 
                                     return drawable;
                                 }
@@ -136,7 +145,9 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        helper.setText(R.id.notice_item_content_detail,sp);
+                                        TextView textView=helper.getView(R.id.notice_item_content_detail);
+                                        textView.setText(sp);
+                                        textView.setMovementMethod(ScrollingMovementMethod.getInstance());
                                     }
                                 });
                             }
@@ -150,6 +161,9 @@ public class SysNoticeFragment extends BaseFragment implements SysNoticeViewInte
         };
         sysNoticeRv.setAdapter(adapter);
 
+//        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.img_black_test);
+//        bitmap.getByteCount();
+//        bitmap.getWidth();
         if (TextUtils.isEmpty(tag))
             present.getNotice();
         else if(tag.equals("contract"))

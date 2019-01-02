@@ -273,6 +273,7 @@ public class SendRedFragment extends BaseFragment {
                     }
 
                     bean.setRequestNum(MD5.getStringMD5(UUID.randomUUID().toString()));
+                    bean.setClick("0");
                     bean.setAmount(money);
                     if (listBean!=null){
                         bean.setGroupId(listBean.getGroupId());
