@@ -760,10 +760,12 @@ public class API implements APIConstants {
             }
         });
     }
-    public void GroupInfoPresent(AppCompatActivity activity,String groupId, final GroupInfoPresent present) {
+    public void GroupInfoPresent(AppCompatActivity activity,String groupId,int rows,int page, final GroupInfoPresent present) {
         LoadingDialogN.Loading_Show(activity.getSupportFragmentManager(),isCancle);
         Map<String,String> map=new HashMap<>();
         map.put("groupId",groupId);
+        map.put("rows",rows+"");
+        map.put("page",page+"");
         Call<RspGroupUser> call=apiService.getGroupUserList(map);
         call.enqueue(new Callback<RspGroupUser>() {
             @Override
@@ -815,6 +817,7 @@ public class API implements APIConstants {
              map.put("groupId",groupId);
         if (!TextUtils.isEmpty(userName))
             map.put("userName",userName);
+
         Call<RspGroupUser> call=apiService.getGroupUserList(map);
         call.enqueue(new Callback<RspGroupUser>() {
             @Override

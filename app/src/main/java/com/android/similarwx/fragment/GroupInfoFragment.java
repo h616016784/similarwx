@@ -238,7 +238,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
 
     private void doGroupUserList() {
         if (listBean!=null)
-            groupInfoPresent.getGroupUserList(listBean.getGroupId());
+            groupInfoPresent.getGroupUserList(listBean.getGroupId(),10,1);
     }
 
     @Override
@@ -375,7 +375,7 @@ public class GroupInfoFragment extends BaseFragment implements GroupInfoViewInte
                 if (userList!=null && userList.size()>0)
                     groupAdapter.getData().clear();
                 groupAdapter.addData(groupList);
-                groupInfoMemberNumTv.setText("("+groupList.size()+")");
+                groupInfoMemberNumTv.setText("("+list.getCount()+")");
             }
         }
     }

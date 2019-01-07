@@ -58,6 +58,8 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
     private String groupId;
 
     private GroupInfoPresent groupInfoPresent;
+    private int rows=10;
+    private int pages=1;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_search;
@@ -84,6 +86,8 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
                 helper.setText(R.id.item_group_member_tv, item.getUserName());
             }
         };
+        groupAdapter.setEnableLoadMore(true);
+        groupAdapter.setOnLoadMoreListener(requestLoadMoreListener,searchRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         searchRecyclerView.setLayoutManager(linearLayoutManager);
         searchRecyclerView.setAdapter(groupAdapter);
@@ -99,11 +103,19 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
 //                NimUIKit.startP2PSession(activity, userList.get(position).getUserId());
             }
         });
-        groupInfoPresent.getGroupUserList(groupId);
+        groupInfoPresent.getGroupUserList(groupId,rows,pages);
     }
 
+    private BaseQuickAdapter.RequestLoadMoreListener requestLoadMoreListener=new BaseQuickAdapter.RequestLoadMoreListener() {
+        @Override
+        public void onLoadMoreRequested() {
+            pages++;
+            groupInfoPresent.getGroupUserList(groupId,rows,pages);
+        }
+    };
     @OnClick(R.id.search_iv)
     public void onViewClicked() {
+        pages=1;
         String content=searchEt.getText().toString();
         if (TextUtils.isEmpty(content)){
             Toaster.toastShort("搜索内容不能为空！");
@@ -130,22 +142,30 @@ public class GroupSearchFragment extends BaseFragment implements SearchViewInter
     public void refreshSearchUser(GroupUser groupUser) {
         if (groupUser!=null){
             List<GroupUser.ListBean> userList = groupUser.getList();
-            groupAdapter.getData().clear();
-            groupAdapter.addData(userList);
+            if (userList!=null && userList.size()>0){
+                groupAdapter.getData().clear();
+                groupAdapter.addData(userList);
+            }
         }
     }
 
     @Override
     public void showErrorMessage(String err) {
-
+        groupAdapter.loadMoreComplete();
     }
 
     @Override
     public void refreshUserlist(GroupUser groupUser) {
+        groupAdapter.loadMoreComplete();
         if (groupUser!=null){
+            int count=groupUser.getCount();
+            if (rows*pages >= count) {
+                //数据全部加载完毕
+                groupAdapter.loadMoreEnd();
+            }
             List<GroupUser.ListBean> userList = groupUser.getList();
-            groupAdapter.getData().clear();
-            groupAdapter.addData(userList);
+            if (userList!=null && userList.size()>0)
+                groupAdapter.addData(userList);
         }
     }
 

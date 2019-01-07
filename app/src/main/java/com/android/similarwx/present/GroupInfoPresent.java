@@ -23,8 +23,8 @@ public class GroupInfoPresent extends BasePresent {
         this.activity=activity;
     }
 
-    public void getGroupUserList(String groupId){
-        API.getInstance().GroupInfoPresent(activity,groupId,this);
+    public void getGroupUserList(String groupId,int rows,int page){
+        API.getInstance().GroupInfoPresent(activity,groupId,rows,page,this);
     }
 
     public void doDeleteGroup(String groupId){
@@ -37,10 +37,14 @@ public class GroupInfoPresent extends BasePresent {
     public void analyzeRes(RspGroupUser rspGroup) {
         String result=rspGroup.getResult();
         if (result.equals("success")){
-            GroupUser list=rspGroup.getData();
-            mView.refreshUserlist(list);
+            String code=rspGroup.getErrorCode();
+            if (code.equals("0000")){
+                GroupUser list=rspGroup.getData();
+                mView.refreshUserlist(list);
+            }else
+                mView.showErrorMessage(rspGroup.getErrorMsg());
         }else {
-            Toaster.toastShort(rspGroup.getErrorMsg());
+            mView.showErrorMessage(rspGroup.getErrorMsg());
         }
     }
     public void analyzeDeleteGroup(RspDeleteGroup rspGroup) {
